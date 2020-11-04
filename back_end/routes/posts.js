@@ -1,32 +1,34 @@
 const router = require('express').Router();
 
+const { createOnePost, readAllPosts, readOnePost, updateOnePost, deleteOnePost } = require ('../controllers/posts');
+
 /////////////////////////////////////////////
 // CREATE ONE Post
 /////////////////////////////////////////////
-router.post('/:id', (req, res, next) => res.send('create'));
+router.post('/', createOnePost);
 
 /////////////////////////////////////////////
 // READ ALL Posts
 /////////////////////////////////////////////
-router.post('/', (req, res, next) => res.send('read all'));
+router.get('/', readAllPosts);
 
 
 /////////////////////////////////////////////
 // READ ONE Post
 /////////////////////////////////////////////
-router.get('/:id', (req, res, next) => res.send('read one'));
+router.get('/:id', readOnePost);
 
 
 /////////////////////////////////////////////
 // UPDATE ONE Post
 /////////////////////////////////////////////
-router.put('/:id', (req, res, next) => res.send('update'));
+router.put('/:id', updateOnePost);
 
 
 /////////////////////////////////////////////
 // DELETE ONE Post
 /////////////////////////////////////////////
-router.delete('/:id', (req, res, next) => res.send('delete'));
+router.delete('/:id', deleteOnePost);
 
 
 
