@@ -9,8 +9,8 @@ exports.createOnePost = (req, res, next) => {
     .then(createdPost => {
         res.status(201).send('Post created');
     })
-    .catch(err => {
-        res.status(500).json(err);
+    .catch(error => {
+        res.status(500).json({error});
     })
 };
 
@@ -24,7 +24,7 @@ exports.readAllPosts = (req, res, next) => {
         res.status(200).json(posts);
     })
     .catch(error => {
-        res.status(500).json(error);
+        res.status(500).json({error});
     });
     
 };

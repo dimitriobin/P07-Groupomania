@@ -1,32 +1,32 @@
 const router = require('express').Router();
-
+const { signup, login, readOneUser, updateOneUser, deleteOneUser } = require ('../controllers/users');
 
 /////////////////////////////////////////////
 // CREATE ONE User
 /////////////////////////////////////////////
-router.post('/signup', (req, res, next) => res.send('signup'));
+router.post('/signup', signup);
 
 /////////////////////////////////////////////
 // LOGIN ONE User
 /////////////////////////////////////////////
-router.post('/login', (req, res, next) => res.send('login'));
+// router.post('/login', login);
 
 
 /////////////////////////////////////////////
 // READ ONE User
 /////////////////////////////////////////////
-router.get('/:id', (req, res, next) => res.send('READ'));
+router.get('/:id', readOneUser);
 
 
 /////////////////////////////////////////////
 // UPDATE ONE User
 /////////////////////////////////////////////
-router.put('/:id', (req, res, next) => res.send('update'));
+router.put('/:id', updateOneUser);
 
 
 /////////////////////////////////////////////
 // DELETE ONE User
 /////////////////////////////////////////////
-router.delete('/:id', (req, res, next) => res.send('delete'));
+router.delete('/:id', deleteOneUser);
 
 module.exports = router;

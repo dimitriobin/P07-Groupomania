@@ -22,9 +22,6 @@ const Post = db.define('Post', {
     }
   }, {
     tableName: 'posts'
-  });
-  
-  // `sequelize.define` also returns the model
-  console.log(db.models.Post); // true
+});
 
-  module.exports = Post;
+module.exports = Post;
