@@ -4,14 +4,14 @@ require('dotenv').config();
 
 const usersRoute = require('./routes/users');
 const postsRoute = require('./routes/posts');
+const commentsRoute = require('./routes/comments');
+const subjectsRoute = require('./routes/subjects');
 
 const app = express();
 
-// Connect to database
-const db = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
-    host: 'localhost',
-    dialect: 'mysql'
-});
+// database
+const db = require('./config/database');
+// Test database
 db.authenticate()
 .then(() => console.log('Database connected ...'))
 .catch(err => console.log(err));
@@ -24,5 +24,7 @@ app.use(express.urlencoded());
 // Routes
 app.use('/api/users', usersRoute);
 app.use('/api/posts', postsRoute);
+app.use('/api/comments', commentsRoute);
+app.use('/api/subjects', subjectsRoute);
 
 module.exports = app;

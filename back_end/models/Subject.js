@@ -1,25 +1,18 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 
-const User = sequelize.define('User', {
+const Subject = sequelize.define('Subject', {
   // Model attributes are defined here
-  user_name: {
+  name: {
     type: DataTypes.STRING,
     allowNull: false
   },
-  email: {
-    type: DataTypes.STRING,
+  description: {
+    type: DataTypes.TEXT,
     allowNull: false
-  },
-  password: {
-    type: DataTypes.STRING,
-    allowNull: false
-  },
-  image_url: {
-    type: DataTypes.STRING
   }
 }, {
   freezeTableName: true
 });
 
-module.exports = User;
+module.exports = Subject;

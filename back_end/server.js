@@ -1,5 +1,7 @@
 const http = require('http');
+const { Sequelize } = require('sequelize');
 const app = require('./app');
+const db = require('./config/database');
 require('dotenv').config();
 
 const normalizePort = val => {
@@ -45,4 +47,9 @@ server.on('listening', () => {
     console.log('Listening on ' + bind);
 });
 
-server.listen(port);
+console.log(db.models);
+db.sync()
+.then(() => {
+    server.listen(port);
+});
+

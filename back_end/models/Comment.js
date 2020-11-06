@@ -1,27 +1,25 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 
-const Post = sequelize.define('Post', {
+const Comment = sequelize.define('Comment', {
   // Model attributes are defined here
-  title: {
-    type: DataTypes.STRING,
-    allowNull: false
-  },
-  description: {
+  content: {
     type: DataTypes.TEXT,
     allowNull: false
-  },
-  image_url: {
-    type: DataTypes.STRING
-  },
-  url: {
-    type: DataTypes.STRING
   },
   user_id: {
     type: DataTypes.INTEGER.UNSIGNED,
     allowNull: false
   },
+  post_id: {
+    type: DataTypes.INTEGER.UNSIGNED,
+    allowNull: false
+  },
   subject_id: {
+    type: DataTypes.INTEGER.UNSIGNED,
+    allowNull: false
+  },
+  parent_id: {
     type: DataTypes.INTEGER.UNSIGNED,
     allowNull: false
   }
@@ -29,4 +27,4 @@ const Post = sequelize.define('Post', {
   freezeTableName: true
 });
 
-module.exports = Post;
+module.exports = Comment;
