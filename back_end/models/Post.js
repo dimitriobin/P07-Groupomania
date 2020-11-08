@@ -3,17 +3,31 @@ module.exports = (sequelize, DataTypes) => {
         // Model attributes are defined here
         title: {
           type: DataTypes.STRING,
-          allowNull: false
+          allowNull: false,
+          validate: {
+            notEmpty: true,
+            isAlphaNumeric: true
+          }
         },
         description: {
           type: DataTypes.TEXT,
-          allowNull: false
+          allowNull: false,
+          validate: {
+            notEmpty: true,
+            isAlphaNumeric: true
+          }
         },
         image_url: {
-          type: DataTypes.STRING
+          type: DataTypes.STRING,
+          validate: {
+            isUrl: true
+          }
         },
         url: {
-          type: DataTypes.STRING
+          type: DataTypes.STRING,
+          validate: {
+            isUrl: true
+          }
         }
       }, {
         freezeTableName: true

@@ -3,7 +3,11 @@ module.exports = (sequelize, DataTypes) => {
     // Model attributes are defined here
     content: {
       type: DataTypes.TEXT,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+        isAlphaNumeric: true
+      }
     }
   }, {
     freezeTableName: true

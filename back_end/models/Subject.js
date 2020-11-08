@@ -3,11 +3,20 @@ module.exports = (sequelize, DataTypes) => {
         // Model attributes are defined here
         name: {
           type: DataTypes.STRING,
-          allowNull: false
+          allowNull: false,
+          unique: true,
+          validate: {
+            notEmpty: true,
+            isAlphaNumeric: true
+          }
         },
         description: {
           type: DataTypes.TEXT,
-          allowNull: false
+          allowNull: false,
+          validate: {
+            notEmpty: true,
+            isAlphaNumeric: true
+          }
         }
       }, {
         freezeTableName: true
