@@ -10,9 +10,9 @@ const subjectsRoute = require('./routes/subjects');
 const app = express();
 
 // database
-const db = require('./config/database');
+const db = require('./models');
 // Test database
-db.authenticate()
+db.sequelize.authenticate()
 .then(() => console.log('Database connected ...'))
 .catch(err => console.log(err));
 
@@ -22,9 +22,9 @@ app.use(express.urlencoded());
 
 
 // Routes
-app.use('/api/users', usersRoute);
-app.use('/api/posts', postsRoute);
-app.use('/api/comments', commentsRoute);
-app.use('/api/subjects', subjectsRoute);
+// app.use('/api/users', usersRoute);
+// app.use('/api/posts', postsRoute);
+// app.use('/api/comments', commentsRoute);
+// app.use('/api/subjects', subjectsRoute);
 
 module.exports = app;

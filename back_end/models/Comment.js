@@ -1,30 +1,19 @@
-const { Sequelize, DataTypes } = require('sequelize');
-const sequelize = require('../config/database');
+module.exports = (sequelize, DataTypes) => {
+  const Comment = sequelize.define('Comment', {
+    // Model attributes are defined here
+    content: {
+      type: DataTypes.TEXT,
+      allowNull: false
+    }
+  }, {
+    freezeTableName: true
+  });
 
-const Comment = sequelize.define('Comment', {
-  // Model attributes are defined here
-  content: {
-    type: DataTypes.TEXT,
-    allowNull: false
-  },
-  user_id: {
-    type: DataTypes.INTEGER.UNSIGNED,
-    allowNull: false
-  },
-  post_id: {
-    type: DataTypes.INTEGER.UNSIGNED,
-    allowNull: false
-  },
-  subject_id: {
-    type: DataTypes.INTEGER.UNSIGNED,
-    allowNull: false
-  },
-  parent_id: {
-    type: DataTypes.INTEGER.UNSIGNED,
-    allowNull: false
-  }
-}, {
-  freezeTableName: true
-});
+  Comment.associate = models => {
+    Comment.belongsTo(models.User, {foreignKey: {name: 'user_id', allowNull: false}});
+    Comment.belongsTo(models.Subject, {foreignKey: {name: 'subject_id', allowNull: false}});
+    Comment.belongsTo(models.Post, {foreignKey: {name: 'post_id', allowNull: false}});
+  };
 
-module.exports = Comment;
+  return Comment;
+};
