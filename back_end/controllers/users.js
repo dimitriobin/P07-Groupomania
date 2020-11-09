@@ -5,7 +5,6 @@ const jwt = require('jsonwebtoken');
 exports.signup = (req, res, next) => {
     bcrypt.hash(req.body.password, 10)
     .then(hashPass => {
-        console.log(hashPass);
         const userObject = {
             user_name: req.body.user_name,
             email: req.body.email,
@@ -25,7 +24,24 @@ exports.signup = (req, res, next) => {
 
 
 exports.login = (req, res, next) => {
-    
+    User.findOne({where: {email: req.body.email}})
+    .then(user => {
+        if(!user){
+            return res.status(404).send('User not found')
+        }
+        bcrypt.compare(req.body.password, user.password)
+        .then(validPass => {
+            if(!validPass){
+                return res.status(401).send('Wrong password')
+            }
+            res.status(200).json({
+                userId: user.id,
+                token: jwt.sign({userId: user.id}, process.env.TOKEN_SECRET, {expiresIn: '12h'})
+            })
+        })
+        .catch(error => res.status(500).json({ error }))
+    })
+    .catch(error => res.status(500).json({ error }))
 };
 
 exports.readAllUser = (req, res, next) => {
