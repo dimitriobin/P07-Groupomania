@@ -5,8 +5,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT,
       allowNull: false,
       validate: {
-        notEmpty: true,
-        isAlphaNumeric: true
+        notEmpty: true
       }
     }
   }, {

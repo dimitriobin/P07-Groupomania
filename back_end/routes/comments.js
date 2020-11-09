@@ -1,6 +1,6 @@
 const router = require('express').Router();
 
-const { createOneComment, readAllComments, readOneComment, updateOneComment, deleteOneComment } = require ('../controllers/comments');
+const { createOneComment, readAllComments, readAllCommentsBySubject, readAllCommentsByUser, readAllCommentsByPost, readOneComment, updateOneComment, deleteOneComment } = require ('../controllers/comments');
 
 /////////////////////////////////////////////
 // CREATE ONE Comment
@@ -12,23 +12,36 @@ router.post('/', createOneComment);
 /////////////////////////////////////////////
 router.get('/', readAllComments);
 
+/////////////////////////////////////////////
+// READ ALL Comments by subject
+/////////////////////////////////////////////
+router.get('/subject/:subject_id', readAllCommentsBySubject);
+
+/////////////////////////////////////////////
+// READ ALL Comments by user
+/////////////////////////////////////////////
+router.get('/user/:user_id', readAllCommentsByUser);
+
+/////////////////////////////////////////////
+// READ ALL Comments by post
+/////////////////////////////////////////////
+router.get('/post/:post_id', readAllCommentsByPost);
 
 /////////////////////////////////////////////
 // READ ONE Comment
 /////////////////////////////////////////////
-router.get('/:comment_id', readOneComment);
-
+router.get('/:id', readOneComment);
 
 /////////////////////////////////////////////
 // UPDATE ONE Comment
 /////////////////////////////////////////////
-router.put('/:comment_id', updateOneComment);
+router.put('/:id', updateOneComment);
 
 
 /////////////////////////////////////////////
 // DELETE ONE Comment
 /////////////////////////////////////////////
-router.delete('/:comment_id', deleteOneComment);
+router.delete('/:id', deleteOneComment);
 
 
 
