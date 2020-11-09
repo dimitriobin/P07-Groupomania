@@ -1,22 +1,42 @@
-const User = require('../models/User');
-const db =  require('../config/database');
+const { User } = require('../models');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 exports.signup = (req, res, next) => {
-    const userObject = {
-        ...req.body
-    }
-    User.create(userObject)
-    .then(createdUser => {
-        res.status(201).send('User created');
+    bcrypt.hash(req.body.password, 10)
+    .then(hashPass => {
+        console.log(hashPass);
+        const userObject = {
+            user_name: req.body.user_name,
+            email: req.body.email,
+            password: hashPass,
+            image_url: req.body.image_url
+        }
+        User.create(userObject)
+        .then(createdUser => {
+            res.status(201).send('User created');
+        })
+        .catch(error => {
+            res.status(500).json({error});
+        })
     })
-    .catch(error => {
-        res.status(500).json({error});
-    })
+    .catch(error => res.status(500).json({error}));
 };
 
 
 exports.login = (req, res, next) => {
-    // Login with jwt
+    
+};
+
+exports.readAllUser = (req, res, next) => {
+    User.findAll()
+    .then(users => {
+        if(users.length <= 0) {
+            return res.status(404).send('Users not found');
+        }
+        res.status(200).json(users);
+    })
+    .catch(error => res.status(500).json({error}))
 };
 
 

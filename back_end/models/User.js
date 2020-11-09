@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
       unique: true,
       validate: {
         notEmpty: true,
-        isAlphaNumeric: true
+        isAlphanumeric: true
       }
     },
     email: {
@@ -22,10 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     password: {
       type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        is: /^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){8,16}$/
-      }
+      allowNull: false
     },
     image_url: {
       type: DataTypes.STRING,

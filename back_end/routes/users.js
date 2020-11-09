@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { signup, login, readOneUser, updateOneUser, deleteOneUser } = require ('../controllers/users');
+const { signup, login, readAllUser, readOneUser, updateOneUser, deleteOneUser } = require ('../controllers/users');
 
 /////////////////////////////////////////////
 // CREATE ONE User
@@ -10,6 +10,11 @@ router.post('/signup', signup);
 // LOGIN ONE User
 /////////////////////////////////////////////
 // router.post('/login', login);
+
+/////////////////////////////////////////////
+// READ ALL Users
+/////////////////////////////////////////////
+router.get('/', readAllUser);
 
 
 /////////////////////////////////////////////
