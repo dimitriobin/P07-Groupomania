@@ -16,19 +16,19 @@ router.get('/', readAllSubjects);
 /////////////////////////////////////////////
 // READ ONE Subject
 /////////////////////////////////////////////
-router.get('/:subject_id', readOneSubject);
+router.get('/:id', readOneSubject);
 
 
 /////////////////////////////////////////////
 // UPDATE ONE Subject
 /////////////////////////////////////////////
-router.put('/:subject_id', updateOneSubject);
+router.put('/:id', updateOneSubject);
 
 
 /////////////////////////////////////////////
 // DELETE ONE Subject
 /////////////////////////////////////////////
-router.delete('/:subject_id', deleteOneSubject);
+router.delete('/:id', deleteOneSubject);
 
 
 
