@@ -7,15 +7,14 @@ module.exports = (sequelize, DataTypes) => {
           unique: true,
           validate: {
             notEmpty: true,
-            isAlphaNumeric: true
+            isAlphanumeric: true
           }
         },
         description: {
           type: DataTypes.TEXT,
           allowNull: false,
           validate: {
-            notEmpty: true,
-            isAlphaNumeric: true
+            notEmpty: true
           }
         }
       }, {
