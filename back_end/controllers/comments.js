@@ -32,6 +32,21 @@ exports.readAllComments = (req, res, next) => {
 };
 
 
+exports.readAllCommentsBySubject = (req, res, next) => {
+    Comment.findAll({where: {subject_id: req.params.subject_id}})
+    .then(comments => {
+        if(comments.length <= 0) {
+            return res.status(404).send('Comments not found');
+        }
+        res.status(200).json(comments);
+    })
+    .catch(error => {
+        res.status(500).json({error});
+    });
+    
+};
+
+
 exports.readOneComment = (req, res, next) => {
     Comment.findAll({where: {comment_id: req.params.comment_id}})
     .then(comment => {

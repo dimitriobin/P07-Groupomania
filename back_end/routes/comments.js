@@ -15,7 +15,7 @@ router.get('/', readAllComments);
 /////////////////////////////////////////////
 // READ ALL Comments by subject
 /////////////////////////////////////////////
-// router.get('/subject/subject_id', readAllCommentsBySubject);
+router.get('/subject/:subject_id', readAllCommentsBySubject);
 
 /////////////////////////////////////////////
 // READ ALL Comments by user
