@@ -1,6 +1,6 @@
 const router = require('express').Router();
 
-const { createOnePost, readAllPosts, readOnePost, updateOnePost, deleteOnePost } = require ('../controllers/posts');
+const { createOnePost, readAllPosts, readAllPostsByUser, readOnePost, updateOnePost, deleteOnePost } = require ('../controllers/posts');
 
 /////////////////////////////////////////////
 // CREATE ONE Post
@@ -12,11 +12,16 @@ router.post('/', createOnePost);
 /////////////////////////////////////////////
 router.get('/', readAllPosts);
 
+/////////////////////////////////////////////
+// READ ALL Posts by user_id
+/////////////////////////////////////////////
+router.get('/:user_id', readAllPostsByUser);
+
 
 /////////////////////////////////////////////
-// READ ONE Post
+// READ ONE Post by id 
 /////////////////////////////////////////////
-router.get('/:id', readOnePost);
+router.get('/:user_id/:id', readOnePost);
 
 
 /////////////////////////////////////////////
