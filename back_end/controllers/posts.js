@@ -44,8 +44,22 @@ exports.readAllPostsByUser = (req, res, next) => {
 };
 
 
+exports.readAllPostsBySubject = (req, res, next) => {
+    Post.findAll({where: {subject_id: req.params.subject_id}})
+    .then(posts => {
+        if(posts.length <= 0) {
+            return res.status(404).send('Posts not found');
+        }
+        res.status(200).json(posts);
+    })
+    .catch(error => {
+        res.status(500).json({error});
+    });
+};
+
+
 exports.readOnePost = (req, res, next) => {
-    Post.findOne({where: {user_id: req.params.user_id, id: req.params.id}})
+    Post.findOne({where: {id: req.params.id}})
     .then(post => {
         if(!post) {
             return res.status(404).send('Post not found');
