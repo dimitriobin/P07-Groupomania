@@ -25,7 +25,7 @@ router.get('/user/:user_id', readAllCommentsByUser);
 /////////////////////////////////////////////
 // READ ALL Comments by post
 /////////////////////////////////////////////
-// router.get('/post/post_id', readAllCommentsByPost);
+router.get('/post/:post_id', readAllCommentsByPost);
 
 /////////////////////////////////////////////
 // READ ONE Comment

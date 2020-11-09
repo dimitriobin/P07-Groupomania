@@ -61,7 +61,18 @@ exports.readAllCommentsByUser = (req, res, next) => {
 };
 
 
-
+exports.readAllCommentsByPost = (req, res, next) => {
+    Comment.findAll({where: {post_id: req.params.post_id}})
+    .then(comments => {
+        if(comments.length <= 0) {
+            return res.status(404).send('Comments not found');
+        }
+        res.status(200).json(comments);
+    })
+    .catch(error => {
+        res.status(500).json({error});
+    });
+};
 
 
 exports.readOneComment = (req, res, next) => {
