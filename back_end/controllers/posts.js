@@ -64,9 +64,9 @@ exports.updateOnePost = (req, res, next) => {
 
 
 exports.deleteOnePost = (req, res, next) => {
-    Post.findAll({where: {id: req.params.id}})
+    Post.findOne({where: {id: req.params.id}})
     .then(post => {
-        if(post.length <= 0) {
+        if(!post) {
             return res.status(404).send('Post not found');
         }
         Post.destroy({
