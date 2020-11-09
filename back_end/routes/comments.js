@@ -30,18 +30,18 @@ router.get('/post/:post_id', readAllCommentsByPost);
 /////////////////////////////////////////////
 // READ ONE Comment
 /////////////////////////////////////////////
-router.get('/:comment_id', readOneComment);
+router.get('/:id', readOneComment);
 
 /////////////////////////////////////////////
 // UPDATE ONE Comment
 /////////////////////////////////////////////
-router.put('/:comment_id', updateOneComment);
+router.put('/:id', updateOneComment);
 
 
 /////////////////////////////////////////////
 // DELETE ONE Comment
 /////////////////////////////////////////////
-router.delete('/:comment_id', deleteOneComment);
+router.delete('/:id', deleteOneComment);
 
 
 
