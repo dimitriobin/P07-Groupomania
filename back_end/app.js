@@ -22,7 +22,7 @@ app.use(express.urlencoded());
 
 
 // Routes
-// app.use('/api/users', usersRoute);
+app.use('/api/users', usersRoute);
 // app.use('/api/posts', postsRoute);
 // app.use('/api/comments', commentsRoute);
 app.use('/api/subjects', subjectsRoute);
