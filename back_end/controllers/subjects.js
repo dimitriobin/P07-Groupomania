@@ -1,5 +1,4 @@
-const Subject = require('../models/Subject');
-const db =  require('../config/database');
+const { Subject } = require('../models');
 
 exports.createOneSubject = (req, res, next) => {
     const subjectObject = {
@@ -31,9 +30,9 @@ exports.readAllSubjects = (req, res, next) => {
 
 
 exports.readOneSubject = (req, res, next) => {
-    Subject.findAll({where: {subject_id: req.params.subject_id}})
+    Subject.findOne({where: {id: req.params.id}})
     .then(subject => {
-        if(subject.length <= 0) {
+        if(!subject) {
             return res.status(404).send('Subject not found');
         }
         res.status(200).json(subject);
@@ -43,14 +42,14 @@ exports.readOneSubject = (req, res, next) => {
 
 
 exports.updateOneSubject = (req, res, next) => {
-    Subject.findAll({where: {subject_id: req.params.subject_id}})
+    Subject.findAll({where: {id: req.params.id}})
     .then(subject => {
         if(subject.length <= 0) {
             return res.status(404).send('Subject not found');
         }
         Subject.update({ ...req.body }, {
             where: {
-              subject_id: req.params.subject_id
+              id: req.params.id
             }
         })
         .then(updatedSubject => {
@@ -63,14 +62,14 @@ exports.updateOneSubject = (req, res, next) => {
 
 
 exports.deleteOneSubject = (req, res, next) => {
-    Subject.findAll({where: {subject_id: req.params.subject_id}})
+    Subject.findAll({where: {id: req.params.id}})
     .then(subject => {
         if(subject.length <= 0) {
             return res.status(404).send('Subject not found');
         }
         Subject.destroy({
             where: {
-                subject_id: req.params.subject_id
+                id: req.params.id
             }
         })
         .then(deletedSubject => {
