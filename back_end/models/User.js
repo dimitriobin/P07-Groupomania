@@ -1,5 +1,3 @@
-const { readAllPosts } = require("../controllers/posts");
-
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
     // Model attributes are defined here
