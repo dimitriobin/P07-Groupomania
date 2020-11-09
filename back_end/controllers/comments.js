@@ -108,14 +108,14 @@ exports.updateOneComment = (req, res, next) => {
 
 
 exports.deleteOneComment = (req, res, next) => {
-    Comment.findAll({where: {comment_id: req.params.comment_id}})
+    Comment.findOne({where: {id: req.params.id}})
     .then(comment => {
-        if(comment.length <= 0) {
+        if(!comment) {
             return res.status(404).send('Comment not found');
         }
         Comment.destroy({
             where: {
-                comment_id: req.params.comment_id
+                id: req.params.id
             }
         })
         .then(deletedComment => {
