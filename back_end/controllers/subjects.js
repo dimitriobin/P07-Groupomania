@@ -62,9 +62,9 @@ exports.updateOneSubject = (req, res, next) => {
 
 
 exports.deleteOneSubject = (req, res, next) => {
-    Subject.findAll({where: {id: req.params.id}})
+    Subject.findOne({where: {id: req.params.id}})
     .then(subject => {
-        if(subject.length <= 0) {
+        if(!subject) {
             return res.status(404).send('Subject not found');
         }
         Subject.destroy({
