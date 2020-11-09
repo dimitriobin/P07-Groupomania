@@ -1,9 +1,10 @@
-const Post = require('../models/Post');
-const db =  require('../config/database');
+const { Post } = require('../models');
 
 exports.createOnePost = (req, res, next) => {
     const postObject = {
-        ...req.body
+        ...req.body,
+        user_id: req.body.user_id,
+        subject_id: req.body.subject_id
     }
     Post.create(postObject)
     .then(createdPost => {
