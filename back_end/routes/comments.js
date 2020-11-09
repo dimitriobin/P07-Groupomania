@@ -20,7 +20,7 @@ router.get('/subject/:subject_id', readAllCommentsBySubject);
 /////////////////////////////////////////////
 // READ ALL Comments by user
 /////////////////////////////////////////////
-// router.get('/user/user_id', readAllCommentsByUser);
+router.get('/user/:user_id', readAllCommentsByUser);
 
 /////////////////////////////////////////////
 // READ ALL Comments by post
