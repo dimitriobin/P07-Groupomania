@@ -5,16 +5,14 @@ module.exports = (sequelize, DataTypes) => {
           type: DataTypes.STRING,
           allowNull: false,
           validate: {
-            notEmpty: true,
-            isAlphaNumeric: true
+            notEmpty: true
           }
         },
         description: {
           type: DataTypes.TEXT,
           allowNull: false,
           validate: {
-            notEmpty: true,
-            isAlphaNumeric: true
+            notEmpty: true
           }
         },
         image_url: {
