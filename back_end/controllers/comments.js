@@ -1,9 +1,11 @@
-const Comment = require('../models/Comment');
-const db =  require('../config/database');
+const { Comment } = require('../models');
 
 exports.createOneComment = (req, res, next) => {
     const commentObject = {
-        ...req.body
+        ...req.body,
+        user_id: req.body.user_id,
+        subject_id: req.body.subject_id,
+        post_id: req.body.post_id
     }
     Comment.create(commentObject)
     .then(createdComment => {

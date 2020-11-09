@@ -15,17 +15,17 @@ router.get('/', readAllComments);
 /////////////////////////////////////////////
 // READ ALL Comments by subject
 /////////////////////////////////////////////
-router.get('/subject/subject_id', readAllCommentsBySubject);
+// router.get('/subject/subject_id', readAllCommentsBySubject);
 
 /////////////////////////////////////////////
 // READ ALL Comments by user
 /////////////////////////////////////////////
-router.get('/user/user_id', readAllCommentsByUser);
+// router.get('/user/user_id', readAllCommentsByUser);
 
 /////////////////////////////////////////////
 // READ ALL Comments by post
 /////////////////////////////////////////////
-router.get('/post/post_id', readAllCommentsByPost);
+// router.get('/post/post_id', readAllCommentsByPost);
 
 /////////////////////////////////////////////
 // READ ONE Comment
