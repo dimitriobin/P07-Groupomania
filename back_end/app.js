@@ -1,5 +1,8 @@
 const express = require('express');
+const fs = require('fs');
+
 const { Sequelize } = require('sequelize');
+const morgan = require('morgan');
 require('dotenv').config();
 
 const usersRoute = require('./routes/users');
@@ -15,6 +18,21 @@ const db = require('./models');
 db.sequelize.authenticate()
 .then(() => console.log('Database connected ...'))
 .catch(err => console.log(err));
+
+//////////////////////////////////////////////
+// Set up a logger with morgan
+//////////////////////////////////////////////
+// log all errors to errors.log
+app.use(morgan('common', {
+    stream: fs.createWriteStream('./logging/errors.log', { flags: 'a' }),
+    skip: function (req, res) { return res.statusCode < 400 }
+  }));
+   
+// log all requests to access.log
+app.use(morgan('common', {
+stream: fs.createWriteStream('./logging/access.log', { flags: 'a' })
+}));
+
 
 // Body parsers
 app.use(express.json());
