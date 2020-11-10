@@ -8,6 +8,7 @@ const helmet = require('helmet');
 const session = require('express');
 const toobusy = require('toobusy-js');
 const rateLimit = require('express-rate-limit');
+const slowDown = require('express-slow-down');
 require('dotenv').config();
 
 const usersRoute = require('./routes/users');
@@ -97,13 +98,23 @@ app.use((req, res, next) => {
 const rateLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
     max: 100 // limit each IP to 100 requests per windowMs
-  });
+});
+
+
+//////////////////////////////////////////////
+// Slow down each requests made back to back to discourage spamming the API
+//////////////////////////////////////////////
+const speedLimiter = slowDown({
+    windowMs: 30 * 1000, // 30 sec
+    delayAfter: 10, // allow 10 requests per 30 seconds, then...
+    delayMs: 500 // begin adding 500ms of delay per request above 100:
+});
 
 
 // Routes
-app.use('/api/users',rateLimiter, usersRoute);
-app.use('/api/comments',rateLimiter, commentsRoute);
-app.use('/api/posts',rateLimiter, postsRoute);
-app.use('/api/subjects',rateLimiter, subjectsRoute);
+app.use('/api/users',rateLimiter, speedLimiter, usersRoute);
+app.use('/api/comments',rateLimiter, speedLimiter, commentsRoute);
+app.use('/api/posts',rateLimiter, speedLimiter, postsRoute);
+app.use('/api/subjects',rateLimiter, speedLimiter, subjectsRoute);
 
 module.exports = app;
