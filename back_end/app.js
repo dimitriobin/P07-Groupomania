@@ -4,6 +4,7 @@ const fs = require('fs');
 const { Sequelize } = require('sequelize');
 const morgan = require('morgan');
 const cors = require('cors');
+const helmet = require('helmet');
 require('dotenv').config();
 
 const usersRoute = require('./routes/users');
@@ -13,7 +14,10 @@ const subjectsRoute = require('./routes/subjects');
 
 const app = express();
 
-// database
+
+///////////////////////////////////
+// database setup and testing
+///////////////////////////////////
 const db = require('./models');
 // Test database
 db.sequelize.authenticate()
@@ -51,6 +55,11 @@ app.use(express.json({
     limit: "1kb"
 }));
 
+
+//////////////////////////////////////////////
+// Set some secure headers with helmet.js
+//////////////////////////////////////////////
+app.use(helmet());
 
 // Routes
 app.use('/api/users', usersRoute);
