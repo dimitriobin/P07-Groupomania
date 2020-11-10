@@ -3,6 +3,7 @@ const fs = require('fs');
 
 const { Sequelize } = require('sequelize');
 const morgan = require('morgan');
+const cors = require('cors');
 require('dotenv').config();
 
 const usersRoute = require('./routes/users');
@@ -28,6 +29,11 @@ app.use(morgan('common', {
     skip: function (req, res) { return res.statusCode < 400 }
   }));
    
+//////////////////////////////////////////////
+// Set up CORS 
+//////////////////////////////////////////////
+app.use(cors());
+
 // log all requests to access.log
 app.use(morgan('common', {
 stream: fs.createWriteStream('./logging/access.log', { flags: 'a' })
