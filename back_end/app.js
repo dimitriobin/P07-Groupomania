@@ -40,9 +40,16 @@ stream: fs.createWriteStream('./logging/access.log', { flags: 'a' })
 }));
 
 
-// Body parsers
-app.use(express.json());
-app.use(express.urlencoded());
+//////////////////////////////////////////////
+// body parsers
+//////////////////////////////////////////////
+app.use(express.urlencoded({
+    limit: "1kb",
+    extended: false
+}));
+app.use(express.json({
+    limit: "1kb"
+}));
 
 
 // Routes
