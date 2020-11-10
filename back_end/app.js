@@ -6,6 +6,7 @@ const morgan = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
 const session = require('express');
+const toobusy = require('toobusy-js');
 require('dotenv').config();
 
 const usersRoute = require('./routes/users');
@@ -76,6 +77,18 @@ app.use(session({
         sameSite: true
     }
 }));
+
+//////////////////////////////////////////////
+// Secure the event-loop against DoS attacks
+//////////////////////////////////////////////
+app.use((req, res, next) => {
+    if (toobusy()) {
+        // log if you see necessary
+        res.send(503, "Server Too Busy");
+    } else {
+    next();
+    }
+});
 
 
 // Routes
