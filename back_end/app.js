@@ -5,6 +5,7 @@ const { Sequelize } = require('sequelize');
 const morgan = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
+const session = require('express');
 require('dotenv').config();
 
 const usersRoute = require('./routes/users');
@@ -24,6 +25,7 @@ db.sequelize.authenticate()
 .then(() => console.log('Database connected ...'))
 .catch(err => console.log(err));
 
+
 //////////////////////////////////////////////
 // Set up a logger with morgan
 //////////////////////////////////////////////
@@ -32,16 +34,16 @@ app.use(morgan('common', {
     stream: fs.createWriteStream('./logging/errors.log', { flags: 'a' }),
     skip: function (req, res) { return res.statusCode < 400 }
   }));
-   
-//////////////////////////////////////////////
-// Set up CORS 
-//////////////////////////////////////////////
-app.use(cors());
-
 // log all requests to access.log
 app.use(morgan('common', {
 stream: fs.createWriteStream('./logging/access.log', { flags: 'a' })
 }));
+
+
+//////////////////////////////////////////////
+// Set up CORS 
+//////////////////////////////////////////////
+app.use(cors());
 
 
 //////////////////////////////////////////////
@@ -60,6 +62,21 @@ app.use(express.json({
 // Set some secure headers with helmet.js
 //////////////////////////////////////////////
 app.use(helmet());
+
+
+//////////////////////////////////////////////
+// Express Session Middleware
+//////////////////////////////////////////////
+app.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: true,
+        sameSite: true
+    }
+}));
+
 
 // Routes
 app.use('/api/users', usersRoute);
