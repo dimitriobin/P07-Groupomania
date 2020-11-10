@@ -7,6 +7,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const session = require('express');
 const toobusy = require('toobusy-js');
+const rateLimit = require('express-rate-limit');
 require('dotenv').config();
 
 const usersRoute = require('./routes/users');
@@ -90,11 +91,19 @@ app.use((req, res, next) => {
     }
 });
 
+//////////////////////////////////////////////
+// Create a rate limitation
+//////////////////////////////////////////////
+const rateLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100 // limit each IP to 100 requests per windowMs
+  });
+
 
 // Routes
-app.use('/api/users', usersRoute);
-app.use('/api/comments', commentsRoute);
-app.use('/api/posts', postsRoute);
-app.use('/api/subjects', subjectsRoute);
+app.use('/api/users',rateLimiter, usersRoute);
+app.use('/api/comments',rateLimiter, commentsRoute);
+app.use('/api/posts',rateLimiter, postsRoute);
+app.use('/api/subjects',rateLimiter, subjectsRoute);
 
 module.exports = app;
