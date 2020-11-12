@@ -1,6 +1,7 @@
 'use strict'
 const express = require('express');
 const fs = require('fs');
+const path = require('path');
 
 const { Sequelize } = require('sequelize');
 const morgan = require('morgan');
@@ -28,6 +29,11 @@ const db = require('./models');
 db.sequelize.authenticate()
 .then(() => console.log('Database connected ...'))
 .catch(err => console.log(err));
+
+//////////////////////////////////////////////
+// Serve static assets
+//////////////////////////////////////////////
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 
 //////////////////////////////////////////////

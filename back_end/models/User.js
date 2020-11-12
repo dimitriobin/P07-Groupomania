@@ -24,10 +24,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     image_url: {
-      type: DataTypes.STRING,
-      validate: {
-        isUrl: true
-      }
+      type: DataTypes.STRING
     },
     birthdate: {
         type: DataTypes.DATEONLY,

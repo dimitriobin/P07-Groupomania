@@ -73,22 +73,36 @@ exports.readOneUser = (req, res, next) => {
 
 
 exports.updateOneUser = (req, res, next) => {
-    User.findAll({where: {id: req.params.id}})
+    const userObject = req.file ? {
+        ...req.body,
+        image_url: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+    } : {
+        ...req.body
+    };
+    console.log(userObject);
+    User.findOne({where: {id: req.params.id}})
     .then(user => {
-        if(user.length <= 0) {
+        if(!user) {
             return res.status(404).send('User not found');
         }
-        User.update({ ...req.body }, {
+        if (req.file && user.image_url !== null) {
+            const filename = user.image_url.split('/images/')[1];
+            fs.unlink(`images/${filename}`, (err) => {
+                if (err) { console.log(err);}
+            });
+        }
+        User.update( userObject , {
             where: {
               id: req.params.id
             }
         })
         .then(updatedUser => {
+            console.log(updatedUser);
             res.status(200).send('User updated');
         })
-        .catch(error => res.status(500).json({error}))
+        .catch(error => res.status(500).json({two: error}))
     })
-    .catch(error => res.status(500).json({error}))
+    .catch(error => res.status(500).json({one: error}))
 };
 
 
