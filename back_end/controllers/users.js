@@ -9,12 +9,14 @@ const fsPromise = fs.promises;
 exports.signup = (req, res, next) => {
     bcrypt.hash(req.body.password, 10)
     .then(hashPass => {
-        const userObject = {
+        const userObject = req.file ? {
             user_name: req.body.user_name,
             email: req.body.email,
             password: hashPass,
-            image_url: req.body.image_url
-        }
+            image_url: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+        } : {
+            ...req.body
+        };
         User.create(userObject)
         .then(createdUser => {
             res.status(201).send('User created');
@@ -79,7 +81,6 @@ exports.updateOneUser = (req, res, next) => {
     } : {
         ...req.body
     };
-    console.log(userObject);
     User.findOne({where: {id: req.params.id}})
     .then(user => {
         if(!user) {
@@ -97,7 +98,6 @@ exports.updateOneUser = (req, res, next) => {
             }
         })
         .then(updatedUser => {
-            console.log(updatedUser);
             res.status(200).send('User updated');
         })
         .catch(error => res.status(500).json({two: error}))
