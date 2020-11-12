@@ -11,3 +11,4 @@
 ::1 - - [12/Nov/2020:10:24:15 +0000] "DELETE /api/users/2 HTTP/1.1" 500 12
 ::1 - - [12/Nov/2020:10:25:32 +0000] "DELETE /api/users/2 HTTP/1.1" 500 12
 ::1 - - [12/Nov/2020:10:25:42 +0000] "DELETE /api/users/2 HTTP/1.1" 500 12
+::1 - - [12/Nov/2020:11:00:34 +0000] "POST /api/users/report HTTP/1.1" 500 2234

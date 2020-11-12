@@ -112,6 +112,8 @@ const speedLimiter = slowDown({
 });
 
 
+
+
 // Routes
 app.use('/api/users',rateLimiter, speedLimiter, usersRoute);
 app.use('/api/comments',rateLimiter, speedLimiter, commentsRoute);

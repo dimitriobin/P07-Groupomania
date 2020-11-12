@@ -1,5 +1,5 @@
 'use strict'
-const { User, Post, Comment } = require('../models');
+const { User, Post, Comment, Report } = require('../models');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const fs =require('fs');
@@ -163,5 +163,17 @@ exports.exportUser = (req, res, next) => {
 };
 
 exports.report = (req, res, next) => {
-    
+    Report.findAll({where: {
+        [Op.or]: [
+            { post_id: req.body.post_id},
+            { comment_id: req.body.comment_id}
+        ]}
+    })
+    .then(report => {
+        if(report.length > 0) {
+            return res.send('A report has already been send for this problem')
+        }
+        Report.create({ ...req.body , status: 'pending'})
+    })
+    .catch(error => res.status(500).json({error}))
 };

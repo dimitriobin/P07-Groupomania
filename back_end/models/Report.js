@@ -2,18 +2,10 @@
 module.exports = (sequelize, DataTypes) => {
   const Report = sequelize.define('Report', {
       post_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        validate: {
-          notEmpty: true
-        }
+        type: DataTypes.INTEGER
       },
       comment_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        validate: {
-          notEmpty: true
-        }
+        type: DataTypes.INTEGER
       },
       type: {
         type: DataTypes.TEXT,

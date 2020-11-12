@@ -1,6 +1,6 @@
 'use strict'
 const router = require('express').Router();
-const { signup, login, readAllUser, readOneUser, updateOneUser, deleteOneUser, exportUser } = require ('../controllers/users');
+const { signup, login, readAllUser, readOneUser, updateOneUser, deleteOneUser, exportUser, report } = require ('../controllers/users');
 const auth = require('../middlewares/auth');
 
 /////////////////////////////////////////////
@@ -41,5 +41,10 @@ router.delete('/:id',  deleteOneUser);
 // EXPORT ONE User
 /////////////////////////////////////////////
 router.get('/export/:id', exportUser);
+
+/////////////////////////////////////////////
+// CREATE a Report
+/////////////////////////////////////////////
+router.post('/report', report);
 
 module.exports = router;

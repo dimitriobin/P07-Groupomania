@@ -24,3 +24,10 @@
 ::1 - - [12/Nov/2020:10:28:12 +0000] "POST /api/comments HTTP/1.1" 201 15
 ::1 - - [12/Nov/2020:10:28:12 +0000] "POST /api/comments HTTP/1.1" 201 15
 ::1 - - [12/Nov/2020:10:28:39 +0000] "DELETE /api/users/2 HTTP/1.1" 200 12
+::1 - - [12/Nov/2020:11:00:34 +0000] "POST /api/users/report HTTP/1.1" 500 2234
+::1 - - [12/Nov/2020:11:01:19 +0000] "POST /api/users/signup HTTP/1.1" 201 12
+::1 - - [12/Nov/2020:11:01:25 +0000] "DELETE /api/users/1 HTTP/1.1" 200 12
+::1 - - [12/Nov/2020:11:02:29 +0000] "POST /api/users/signup HTTP/1.1" 201 12
+::1 - - [12/Nov/2020:11:02:41 +0000] "DELETE /api/users/2 HTTP/1.1" 200 12
+::1 - - [12/Nov/2020:11:02:48 +0000] "POST /api/users/signup HTTP/1.1" 201 12
+::1 - - [12/Nov/2020:11:02:58 +0000] "DELETE /api/users/3 HTTP/1.1" 200 12
