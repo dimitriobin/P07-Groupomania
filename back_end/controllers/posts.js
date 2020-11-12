@@ -1,3 +1,4 @@
+'use strict'
 const { Post } = require('../models');
 
 exports.createOnePost = (req, res, next) => {

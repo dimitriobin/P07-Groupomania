@@ -1,3 +1,4 @@
+'use strict'
 module.exports = (sequelize, DataTypes) => {
     const Subject = sequelize.define('Subject', {
         // Model attributes are defined here
