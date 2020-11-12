@@ -44,7 +44,7 @@ const errorHandler = error => {
 // };
 //
 //
-// const server = https.createServer(options, app);
+// const sslServer = https.createServer(options, app);
 
 const server = http.createServer(app);
 
