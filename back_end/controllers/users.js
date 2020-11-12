@@ -2,7 +2,8 @@
 const { User, Post, Comment, Report } = require('../models');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const fs =require('fs');
+const fs = require('fs');
+const { Op } = require('sequelize');
 const fsPromise = fs.promises;
 
 exports.signup = (req, res, next) => {
@@ -163,17 +164,19 @@ exports.exportUser = (req, res, next) => {
 };
 
 exports.report = (req, res, next) => {
-    Report.findAll({where: {
+    Report.findOne({where: {
         [Op.or]: [
-            { post_id: req.body.post_id},
-            { comment_id: req.body.comment_id}
-        ]}
-    })
-    .then(report => {
-        if(report.length > 0) {
+            {item_id: req.body.item_id},
+            {item_type: req.body.item_type}
+        ]
+    }})
+    .then((report) => {
+        if(report) {
             return res.send('A report has already been send for this problem')
         }
         Report.create({ ...req.body , status: 'pending'})
+        .then(() => res.status(201).send('Report created'))
+        .catch(error => res.status(500).json({error}))
     })
     .catch(error => res.status(500).json({error}))
 };

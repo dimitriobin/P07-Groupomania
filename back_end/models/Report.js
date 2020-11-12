@@ -1,24 +1,19 @@
 'use strict'
 module.exports = (sequelize, DataTypes) => {
   const Report = sequelize.define('Report', {
-      post_id: {
+      item_id: {
         type: DataTypes.INTEGER
       },
-      comment_id: {
-        type: DataTypes.INTEGER
-      },
-      type: {
+      item_type: {
         type: DataTypes.TEXT,
         allowNull: false,
         validate: {
-          notEmpty: true
+          isIn: [['post', 'comment']]
         }
       },
-      image_url: {
-          type: DataTypes.STRING,
-          validate: {
-              isUrl: true
-          }
+      message: {
+          type: DataTypes.TEXT,
+          allowNull: false
       },
       status: {
         type: DataTypes.STRING,
