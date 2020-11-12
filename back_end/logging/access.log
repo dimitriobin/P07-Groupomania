@@ -200,3 +200,13 @@
 ::1 - - [12/Nov/2020:15:47:51 +0000] "POST /api/users/login HTTP/1.1" 401 14
 ::1 - - [12/Nov/2020:15:47:54 +0000] "POST /api/users/signup HTTP/1.1" 500 1557
 ::1 - - [12/Nov/2020:15:47:59 +0000] "POST /api/users/login HTTP/1.1" 401 14
+::1 - - [12/Nov/2020:15:48:40 +0000] "POST /api/users/login HTTP/1.1" 404 14
+::1 - - [12/Nov/2020:15:48:47 +0000] "POST /api/users/signup HTTP/1.1" 201 12
+::1 - - [12/Nov/2020:15:48:51 +0000] "POST /api/users/login HTTP/1.1" 200 166
+::1 - - [12/Nov/2020:15:49:15 +0000] "POST /api/subjects HTTP/1.1" 401 12
+::1 - - [12/Nov/2020:15:49:30 +0000] "POST /api/subjects HTTP/1.1" 201 15
+::1 - - [12/Nov/2020:15:50:04 +0000] "POST /api/posts HTTP/1.1" 201 12
+::1 - - [12/Nov/2020:15:50:45 +0000] "POST /api/posts HTTP/1.1" 201 12
+::1 - - [12/Nov/2020:15:53:46 +0000] "POST /api/posts/2 HTTP/1.1" 404 151
+::1 - - [12/Nov/2020:15:54:01 +0000] "PUT /api/posts/2 HTTP/1.1" 200 12
+::1 - - [12/Nov/2020:15:54:17 +0000] "PUT /api/posts/2 HTTP/1.1" 200 12
