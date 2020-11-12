@@ -1,3 +1,4 @@
+'use strict'
 const router = require('express').Router();
 const { signup, login, readAllUser, readOneUser, updateOneUser, deleteOneUser } = require ('../controllers/users');
 const auth = require('../middlewares/auth');

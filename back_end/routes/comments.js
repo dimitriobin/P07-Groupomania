@@ -1,3 +1,4 @@
+'use strict'
 const router = require('express').Router();
 
 const { createOneComment, readAllComments, readAllCommentsBySubject, readAllCommentsByUser, readAllCommentsByPost, readOneComment, updateOneComment, deleteOneComment } = require ('../controllers/comments');

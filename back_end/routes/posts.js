@@ -1,3 +1,4 @@
+'use strict'
 const router = require('express').Router();
 
 const { createOnePost, readAllPosts, readAllPostsByUser, readAllPostsBySubject, readOnePost, updateOnePost, deleteOnePost } = require ('../controllers/posts');
