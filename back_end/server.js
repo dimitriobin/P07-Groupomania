@@ -1,3 +1,4 @@
+'use strict'
 const http = require('http');
 const app = require('./app');
 const db = require('./models');
@@ -36,6 +37,14 @@ const errorHandler = error => {
             throw error;
     }
 };
+
+// const options = {
+//     key: fs.readFileSync('./cert/key.pem'),
+//     cert: fs.readFileSync('./cert/cert.pem')
+// };
+//
+//
+// const sslServer = https.createServer(options, app);
 
 const server = http.createServer(app);
 

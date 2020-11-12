@@ -1,3 +1,4 @@
+'use strict'
 const { Comment } = require('../models');
 
 exports.createOneComment = (req, res, next) => {

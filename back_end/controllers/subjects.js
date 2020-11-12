@@ -1,3 +1,4 @@
+'use strict'
 const { Subject } = require('../models');
 
 exports.createOneSubject = (req, res, next) => {

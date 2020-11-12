@@ -1,4 +1,5 @@
-const { User, Comment, Post } = require('../models');
+'use strict'
+const { User } = require('../models');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const fs =require('fs');
