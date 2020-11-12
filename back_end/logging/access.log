@@ -118,3 +118,4 @@
 ::1 - - [12/Nov/2020:13:27:09 +0000] "POST /api/users/report HTTP/1.1" 500 869
 ::1 - - [12/Nov/2020:13:27:19 +0000] "POST /api/users/report HTTP/1.1" 500 865
 ::1 - - [12/Nov/2020:13:27:53 +0000] "POST /api/users/report HTTP/1.1" 500 526
+::1 - - [12/Nov/2020:13:28:27 +0000] "POST /api/users/report HTTP/1.1" 201 14
