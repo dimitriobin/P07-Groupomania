@@ -1,35 +1,36 @@
 'use strict'
 const router = require('express').Router();
+const auth = require('../middlewares/auth');
 
 const { createOneSubject, readAllSubjects, readOneSubject, updateOneSubject, deleteOneSubject } = require ('../controllers/subjects');
 
 /////////////////////////////////////////////
 // CREATE ONE Subject
 /////////////////////////////////////////////
-router.post('/', createOneSubject);
+router.post('/', auth, createOneSubject);
 
 /////////////////////////////////////////////
 // READ ALL Subjects
 /////////////////////////////////////////////
-router.get('/', readAllSubjects);
+router.get('/', auth, readAllSubjects);
 
 
 /////////////////////////////////////////////
 // READ ONE Subject
 /////////////////////////////////////////////
-router.get('/:id', readOneSubject);
+router.get('/:id', auth, readOneSubject);
 
 
 /////////////////////////////////////////////
 // UPDATE ONE Subject
 /////////////////////////////////////////////
-router.put('/:id', updateOneSubject);
+router.put('/:id', auth, updateOneSubject);
 
 
 /////////////////////////////////////////////
 // DELETE ONE Subject
 /////////////////////////////////////////////
-router.delete('/:id', deleteOneSubject);
+router.delete('/:id', auth, deleteOneSubject);
 
 
 
