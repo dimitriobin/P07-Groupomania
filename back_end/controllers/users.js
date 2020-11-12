@@ -15,7 +15,9 @@ exports.signup = (req, res, next) => {
             password: hashPass,
             image_url: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
         } : {
-            ...req.body
+            user_name: req.body.user_name,
+            email: req.body.email,
+            password: hashPass
         };
         User.create(userObject)
         .then(createdUser => {
