@@ -1,0 +1,13 @@
+::1 - - [12/Nov/2020:10:04:25 +0000] "POST /api/users HTTP/1.1" 404 149
+::1 - - [12/Nov/2020:10:05:08 +0000] "DELETE /api/users/1 HTTP/1.1" 500 12
+::1 - - [12/Nov/2020:10:05:14 +0000] "DELETE /api/users/2 HTTP/1.1" 500 12
+::1 - - [12/Nov/2020:10:05:24 +0000] "DELETE /api/users/2 HTTP/1.1" 500 12
+::1 - - [12/Nov/2020:10:06:41 +0000] "DELETE /api/users/1 HTTP/1.1" 500 831
+::1 - - [12/Nov/2020:10:07:09 +0000] "DELETE /api/users/2 HTTP/1.1" 404 14
+::1 - - [12/Nov/2020:10:07:26 +0000] "DELETE /api/users/1 HTTP/1.1" 500 831
+::1 - - [12/Nov/2020:10:07:32 +0000] "DELETE /api/users/1 HTTP/1.1" 500 831
+::1 - - [12/Nov/2020:10:20:27 +0000] "POST /api/users HTTP/1.1" 404 149
+::1 - - [12/Nov/2020:10:23:22 +0000] "DELETE /api/users/2 HTTP/1.1" 500 12
+::1 - - [12/Nov/2020:10:24:15 +0000] "DELETE /api/users/2 HTTP/1.1" 500 12
+::1 - - [12/Nov/2020:10:25:32 +0000] "DELETE /api/users/2 HTTP/1.1" 500 12
+::1 - - [12/Nov/2020:10:25:42 +0000] "DELETE /api/users/2 HTTP/1.1" 500 12

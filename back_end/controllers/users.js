@@ -1,5 +1,5 @@
 'use strict'
-const { User } = require('../models');
+const { User, Post, Comment } = require('../models');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const fs =require('fs');
@@ -92,18 +92,20 @@ exports.updateOneUser = (req, res, next) => {
 
 
 exports.deleteOneUser = (req, res, next) => {
-    User.findAll({where: {id: req.params.id}})
+    User.findOne({where: {id: req.params.id}})
     .then(user => {
-        if(user.length <= 0) {
+        if(!user) {
             return res.status(404).send('User not found');
         }
-        User.destroy({
-            where: {
-                id: req.params.id
-            }
-        })
-        .then(deletedUser => {
-            res.status(200).send('User deleted');
+        Post.update({user_id: 1}, {where: {user_id: req.params.id}})
+        .then(() => {
+            Comment.update({user_id: 1}, {where: {user_id: req.params.id}})
+            .then(() => {
+                User.destroy({where: {id: req.params.id}})
+                .then(() => res.status(200).send('User deleted'))
+                .catch(error => res.status(500).json({error}))
+            })
+            .catch(error => res.status(500).json({error}))
         })
         .catch(error => res.status(500).json({error}))
     })
