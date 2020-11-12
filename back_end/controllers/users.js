@@ -161,3 +161,7 @@ exports.exportUser = (req, res, next) => {
     })
     .catch(error => res.status(500).json({error}));
 };
+
+exports.report = (req, res, next) => {
+    
+};
