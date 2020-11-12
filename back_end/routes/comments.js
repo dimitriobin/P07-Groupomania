@@ -1,42 +1,43 @@
 'use strict'
 const router = require('express').Router();
+const auth = require('../middlewares/auth')
 
 const { createOneComment, readAllComments, readAllCommentsBySubject, readAllCommentsByUser, readAllCommentsByPost, readOneComment, updateOneComment, deleteOneComment } = require ('../controllers/comments');
 
 /////////////////////////////////////////////
 // CREATE ONE Comment
 /////////////////////////////////////////////
-router.post('/', createOneComment);
+router.post('/', auth, createOneComment);
 
 /////////////////////////////////////////////
 // READ ALL Comments
 /////////////////////////////////////////////
-router.get('/', readAllComments);
+router.get('/', auth, readAllComments);
 
 /////////////////////////////////////////////
 // READ ALL Comments by subject
 /////////////////////////////////////////////
-router.get('/subject/:subject_id', readAllCommentsBySubject);
+router.get('/subject/:subject_id', auth, readAllCommentsBySubject);
 
 /////////////////////////////////////////////
 // READ ALL Comments by user
 /////////////////////////////////////////////
-router.get('/user/:user_id', readAllCommentsByUser);
+router.get('/user/:user_id', auth, readAllCommentsByUser);
 
 /////////////////////////////////////////////
 // READ ALL Comments by post
 /////////////////////////////////////////////
-router.get('/post/:post_id', readAllCommentsByPost);
+router.get('/post/:post_id', auth, readAllCommentsByPost);
 
 /////////////////////////////////////////////
 // READ ONE Comment
 /////////////////////////////////////////////
-router.get('/:id', readOneComment);
+router.get('/:id', auth, readOneComment);
 
 /////////////////////////////////////////////
 // UPDATE ONE Comment
 /////////////////////////////////////////////
-router.put('/:id', updateOneComment);
+router.put('/:id', auth, updateOneComment);
 
 
 /////////////////////////////////////////////

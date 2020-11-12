@@ -1,12 +1,19 @@
 'use strict'
 const { Post } = require('../models');
+const fs = require('fs');
 
 exports.createOnePost = (req, res, next) => {
-    const postObject = {
+    const postObject = req.file ? {
+        title: req.body.title,
+        description: req.body.description,
+        image_url: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+        user_id: req.body.user_id,
+        subject_id: req.body.subject_id
+    } : {
         ...req.body,
         user_id: req.body.user_id,
         subject_id: req.body.subject_id
-    }
+    };
     Post.create(postObject)
     .then(createdPost => {
         res.status(201).send('Post created');
@@ -72,12 +79,24 @@ exports.readOnePost = (req, res, next) => {
 
 
 exports.updateOnePost = (req, res, next) => {
+    const postObject = req.file ? {
+        ...req.body,
+        image_url: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+    } : {
+        ...req.body
+    };
     Post.findOne({where: {id: req.params.id}})
     .then(post => {
         if(!post) {
             return res.status(404).send('Post not found');
         }
-        Post.update({ ...req.body }, {
+        if (req.file && post.image_url !== null) {
+            const filename = post.image_url.split('/images/')[1];
+            fs.unlink(`images/${filename}`, (err) => {
+                if (err) { console.log(err);}
+            });
+        }
+        Post.update(postObject, {
             where: {
               id: req.params.id
             }
@@ -97,6 +116,8 @@ exports.deleteOnePost = (req, res, next) => {
         if(!post) {
             return res.status(404).send('Post not found');
         }
+        const filename = post.image_url.split('/images/')[1];
+        fs.unlink(`images/${filename}`, err => {if(err) console.log(err)});
         Post.destroy({
             where: {
                 id: req.params.id

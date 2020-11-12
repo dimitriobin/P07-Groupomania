@@ -9,12 +9,16 @@ const fsPromise = fs.promises;
 exports.signup = (req, res, next) => {
     bcrypt.hash(req.body.password, 10)
     .then(hashPass => {
-        const userObject = {
+        const userObject = req.file ? {
             user_name: req.body.user_name,
             email: req.body.email,
             password: hashPass,
-            image_url: req.body.image_url
-        }
+            image_url: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+        } : {
+            user_name: req.body.user_name,
+            email: req.body.email,
+            password: hashPass
+        };
         User.create(userObject)
         .then(createdUser => {
             res.status(201).send('User created');
@@ -73,12 +77,24 @@ exports.readOneUser = (req, res, next) => {
 
 
 exports.updateOneUser = (req, res, next) => {
-    User.findAll({where: {id: req.params.id}})
+    const userObject = req.file ? {
+        ...req.body,
+        image_url: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+    } : {
+        ...req.body
+    };
+    User.findOne({where: {id: req.params.id}})
     .then(user => {
-        if(user.length <= 0) {
+        if(!user) {
             return res.status(404).send('User not found');
         }
-        User.update({ ...req.body }, {
+        if (req.file && user.image_url !== null) {
+            const filename = user.image_url.split('/images/')[1];
+            fs.unlink(`images/${filename}`, (err) => {
+                if (err) { console.log(err);}
+            });
+        }
+        User.update( userObject , {
             where: {
               id: req.params.id
             }
@@ -86,9 +102,9 @@ exports.updateOneUser = (req, res, next) => {
         .then(updatedUser => {
             res.status(200).send('User updated');
         })
-        .catch(error => res.status(500).json({error}))
+        .catch(error => res.status(500).json({two: error}))
     })
-    .catch(error => res.status(500).json({error}))
+    .catch(error => res.status(500).json({one: error}))
 };
 
 
@@ -98,10 +114,12 @@ exports.deleteOneUser = (req, res, next) => {
         if(!user) {
             return res.status(404).send('User not found');
         }
+        const filename = user.image_url.split('/images/')[1];
         Post.update({user_id: 1}, {where: {user_id: req.params.id}})
         .then(() => {
             Comment.update({user_id: 1}, {where: {user_id: req.params.id}})
             .then(() => {
+                fs.unlink(`images/${filename}`, err => {if(err) console.log(err)});
                 User.destroy({where: {id: req.params.id}})
                 .then(() => res.status(200).send('User deleted'))
                 .catch(error => res.status(500).json({error}))
