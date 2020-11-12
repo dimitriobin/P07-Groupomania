@@ -1,7 +1,10 @@
 'use strict'
-const { User } = require('../models');
+const { User, Post, Comment, Report } = require('../models');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const fs = require('fs');
+const { Op } = require('sequelize');
+const fsPromise = fs.promises;
 
 exports.signup = (req, res, next) => {
     bcrypt.hash(req.body.password, 10)
@@ -90,19 +93,89 @@ exports.updateOneUser = (req, res, next) => {
 
 
 exports.deleteOneUser = (req, res, next) => {
-    User.findAll({where: {id: req.params.id}})
+    User.findOne({where: {id: req.params.id}})
     .then(user => {
-        if(user.length <= 0) {
+        if(!user) {
             return res.status(404).send('User not found');
         }
-        User.destroy({
-            where: {
-                id: req.params.id
+        Post.update({user_id: 1}, {where: {user_id: req.params.id}})
+        .then(() => {
+            Comment.update({user_id: 1}, {where: {user_id: req.params.id}})
+            .then(() => {
+                User.destroy({where: {id: req.params.id}})
+                .then(() => res.status(200).send('User deleted'))
+                .catch(error => res.status(500).json({error}))
+            })
+            .catch(error => res.status(500).json({error}))
+        })
+        .catch(error => res.status(500).json({error}))
+    })
+    .catch(error => res.status(500).json({error}))
+};
+
+
+exports.exportUser = (req, res, next) => {
+    const userDatas = [];
+    const dataFile = `./userDatas/${req.params.id}`
+    User.findOne({where: {id: req.params.id}})
+    .then(user => {
+        if(!user) {
+            return res.status(404).send('User not found');
+        }
+        userDatas.push(JSON.stringify(user.dataValues));
+        Post.findAll({where: {user_id: user.id}})
+        .then(posts => {
+            if(!posts) {
+                userDatas.push('You don\'t have any posts');
+            } else {
+                posts.forEach(post => {
+                    userDatas.push(JSON.stringify(post.dataValues))
+                })
             }
+            Comment.findAll({where: {user_id: user.id}})
+            .then(comments => {
+                if(!comments) {
+                    userDatas.push('You do not have any comments');
+                } else {
+                    comments.forEach(comment => {
+                        userDatas.push(JSON.stringify(comment.dataValues))
+                    })
+                }
+                fsPromise.writeFile(dataFile, userDatas)
+                .then(() => {
+                    res.status(201).download(dataFile, 'Vos_données_personnelles.txt', err => {
+                        if(err) {
+                            return res.status(500).json({err});
+                        }
+                        fsPromise.unlink(dataFile, err => {
+                            if(err) {
+                                return res.status(500).json({err});
+                            }
+                        })
+                    })
+                })
+                .catch(error => {res.status(500).json({error})});
+            })
+            .catch(error => res.status(500).json({error}));
         })
-        .then(deletedUser => {
-            res.status(200).send('User deleted');
-        })
+        .catch(error => res.status(500).json({error}));
+    })
+    .catch(error => res.status(500).json({error}));
+};
+
+exports.report = (req, res, next) => {
+    Report.findOne({where: {
+        [Op.or]: [
+            {item_id: req.body.item_id},
+            {item_type: req.body.item_type}
+        ]
+    }})
+    .then((report) => {
+        if(report) {
+            return res.send('A report has already been send for this problem')
+        }
+        Report.create({ ...req.body , status: 'pending'})
+        .then(() => res.status(201).send('Report created'))
         .catch(error => res.status(500).json({error}))
     })
     .catch(error => res.status(500).json({error}))

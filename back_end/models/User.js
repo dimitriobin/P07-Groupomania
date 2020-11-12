@@ -28,6 +28,30 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         isUrl: true
       }
+    },
+    birthdate: {
+        type: DataTypes.DATEONLY,
+        validate: {
+          isDate: true
+        }
+    },
+    parentEmail: {
+      type: DataTypes.STRING,
+      validate: {
+        isEmail: true
+      }
+    },
+    restricted: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true
+    },
+    shareWithPartners: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    },
+    contactable: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
     }
   }, {
     freezeTableName: true
@@ -37,6 +61,8 @@ module.exports = (sequelize, DataTypes) => {
     User.hasMany(models.Post, {foreignKey: {name: 'user_id', allowNull: false}});
     User.hasMany(models.Comment, {foreignKey: {name: 'user_id', allowNull: false}});
   }
+
+
   
   return User;
 };
