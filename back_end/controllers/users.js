@@ -112,10 +112,12 @@ exports.deleteOneUser = (req, res, next) => {
         if(!user) {
             return res.status(404).send('User not found');
         }
+        const filename = user.image_url.split('/images/')[1];
         Post.update({user_id: 1}, {where: {user_id: req.params.id}})
         .then(() => {
             Comment.update({user_id: 1}, {where: {user_id: req.params.id}})
             .then(() => {
+                fs.unlink(`images/${filename}`, err => {if(err) console.log(err)});
                 User.destroy({where: {id: req.params.id}})
                 .then(() => res.status(200).send('User deleted'))
                 .catch(error => res.status(500).json({error}))

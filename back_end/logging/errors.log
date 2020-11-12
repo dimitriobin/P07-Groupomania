@@ -90,3 +90,9 @@
 ::1 - - [12/Nov/2020:14:57:42 +0000] "PUT /api/users/2 HTTP/1.1" 500 10
 ::1 - - [12/Nov/2020:15:03:40 +0000] "PUT /api/users/2 HTTP/1.1" 500 601
 ::1 - - [12/Nov/2020:15:08:12 +0000] "POST /api/users HTTP/1.1" 404 149
+::1 - - [12/Nov/2020:15:32:46 +0000] "POST /api/users/signup HTTP/1.1" 500 1923
+::1 - - [12/Nov/2020:15:32:59 +0000] "POST /api/users/signup HTTP/1.1" 500 1942
+::1 - - [12/Nov/2020:15:40:21 +0000] "DELETE /api/users/6 HTTP/1.1" 500 12
+::1 - - [12/Nov/2020:15:40:31 +0000] "DELETE /api/users/6 HTTP/1.1" 500 12
+::1 - - [12/Nov/2020:15:40:49 +0000] "DELETE /api/users/66 HTTP/1.1" 500 12
+::1 - - [12/Nov/2020:15:40:52 +0000] "DELETE /api/users/6 HTTP/1.1" 500 12
