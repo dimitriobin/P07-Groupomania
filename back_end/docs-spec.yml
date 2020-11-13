@@ -371,7 +371,7 @@ paths:
                 - description
               example:
                 name: News
-                escription: Actualities, daily news, ...
+                description: Actualities, daily news, ...
       responses:
         '201':
           description: Subject created
@@ -380,6 +380,13 @@ paths:
               schema:
                 type: string
                 example:  Subject created
+        '401':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Please login
         '500':
           description: Internal error
           content:
@@ -462,6 +469,68 @@ paths:
               schema: 
                 type: string
                 example: User not found
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           UPDATE ONE SUBJECT
+# ///////////////////////////////////////////////////////////////////////////////////////////
+    put:
+      tags: [Subjects]
+      summary: UPDATE A SUBJECT
+      produces: application/json
+      parameters:
+      - name: id
+        in: path
+        description: the subject's id
+        required: true
+        schema:
+          type: string
+          style: simple
+          example: localhost:3000/api/subjects/4
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+              required:
+                - name
+                - description
+              example:
+                name: News
+                description: Actualities, daily news, ...
+      responses:
+        '200':
+          description: Subject updated
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Subject updated
+        '401':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Please login
+        '404':
+          description: Subject not found
+          content:
+            application/json: 
+              schema: 
+                type: string
+                example: Subject not found
         '500':
           description: Internal error
           content:
