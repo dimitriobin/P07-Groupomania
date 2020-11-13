@@ -11,6 +11,8 @@ const session = require('express');
 const toobusy = require('toobusy-js');
 const rateLimit = require('express-rate-limit');
 const slowDown = require('express-slow-down');
+const swaggerUi = require('swagger-ui-express');
+const yaml = require('js-yaml');
 require('dotenv').config();
 
 const usersRoute = require('./routes/users');
@@ -118,6 +120,15 @@ const speedLimiter = slowDown({
 });
 
 
+/////////////////////////////////////////////
+// docs config
+/////////////////////////////////////////////
+try {
+    const docsSpec = yaml.safeLoad(fs.readFileSync('./docs-spec.yml', 'utf8'));
+    app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(docsSpec));
+} catch (e) {
+    console.log(e);
+}
 
 
 // Routes

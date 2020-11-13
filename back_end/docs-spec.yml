@@ -1,0 +1,24 @@
+openapi: "3.0.0"
+info:
+  title: Groupomania
+  version: "0.1.0"
+  description: >
+     Parcours developpeur web - projet 07
+host: localhost:3000
+explorer: true
+basePath: /
+paths:
+  /api/sauces:
+    get:
+      tags: [Users]
+      summary: READ ALL
+      description: A GET request to fetch all users
+      produces: application/json
+      responses:
+        '200':
+          description: Success message
+          content:
+            application/json: 
+              schema:
+                type: array
+                example:  {test: success}
