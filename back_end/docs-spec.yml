@@ -583,6 +583,74 @@ paths:
               schema:
                 type: object
                 example:  {error: {}}
+# ###########################################################################################
+# ###########################################################################################
+# ###########################################################################################
+#                                           SUBJECTS
+# ###########################################################################################
+# ###########################################################################################
+# ###########################################################################################
+  /api/posts:
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           CREATE ONE SUBJECT
+# ///////////////////////////////////////////////////////////////////////////////////////////
+    post:
+      tags: [Posts]
+      summary: CREATE A POST
+      produces: application/json
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                image_url:
+                  type: string
+                url:
+                  type: string
+                subject_id:
+                  type: integer
+                user_id:
+                  type: integer
+              required:
+                - title
+                - description
+                - subject_id
+                - user_id
+              example:
+                title: News
+                description: Actualities, daily news, ...
+                image_url: "http://localhost:3000/images/imagename1605263493723.jpg"
+                url: "http://localhost:3000/api/docs/#/"
+                subject-id: 3
+                user_id: 6
+      responses:
+        '201':
+          description: Post created
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Post created
+        '401':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Please login
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
 
 #############################################################################################
 #############################################################################################
