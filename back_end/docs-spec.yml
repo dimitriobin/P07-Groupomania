@@ -359,7 +359,7 @@ paths:
           style: simple
           example: localhost:3000/api/users/4
       responses:
-        '200':
+        '201':
           description: Returns a file containing all posts, comments and user's datas
           content:
             application/json: 
@@ -1525,5 +1525,35 @@ components:
         subject-id: 5
         user_id: 3
         post_id: 9
+        createdAt: 2020-11-13T13:46:26.000Z
+        updatedAt: 2020-11-13T13:46:26.000Z
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           REPORT SCHEMA
+# ///////////////////////////////////////////////////////////////////////////////////////////
+    Report:
+      type: object
+      properties:
+        id:
+          type: integer
+        item_id:
+          type: integer
+        message: 
+          type: string
+        item_type: 
+          type: string
+        status: 
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      example:
+        id: 5
+        item_id: 8
+        message: 'This post is violent'
+        item_type: 'post'
+        status: 'pending'
         createdAt: 2020-11-13T13:46:26.000Z
         updatedAt: 2020-11-13T13:46:26.000Z
