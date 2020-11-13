@@ -693,6 +693,7 @@ components:
           type: string
           format: date-time
       example:
+        id: 5
         user_name: JohnDoe123
         email: johndoe@mail.com
         password: Password123!
@@ -725,5 +726,40 @@ components:
         id: 5
         name: News
         description: Actualities, daily news, ...
+        createdAt: 2020-11-13T13:46:26.000Z
+        updatedAt: 2020-11-13T13:46:26.000Z
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           POST SCHEMA
+# ///////////////////////////////////////////////////////////////////////////////////////////
+    Post:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        image_url:
+          type: string
+        url:
+          type: string
+        subject_id: 
+          type: integer
+        user_id: 
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      example:
+        id: 5
+        title: Post title here
+        description: This is a post example
+        image_url: "http://localhost:3000/images/imagename1605263493723.jpg"
+        subject-id: 5
+        user_id: 3
         createdAt: 2020-11-13T13:46:26.000Z
         updatedAt: 2020-11-13T13:46:26.000Z
