@@ -1228,6 +1228,116 @@ paths:
               schema:
                 type: object
                 example:  {error: {}}
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           UPDATE ONE COMMENT
+# ///////////////////////////////////////////////////////////////////////////////////////////
+    put:
+      tags: [Comments]
+      summary: UPDATE A COMMENT
+      produces: application/json
+      parameters:
+      - name: id
+        in: path
+        description: the Comment's id
+        required: true
+        schema:
+          type: string
+          style: simple
+          example: localhost:3000/api/comments/4
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+                subject_id:
+                  type: integer
+                user_id:
+                  type: integer
+                post_id:
+                  type: integer
+              example:
+                content: Here is the comment made by a specific user for a specific post in a specific subject 
+                subject-id: 5
+                user_id: 3
+                post_id: 9
+      responses:
+        '200':
+          description: Comment updated
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Comment updated
+        '401':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Please login
+        '404':
+          description: Comment not found
+          content:
+            application/json: 
+              schema: 
+                type: string
+                example: Comment not found
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           DELETE ONE COMMENT
+# ///////////////////////////////////////////////////////////////////////////////////////////
+    delete:
+      tags: [Comments]
+      summary: DELETE A COMMENT
+      produces: application/json
+      parameters:
+      - name: id
+        in: path
+        description: the Comment's id
+        required: true
+        schema:
+          type: string
+          style: simple
+          example: localhost:3000/api/comments/4
+      responses:
+        '200':
+          description: Comment deleted
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Comment deleted
+        '401':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Please login
+        '404':
+          description: Comment not found
+          content:
+            application/json: 
+              schema: 
+                type: string
+                example: Comment not found
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
 
 #############################################################################################
 #############################################################################################
