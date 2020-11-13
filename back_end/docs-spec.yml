@@ -8,17 +8,154 @@ host: localhost:3000
 explorer: true
 basePath: /
 paths:
-  /api/sauces:
-    get:
+# //////////////////
+# USERS
+# ///////////////////
+  /api/users/signup:
+    post:
       tags: [Users]
-      summary: READ ALL
-      description: A GET request to fetch all users
+      summary: CREATE A USER
       produces: application/json
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_name:
+                  type: string
+                email: 
+                  type: string
+                password: 
+                  type: string
+                image_url: 
+                  type: string
+                birthdate: 
+                  type: date
+                restricted: 
+                  type: boolean
+                shareWithPartners: 
+                  type: boolean
+                contactable: 
+                  type: boolean
+              required:
+                - user_name
+                - email
+                - password
+                - birthdate
+                - restricted
+                - shareWithPartners
+                - contactable
+              example:
+                user_name: JohnDoe123
+                email: johndoe@mail.com
+                password: Password123!
+                image_url: "http://localhost:3000/images/imagename1605263493723.jpg"
+                birthdate: 1988-10-21
+                restricted: false
+                shareWithPartners: true
+                contactable: true
       responses:
-        '200':
-          description: Success message
+        '201':
+          description: User created
           content:
             application/json: 
               schema:
-                type: array
-                example:  {test: success}
+                type: string
+                example:  User created
+        '401':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Please login
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
+  /api/users/login:
+    post:
+      tags: [Users]
+      summary: AUTHENTICATE A USER
+      produces: application/json
+      responses:
+  /api/users/:
+    get:
+      tags: [Users]
+      summary: READ ALL USERS
+      produces: application/json
+      responses:
+  /api/users/:id:
+    get:
+      tags: [Users]
+      summary: READ ONE USER
+      produces: application/json
+      parameters:
+      - name: id
+        in: path
+        description: the sauce's id
+        required: true
+        schema:
+          type: string
+          style: simple
+          example: localhost:3000/api/sauces/4ds5s6752s31ds5q67f5d
+      responses:
+    put:
+      tags: [Users]
+      summary: UPDATE A USER
+      produces: application/json
+      responses:
+    delete:
+      tags: [Users]
+      summary: DELETE A USER
+      produces: application/json
+      responses:
+# ////////////////////
+# SCHEMAS
+# ////////////////////
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        user_name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        image_url:
+          type: string
+        birthdate:
+          type: date
+        parentEmail:
+          type: string
+        restricted:
+          type: boolean
+        shareWithPartners:
+          type: boolean
+        contactable:
+          type: boolean
+        createdAt:
+          type: date
+        updatedAt:
+          type: date
+      example:
+        id: 5
+        user_name: JohnDoe123
+        email: johndoe@mail.com
+        password: Password123!
+        image_url: "http://localhost:3000/images/imagename1605263493723.jpg"
+        birthdate: 1988-10-21
+        restricted: false
+        shareWithPartners: true
+        contactable: true
+        createdAt: '2020-11-13 10:14:17'
+        updatedAt: '2020-11-13 10:14:17'
