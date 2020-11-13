@@ -898,6 +898,51 @@ paths:
               schema:
                 type: object
                 example:  {error: {}}
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           DELETE ONE POST
+# ///////////////////////////////////////////////////////////////////////////////////////////
+    delete:
+      tags: [Posts]
+      summary: DELETE A POST
+      produces: application/json
+      parameters:
+      - name: id
+        in: path
+        description: the Post's id
+        required: true
+        schema:
+          type: string
+          style: simple
+          example: localhost:3000/api/posts/4
+      responses:
+        '200':
+          description: Post deleted
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Post deleted
+        '401':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Please login
+        '404':
+          description: Post not found
+          content:
+            application/json: 
+              schema: 
+                type: string
+                example: Post not found
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
 
 #############################################################################################
 #############################################################################################
