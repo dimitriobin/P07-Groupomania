@@ -1005,6 +1005,184 @@ paths:
               schema:
                 type: object
                 example:  {error: {}}
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           READ ALL COMMENTS
+# ///////////////////////////////////////////////////////////////////////////////////////////
+    get:
+      tags: [Comments]
+      summary: READ ALL COMMENTS
+      produces: application/json
+      responses:
+        '200':
+          description: Returns an array of all Comments
+          content:
+            application/json: 
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Comment'
+        '401':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Please login
+        '404':
+          description: Comments not found
+          content:
+            application/json: 
+              schema: 
+                type: string
+                example: Comments not found
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
+  /api/comments/subject/:subject_id:
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           READ ALL COMMENTS FOR ONE SUBJECT
+# ///////////////////////////////////////////////////////////////////////////////////////////
+    get:
+      tags: [Comments]
+      summary: READ ALL COMMENTS FOR ONE SUBJECT
+      produces: application/json
+      parameters:
+      - name: id
+        in: path
+        description: the subject's id
+        required: true
+        schema:
+          type: string
+          style: simple
+          example: localhost:3000/api/comments/subject/4
+      responses:
+        '200':
+          description: Returns an array of all Comments for this subject
+          content:
+            application/json: 
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Comment'
+        '401':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Please login
+        '404':
+          description: Comments not found
+          content:
+            application/json: 
+              schema: 
+                type: string
+                example: Comments not found
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
+  /api/comments/user/:user_id:
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           READ ALL COMMENTS FOR ONE USER
+# ///////////////////////////////////////////////////////////////////////////////////////////
+    get:
+      tags: [Comments]
+      summary: READ ALL COMMENTS FOR ONE USER
+      produces: application/json
+      parameters:
+      - name: id
+        in: path
+        description: the user's id
+        required: true
+        schema:
+          type: string
+          style: simple
+          example: localhost:3000/api/comments/user/4
+      responses:
+        '200':
+          description: Returns an array of all Comments for this user
+          content:
+            application/json: 
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Comment'
+        '401':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Please login
+        '404':
+          description: Comments not found
+          content:
+            application/json: 
+              schema: 
+                type: string
+                example: Comments not found
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
+  /api/comments/post/:post_id:
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           READ ALL COMMENTS FOR ONE POST
+# ///////////////////////////////////////////////////////////////////////////////////////////
+    get:
+      tags: [Comments]
+      summary: READ ALL COMMENTS FOR ONE POST
+      produces: application/json
+      parameters:
+      - name: id
+        in: path
+        description: the post's id
+        required: true
+        schema:
+          type: string
+          style: simple
+          example: localhost:3000/api/comments/post/4
+      responses:
+        '200':
+          description: Returns an array of all Comments for this post
+          content:
+            application/json: 
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Comment'
+        '401':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Please login
+        '404':
+          description: Comments not found
+          content:
+            application/json: 
+              schema: 
+                type: string
+                example: Comments not found
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
 
 #############################################################################################
 #############################################################################################
