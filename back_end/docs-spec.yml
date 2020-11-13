@@ -352,7 +352,7 @@ paths:
 #                                           CREATE ONE SUBJECT
 # ///////////////////////////////////////////////////////////////////////////////////////////
     post:
-      tags: [Subject]
+      tags: [Subjects]
       summary: CREATE A SUBJECT
       produces: application/json
       requestBody:
@@ -387,6 +387,44 @@ paths:
               schema:
                 type: object
                 example:  {error: {}}
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           READ ALL SUBJECTS
+# ///////////////////////////////////////////////////////////////////////////////////////////
+    get:
+      tags: [Subjects]
+      summary: READ ALL SUBJECTS
+      produces: application/json
+      responses:
+        '200':
+          description: Returns an array of all subjects
+          content:
+            application/json: 
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Subject'
+        '401':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Please login
+        '404':
+          description: Subjects not found
+          content:
+            application/json: 
+              schema: 
+                type: string
+                example: Subjects not found
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
+
 #############################################################################################
 #############################################################################################
 #                                           COMPONENTS
