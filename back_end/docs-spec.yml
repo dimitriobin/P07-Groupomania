@@ -424,6 +424,51 @@ paths:
               schema:
                 type: object
                 example:  {error: {}}
+  /api/subjects/:id:
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           READ ONE SUBJECT
+# ///////////////////////////////////////////////////////////////////////////////////////////
+    get:
+      tags: [Subjects]
+      summary: READ ONE SUBJECT
+      produces: application/json
+      parameters:
+      - name: id
+        in: path
+        description: the subject's id
+        required: true
+        schema:
+          type: string
+          style: simple
+          example: localhost:3000/api/subjects/4
+      responses:
+        '200':
+          description: Returns a subject
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/Subject'
+        '401':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Please login
+        '404':
+          description: User not found
+          content:
+            application/json: 
+              schema: 
+                type: string
+                example: User not found
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
 
 #############################################################################################
 #############################################################################################
