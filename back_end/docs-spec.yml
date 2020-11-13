@@ -151,7 +151,7 @@ paths:
             application/json: 
               schema: 
                 type: string
-                example: User not found
+                example: Users not found
         '500':
           description: Internal error
           content:
@@ -167,13 +167,40 @@ paths:
       parameters:
       - name: id
         in: path
-        description: the sauce's id
+        description: the user's id
         required: true
         schema:
           type: string
           style: simple
-          example: localhost:3000/api/sauces/4ds5s6752s31ds5q67f5d
+          example: localhost:3000/api/users/4
       responses:
+        '200':
+          description: Returns a user
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Please login
+        '404':
+          description: User not found
+          content:
+            application/json: 
+              schema: 
+                type: string
+                example: User not found
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
     put:
       tags: [Users]
       summary: UPDATE A USER
