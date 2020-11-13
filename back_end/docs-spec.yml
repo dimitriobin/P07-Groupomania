@@ -1055,3 +1055,33 @@ components:
         user_id: 3
         createdAt: 2020-11-13T13:46:26.000Z
         updatedAt: 2020-11-13T13:46:26.000Z
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           COMMENT SCHEMA
+# ///////////////////////////////////////////////////////////////////////////////////////////
+    Comment:
+      type: object
+      properties:
+        id:
+          type: integer
+        content:
+          type: string
+        subject_id: 
+          type: integer
+        user_id: 
+          type: integer
+        post_id: 
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      example:
+        id: 5
+        content: Here is the comment made by a specific user for a specific post in a specific subject 
+        subject-id: 5
+        user_id: 3
+        post_id: 9
+        createdAt: 2020-11-13T13:46:26.000Z
+        updatedAt: 2020-11-13T13:46:26.000Z

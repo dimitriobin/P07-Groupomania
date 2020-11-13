@@ -697,3 +697,9 @@
 ::1 - - [13/Nov/2020:16:12:26 +0000] "GET /api/docs/swagger-ui-init.js HTTP/1.1" 200 42587
 ::1 - - [13/Nov/2020:16:12:26 +0000] "GET /api/docs/swagger-ui-standalone-preset.js HTTP/1.1" 304 -
 ::1 - - [13/Nov/2020:16:12:26 +0000] "GET /api/docs/favicon-32x32.png HTTP/1.1" 304 -
+::1 - - [13/Nov/2020:16:13:40 +0000] "GET /api/docs/ HTTP/1.1" 304 -
+::1 - - [13/Nov/2020:16:13:40 +0000] "GET /api/docs/swagger-ui.css HTTP/1.1" 304 -
+::1 - - [13/Nov/2020:16:13:40 +0000] "GET /api/docs/swagger-ui-init.js HTTP/1.1" 200 44468
+::1 - - [13/Nov/2020:16:13:40 +0000] "GET /api/docs/swagger-ui-bundle.js HTTP/1.1" 304 -
+::1 - - [13/Nov/2020:16:13:40 +0000] "GET /api/docs/swagger-ui-standalone-preset.js HTTP/1.1" 304 -
+::1 - - [13/Nov/2020:16:13:41 +0000] "GET /api/docs/favicon-32x32.png HTTP/1.1" 304 -
