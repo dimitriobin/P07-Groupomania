@@ -598,3 +598,4 @@
 ::1 - - [13/Nov/2020:14:28:12 +0000] "GET /api/docs/swagger-ui-bundle.js HTTP/1.1" 304 -
 ::1 - - [13/Nov/2020:14:28:12 +0000] "GET /api/docs/swagger-ui-standalone-preset.js HTTP/1.1" 304 -
 ::1 - - [13/Nov/2020:14:28:13 +0000] "GET /api/docs/favicon-32x32.png HTTP/1.1" 200 628
+::1 - - [13/Nov/2020:14:43:30 +0000] "GET /api/docs/ HTTP/1.1" 404 148
