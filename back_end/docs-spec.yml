@@ -623,8 +623,8 @@ paths:
                 - subject_id
                 - user_id
               example:
-                title: News
-                description: Actualities, daily news, ...
+                title: A post title here
+                description: This is an example
                 image_url: "http://localhost:3000/images/imagename1605263493723.jpg"
                 url: "http://localhost:3000/api/docs/#/"
                 subject-id: 3
@@ -820,6 +820,77 @@ paths:
               schema: 
                 type: string
                 example: User not found
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           UPDATE ONE POST
+# ///////////////////////////////////////////////////////////////////////////////////////////
+    put:
+      tags: [Posts]
+      summary: UPDATE A POST
+      produces: application/json
+      parameters:
+      - name: id
+        in: path
+        description: the Post's id
+        required: true
+        schema:
+          type: string
+          style: simple
+          example: localhost:3000/api/posts/4
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                image_url:
+                  type: string
+                url:
+                  type: string
+                subject_id:
+                  type: integer
+                user_id:
+                  type: integer
+              example:
+                title: A post title here
+                description: This is an example
+                image_url: "http://localhost:3000/images/imagename1605263493723.jpg"
+                url: "http://localhost:3000/api/docs/#/"
+                subject-id: 3
+                user_id: 6
+      responses:
+        '200':
+          description: Post updated
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Post updated
+        '401':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Please login
+        '404':
+          description: Post not found
+          content:
+            application/json: 
+              schema: 
+                type: string
+                example: Post not found
         '500':
           description: Internal error
           content:
