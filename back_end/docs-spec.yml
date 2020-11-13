@@ -688,6 +688,53 @@ paths:
               schema:
                 type: object
                 example:  {error: {}}
+  /api/posts/user/:user_id:
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           READ ALL POSTS FOR ONE USER
+# ///////////////////////////////////////////////////////////////////////////////////////////
+    get:
+      tags: [Posts]
+      summary: READ ALL POSTS FOR ONE USER
+      produces: application/json
+      parameters:
+      - name: id
+        in: path
+        description: the user's id
+        required: true
+        schema:
+          type: string
+          style: simple
+          example: localhost:3000/api/posts/user/4
+      responses:
+        '200':
+          description: Returns an array of all Posts for this user
+          content:
+            application/json: 
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Post'
+        '401':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Please login
+        '404':
+          description: Posts not found
+          content:
+            application/json: 
+              schema: 
+                type: string
+                example: Posts not found
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
 
 #############################################################################################
 #############################################################################################
