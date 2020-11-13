@@ -8,10 +8,15 @@ host: localhost:3000
 explorer: true
 basePath: /
 paths:
-# //////////////////
-# USERS
-# ///////////////////
+# ###########################################################################################
+# ###########################################################################################
+#                                           USERS
+# ###########################################################################################
+# ###########################################################################################
   /api/users/signup:
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           SIGNUP USER
+# ///////////////////////////////////////////////////////////////////////////////////////////
     post:
       tags: [Users]
       summary: CREATE A USER
@@ -72,6 +77,9 @@ paths:
                 type: object
                 example:  {error: {}}
   /api/users/login:
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           LOGIN USER
+# ///////////////////////////////////////////////////////////////////////////////////////////
     post:
       tags: [Users]
       summary: AUTHENTICATE A USER
@@ -125,6 +133,9 @@ paths:
                 type: object
                 example:  {error: {}}
   /api/users/:
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           READ ALL USERS
+# ///////////////////////////////////////////////////////////////////////////////////////////
     get:
       tags: [Users]
       summary: READ ALL USERS
@@ -160,6 +171,9 @@ paths:
                 type: object
                 example:  {error: {}}
   /api/users/:id:
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           READ ONE USER
+# ///////////////////////////////////////////////////////////////////////////////////////////
     get:
       tags: [Users]
       summary: READ ONE USER
@@ -201,6 +215,9 @@ paths:
               schema:
                 type: object
                 example:  {error: {}}
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           UPDATE ONE USER
+# ///////////////////////////////////////////////////////////////////////////////////////////
     put:
       tags: [Users]
       summary: UPDATE A USER
@@ -248,7 +265,7 @@ paths:
                 shareWithPartners: true
                 contactable: true
       responses:
-        '201':
+        '200':
           description: User updated
           content:
             application/json: 
@@ -276,14 +293,56 @@ paths:
               schema:
                 type: object
                 example:  {error: {}}
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           DELETE ONE USER
+# ///////////////////////////////////////////////////////////////////////////////////////////
     delete:
       tags: [Users]
       summary: DELETE A USER
       produces: application/json
+      parameters:
+      - name: id
+        in: path
+        description: the user's id
+        required: true
+        schema:
+          type: string
+          style: simple
+          example: localhost:3000/api/users/4
       responses:
-# ////////////////////
-# SCHEMAS
-# ////////////////////
+        '200':
+          description: User deleted
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  User deleted
+        '401':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Please login
+        '404':
+          description: User not found
+          content:
+            application/json: 
+              schema: 
+                type: string
+                example: User not found
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
+#############################################################################################
+#############################################################################################
+#                                           COMPONENTS
+#############################################################################################
+#############################################################################################
 components:
   schemas:
     User:
