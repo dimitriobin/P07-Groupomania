@@ -40,7 +40,7 @@ exports.login = (req, res, next) => {
         bcrypt.compare(req.body.password, user.password)
         .then(validPass => {
             if(!validPass){
-                return res.status(401).send('Wrong password')
+                return res.status(400).send('Wrong password')
             }
             res.status(200).json({
                 userId: user.id,
