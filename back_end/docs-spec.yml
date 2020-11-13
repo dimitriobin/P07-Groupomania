@@ -943,6 +943,68 @@ paths:
               schema:
                 type: object
                 example:  {error: {}}
+# ###########################################################################################
+# ###########################################################################################
+# ###########################################################################################
+#                                           COMMENTS
+# ###########################################################################################
+# ###########################################################################################
+# ###########################################################################################
+  /api/comments:
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           CREATE ONE COMENT
+# ///////////////////////////////////////////////////////////////////////////////////////////
+    post:
+      tags: [Comments]
+      summary: CREATE A COMMENT
+      produces: application/json
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+                subject_id:
+                  type: integer
+                user_id:
+                  type: integer
+                post_id:
+                  type: integer
+              required:
+                - content
+                - subject_id
+                - user_id
+                - post_id
+              example:
+                content: Here is the comment made by a specific user for a specific post in a specific subject 
+                subject-id: 5
+                user_id: 3
+                post_id: 9
+      responses:
+        '201':
+          description: Comment created
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Comment created
+        '401':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Please login
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
 
 #############################################################################################
 #############################################################################################
