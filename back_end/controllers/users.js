@@ -190,10 +190,10 @@ exports.report = (req, res, next) => {
     }})
     .then((report) => {
         if(report) {
-            return res.send('A report has already been send for this problem')
+            return res.status(200).send('A report has already been send for this problem')
         }
         Report.create({ ...req.body , status: 'pending'})
-        .then(() => res.status(201).send('Report created'))
+        .then(() => res.status(202).send('Report created'))
         .catch(error => res.status(500).json({error}))
     })
     .catch(error => res.status(500).json({error}))
