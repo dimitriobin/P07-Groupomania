@@ -386,6 +386,60 @@ paths:
               schema:
                 type: object
                 example:  {error: {}}
+  /api/users/report:
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           CREATE ONE REPORT
+# ///////////////////////////////////////////////////////////////////////////////////////////
+    post:
+      tags: [Users]
+      summary: CREATE A REPORT
+      description: A user can create a report for a certain post or comment. The item_id is tje id of the post or comment and the type is either 'post' or 'comment'. The status is by default set to 'pending'.
+      produces: application/json
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                item_id:
+                  type: integer
+                item_type: 
+                  type: string
+                message: 
+                  type: string
+                status: 
+                  type: string
+              required:
+                - item_id
+                - item_type
+                - message
+              example:
+                item_id: 5
+                item_type: post
+                message: This post contain my personal datas. I am not ok with that. May you please remove it ? Thank you.
+      responses:
+        '200':
+          description: If a report is already existing for this item.
+          content:
+            application/json: 
+              schema:
+                type: string
+                example: A report has already been send for this problem
+        '202':
+          description: The report has been created, the plateform are going to look through it as soon as possible.
+          content:
+            application/json: 
+              schema:
+                type: string
+                example: The report has been created, we are going to look through it as soon as possible.
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
 
 # ###########################################################################################
 # ###########################################################################################

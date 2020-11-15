@@ -193,7 +193,7 @@ exports.report = (req, res, next) => {
             return res.status(200).send('A report has already been send for this problem')
         }
         Report.create({ ...req.body , status: 'pending'})
-        .then(() => res.status(202).send('Report created'))
+        .then(() => res.status(202).send('The report has been created, we are going to look through it as soon as possible.'))
         .catch(error => res.status(500).json({error}))
     })
     .catch(error => res.status(500).json({error}))
