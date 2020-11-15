@@ -57,23 +57,23 @@ server.on('listening', () => {
 });
 
 // Initialize an Anonyme user 
-const createAnonyme = (req, res, next) => {
-    bcrypt.hash(process.env.ANONYME_PASSWORD, 10)
-    .then(hash => {
-        db.User.create({
-            user_name: process.env.ANONYME_NAME,
-            email: process.env.ANONYME_EMAIL,
-            password: hash
-          })
-    })
-    .catch(error => res.status(500).json({error}));
-};
+// const createAnonyme = (req, res, next) => {
+//     bcrypt.hash(process.env.ANONYME_PASSWORD, 10)
+//     .then(hash => {
+//         db.User.create({
+//             user_name: process.env.ANONYME_NAME,
+//             email: process.env.ANONYME_EMAIL,
+//             password: hash
+//           })
+//     })
+//     .catch(error => res.status(500).json({error}));
+// };
 
 
 db.sequelize.sync(
-    {force: true}
+    // {force: true}
     )
 .then(() => {
-    createAnonyme();
+    // createAnonyme();
     server.listen(port);
 });

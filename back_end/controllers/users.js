@@ -40,7 +40,7 @@ exports.login = (req, res, next) => {
         bcrypt.compare(req.body.password, user.password)
         .then(validPass => {
             if(!validPass){
-                return res.status(401).send('Wrong password')
+                return res.status(400).send('Wrong password')
             }
             res.status(200).json({
                 userId: user.id,
@@ -190,10 +190,10 @@ exports.report = (req, res, next) => {
     }})
     .then((report) => {
         if(report) {
-            return res.send('A report has already been send for this problem')
+            return res.status(200).send('A report has already been send for this problem')
         }
         Report.create({ ...req.body , status: 'pending'})
-        .then(() => res.status(201).send('Report created'))
+        .then(() => res.status(202).send('The report has been created, we are going to look through it as soon as possible.'))
         .catch(error => res.status(500).json({error}))
     })
     .catch(error => res.status(500).json({error}))

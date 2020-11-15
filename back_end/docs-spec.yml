@@ -1,0 +1,1613 @@
+openapi: "3.0.0"
+info:
+  title: Groupomania
+  version: "0.1.0"
+  description: >
+     Parcours developpeur web - projet 07
+host: localhost:3000
+explorer: true
+basePath: /
+paths:
+# ###########################################################################################
+# ###########################################################################################
+# ###########################################################################################
+#                                           USERS
+# ###########################################################################################
+# ###########################################################################################
+# ###########################################################################################
+  /api/users/signup:
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           SIGNUP USER
+# ///////////////////////////////////////////////////////////////////////////////////////////
+    post:
+      tags: [Users]
+      summary: CREATE A USER
+      produces: application/json
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_name:
+                  type: string
+                email: 
+                  type: string
+                password: 
+                  type: string
+                image_url: 
+                  type: string
+                birthdate: 
+                  type: date
+                restricted: 
+                  type: boolean
+                shareWithPartners: 
+                  type: boolean
+                contactable: 
+                  type: boolean
+              required:
+                - user_name
+                - email
+                - password
+                - birthdate
+                - restricted
+                - shareWithPartners
+                - contactable
+              example:
+                user_name: JohnDoe123
+                email: johndoe@mail.com
+                password: Password123!
+                image_url: "http://localhost:3000/images/imagename1605263493723.jpg"
+                birthdate: 1988-10-21
+                restricted: false
+                shareWithPartners: true
+                contactable: true
+      responses:
+        '201':
+          description: User created
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  User created
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
+  /api/users/login:
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           LOGIN USER
+# ///////////////////////////////////////////////////////////////////////////////////////////
+    post:
+      tags: [Users]
+      summary: AUTHENTICATE A USER
+      produces: application/json
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email: 
+                  type: string
+                password: 
+                  type: string
+              required:
+                - email
+                - password
+              example:
+                email: johndoe@mail.com
+                password: Password123!
+      responses:
+        '200':
+          description: User logged. The token is valid for 12 hours long.
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:
+                  userId: 2
+                  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTYwNTI3NTE1OCwiZXhwIjoxNjA1MzE4MzU4fQ.9ek2VOjTdytJDin9TxlzhYhYanXtPFpsUWsKZMYYrHM
+        '400':
+          description: Bad request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Wrong password
+        '404':
+          description: User not found
+          content:
+            application/json: 
+              schema: 
+                type: string
+                example: User not found
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
+  /api/users/:
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           READ ALL USERS
+# ///////////////////////////////////////////////////////////////////////////////////////////
+    get:
+      tags: [Users]
+      summary: READ ALL USERS
+      produces: application/json
+      responses:
+        '200':
+          description: Returns an array of all users
+          content:
+            application/json: 
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '401':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Please login
+        '404':
+          description: Users not found
+          content:
+            application/json: 
+              schema: 
+                type: string
+                example: Users not found
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
+  /api/users/:id:
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           READ ONE USER
+# ///////////////////////////////////////////////////////////////////////////////////////////
+    get:
+      tags: [Users]
+      summary: READ ONE USER
+      produces: application/json
+      parameters:
+      - name: id
+        in: path
+        description: the user's id
+        required: true
+        schema:
+          type: string
+          style: simple
+          example: localhost:3000/api/users/4
+      responses:
+        '200':
+          description: Returns a user
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Please login
+        '404':
+          description: User not found
+          content:
+            application/json: 
+              schema: 
+                type: string
+                example: User not found
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           UPDATE ONE USER
+# ///////////////////////////////////////////////////////////////////////////////////////////
+    put:
+      tags: [Users]
+      summary: UPDATE A USER
+      produces: application/json
+      parameters:
+      - name: id
+        in: path
+        description: the user's id
+        required: true
+        schema:
+          type: string
+          style: simple
+          example: localhost:3000/api/users/4
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_name:
+                  type: string
+                email: 
+                  type: string
+                password: 
+                  type: string
+                image_url: 
+                  type: string
+                birthdate: 
+                  type: string
+                  format: date
+                restricted: 
+                  type: boolean
+                shareWithPartners: 
+                  type: boolean
+                contactable: 
+                  type: boolean
+              example:
+                user_name: JohnDoe123
+                email: johndoe@mail.com
+                password: Password123!
+                image_url: "http://localhost:3000/images/imagename1605263493723.jpg"
+                birthdate: 1988-10-21
+                restricted: false
+                shareWithPartners: true
+                contactable: true
+      responses:
+        '200':
+          description: User updated
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  User updated
+        '401':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Please login
+        '404':
+          description: User not found
+          content:
+            application/json: 
+              schema: 
+                type: string
+                example: User not found
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           DELETE ONE USER
+# ///////////////////////////////////////////////////////////////////////////////////////////
+    delete:
+      tags: [Users]
+      summary: DELETE A USER
+      produces: application/json
+      parameters:
+      - name: id
+        in: path
+        description: the user's id
+        required: true
+        schema:
+          type: string
+          style: simple
+          example: localhost:3000/api/users/4
+      responses:
+        '200':
+          description: User deleted
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  User deleted
+        '401':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Please login
+        '404':
+          description: User not found
+          content:
+            application/json: 
+              schema: 
+                type: string
+                example: User not found
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
+  /api/users/export/:id:
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           EXPORT ONE USER
+# ///////////////////////////////////////////////////////////////////////////////////////////
+    get:
+      tags: [Users]
+      summary: EXPORT ONE USER
+      description: Returns a file containing all posts, comments and user's datas
+      produces: application/json
+      parameters:
+      - name: id
+        in: path
+        description: the user's id
+        required: true
+        schema:
+          type: string
+          style: simple
+          example: localhost:3000/api/users/4
+      responses:
+        '201':
+          description: Returns a file containing all posts, comments and user's datas
+          content:
+            application/json: 
+              schema:
+                type: file
+        '401':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Please login
+        '404':
+          description: User not found
+          content:
+            application/json: 
+              schema: 
+                type: string
+                example: User not found
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
+  /api/users/report:
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           CREATE ONE REPORT
+# ///////////////////////////////////////////////////////////////////////////////////////////
+    post:
+      tags: [Users]
+      summary: CREATE A REPORT
+      description: A user can create a report for a certain post or comment. The item_id is tje id of the post or comment and the type is either 'post' or 'comment'. The status is by default set to 'pending'.
+      produces: application/json
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                item_id:
+                  type: integer
+                item_type: 
+                  type: string
+                message: 
+                  type: string
+                status: 
+                  type: string
+              required:
+                - item_id
+                - item_type
+                - message
+              example:
+                item_id: 5
+                item_type: post
+                message: This post contain my personal datas. I am not ok with that. May you please remove it ? Thank you.
+      responses:
+        '200':
+          description: If a report is already existing for this item.
+          content:
+            application/json: 
+              schema:
+                type: string
+                example: A report has already been send for this problem
+        '202':
+          description: The report has been created, the plateform are going to look through it as soon as possible.
+          content:
+            application/json: 
+              schema:
+                type: string
+                example: The report has been created, we are going to look through it as soon as possible.
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
+
+# ###########################################################################################
+# ###########################################################################################
+# ###########################################################################################
+#                                           SUBJECTS
+# ###########################################################################################
+# ###########################################################################################
+# ###########################################################################################
+  /api/subjects:
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           CREATE ONE SUBJECT
+# ///////////////////////////////////////////////////////////////////////////////////////////
+    post:
+      tags: [Subjects]
+      summary: CREATE A SUBJECT
+      produces: application/json
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+              required:
+                - name
+                - description
+              example:
+                name: News
+                description: Actualities, daily news, ...
+      responses:
+        '201':
+          description: Subject created
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Subject created
+        '401':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Please login
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           READ ALL SUBJECTS
+# ///////////////////////////////////////////////////////////////////////////////////////////
+    get:
+      tags: [Subjects]
+      summary: READ ALL SUBJECTS
+      produces: application/json
+      responses:
+        '200':
+          description: Returns an array of all subjects
+          content:
+            application/json: 
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Subject'
+        '401':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Please login
+        '404':
+          description: Subjects not found
+          content:
+            application/json: 
+              schema: 
+                type: string
+                example: Subjects not found
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
+  /api/subjects/:id:
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           READ ONE SUBJECT
+# ///////////////////////////////////////////////////////////////////////////////////////////
+    get:
+      tags: [Subjects]
+      summary: READ ONE SUBJECT
+      produces: application/json
+      parameters:
+      - name: id
+        in: path
+        description: the subject's id
+        required: true
+        schema:
+          type: string
+          style: simple
+          example: localhost:3000/api/subjects/4
+      responses:
+        '200':
+          description: Returns a subject
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/Subject'
+        '401':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Please login
+        '404':
+          description: User not found
+          content:
+            application/json: 
+              schema: 
+                type: string
+                example: User not found
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           UPDATE ONE SUBJECT
+# ///////////////////////////////////////////////////////////////////////////////////////////
+    put:
+      tags: [Subjects]
+      summary: UPDATE A SUBJECT
+      produces: application/json
+      parameters:
+      - name: id
+        in: path
+        description: the subject's id
+        required: true
+        schema:
+          type: string
+          style: simple
+          example: localhost:3000/api/subjects/4
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+              required:
+                - name
+                - description
+              example:
+                name: News
+                description: Actualities, daily news, ...
+      responses:
+        '200':
+          description: Subject updated
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Subject updated
+        '401':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Please login
+        '404':
+          description: Subject not found
+          content:
+            application/json: 
+              schema: 
+                type: string
+                example: Subject not found
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           DELETE ONE SUBJECT
+# ///////////////////////////////////////////////////////////////////////////////////////////
+    delete:
+      tags: [Subjects]
+      summary: DELETE A SUBJECT
+      produces: application/json
+      parameters:
+      - name: id
+        in: path
+        description: the Subject's id
+        required: true
+        schema:
+          type: string
+          style: simple
+          example: localhost:3000/api/subjects/4
+      responses:
+        '200':
+          description: Subject deleted
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Subject deleted
+        '401':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Please login
+        '404':
+          description: Subject not found
+          content:
+            application/json: 
+              schema: 
+                type: string
+                example: Subject not found
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
+# ###########################################################################################
+# ###########################################################################################
+# ###########################################################################################
+#                                           POSTS
+# ###########################################################################################
+# ###########################################################################################
+# ###########################################################################################
+  /api/posts:
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           CREATE ONE POST
+# ///////////////////////////////////////////////////////////////////////////////////////////
+    post:
+      tags: [Posts]
+      summary: CREATE A POST
+      produces: application/json
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                image_url:
+                  type: string
+                url:
+                  type: string
+                subject_id:
+                  type: integer
+                user_id:
+                  type: integer
+              required:
+                - title
+                - description
+                - subject_id
+                - user_id
+              example:
+                title: A post title here
+                description: This is an example
+                image_url: "http://localhost:3000/images/imagename1605263493723.jpg"
+                url: "http://localhost:3000/api/docs/#/"
+                subject-id: 3
+                user_id: 6
+      responses:
+        '201':
+          description: Post created
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Post created
+        '401':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Please login
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           READ ALL POSTS
+# ///////////////////////////////////////////////////////////////////////////////////////////
+    get:
+      tags: [Posts]
+      summary: READ ALL POSTS
+      produces: application/json
+      responses:
+        '200':
+          description: Returns an array of all Posts
+          content:
+            application/json: 
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Post'
+        '401':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Please login
+        '404':
+          description: Posts not found
+          content:
+            application/json: 
+              schema: 
+                type: string
+                example: Posts not found
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
+  /api/posts/user/:user_id:
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           READ ALL POSTS FOR ONE USER
+# ///////////////////////////////////////////////////////////////////////////////////////////
+    get:
+      tags: [Posts]
+      summary: READ ALL POSTS FOR ONE USER
+      produces: application/json
+      parameters:
+      - name: id
+        in: path
+        description: the user's id
+        required: true
+        schema:
+          type: string
+          style: simple
+          example: localhost:3000/api/posts/user/4
+      responses:
+        '200':
+          description: Returns an array of all Posts for this user
+          content:
+            application/json: 
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Post'
+        '401':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Please login
+        '404':
+          description: Posts not found
+          content:
+            application/json: 
+              schema: 
+                type: string
+                example: Posts not found
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
+  /api/posts/subject/:subject_id:
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           READ ALL POSTS FOR ONE SUBJECT
+# ///////////////////////////////////////////////////////////////////////////////////////////
+    get:
+      tags: [Posts]
+      summary: READ ALL POSTS FOR ONE SUBJECT
+      produces: application/json
+      parameters:
+      - name: id
+        in: path
+        description: the subject's id
+        required: true
+        schema:
+          type: string
+          style: simple
+          example: localhost:3000/api/posts/subject/4
+      responses:
+        '200':
+          description: Returns an array of all Posts for this subject
+          content:
+            application/json: 
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Post'
+        '401':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Please login
+        '404':
+          description: Posts not found
+          content:
+            application/json: 
+              schema: 
+                type: string
+                example: Posts not found
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
+  /api/posts/:id:
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           READ ONE POST
+# ///////////////////////////////////////////////////////////////////////////////////////////
+    get:
+      tags: [Posts]
+      summary: READ ONE POST
+      produces: application/json
+      parameters:
+      - name: id
+        in: path
+        description: the Post's id
+        required: true
+        schema:
+          type: string
+          style: simple
+          example: localhost:3000/api/posts/4
+      responses:
+        '200':
+          description: Returns a Post
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/Post'
+        '401':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Please login
+        '404':
+          description: User not found
+          content:
+            application/json: 
+              schema: 
+                type: string
+                example: User not found
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           UPDATE ONE POST
+# ///////////////////////////////////////////////////////////////////////////////////////////
+    put:
+      tags: [Posts]
+      summary: UPDATE A POST
+      produces: application/json
+      parameters:
+      - name: id
+        in: path
+        description: the Post's id
+        required: true
+        schema:
+          type: string
+          style: simple
+          example: localhost:3000/api/posts/4
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                image_url:
+                  type: string
+                url:
+                  type: string
+                subject_id:
+                  type: integer
+                user_id:
+                  type: integer
+              example:
+                title: A post title here
+                description: This is an example
+                image_url: "http://localhost:3000/images/imagename1605263493723.jpg"
+                url: "http://localhost:3000/api/docs/#/"
+                subject-id: 3
+                user_id: 6
+      responses:
+        '200':
+          description: Post updated
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Post updated
+        '401':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Please login
+        '404':
+          description: Post not found
+          content:
+            application/json: 
+              schema: 
+                type: string
+                example: Post not found
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           DELETE ONE POST
+# ///////////////////////////////////////////////////////////////////////////////////////////
+    delete:
+      tags: [Posts]
+      summary: DELETE A POST
+      produces: application/json
+      parameters:
+      - name: id
+        in: path
+        description: the Post's id
+        required: true
+        schema:
+          type: string
+          style: simple
+          example: localhost:3000/api/posts/4
+      responses:
+        '200':
+          description: Post deleted
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Post deleted
+        '401':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Please login
+        '404':
+          description: Post not found
+          content:
+            application/json: 
+              schema: 
+                type: string
+                example: Post not found
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
+# ###########################################################################################
+# ###########################################################################################
+# ###########################################################################################
+#                                           COMMENTS
+# ###########################################################################################
+# ###########################################################################################
+# ###########################################################################################
+  /api/comments:
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           CREATE ONE COMENT
+# ///////////////////////////////////////////////////////////////////////////////////////////
+    post:
+      tags: [Comments]
+      summary: CREATE A COMMENT
+      produces: application/json
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+                subject_id:
+                  type: integer
+                user_id:
+                  type: integer
+                post_id:
+                  type: integer
+              required:
+                - content
+                - subject_id
+                - user_id
+                - post_id
+              example:
+                content: Here is the comment made by a specific user for a specific post in a specific subject 
+                subject-id: 5
+                user_id: 3
+                post_id: 9
+      responses:
+        '201':
+          description: Comment created
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Comment created
+        '401':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Please login
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           READ ALL COMMENTS
+# ///////////////////////////////////////////////////////////////////////////////////////////
+    get:
+      tags: [Comments]
+      summary: READ ALL COMMENTS
+      produces: application/json
+      responses:
+        '200':
+          description: Returns an array of all Comments
+          content:
+            application/json: 
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Comment'
+        '401':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Please login
+        '404':
+          description: Comments not found
+          content:
+            application/json: 
+              schema: 
+                type: string
+                example: Comments not found
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
+  /api/comments/subject/:subject_id:
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           READ ALL COMMENTS FOR ONE SUBJECT
+# ///////////////////////////////////////////////////////////////////////////////////////////
+    get:
+      tags: [Comments]
+      summary: READ ALL COMMENTS FOR ONE SUBJECT
+      produces: application/json
+      parameters:
+      - name: id
+        in: path
+        description: the subject's id
+        required: true
+        schema:
+          type: string
+          style: simple
+          example: localhost:3000/api/comments/subject/4
+      responses:
+        '200':
+          description: Returns an array of all Comments for this subject
+          content:
+            application/json: 
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Comment'
+        '401':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Please login
+        '404':
+          description: Comments not found
+          content:
+            application/json: 
+              schema: 
+                type: string
+                example: Comments not found
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
+  /api/comments/user/:user_id:
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           READ ALL COMMENTS FOR ONE USER
+# ///////////////////////////////////////////////////////////////////////////////////////////
+    get:
+      tags: [Comments]
+      summary: READ ALL COMMENTS FOR ONE USER
+      produces: application/json
+      parameters:
+      - name: id
+        in: path
+        description: the user's id
+        required: true
+        schema:
+          type: string
+          style: simple
+          example: localhost:3000/api/comments/user/4
+      responses:
+        '200':
+          description: Returns an array of all Comments for this user
+          content:
+            application/json: 
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Comment'
+        '401':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Please login
+        '404':
+          description: Comments not found
+          content:
+            application/json: 
+              schema: 
+                type: string
+                example: Comments not found
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
+  /api/comments/post/:post_id:
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           READ ALL COMMENTS FOR ONE POST
+# ///////////////////////////////////////////////////////////////////////////////////////////
+    get:
+      tags: [Comments]
+      summary: READ ALL COMMENTS FOR ONE POST
+      produces: application/json
+      parameters:
+      - name: id
+        in: path
+        description: the post's id
+        required: true
+        schema:
+          type: string
+          style: simple
+          example: localhost:3000/api/comments/post/4
+      responses:
+        '200':
+          description: Returns an array of all Comments for this post
+          content:
+            application/json: 
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Comment'
+        '401':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Please login
+        '404':
+          description: Comments not found
+          content:
+            application/json: 
+              schema: 
+                type: string
+                example: Comments not found
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
+  /api/comments/:id:
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           READ ONE COMMENT
+# ///////////////////////////////////////////////////////////////////////////////////////////
+    get:
+      tags: [Comments]
+      summary: READ ONE COMMENT
+      produces: application/json
+      parameters:
+      - name: id
+        in: path
+        description: the Comment's id
+        required: true
+        schema:
+          type: string
+          style: simple
+          example: localhost:3000/api/comments/4
+      responses:
+        '200':
+          description: Returns a Comment
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/Comment'
+        '401':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Please login
+        '404':
+          description: Comment not found
+          content:
+            application/json: 
+              schema: 
+                type: string
+                example: Comment not found
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           UPDATE ONE COMMENT
+# ///////////////////////////////////////////////////////////////////////////////////////////
+    put:
+      tags: [Comments]
+      summary: UPDATE A COMMENT
+      produces: application/json
+      parameters:
+      - name: id
+        in: path
+        description: the Comment's id
+        required: true
+        schema:
+          type: string
+          style: simple
+          example: localhost:3000/api/comments/4
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+                subject_id:
+                  type: integer
+                user_id:
+                  type: integer
+                post_id:
+                  type: integer
+              example:
+                content: Here is the comment made by a specific user for a specific post in a specific subject 
+                subject-id: 5
+                user_id: 3
+                post_id: 9
+      responses:
+        '200':
+          description: Comment updated
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Comment updated
+        '401':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Please login
+        '404':
+          description: Comment not found
+          content:
+            application/json: 
+              schema: 
+                type: string
+                example: Comment not found
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           DELETE ONE COMMENT
+# ///////////////////////////////////////////////////////////////////////////////////////////
+    delete:
+      tags: [Comments]
+      summary: DELETE A COMMENT
+      produces: application/json
+      parameters:
+      - name: id
+        in: path
+        description: the Comment's id
+        required: true
+        schema:
+          type: string
+          style: simple
+          example: localhost:3000/api/comments/4
+      responses:
+        '200':
+          description: Comment deleted
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Comment deleted
+        '401':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Please login
+        '404':
+          description: Comment not found
+          content:
+            application/json: 
+              schema: 
+                type: string
+                example: Comment not found
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
+
+#############################################################################################
+#############################################################################################
+#                                           COMPONENTS
+#############################################################################################
+#############################################################################################
+components:
+  schemas:
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           USER SCHEMA
+# ///////////////////////////////////////////////////////////////////////////////////////////
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        user_name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        image_url:
+          type: string
+        birthdate:
+          type: string
+          format: date
+        parentEmail:
+          type: string
+        restricted:
+          type: boolean
+        shareWithPartners:
+          type: boolean
+        contactable:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      example:
+        id: 5
+        user_name: JohnDoe123
+        email: johndoe@mail.com
+        password: Password123!
+        image_url: "http://localhost:3000/images/imagename1605263493723.jpg"
+        birthdate: 1988-10-21
+        restricted: false
+        shareWithPartners: true
+        contactable: true
+        createdAt: 2020-11-13T13:46:26.000Z
+        updatedAt: 2020-11-13T13:46:26.000Z
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           SUBJECT SCHEMA
+# ///////////////////////////////////////////////////////////////////////////////////////////
+    Subject:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      example:
+        id: 5
+        name: News
+        description: Actualities, daily news, ...
+        createdAt: 2020-11-13T13:46:26.000Z
+        updatedAt: 2020-11-13T13:46:26.000Z
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           POST SCHEMA
+# ///////////////////////////////////////////////////////////////////////////////////////////
+    Post:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        image_url:
+          type: string
+        url:
+          type: string
+        subject_id: 
+          type: integer
+        user_id: 
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      example:
+        id: 5
+        title: Post title here
+        description: This is a post example
+        image_url: "http://localhost:3000/images/imagename1605263493723.jpg"
+        subject-id: 5
+        user_id: 3
+        createdAt: 2020-11-13T13:46:26.000Z
+        updatedAt: 2020-11-13T13:46:26.000Z
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           COMMENT SCHEMA
+# ///////////////////////////////////////////////////////////////////////////////////////////
+    Comment:
+      type: object
+      properties:
+        id:
+          type: integer
+        content:
+          type: string
+        subject_id: 
+          type: integer
+        user_id: 
+          type: integer
+        post_id: 
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      example:
+        id: 5
+        content: Here is the comment made by a specific user for a specific post in a specific subject 
+        subject-id: 5
+        user_id: 3
+        post_id: 9
+        createdAt: 2020-11-13T13:46:26.000Z
+        updatedAt: 2020-11-13T13:46:26.000Z
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           REPORT SCHEMA
+# ///////////////////////////////////////////////////////////////////////////////////////////
+    Report:
+      type: object
+      properties:
+        id:
+          type: integer
+        item_id:
+          type: integer
+        message: 
+          type: string
+        item_type: 
+          type: string
+        status: 
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      example:
+        id: 5
+        item_id: 8
+        message: 'This post is violent'
+        item_type: 'post'
+        status: 'pending'
+        createdAt: 2020-11-13T13:46:26.000Z
+        updatedAt: 2020-11-13T13:46:26.000Z
