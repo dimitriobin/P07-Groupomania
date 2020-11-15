@@ -24,5 +24,6 @@ You can find the API's documentation at the following :
 `localhost:3000/api/docs`
 
 
-### Vulnerabilities are checked with snyk.io and deep scan ###
+### Vulnerabilities are checked with snyk.io and deepscan.io ###
 [![Known Vulnerabilities](https://snyk.io/test/github/dimitriobin/P07-Groupomania/badge.svg?targetFile=back_end/package.json)](https://snyk.io/test/github/dimitriobin/P07-Groupomania?targetFile=back_end/package.json)
+[![DeepScan grade](https://deepscan.io/api/teams/11502/projects/14691/branches/278093/badge/grade.svg)](https://deepscan.io/dashboard#view=project&tid=11502&pid=14691&bid=278093)
