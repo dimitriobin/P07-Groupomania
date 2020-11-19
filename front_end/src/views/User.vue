@@ -1,8 +1,6 @@
 <template>
-  <div class="home">
-    <h1>Here is the Home page</h1>
-    <PostContainer />
-    <Sidebar />
+  <div id="User">
+    <h1>Here is the User page</h1>
   </div>
 </template>
 
@@ -11,7 +9,7 @@
 // import HelloWorld from '@/components/HelloWorld.vue';
 
 export default {
-  name: 'Home',
+  name: 'User',
   components: {},
 };
 </script>
