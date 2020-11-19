@@ -1,5 +1,5 @@
 <template>
   <div class="about">
-    <h1>Read all subjects</h1>
+    <h1>Here there's a list of all subjects existing</h1>
   </div>
 </template>
