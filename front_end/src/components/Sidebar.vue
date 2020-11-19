@@ -1,5 +1,7 @@
 <template>
-  <div></div>
+  <div id="Sidebar">
+    <p>Here will be printed some suggestions of subjects or users to follow</p>
+  </div>
 </template>
 
 <script>
@@ -10,5 +12,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-
+  #Sidebar {
+    border: 1px solid black;
+    width: 30%;
+  }
 </style>
