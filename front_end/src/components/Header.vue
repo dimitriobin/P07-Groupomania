@@ -2,7 +2,7 @@
   <div id="nav">
     <h1>This is the Header</h1>
     <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+    <router-link to="/about">Subjects</router-link>
   </div>
 </template>
 
@@ -16,6 +16,7 @@ export default {
 <style scoped lang="scss">
 #nav {
   padding: 30px;
+  border: 1px solid black;
 
   a {
     font-weight: bold;
