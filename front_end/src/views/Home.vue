@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
+    <h1>Here is the Home page</h1>
     <PostContainer />
     <Sidebar />
   </div>
