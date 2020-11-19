@@ -3,6 +3,7 @@
     <h1>This is the Header</h1>
     <router-link to="/">Home</router-link> |
     <router-link to="/subjects">Subjects</router-link> |
+    <router-link to="/subject">Subject</router-link> |
     <router-link to="/user">User</router-link> |
     <router-link to="/personal">Personal</router-link> |
     <router-link to="/post">Post</router-link>
