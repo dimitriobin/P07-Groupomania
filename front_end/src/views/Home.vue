@@ -1,6 +1,5 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
+  <div id="home">
     <PostContainer />
     <Sidebar />
   </div>
@@ -8,16 +7,20 @@
 
 <script>
 // @ is an alias to /src
-// import HelloWorld from '@/components/HelloWorld.vue';
+import PostContainer from '@/components/PostContainer.vue';
+import Sidebar from '@/components/Sidebar.vue';
 
 export default {
   name: 'Home',
-  components: {},
+  components: {
+    PostContainer,
+    Sidebar,
+  },
 };
 </script>
 
-<style scoped>
-body {
-  background: black;
-}
+<style scoped lang="scss">
+  #home {
+    display: flex;
+  }
 </style>
