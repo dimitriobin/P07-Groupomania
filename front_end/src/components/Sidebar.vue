@@ -1,6 +1,7 @@
 <template>
   <div id="Sidebar">
     <p>Here will be printed some suggestions of subjects or users to follow</p>
+    <router-link to="/subjects">Subjects</router-link> |
   </div>
 </template>
 

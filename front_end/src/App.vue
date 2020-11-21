@@ -25,7 +25,7 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-
+  word-break: break-all;
   .container {
     border: 1px solid black;
   }
