@@ -2,6 +2,10 @@
   <b-row id="home">
     <b-col cols="12" md="8">
       <Post />
+      <Post />
+      <Post />
+      <Post />
+      <Post />
     </b-col>
     <b-col cols="12" md="4">
       <Sidebar />
