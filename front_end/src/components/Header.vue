@@ -11,13 +11,13 @@
           </b-form-input>
         </b-col>
         <b-col md="auto" class="h2 my-0">
-          <b-icon icon="plus-circle" variant="dark" class="mx-1 mx-lg-2"></b-icon>
+          <b-icon icon="plus-circle" variant="dark" class="mx-2 mx-lg-2"></b-icon>
           <router-link to="/">
-            <b-icon icon="house-door-fill" variant="dark" class="mx-1 mx-lg-2"></b-icon>
+            <b-icon icon="house-door-fill" variant="dark" class="mx-2 mx-lg-2"></b-icon>
           </router-link>
-          <b-icon icon="chat-dots" variant="dark" class="mx-1 mx-lg-2"></b-icon>
+          <b-icon icon="chat-dots" variant="dark" class="mx-2 mx-lg-2"></b-icon>
           <router-link to="/personal">
-            <b-icon icon="person-fill" variant="dark" class="mx-1 mx-lg-2"></b-icon>
+            <b-icon icon="person-fill" variant="dark" class="mx-2 mx-lg-2"></b-icon>
           </router-link>
         </b-col>
       </b-row>

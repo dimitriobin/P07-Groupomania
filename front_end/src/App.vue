@@ -26,6 +26,5 @@ export default {
   text-align: center;
   color: #2c3e50;
   background: #F9F9F9;
-  word-break: break-all;
 }
 </style>
