@@ -1,23 +1,23 @@
 <template>
   <b-row no-gutters tag="aside" id="Sidebar">
-    <b-col cols="12" class="p-4 rounded-lg bg-white mb-3">
+    <b-col cols="12" class="p-4 rounded-lg bg-white mb-3 shadow">
       <h2 class="h5 text-muted text-left font-weight-bold mb-3">Top des sujets</h2>
       <b-row no-gutters tag="ol" class="px-md-3 px-lg-5">
         <b-col cols="12" class="d-flex">
           <li class="text-left flex-grow-1 font-weight-bold">News</li>
-          <b-link to="/user" class="text-right">Suivre</b-link>
+          <b-link to="/subject" class="text-right">Suivre</b-link>
         </b-col>
         <b-col cols="12" class="d-flex">
           <li class="text-left flex-grow-1 font-weight-bold">Politics</li>
-          <b-link to="/user" class="text-right">Suivre</b-link>
+          <b-link to="/subject" class="text-right">Suivre</b-link>
         </b-col>
         <b-col cols="12" class="d-flex">
           <li class="text-left flex-grow-1 font-weight-bold">Dogs</li>
-          <b-link to="/user" class="text-right">Suivre</b-link>
+          <b-link to="/subject" class="text-right">Suivre</b-link>
         </b-col>
         <b-col cols="12" class="d-flex">
           <li class="text-left flex-grow-1 font-weight-bold">Humor</li>
-          <b-link to="/user" class="text-right">Suivre</b-link>
+          <b-link to="/subject" class="text-right">Suivre</b-link>
         </b-col>
       </b-row>
       <router-link to="/subjects"
@@ -25,7 +25,7 @@
         Tous les sujets
       </router-link>
     </b-col>
-    <b-col cols="12" class=" p-4 rounded-lg bg-white">
+    <b-col cols="12" class=" p-4 rounded-lg bg-white  shadow">
       <h2 class="h5 text-muted text-wrap text-left font-weight-bolder mb-3">
         Visitez les profils de vos collègues
       </h2>
