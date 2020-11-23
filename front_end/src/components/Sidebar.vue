@@ -5,19 +5,19 @@
       <b-row no-gutters tag="ol" class="px-md-3 px-lg-5">
         <b-col cols="12" class="d-flex">
           <li class="text-left flex-grow-1 font-weight-bold">News</li>
-          <b-link href="#" class="text-right">Suivre</b-link>
+          <b-link to="/user" class="text-right">Suivre</b-link>
         </b-col>
         <b-col cols="12" class="d-flex">
           <li class="text-left flex-grow-1 font-weight-bold">Politics</li>
-          <b-link href="#" class="text-right">Suivre</b-link>
+          <b-link to="/user" class="text-right">Suivre</b-link>
         </b-col>
         <b-col cols="12" class="d-flex">
           <li class="text-left flex-grow-1 font-weight-bold">Dogs</li>
-          <b-link href="#" class="text-right">Suivre</b-link>
+          <b-link to="/user" class="text-right">Suivre</b-link>
         </b-col>
         <b-col cols="12" class="d-flex">
           <li class="text-left flex-grow-1 font-weight-bold">Humor</li>
-          <b-link href="#" class="text-right">Suivre</b-link>
+          <b-link to="/user" class="text-right">Suivre</b-link>
         </b-col>
       </b-row>
       <router-link to="/subjects"
