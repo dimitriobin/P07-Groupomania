@@ -1,5 +1,5 @@
 <template>
-    <b-row id="post" tag="article" class="bg-white rounded-lg shadow px-3 py-4 mb-4">
+    <b-row no-gutters id="post" tag="article" class="bg-white rounded-lg shadow p-4 mb-4">
         <b-col cols="12" tag="header" class="mb-2">
             <b-row no-gutters align-v="center">
                 <b-img cols="3" src="https://picsum.photos/70" class="rounded-circle mr-4"></b-img>

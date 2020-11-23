@@ -1,6 +1,12 @@
 <template>
   <b-row id="home">
     <b-col cols="12" md="8">
+      <b-nav pills align="center"
+        class="mb-4 bg-white rounded-lg p-2 shadow h5 font-weight-bold">
+        <b-nav-item class="mx-3" active>Top</b-nav-item>
+        <b-nav-item class="mx-3">New</b-nav-item>
+        <b-nav-item class="mx-3">Hot</b-nav-item>
+      </b-nav>
       <Post />
       <Post />
       <Post />
