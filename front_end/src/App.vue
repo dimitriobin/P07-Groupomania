@@ -1,9 +1,9 @@
 <template>
   <div id="app">
     <Header />
-    <div class="container">
+    <b-container tag="main">
       <router-view />
-    </div>
+    </b-container>
   </div>
 </template>
 
@@ -25,9 +25,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-
-  .container {
-    border: 1px solid black;
-  }
+  background: #F9F9F9;
 }
 </style>
