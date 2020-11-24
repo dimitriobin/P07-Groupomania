@@ -1,6 +1,9 @@
 <template>
   <div id="PersonalAccount">
     <b-tabs content-class="mt-3" fill>
+      <b-tab title="Informations">
+        <p>Here arethe user's informations</p>
+      </b-tab>
       <b-tab title="Profile">
         <b-form >
           <b-form-group
