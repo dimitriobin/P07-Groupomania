@@ -1,9 +1,10 @@
 <template>
-    <b-nav-form id="searchBar">
+    <b-nav-form id="searchBar" class="mx-md-auto">
         <label class="sr-only" for="searchBar">Name</label>
         <b-form-input
             id="searchBar"
-            class="mb-2 mr-sm-2 mb-sm-0">
+            size="sm"
+            class="my-3 my-md-0">
         </b-form-input>
         <b-button size="sm" variant="link">Search</b-button>
     </b-nav-form>
@@ -19,11 +20,12 @@ export default {
 <style scoped lang="scss">
 #searchBar {
     width: 100%;
+    position: relative;
     button {
         position: absolute;
         right: 10px;
         font-weight: light;
-        color: black;
+        color: #00B3D9;
     }
 }
 </style>

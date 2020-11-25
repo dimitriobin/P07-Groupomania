@@ -1,6 +1,10 @@
 <template>
   <div id="app">
-    <Header />
+    <header class="bg-white shadow-sm mb-4">
+      <b-container>
+        <Navbar />
+      </b-container>
+    </header>
     <b-container tag="main">
       <router-view />
     </b-container>
@@ -8,12 +12,12 @@
 </template>
 
 <script>
-import Header from '@/components/Header/Header.vue';
+import Navbar from '@/components/Header/Navbar.vue';
 
 export default {
   name: 'App',
   components: {
-    Header,
+    Navbar,
   },
 };
 </script>
