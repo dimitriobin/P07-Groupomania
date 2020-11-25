@@ -4,15 +4,15 @@
             <b-row no-gutters align-v="center">
                 <b-avatar src="https://picsum.photos/100" size="lg" class="mr-4"></b-avatar>
                 <b-col class="text-left">
-                    <p class="h4">John Doe</p>
+                    <p class="h5 font-weight-bold">John Doe</p>
                     <p class="h6">Politics</p>
                 </b-col>
             </b-row>
         </b-col>
         <b-col cols="12" class="my-3  text-left">
-            <h1 class="h4 font-weight-bold">Lorem ipsum dolor sit amet,
+            <h3 class="h4 font-weight-bold">Lorem ipsum dolor sit amet,
                 abitur vestibulum pretium ipsum, eget iaculis dolor convallis eg
-                et. Nulla molestie lectus quis felis elementum maximus.</h1>
+                et. Nulla molestie lectus quis felis elementum maximus.</h3>
             <b-img
                 fluid
                 class="w-100"
