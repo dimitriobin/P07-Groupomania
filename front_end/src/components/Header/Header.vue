@@ -3,12 +3,11 @@
     <b-container class="py-4">
       <b-row align-v="center" align-h="between" no-gutters>
         <b-col cols="12" lg='auto' class="text-lg-left mb-md-4 mb-lg-0">
-          <b-img :src="require('../assets/icon-left-font-removebg-cropped.png')"
+          <b-img :src="require('../../assets/icon-left-font-removebg-cropped.png')"
           alt="Logo de Groupomania" fluid></b-img>
         </b-col>
         <b-col md="7" lg="3" xl="4" class="my-3 my-md-0">
-          <b-form-input type="search" size="sm" placeholder="Search" class="rounded-lg bg-light">
-          </b-form-input>
+          <SearchBar />
         </b-col>
         <b-col md="auto" class="h2 my-0">
           <b-icon icon="plus-circle" variant="dark" class="mx-2 mx-lg-2"></b-icon>
@@ -26,12 +25,16 @@
 </template>
 
 <script>
+import SearchBar from '@/components/Header/SearchBar.vue';
+
 export default {
   name: 'Header',
+  components: {
+    SearchBar,
+  },
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-
 </style>
