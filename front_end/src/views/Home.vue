@@ -1,6 +1,7 @@
 <template>
   <b-row id="home">
     <b-col tag="main" cols="12" md="8">
+      <h1 class="sr-only">Fil d'actualités</h1>
       <SortingNav />
       <Post />
       <Post />
