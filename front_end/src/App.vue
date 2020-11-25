@@ -5,7 +5,7 @@
         <Navbar />
       </b-container>
     </header>
-    <b-container tag="main">
+    <b-container>
       <router-view />
     </b-container>
   </div>
