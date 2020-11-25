@@ -1,12 +1,12 @@
 <template>
-    <b-form inline id="searchBar" class="w-100">
+    <b-nav-form id="searchBar">
         <label class="sr-only" for="searchBar">Name</label>
         <b-form-input
             id="searchBar"
-            class="mb-2 mr-sm-2 mb-sm-0 w-100">
+            class="mb-2 mr-sm-2 mb-sm-0">
         </b-form-input>
-        <b-button variant="link">Search</b-button>
-    </b-form>
+        <b-button size="sm" variant="link">Search</b-button>
+    </b-nav-form>
 </template>
 
 <script>
@@ -18,6 +18,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 #searchBar {
+    width: 100%;
     button {
         position: absolute;
         right: 10px;
