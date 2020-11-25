@@ -1,12 +1,12 @@
 <template>
   <header id="nav" class="shadow-sm mb-4">
     <b-container class="py-4">
-      <b-row align-v="center" align-h="between">
+      <b-row align-v="center" align-h="between" no-gutters>
         <b-col cols="12" lg='auto' class="text-lg-left mb-md-4 mb-lg-0">
-          <b-img :src="require('../assets/icon-left-font.jpg')"
+          <b-img :src="require('../assets/icon-left-font-removebg-cropped.png')"
           alt="Logo de Groupomania" fluid></b-img>
         </b-col>
-        <b-col md="7" lg="4" class="my-3 my-md-0">
+        <b-col md="7" lg="3" xl="4" class="my-3 my-md-0">
           <b-form-input type="search" size="sm" placeholder="Search" class="rounded-lg bg-light">
           </b-form-input>
         </b-col>
