@@ -2,11 +2,12 @@
     <b-navbar class="flex-column flex-sm-row">
         <!-- Logo -->
         <b-navbar-brand
-          tag="img"
-          width="220"
-          :src="require('../../assets/icon-left-font-removebg-cropped.png')"
-          alt="Logo de Groupomania"
-          fluid>
+          to="/">
+          <b-img
+            fluid
+            width="220"
+            :src="require('../../assets/icon-left-font-removebg-cropped.png')"
+            alt="Logo de Groupomania"></b-img>
         </b-navbar-brand>
         <b-navbar-nav  align="end" class="w-100 align-items-center">
           <!-- SEARCHBAR -->
@@ -28,9 +29,15 @@
             <b-nav-item>
               <b-icon icon="chat-dots" variant="dark" font-scale="1.5"></b-icon>
             </b-nav-item>
-            <b-nav-item to="/personal">
-              <b-icon icon="person-fill" variant="dark" font-scale="1.5"></b-icon>
-            </b-nav-item>
+            <b-nav-item-dropdown
+              right
+              no-caret>
+              <template v-slot:button-content>
+                <b-icon icon="person-fill" variant="dark" font-scale="1.5"></b-icon>
+              </template>
+              <b-dropdown-item to="/user">Voir votre profil</b-dropdown-item>
+              <b-dropdown-item to="/personal">Modifier vos informations</b-dropdown-item>
+            </b-nav-item-dropdown>
           </div>
         </b-navbar-nav>
     </b-navbar>
