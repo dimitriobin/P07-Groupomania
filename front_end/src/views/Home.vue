@@ -1,6 +1,6 @@
 <template>
   <b-row id="home">
-    <b-col tag="main" cols="12" md="8">
+    <b-col tag="main" cols="12" lg="8">
       <h1 class="sr-only">Fil d'actualités</h1>
       <SortingNav />
       <Post />
@@ -9,7 +9,7 @@
       <Post />
       <Post />
     </b-col>
-    <b-col tag="aside" cols="12" md="4">
+    <b-col tag="aside" cols="12" lg="4">
       <Sidebar />
     </b-col>
   </b-row>
