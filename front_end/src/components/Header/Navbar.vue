@@ -14,15 +14,15 @@
           <b-navbar-nav justified align="end" class="w-100">
             <SearchBar />
             <div class="d-flex">
-              <b-nav-item-dropdown
-                right
-                no-caret>
-                <template v-slot:button-content>
-                  <b-icon icon="plus-circle" variant="dark" font-scale="1.5"></b-icon>
-                </template>
-                <b-dropdown-item href="#">Créer un post</b-dropdown-item>
-                <b-dropdown-item href="#">Créer un sujet</b-dropdown-item>
-              </b-nav-item-dropdown>
+              <b-nav-item id="createPostorSubject">
+                <b-icon icon="plus-circle" variant="dark" font-scale="1.5"></b-icon>
+              </b-nav-item>
+              <b-popover target="createPostorSubject" triggers="hover" placement="top">
+                <b-button-group vertical>
+                  <b-button variant="link">Créer un post</b-button>
+                  <b-button variant="link">Créer un sujet</b-button>
+                </b-button-group>
+              </b-popover>
               <b-nav-item to="/">
                 <b-icon icon="house-door-fill" variant="dark" font-scale="1.5"></b-icon>
               </b-nav-item>
@@ -51,4 +51,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+
+.btn-link {
+  color: #00B3D9 !important;
+}
 </style>
