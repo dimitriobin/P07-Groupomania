@@ -23,10 +23,26 @@
         </b-col>
         <b-col cols="12" tag="footer" class="h2">
             <b-row align-h="around" class="px-5">
-                <b-icon icon="heart" variant="dark" class="mx-1 mx-lg-2"></b-icon>
-                <b-icon icon="chat-left-text" variant="dark" class="mx-1 mx-lg-2"></b-icon>
-                <b-icon icon="share" variant="dark" class="mx-1 mx-lg-2"></b-icon>
-                <b-icon icon="three-dots" variant="dark" class="mx-1 mx-lg-2"></b-icon>
+                <b-button class="bg-white border-0 position-relative">
+                    <b-icon icon="heart" variant="dark" class="mx-1 mx-lg-2" font-scale="2.5">
+                    </b-icon>
+                    <b-badge pill class="icon_counter" variant="dark">16</b-badge>
+                </b-button>
+                <b-button class="bg-white border-0 position-relative">
+                    <b-icon
+                        icon="chat-left-text" variant="dark" class="mx-1 mx-lg-2" font-scale="2.5">
+                    </b-icon>
+                    <b-badge pill class="icon_counter" variant="dark">16</b-badge>
+                </b-button>
+                <b-dropdown variant="link" toggle-class="text-decoration-none" no-caret>
+                    <template v-slot:button-content>
+                        <b-icon
+                            icon="three-dots" variant="dark" class="mx-1 mx-lg-2" font-scale="2.5">
+                        </b-icon>
+                    </template>
+                    <b-dropdown-item href="#">Signaler</b-dropdown-item>
+                    <b-dropdown-item href="#">Cacher</b-dropdown-item>
+                </b-dropdown>
             </b-row>
         </b-col>
     </b-row>
@@ -40,9 +56,13 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-#post {
     a {
-        color: #00B3D9;
+        color: #00B3D9 !important;
     }
-}
+    .icon_counter {
+        font-size: 0.9rem !important;
+        position: absolute !important;
+        right: 0;
+        top: 0;
+    }
 </style>
