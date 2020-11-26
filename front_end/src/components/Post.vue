@@ -31,7 +31,7 @@
                     </b-icon>
                     <b-badge pill class="icon_counter" variant="dark">16</b-badge>
                 </b-button>
-                <b-button class="bg-white border-0 position-relative">
+                <b-button v-b-toggle.comments class="bg-white border-0 position-relative">
                     <b-icon
                         icon="chat-left-text" variant="dark" class="mx-1 mx-lg-2" font-scale="2">
                     </b-icon>
@@ -48,6 +48,17 @@
                 </b-dropdown>
             </b-row>
         </b-col>
+        <b-collapse id="comments" class="w-100 mt-2 border-top">
+            <b-row class="p-3 mt-3">
+                <b-col cols="auto" class="d-flex flex-column text-left">
+                    <a href="#" class="card-text text-dark font-weight-bold">John Doe</a>
+                    <small>Il y'a 2 jours</small>
+                </b-col>
+                <b-col tag="p" class="text-justify">
+                     Accusamus consectetur, harum ab inventore natus, aut
+                      similique nisi ea id vel dolores repellat veniam </b-col>
+            </b-row>
+        </b-collapse>
     </b-row>
 </template>
 
