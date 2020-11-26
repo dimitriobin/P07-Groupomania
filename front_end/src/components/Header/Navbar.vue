@@ -1,40 +1,45 @@
 <template>
-    <b-navbar
-      toggleable="md">
+    <b-navbar class="flex-column flex-sm-row">
         <!-- Logo -->
         <b-navbar-brand
-          tag="img"
-          :src="require('../../assets/icon-left-font-220.png')"
-          alt="Logo de Groupomania"
-          fluid>
+          to="/">
+          <b-img
+            fluid
+            width="220"
+            :src="require('../../assets/icon-left-font-removebg-cropped.png')"
+            alt="Logo de Groupomania"></b-img>
         </b-navbar-brand>
-        <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
-         <b-collapse id="nav-collapse" is-nav>
-          <!-- Right aligned nav items -->
-          <b-navbar-nav justified align="end" class="w-100">
-            <SearchBar />
-            <div class="d-flex">
-              <b-nav-item id="createPostorSubject">
+        <b-navbar-nav  align="end" class="w-100 align-items-center">
+          <!-- SEARCHBAR -->
+          <SearchBar />
+          <!-- ICONS -->
+          <div class="d-flex mx-auto mx-sm-0">
+            <b-nav-item-dropdown
+              right
+              no-caret>
+              <template v-slot:button-content>
                 <b-icon icon="plus-circle" variant="dark" font-scale="1.5"></b-icon>
-              </b-nav-item>
-              <b-popover target="createPostorSubject" triggers="hover" placement="top">
-                <b-button-group vertical>
-                  <b-button variant="link">Créer un post</b-button>
-                  <b-button variant="link">Créer un sujet</b-button>
-                </b-button-group>
-              </b-popover>
-              <b-nav-item to="/">
-                <b-icon icon="house-door-fill" variant="dark" font-scale="1.5"></b-icon>
-              </b-nav-item>
-              <b-nav-item>
-                <b-icon icon="chat-dots" variant="dark" font-scale="1.5"></b-icon>
-              </b-nav-item>
-              <b-nav-item to="/personal">
+              </template>
+              <b-dropdown-item href="#">Créer un post</b-dropdown-item>
+              <b-dropdown-item href="#">Créer un sujet</b-dropdown-item>
+            </b-nav-item-dropdown>
+            <b-nav-item to="/">
+              <b-icon icon="house-door-fill" variant="dark" font-scale="1.5"></b-icon>
+            </b-nav-item>
+            <b-nav-item>
+              <b-icon icon="chat-dots" variant="dark" font-scale="1.5"></b-icon>
+            </b-nav-item>
+            <b-nav-item-dropdown
+              right
+              no-caret>
+              <template v-slot:button-content>
                 <b-icon icon="person-fill" variant="dark" font-scale="1.5"></b-icon>
-              </b-nav-item>
-            </div>
-          </b-navbar-nav>
-        </b-collapse>
+              </template>
+              <b-dropdown-item to="/user">Voir votre profil</b-dropdown-item>
+              <b-dropdown-item to="/personal">Modifier vos informations</b-dropdown-item>
+            </b-nav-item-dropdown>
+          </div>
+        </b-navbar-nav>
     </b-navbar>
 </template>
 
