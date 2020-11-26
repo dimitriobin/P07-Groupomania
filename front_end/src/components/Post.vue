@@ -4,8 +4,11 @@
             <b-row no-gutters align-v="center">
                 <b-avatar src="https://picsum.photos/100" size="lg" class="mr-4"></b-avatar>
                 <b-col class="text-left">
-                    <p class="h5 font-weight-bold">John Doe</p>
-                    <p class="h6">Politics</p>
+                    <a class="h5 font-weight-bold text-dark" href="#">John Doe</a>
+                    <p class="mb-0">
+                        <a class="h6 text-dark" href="#">Politics</a>
+                        <a class="ml-2" href="#"><small>Suivre</small></a>
+                    </p>
                 </b-col>
             </b-row>
         </b-col>
@@ -24,20 +27,20 @@
         <b-col cols="12" tag="footer" class="h2">
             <b-row align-h="around" class="px-5">
                 <b-button class="bg-white border-0 position-relative">
-                    <b-icon icon="heart" variant="dark" class="mx-1 mx-lg-2" font-scale="2.5">
+                    <b-icon icon="heart" variant="dark" class="mx-1 mx-lg-2" font-scale="2">
                     </b-icon>
                     <b-badge pill class="icon_counter" variant="dark">16</b-badge>
                 </b-button>
                 <b-button class="bg-white border-0 position-relative">
                     <b-icon
-                        icon="chat-left-text" variant="dark" class="mx-1 mx-lg-2" font-scale="2.5">
+                        icon="chat-left-text" variant="dark" class="mx-1 mx-lg-2" font-scale="2">
                     </b-icon>
                     <b-badge pill class="icon_counter" variant="dark">16</b-badge>
                 </b-button>
                 <b-dropdown variant="link" toggle-class="text-decoration-none" no-caret>
                     <template v-slot:button-content>
                         <b-icon
-                            icon="three-dots" variant="dark" class="mx-1 mx-lg-2" font-scale="2.5">
+                            icon="three-dots" variant="dark" class="mx-1 mx-lg-2" font-scale="2">
                         </b-icon>
                     </template>
                     <b-dropdown-item href="#">Signaler</b-dropdown-item>
@@ -57,10 +60,10 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
     a {
-        color: #00B3D9 !important;
+        color: #00B3D9;
     }
     .icon_counter {
-        font-size: 0.9rem !important;
+        font-size: 0.8rem !important;
         position: absolute !important;
         right: 0;
         top: 0;
