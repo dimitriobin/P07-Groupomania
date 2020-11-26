@@ -2,12 +2,16 @@
   <b-row  id="Subject" >
     <b-col tag="header" cols="12">
       <div class=" bg-white shadow rounded-lg mb-4">
-        <b-img fluid-grow src="https://picsum.photos/800/200"></b-img>
+        <b-img
+        fluid-grow
+        src="https://picsum.photos/800/200"
+        alt="bannière du sujet"></b-img>
         <h1 class="font-weight-bold py-3">Here is the subject title</h1>
       </div>
     </b-col>
     <b-col cols="12" lg="4" tag="aside" order-lg="3">
       <div class="bg-white shadow rounded-lg p-4 text-left mb-4">
+        <h2 class="h3">A propos</h2>
         <p><small>Crée le 16 janvier 2021</small></p>
         <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit.
           Aperiam totam illo nulla, iure quas sed explicabo velit,
@@ -18,7 +22,8 @@
         <b-button block variant="info">Rejoindre</b-button>
       </div>
     </b-col>
-    <b-col cols="12" lg="8">
+    <b-col tag="main" cols="12" lg="8">
+      <h2 class="sr-only">Les posts de ce sujets</h2>
       <SortingNav />
       <Post />
       <Post />

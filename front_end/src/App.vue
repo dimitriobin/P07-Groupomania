@@ -1,14 +1,14 @@
 <template>
   <div id="app">
     <Header />
-    <b-container tag="main">
+    <b-container>
       <router-view />
     </b-container>
   </div>
 </template>
 
 <script>
-import Header from '@/components/Header.vue';
+import Header from '@/components/Header/Header.vue';
 
 export default {
   name: 'App',
@@ -26,5 +26,8 @@ export default {
   text-align: center;
   color: #2c3e50;
   background: #F9F9F9;
+  a {
+    color: #00B3D9;
+  }
 }
 </style>
