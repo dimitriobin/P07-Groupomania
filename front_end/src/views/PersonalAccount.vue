@@ -29,76 +29,101 @@
         <b-form >
           <b-form-group
             id="input-group-1"
-            label="Email address:"
+            label="Email :"
             label-cols="2"
             label-for="input-1"
           >
             <b-form-input
               id="input-1"
               type="email"
-              placeholder="Enter new email"
+              placeholder="user@mail.com"
             ></b-form-input>
           </b-form-group>
 
           <b-form-group
             id="input-group-2"
-            label="Your User Name:"
+            label="Pseudo:"
             label-cols="2"
             label-for="input-2">
             <b-form-input
               id="input-2"
-              placeholder="Enter new user name"
+              placeholder="Username"
             ></b-form-input>
           </b-form-group>
 
           <b-form-group
             id="input-group-3"
-            label="Change password:"
+            label="Ancien mot de passe:"
             label-cols="2"
             label-for="input-3">
             <b-form-input
               id="input-3"
-              placeholder="Enter new password"
+              placeholder="*********************"
+            ></b-form-input>
+          </b-form-group>
+
+          <b-form-group
+            id="input-group-3"
+            label="Nouveau mot de passe:"
+            label-cols="2"
+            label-for="input-3">
+            <b-form-input
+              id="input-3"
+              placeholder="*********************"
+            ></b-form-input>
+          </b-form-group>
+
+          <b-form-group
+            id="input-group-3"
+            label="Confirmer le mot de passe:"
+            label-cols="2"
+            label-for="input-3">
+            <b-form-input
+              id="input-3"
+              placeholder="*********************"
             ></b-form-input>
           </b-form-group>
 
           <b-form-group
           id="input-group-4"
-          label="Your avatar:"
+          label="Photo de profil:"
           label-cols="2"
-          label-for="input-4">
+          label-for="input-4"
+          class="d-flex">
             <b-form-file
-              id="input-4"
-              :state="Boolean(/*file1*/)"
-              placeholder="Choose a file or drop it here..."
-              drop-placeholder="Drop file here..."
-              accept="image/*"
-            ></b-form-file>
+                id="input-4"
+                :state="Boolean(/*file1*/)"
+                placeholder="Choose a file or drop it here..."
+                drop-placeholder="Drop file here..."
+                accept="image/*"
+                class=" flex-grow-1"
+              ></b-form-file>
           </b-form-group>
 
           <b-form-group
             id="input-group-5"
-            label="Birthday date:"
+            label="Date de naissance:"
             label-cols="2"
             label-for="input-5">
             <b-form-datepicker
-            id="input-5">
+            id="input-5"
+            placeholder="17-02-1984">
             </b-form-datepicker>
           </b-form-group>
 
           <b-form-group
             id="input-group-1"
-            label="Parent email:"
+            label="Email des responsables:"
             label-cols="2"
             label-for="input-6"
           >
             <b-form-input
               id="input-6"
               type="email"
-              placeholder="If you're less than 18 please entre your parent email"
+              placeholder="parents@mail.com"
             ></b-form-input>
           </b-form-group>
-          <b-button type="submit" variant="dark">Submit</b-button>
+          <b-button type="submit" variant="dark">Envoyer</b-button>
         </b-form>
       </b-tab>
       <b-tab title="Privacy"><p>I'm the tab with the very, very long title</p></b-tab>
