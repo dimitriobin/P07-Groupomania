@@ -4,8 +4,11 @@
             <b-row no-gutters align-v="center">
                 <b-avatar src="https://picsum.photos/100" size="lg" class="mr-4"></b-avatar>
                 <b-col class="text-left">
-                    <p class="h5 font-weight-bold">John Doe</p>
-                    <p class="h6">Politics</p>
+                    <a class="h5 font-weight-bold text-dark" href="#">John Doe</a>
+                    <p class="mb-0">
+                        <a class="h6 text-dark" href="#">Politics</a>
+                        <a class="ml-2" href="#"><small>Suivre</small></a>
+                    </p>
                 </b-col>
             </b-row>
         </b-col>
@@ -23,12 +26,39 @@
         </b-col>
         <b-col cols="12" tag="footer" class="h2">
             <b-row align-h="around" class="px-5">
-                <b-icon icon="heart" variant="dark" class="mx-1 mx-lg-2"></b-icon>
-                <b-icon icon="chat-left-text" variant="dark" class="mx-1 mx-lg-2"></b-icon>
-                <b-icon icon="share" variant="dark" class="mx-1 mx-lg-2"></b-icon>
-                <b-icon icon="three-dots" variant="dark" class="mx-1 mx-lg-2"></b-icon>
+                <b-button class="bg-white border-0 position-relative">
+                    <b-icon icon="heart" variant="dark" class="mx-1 mx-lg-2" font-scale="2">
+                    </b-icon>
+                    <b-badge pill class="icon_counter" variant="dark">16</b-badge>
+                </b-button>
+                <b-button v-b-toggle.comments class="bg-white border-0 position-relative">
+                    <b-icon
+                        icon="chat-left-text" variant="dark" class="mx-1 mx-lg-2" font-scale="2">
+                    </b-icon>
+                    <b-badge pill class="icon_counter" variant="dark">16</b-badge>
+                </b-button>
+                <b-dropdown variant="link" toggle-class="text-decoration-none" no-caret>
+                    <template v-slot:button-content>
+                        <b-icon
+                            icon="three-dots" variant="dark" class="mx-1 mx-lg-2" font-scale="2">
+                        </b-icon>
+                    </template>
+                    <b-dropdown-item href="#">Signaler</b-dropdown-item>
+                    <b-dropdown-item href="#">Cacher</b-dropdown-item>
+                </b-dropdown>
             </b-row>
         </b-col>
+        <b-collapse id="comments" class="w-100 mt-2 border-top">
+            <b-row class="p-3 mt-3">
+                <b-col cols="auto" class="d-flex flex-column text-left">
+                    <a href="#" class="card-text text-dark font-weight-bold">John Doe</a>
+                    <small>Il y'a 2 jours</small>
+                </b-col>
+                <b-col tag="p" class="text-justify">
+                     Accusamus consectetur, harum ab inventore natus, aut
+                      similique nisi ea id vel dolores repellat veniam </b-col>
+            </b-row>
+        </b-collapse>
     </b-row>
 </template>
 
@@ -38,11 +68,5 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
-#post {
-    a {
-        color: #00B3D9;
-    }
-}
+<style>
 </style>

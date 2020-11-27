@@ -13,9 +13,5 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: white !important;
-  background-color: #dc3545;
-}
+<style>
 </style>
