@@ -1,8 +1,29 @@
 <template>
-  <div id="PersonalAccount">
+  <section id="PersonalAccount">
     <b-tabs content-class="mt-3" fill>
-      <b-tab title="Informations">
-        <p>Here arethe user's informations</p>
+      <b-tab title="Sujets suivis">
+        <b-list-group flush tag="ul">
+          <b-list-group-item tag="li">
+            <b-avatar class="mr-3"  src="https://picsum.photos/100"></b-avatar>
+            Dapibus ac facilisis in
+          </b-list-group-item>
+          <b-list-group-item tag="li">
+            <b-avatar class="mr-3"  src="https://picsum.photos/100"></b-avatar>
+            Dapibus ac facilisis in
+          </b-list-group-item>
+          <b-list-group-item tag="li">
+            <b-avatar class="mr-3"  src="https://picsum.photos/100"></b-avatar>
+            Morbi leo risus
+          </b-list-group-item>
+          <b-list-group-item tag="li">
+            <b-avatar class="mr-3"  src="https://picsum.photos/100"></b-avatar>
+            Porta ac consectetur ac
+          </b-list-group-item>
+          <b-list-group-item tag="li">
+            <b-avatar class="mr-3"  src="https://picsum.photos/100"></b-avatar>
+            Vestibulum at eros
+          </b-list-group-item>
+        </b-list-group>
       </b-tab>
       <b-tab title="Profile">
         <b-form >
@@ -82,7 +103,7 @@
       </b-tab>
       <b-tab title="Privacy"><p>I'm the tab with the very, very long title</p></b-tab>
     </b-tabs>
-  </div>
+  </section>
 </template>
 
 <script>
