@@ -1,6 +1,7 @@
 <template>
   <section id="PersonalAccount">
     <b-tabs content-class="mt-3" fill>
+      <!-- Subjects -->
       <b-tab title="Sujets suivis">
         <b-list-group flush tag="ul">
           <b-list-group-item tag="li">
@@ -25,6 +26,7 @@
           </b-list-group-item>
         </b-list-group>
       </b-tab>
+      <!-- Profile -->
       <b-tab title="Profile">
         <b-form >
           <b-form-group
@@ -126,7 +128,27 @@
           <b-button type="submit" variant="dark">Envoyer</b-button>
         </b-form>
       </b-tab>
-      <b-tab title="Privacy"><p>I'm the tab with the very, very long title</p></b-tab>
+      <!-- Privacy -->
+      <b-tab title="Privacy">
+        <b-form>
+          <b-form-group>
+            <b-form-checkbox-group id="checkboxes" stacked>
+              <b-form-checkbox value="restricted">
+                Restreindre l'utilisation de mes données
+              </b-form-checkbox>
+              <b-form-checkbox value="contacted">
+                Etre contacté par des partenaires commerciaux
+              </b-form-checkbox>
+              <b-form-checkbox value="sharedWithPartners">
+                Accepter que les données soient transmises a des partenaires
+              </b-form-checkbox>
+            </b-form-checkbox-group>
+          </b-form-group>
+          <b-button type="submit" variant="dark">Envoyer</b-button>
+        </b-form>
+        <b-button type="submit" variant="link">Supprimer mon compte</b-button>
+        <b-button type="submit" variant="link">Télécharger les données de votre compte</b-button>
+      </b-tab>
     </b-tabs>
   </section>
 </template>
