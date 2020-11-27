@@ -1,0 +1,42 @@
+body {
+    text-align: center;
+    background: #F9F9F9;
+}
+
+a,
+.btn-link {
+    color: #00B3D9 !important;
+}
+  
+#home {
+    display: flex;
+}
+
+#Sidebar {
+    position: sticky;
+    top: 2%;
+}
+  
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+    color: white !important;
+    background-color: #dc3545 !important;
+}
+
+.icon_counter {
+    font-size: 0.8rem !important;
+    position: absolute !important;
+    right: 0;
+    top: 0;
+}
+
+#searchBar {
+    position: relative;
+}
+
+#searchBar button {
+    position: absolute;
+    right: 10px;
+    font-weight: light;
+    color: #00B3D9;
+}
