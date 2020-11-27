@@ -31,5 +31,5 @@ export default {
 };
 </script>
 
-<style src="../assets/css/custom.css">
+<style>
 </style>
