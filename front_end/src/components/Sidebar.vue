@@ -80,13 +80,5 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
-#Sidebar {
-  position: sticky;
-  top: 2%;
-    a {
-        color: #00B3D9;
-    }
-}
+<style src="../assets/css/custom.css">
 </style>

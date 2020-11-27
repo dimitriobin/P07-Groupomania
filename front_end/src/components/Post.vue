@@ -68,15 +68,5 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
-    a {
-        color: #00B3D9;
-    }
-    .icon_counter {
-        font-size: 0.8rem !important;
-        position: absolute !important;
-        right: 0;
-        top: 0;
-    }
+<style src="../assets/css/custom.css">
 </style>

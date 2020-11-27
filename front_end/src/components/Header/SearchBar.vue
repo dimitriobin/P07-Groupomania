@@ -17,15 +17,5 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
-#searchBar {
-    position: relative;
-    button {
-        position: absolute;
-        right: 10px;
-        font-weight: light;
-        color: #00B3D9;
-    }
-}
+<style src="../../assets/css/custom.css">
 </style>

@@ -6,7 +6,7 @@
           <b-img
             fluid
             width="220"
-            :src="require('../../assets/icon-left-font-removebg-cropped.png')"
+            :src="require('../../assets/img/icon-left-font-removebg-cropped.png')"
             alt="Logo de Groupomania"></b-img>
         </b-navbar-brand>
         <b-navbar-nav  align="end" class="w-100 align-items-center">
@@ -54,10 +54,5 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
-
-.btn-link {
-  color: #00B3D9 !important;
-}
+<style src="../../assets/css/custom.css">
 </style>

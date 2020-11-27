@@ -14,8 +14,5 @@ export default {
 };
 </script>
 
-<style scoped>
-  body {
-    background: black;
-  }
+<style src="../assets/css/custom.css">
 </style>

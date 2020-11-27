@@ -31,8 +31,5 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
-  #home {
-    display: flex;
-  }
+<style src="../assets/css/custom.css">
 </style>
