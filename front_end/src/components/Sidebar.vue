@@ -1,6 +1,9 @@
 <template>
   <b-row no-gutters id="Sidebar">
     <b-col cols="12" class="p-4 rounded-lg bg-white mb-3 shadow">
+      <b-button variant="info" v-b-modal.createPost>Créer un post</b-button>
+    </b-col>
+    <b-col cols="12" class="p-4 rounded-lg bg-white mb-3 shadow">
       <h2 class="h5 text-muted text-left font-weight-bold mb-3">Top des sujets</h2>
       <b-list-group tag="ol">
         <b-list-group-item

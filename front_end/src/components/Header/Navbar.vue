@@ -14,15 +14,6 @@
           <SearchBar />
           <!-- ICONS -->
           <div class="d-flex mx-auto mx-sm-0">
-            <b-nav-item-dropdown
-              right
-              no-caret>
-              <template v-slot:button-content>
-                <b-icon icon="plus-circle" variant="dark" font-scale="1.5"></b-icon>
-              </template>
-              <b-dropdown-item href="#">Créer un post</b-dropdown-item>
-              <b-dropdown-item href="#">Créer un sujet</b-dropdown-item>
-            </b-nav-item-dropdown>
             <b-nav-item to="/">
               <b-icon icon="house-door-fill" variant="dark" font-scale="1.5"></b-icon>
             </b-nav-item>
