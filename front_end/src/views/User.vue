@@ -9,7 +9,7 @@
       class="text-center sr-only">
       User name
       </b-col>
-    <b-col cols="12" order="1">
+    <b-col cols="12" lg="8" order="1" order-lg="0">
       <Post />
       <Post />
       <Post />
@@ -21,7 +21,8 @@
     <b-col
       tag="aside"
       cols="12"
-      class="d-flex flex-column justify-start align-items-center mb-4">
+      lg="4"
+      class="h-100 d-flex flex-column justify-start align-items-center mb-4">
       <b-card
         class="w-100 align-items-center border-0 shadow mb-4">
         <b-avatar
@@ -35,7 +36,7 @@
       <b-card
         class="w-100 align-items-center border-0 shadow"
         body-class="w-100 py-4 px-5">
-        <h2>Sujets suivis :</h2>
+        <h2 class="h3">Sujets suivis</h2>
         <b-list-group tag="ul">
           <b-list-group-item
             tag="li"
