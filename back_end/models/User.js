@@ -57,6 +57,7 @@ module.exports = (sequelize, DataTypes) => {
   User.associate = models => {
     User.hasMany(models.Post, {foreignKey: {name: 'user_id', allowNull: false}});
     User.hasMany(models.Comment, {foreignKey: {name: 'user_id', allowNull: false}});
+    User.belongsToMany(models.Subject, {through: 'subjectFollows'});
   }
 
 
