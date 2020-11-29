@@ -1,6 +1,7 @@
 <template>
   <b-row id="home">
     <CreatePost />
+    <CreateSubject />
     <b-col tag="main" cols="12" lg="8">
       <h1 class="sr-only">Fil d'actualités</h1>
       <SortingNav />
@@ -22,6 +23,7 @@ import Post from '@/components/Post.vue';
 import Sidebar from '@/components/Sidebar.vue';
 import SortingNav from '@/components/SortingNav.vue';
 import CreatePost from '@/components/CreatePost.vue';
+import CreateSubject from '@/components/CreateSubject.vue';
 
 export default {
   name: 'Home',
@@ -30,6 +32,7 @@ export default {
     Sidebar,
     SortingNav,
     CreatePost,
+    CreateSubject,
   },
 };
 </script>

@@ -26,10 +26,10 @@
             id="input-group-description"
             label="Description* :"
             label-for="description">
-            <b-form-input
+            <b-form-textarea
                 id="description"
                 required>
-            </b-form-input>
+            </b-form-textarea>
         </b-form-group>
         <b-form-group
             id="input-group-postImage"
