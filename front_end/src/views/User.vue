@@ -9,11 +9,19 @@
       class="text-center sr-only">
       User name
       </b-col>
-    <b-col cols="12" order="1">Posts</b-col>
+    <b-col cols="12" order="1">
+      <Post />
+      <Post />
+      <Post />
+      <Post />
+      <Post />
+      <Post />
+    </b-col>
+    <!-- ASIDE INFOS -->
     <b-col
       tag="aside"
       cols="12"
-      class="d-flex flex-column justify-start align-items-center">
+      class="d-flex flex-column justify-start align-items-center mb-4">
       <b-card
         class="w-100 align-items-center border-0 shadow mb-4">
         <b-avatar
@@ -58,11 +66,13 @@
 
 <script>
 // @ is an alias to /src
-// import HelloWorld from '@/components/HelloWorld.vue';
+import Post from '@/components/Post.vue';
 
 export default {
   name: 'User',
-  components: {},
+  components: {
+    Post,
+  },
 };
 </script>
 
