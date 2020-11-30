@@ -26,8 +26,12 @@ exports.followSubject = (req, res, next) => {
 exports.readAllFollowsByUser = (req, res, next) => {
     User.findOne({where: {id: req.params.user_id}, include: Subject})
     .then(user => {
+        if(!user){
+            return res.status(404).send('User not found')
+        }
         res.status(200).json(user.Subjects)
     })
+    .catch(error => res.status(500).json({ error }))
 };
 
 
