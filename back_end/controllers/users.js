@@ -108,6 +108,8 @@ exports.updateOneUser = (req, res, next) => {
 };
 
 
+
+
 exports.deleteOneUser = (req, res, next) => {
     User.findOne({where: {id: req.params.id}})
     .then(user => {

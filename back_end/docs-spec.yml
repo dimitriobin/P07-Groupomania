@@ -1442,6 +1442,188 @@ paths:
 
 #############################################################################################
 #############################################################################################
+#                                           Follow subject
+#############################################################################################
+#############################################################################################
+  /api/follows/:id:
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           POST ONE FOLLOW
+# ///////////////////////////////////////////////////////////////////////////////////////////
+    post:
+      tags: [Follows]
+      summary: FOLLOW a subject
+      produces: application/json
+      parameters:
+      - name: id
+        in: path
+        description: the user's id
+        required: true
+        schema:
+          type: string
+          style: simple
+          example: localhost:3000/api/follows/4
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+              required:
+                - name
+              example:
+                name: Subject name
+      responses:
+        '200':
+          description: Subject followed
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Subject followed
+        '401':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Please login
+        '404':
+          description: User/subject not found
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  User/subject not found
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                              READ ALL subject followed by one user
+# ///////////////////////////////////////////////////////////////////////////////////////////
+    get:
+      tags: [Follows]
+      summary: READ all subjects followed by one user
+      produces: application/json
+      parameters:
+      - name: id
+        in: path
+        description: the user's id
+        required: true
+        schema:
+          type: string
+          style: simple
+          example: localhost:3000/api/follows/4
+      responses:
+        '200':
+          description: return an array of all subject's object followed by this user
+          content:
+            application/json: 
+              schema:
+                type: array
+                items:
+                  type: object
+                  example:
+                    id: 1
+                    name: SubjectOne,
+                    description: Description,
+                    createdAt: 2020-11-30T12:43:10.000Z,
+                    updatedAt: 2020-11-30T12:43:10.000Z,
+                    subjectFollows: {
+                        createdAt: 2020-11-30T12:43:55.000Z,
+                        updatedAt: 2020-11-30T12:43:55.000Z,
+                        SubjectId: 1,
+                        UserId: 2
+                          }
+        '401':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Please login
+        '404':
+          description: User not found
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  User not found
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                   POST ONE UNFOLLOW
+# ///////////////////////////////////////////////////////////////////////////////////////////
+  /api/follows/unfollow/:id:
+    post:
+      tags: [Follows]
+      summary: UNFOLLOW a subject
+      produces: application/json
+      parameters:
+      - name: id
+        in: path
+        description: the user's id
+        required: true
+        schema:
+          type: string
+          style: simple
+          example: localhost:3000/api/follows/4
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+              required:
+                - name
+              example:
+                name: Subject name
+      responses:
+        '200':
+          description: Subject unfollowed
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Subject unfollowed
+        '401':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Please login
+        '404':
+          description: User/subject not found
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  User/subject not found
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
+#
+#############################################################################################
+#############################################################################################
 #                                           COMPONENTS
 #############################################################################################
 #############################################################################################
