@@ -1,5 +1,5 @@
 'use strict'
-const { User, Post, Comment, Report } = require('../models');
+const { User, Post, Comment, Report, Subject } = require('../models');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
@@ -106,6 +106,8 @@ exports.updateOneUser = (req, res, next) => {
     })
     .catch(error => res.status(500).json({one: error}))
 };
+
+
 
 
 exports.deleteOneUser = (req, res, next) => {
