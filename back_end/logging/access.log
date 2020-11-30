@@ -855,3 +855,6 @@
 ::1 - - [30/Nov/2020:12:49:38 +0000] "POST /api/follows/1 HTTP/1.1" 200 16
 ::1 - - [30/Nov/2020:12:49:43 +0000] "POST /api/follows/1 HTTP/1.1" 200 16
 ::1 - - [30/Nov/2020:12:49:46 +0000] "GET /api/follows/1 HTTP/1.1" 200 767
+::1 - - [30/Nov/2020:13:00:27 +0000] "GET /api/follows/unfollow/1 HTTP/1.1" 404 161
+::1 - - [30/Nov/2020:13:00:42 +0000] "POST /api/follows/unfollow/1 HTTP/1.1" 200 18
+::1 - - [30/Nov/2020:13:01:00 +0000] "GET /api/follows/1 HTTP/1.1" 200 514

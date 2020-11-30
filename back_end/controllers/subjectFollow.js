@@ -5,12 +5,21 @@ const { User, Subject } = require('../models');
 exports.followSubject = (req, res, next) => {
     User.findOne({where: {id: req.params.user_id}})
     .then(user => {
+        if(!user){
+            return res.status(404).send('User not found')
+        }
         Subject.findOne({where: {name: req.body.name}})
         .then(subject => {
+            if(!subject){
+                return res.status(404).send('Subject not found')
+            }
             user.addSubject(subject, {through: 'subjectFollows'})
             .then(res.send('Subject followed'))
+            .catch(error => res.status(500).json({ error }))
         })
+        .catch(error => res.status(500).json({ error }))
     })
+    .catch(error => res.status(500).json({ error }))
 };
 
 
