@@ -14,7 +14,7 @@ exports.followSubject = (req, res, next) => {
                 return res.status(404).send('Subject not found')
             }
             user.addSubject(subject, {through: 'subjectFollows'})
-            .then(res.send('Subject followed'))
+            .then(res.status(200).send('Subject followed'))
             .catch(error => res.status(500).json({ error }))
         })
         .catch(error => res.status(500).json({ error }))
@@ -48,7 +48,7 @@ exports.unFollowSubject = (req, res, next) => {
                 return res.status(404).send('Subject not found')
             }
             user.removeSubject(subject, {through: 'subjectFollows'})
-            .then(res.send('Subject unfollowed'))
+            .then(res.status(200).send('Subject unfollowed'))
             .catch(error => res.status(500).json({ error }))
         })
         .catch(error => res.status(500).json({ error }))
