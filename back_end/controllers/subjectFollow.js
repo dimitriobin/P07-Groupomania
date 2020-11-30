@@ -15,11 +15,21 @@ exports.followSubject = (req, res, next) => {
 
 
 exports.readAllFollowsByUser = (req, res, next) => {
-    res.send('read all follows')
+    User.findOne({where: {id: req.params.user_id}, include: Subject})
+    .then(user => {
+        res.status(200).json(user.Subjects)
+    })
 };
 
 
 
 exports.unFollowSubject = (req, res, next) => {
-    res.send('delete one follow')
+    User.findOne({where: {id: req.params.user_id}})
+    .then(user => {
+        Subject.findOne({where: {name: req.body.name}})
+        .then(subject => {
+            user.removeSubject(subject, {through: 'subjectFollows'})
+            .then(res.send('Subject unfollowed'))
+        })
+    })
 };

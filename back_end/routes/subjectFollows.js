@@ -19,6 +19,6 @@ router.get('/:user_id', readAllFollowsByUser);
 /////////////////////////////////////////////
 // Delete one follow = unfollow
 /////////////////////////////////////////////
-router.delete(':user_id', unFollowSubject)
+router.post('/unfollow/:user_id', unFollowSubject)
 
 module.exports = router;
