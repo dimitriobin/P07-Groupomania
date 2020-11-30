@@ -39,10 +39,19 @@ exports.readAllFollowsByUser = (req, res, next) => {
 exports.unFollowSubject = (req, res, next) => {
     User.findOne({where: {id: req.params.user_id}})
     .then(user => {
+        if(!user){
+            return res.status(404).send('User not found')
+        }
         Subject.findOne({where: {name: req.body.name}})
         .then(subject => {
+            if(!subject){
+                return res.status(404).send('Subject not found')
+            }
             user.removeSubject(subject, {through: 'subjectFollows'})
             .then(res.send('Subject unfollowed'))
+            .catch(error => res.status(500).json({ error }))
         })
+        .catch(error => res.status(500).json({ error }))
     })
+    .catch(error => res.status(500).json({ error }))
 };

@@ -137,3 +137,4 @@
 ::1 - - [30/Nov/2020:13:00:27 +0000] "GET /api/follows/unfollow/1 HTTP/1.1" 404 161
 ::1 - - [30/Nov/2020:13:17:13 +0000] "POST /api/follows/10 HTTP/1.1" 404 14
 ::1 - - [30/Nov/2020:13:17:23 +0000] "POST /api/follows/1 HTTP/1.1" 404 17
+::1 - - [30/Nov/2020:13:18:42 +0000] "GET /api/follows/15 HTTP/1.1" 404 14
