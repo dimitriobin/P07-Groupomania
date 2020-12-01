@@ -48,6 +48,7 @@
                 </b-dropdown>
             </b-row>
         </b-col>
+        <!-- Need to change the id of comment with the dynamique id of the post -->
         <b-collapse id="comments" class="w-100 mt-2 border-top">
             <b-row class="p-3 mt-3">
                 <b-col cols="auto" class="d-flex flex-column text-left">
