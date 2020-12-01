@@ -42,7 +42,9 @@
     "parserOptions": {
       "parser": "babel-eslint"
     },
-    "rules": {}
+    "rules": {
+      "linebreak-style": ["error", "windows"]
+    }
   },
   "browserslist": [
     "> 1%",
