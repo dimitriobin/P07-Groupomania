@@ -49,7 +49,7 @@ router.post('/:id/follow', auth, followSubject);
 /////////////////////////////////////////////
 // Read all follows for one user
 /////////////////////////////////////////////
-router.get('/:id/follow', auth, readAllFollowsByUser);
+router.post('/follow', auth, readAllFollowsByUser);
 
 
 /////////////////////////////////////////////

@@ -19,7 +19,6 @@ const usersRoute = require('./routes/users');
 const postsRoute = require('./routes/posts');
 const commentsRoute = require('./routes/comments');
 const subjectsRoute = require('./routes/subjects');
-const subjectFollowsRoute = require('./routes/subjectFollows');
 
 const app = express();
 
