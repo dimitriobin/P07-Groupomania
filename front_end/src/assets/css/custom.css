@@ -30,13 +30,13 @@ a,
     top: 0;
 }
 
-#searchBar {
-    position: relative;
+#searchNav {
+    position: relative !important;
 }
 
-#searchBar button {
+#searchNav button {
     position: absolute;
     right: 10px;
-    font-weight: light;
+    font-weight: initial;
     color: #00B3D9;
 }
