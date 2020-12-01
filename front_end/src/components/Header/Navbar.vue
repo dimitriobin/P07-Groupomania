@@ -13,23 +13,21 @@
           <!-- SEARCHBAR -->
           <SearchBar />
           <!-- ICONS -->
-          <div class="d-flex mx-auto mx-sm-0">
-            <b-nav-item to="/">
-              <b-icon icon="house-door-fill" variant="dark" font-scale="1.5"></b-icon>
-            </b-nav-item>
-            <b-nav-item>
-              <b-icon icon="chat-dots" variant="dark" font-scale="1.5"></b-icon>
-            </b-nav-item>
-            <b-nav-item-dropdown
-              right
-              no-caret>
-              <template v-slot:button-content>
-                <b-icon icon="person-fill" variant="dark" font-scale="1.5"></b-icon>
-              </template>
-              <b-dropdown-item to="/user">Voir votre profil</b-dropdown-item>
-              <b-dropdown-item to="/personal">Modifier vos informations</b-dropdown-item>
-            </b-nav-item-dropdown>
-          </div>
+          <b-nav-item to="/">
+            <b-icon icon="house-door-fill" variant="dark" font-scale="1.5"></b-icon>
+          </b-nav-item>
+          <b-nav-item>
+            <b-icon icon="chat-dots" variant="dark" font-scale="1.5"></b-icon>
+          </b-nav-item>
+          <b-nav-item-dropdown
+            right
+            no-caret>
+            <template v-slot:button-content>
+              <b-icon icon="person-fill" variant="dark" font-scale="1.5"></b-icon>
+            </template>
+            <b-dropdown-item to="/user">Voir votre profil</b-dropdown-item>
+            <b-dropdown-item to="/personal">Modifier vos informations</b-dropdown-item>
+          </b-nav-item-dropdown>
         </b-navbar-nav>
     </b-navbar>
 </template>

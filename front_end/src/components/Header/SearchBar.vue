@@ -1,9 +1,10 @@
 <template>
     <b-nav-form
-        id="searchBar"
+        id="searchNav"
         class="mx-md-auto d-none d-md-block w-50">
         <label class="sr-only" for="searchBar">Name</label>
         <b-form-input
+            id="searchBar"
             size="sm"
             class="my-3 my-md-0 w-100">
         </b-form-input>
