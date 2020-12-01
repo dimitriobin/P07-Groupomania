@@ -1,9 +1,9 @@
 <template>
   <b-row id="home">
-    <CreatePost />
     <b-col tag="main" cols="12" lg="8">
       <h1 class="sr-only">Fil d'actualités</h1>
       <SortingNav />
+      <CreatePost />
       <Post />
       <Post />
       <Post />
