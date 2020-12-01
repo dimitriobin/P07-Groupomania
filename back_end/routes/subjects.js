@@ -2,7 +2,14 @@
 const router = require('express').Router();
 const auth = require('../middlewares/auth');
 
-const { createOneSubject, readAllSubjects, readOneSubject, updateOneSubject, deleteOneSubject } = require ('../controllers/subjects');
+const { createOneSubject,
+        readAllSubjects,
+        readOneSubject,
+        updateOneSubject,
+        deleteOneSubject,
+        followSubject,
+        readAllFollowsByUser,
+        unFollowSubject } = require ('../controllers/subjects');
 
 /////////////////////////////////////////////
 // CREATE ONE Subject
@@ -31,6 +38,24 @@ router.put('/:id', auth, updateOneSubject);
 // DELETE ONE Subject
 /////////////////////////////////////////////
 router.delete('/:id', auth, deleteOneSubject);
+
+
+/////////////////////////////////////////////
+// Create a follow
+/////////////////////////////////////////////
+router.post('/:id/follow', auth, followSubject);
+
+
+/////////////////////////////////////////////
+// Read all follows for one user
+/////////////////////////////////////////////
+router.get('/:id/follow', auth, readAllFollowsByUser);
+
+
+/////////////////////////////////////////////
+// Delete one follow = unfollow
+/////////////////////////////////////////////
+router.delete('/:id/unfollow', auth, unFollowSubject)
 
 
 
