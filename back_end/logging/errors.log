@@ -169,3 +169,4 @@
 ::1 - - [01/Dec/2020:15:41:57 +0000] "POST /api/subjects HTTP/1.1" 500 512
 ::1 - - [01/Dec/2020:15:43:09 +0000] "POST /api/subjects HTTP/1.1" 500 1198
 ::1 - - [01/Dec/2020:15:43:16 +0000] "POST /api/subjects HTTP/1.1" 500 1170
+::1 - - [03/Dec/2020:14:38:09 +0000] "GET /api/posts HTTP/1.1" 404 15
