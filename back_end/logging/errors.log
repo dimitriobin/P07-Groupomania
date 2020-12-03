@@ -173,3 +173,7 @@
 ::1 - - [03/Dec/2020:14:39:45 +0000] "POST /api/posts HTTP/1.1" 500 804
 ::1 - - [03/Dec/2020:14:40:03 +0000] "POST /api/posts HTTP/1.1" 500 445
 ::1 - - [03/Dec/2020:16:03:44 +0000] "GET /images/Diesel_productv2_star-wars-squadrons_home_MAV_EPIC_PORTRAIT-Product-Image_1200x1600-1200x1600-774444edb898493c11607009283195.jpg HTTP/1.1" 404 274
+::1 - - [03/Dec/2020:16:18:56 +0000] "GET /images/Diesel_productv2_star-wars-squadrons_home_MAV_EPIC_PORTRAIT-Product-Image_1200x1600-1200x1600-774444edb898493c11607009283195.jpg HTTP/1.1" 404 274
+::1 - - [03/Dec/2020:16:23:04 +0000] "GET /images/Diesel_productv2_star-wars-squadrons_home_MAV_EPIC_PORTRAIT-Product-Image_1200x1600-1200x1600-774444edb898493c11607009283195.jpg HTTP/1.1" 404 274
+::1 - - [03/Dec/2020:16:29:58 +0000] "GET /images/Diesel_productv2_star-wars-squadrons_home_MAV_EPIC_PORTRAIT-Product-Image_1200x1600-1200x1600-774444edb898493c11607009283195.jpg HTTP/1.1" 404 274
+::1 - - [03/Dec/2020:16:40:52 +0000] "GET /images/Diesel_productv2_star-wars-squadrons_home_MAV_EPIC_PORTRAIT-Product-Image_1200x1600-1200x1600-774444edb898493c11607009283195.jpg HTTP/1.1" 404 274

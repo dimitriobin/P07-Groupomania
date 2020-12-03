@@ -16,7 +16,7 @@ exports.createOnePost = (req, res, next) => {
     };
     Post.create(postObject)
     .then(createdPost => {
-        res.status(201).send('Post created');
+        res.status(201).json(createdPost);
     })
     .catch(error => {
         res.status(500).json({error});
