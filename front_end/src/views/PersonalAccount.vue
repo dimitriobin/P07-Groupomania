@@ -9,22 +9,6 @@
             <b-avatar class="mr-3"  src="https://picsum.photos/100"></b-avatar>
             Dapibus ac facilisis in
           </b-list-group-item>
-          <b-list-group-item tag="li">
-            <b-avatar class="mr-3"  src="https://picsum.photos/100"></b-avatar>
-            Dapibus ac facilisis in
-          </b-list-group-item>
-          <b-list-group-item tag="li">
-            <b-avatar class="mr-3"  src="https://picsum.photos/100"></b-avatar>
-            Morbi leo risus
-          </b-list-group-item>
-          <b-list-group-item tag="li">
-            <b-avatar class="mr-3"  src="https://picsum.photos/100"></b-avatar>
-            Porta ac consectetur ac
-          </b-list-group-item>
-          <b-list-group-item tag="li">
-            <b-avatar class="mr-3"  src="https://picsum.photos/100"></b-avatar>
-            Vestibulum at eros
-          </b-list-group-item>
         </b-list-group>
       </b-tab>
       <!-- Profile -->

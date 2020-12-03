@@ -4,11 +4,12 @@
       <h1 class="sr-only">Fil d'actualités</h1>
       <SortingNav />
       <CreatePost />
-      <Post />
-      <Post />
-      <Post />
-      <Post />
-      <Post />
+      <Post
+        v-for="post in allPosts"
+        :key="post.id"
+        :title="post.title"
+        :image_url="post.image_url"
+        :url="post.url" />
     </b-col>
     <b-col tag="aside" cols="12" lg="4">
       <Sidebar />
@@ -22,6 +23,7 @@ import Post from '@/components/Post.vue';
 import Sidebar from '@/components/Sidebar.vue';
 import SortingNav from '@/components/SortingNav.vue';
 import CreatePost from '@/components/CreatePost.vue';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'Home',
@@ -30,6 +32,15 @@ export default {
     Sidebar,
     SortingNav,
     CreatePost,
+  },
+  computed: {
+    ...mapGetters(['allPosts']),
+  },
+  methods: {
+    ...mapActions(['fetchAllPosts']),
+  },
+  created() {
+    this.fetchAllPosts();
   },
 };
 </script>
