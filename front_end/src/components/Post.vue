@@ -20,11 +20,12 @@
                 {{ title }}
             </h3>
             <b-img
+                v-if="image_url !== null"
                 fluid
-                class="w-100"
+                class="w-100 my-3"
                 alt="Description de l'image"
                 :src="image_url"></b-img>
-            <a :href="url">{{ url }}</a>
+            <a target="_blank" :href="url">{{ url }}</a>
             <p class="mb-0 text-muted"><small>Il Y A 4 HEURES</small></p>
         </b-col>
         <b-col cols="12" tag="footer" class="h2">
