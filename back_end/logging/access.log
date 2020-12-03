@@ -957,3 +957,13 @@
 ::1 - - [01/Dec/2020:14:25:14 +0000] "POST /api/subjects/follow HTTP/1.1" 200 510
 ::1 - - [01/Dec/2020:14:26:27 +0000] "DELETE /api/subjects/1/unfollow HTTP/1.1" 200 18
 ::1 - - [01/Dec/2020:14:26:44 +0000] "DELETE /api/subjects/1/unfollow HTTP/1.1" 200 18
+::1 - - [01/Dec/2020:15:40:19 +0000] "POST /api/users/login HTTP/1.1" 200 166
+::1 - - [01/Dec/2020:15:40:57 +0000] "POST /api/subjects HTTP/1.1" 201 15
+::1 - - [01/Dec/2020:15:41:08 +0000] "POST /api/subjects HTTP/1.1" 500 502
+::1 - - [01/Dec/2020:15:41:25 +0000] "POST /api/subjects HTTP/1.1" 201 15
+::1 - - [01/Dec/2020:15:41:36 +0000] "POST /api/subjects HTTP/1.1" 201 15
+::1 - - [01/Dec/2020:15:41:45 +0000] "POST /api/subjects HTTP/1.1" 201 15
+::1 - - [01/Dec/2020:15:41:57 +0000] "POST /api/subjects HTTP/1.1" 500 512
+::1 - - [01/Dec/2020:15:43:09 +0000] "POST /api/subjects HTTP/1.1" 500 1198
+::1 - - [01/Dec/2020:15:43:16 +0000] "POST /api/subjects HTTP/1.1" 500 1170
+::1 - - [01/Dec/2020:15:43:23 +0000] "GET /api/subjects HTTP/1.1" 200 1060
