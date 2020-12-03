@@ -1006,3 +1006,5 @@
 ::1 - - [03/Dec/2020:15:38:16 +0000] "GET /api/posts HTTP/1.1" 200 3410
 ::1 - - [03/Dec/2020:15:38:18 +0000] "POST /api/posts HTTP/1.1" 201 12
 ::1 - - [03/Dec/2020:15:38:21 +0000] "GET /api/posts HTTP/1.1" 200 3694
+::1 - - [03/Dec/2020:16:03:44 +0000] "GET /api/posts HTTP/1.1" 304 -
+::1 - - [03/Dec/2020:16:03:44 +0000] "GET /images/Diesel_productv2_star-wars-squadrons_home_MAV_EPIC_PORTRAIT-Product-Image_1200x1600-1200x1600-774444edb898493c11607009283195.jpg HTTP/1.1" 404 274

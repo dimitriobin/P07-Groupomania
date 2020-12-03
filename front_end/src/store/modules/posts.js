@@ -1,25 +1,36 @@
 import http from '../../http-common';
 
-const state = {
+const state = () => ({
   posts: [],
-};
+});
 
 const getters = {
   allPosts: (state) => state.posts,
 };
 const actions = {
+  addPost({ commit }, data) {
+    http.post('/posts', data)
+      .then((res) => {
+        commit('newPost', res);
+      })
+      .catch((err) => { throw new Error(err); });
+  },
   fetchAllPosts({ commit }) {
     http.get('/posts')
       .then((res) => {
-        console.log(res);
         commit('setAllPosts', res.data);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => { throw new Error(err); });
   },
 };
 
 const mutations = {
-  setAllPosts: (state, posts) => (state.posts = posts),
+  setAllPosts(state, posts) {
+    state.posts = posts;
+  },
+  newPost(state, createdPost) {
+    state.posts.unshift(createdPost);
+  },
 };
 
 export default {

@@ -44,7 +44,9 @@
       "parser": "babel-eslint"
     },
     "rules": {
-      "linebreak-style": 0
+      "linebreak-style": 0,
+      "no-shadow": ["error", { "allow": ["state"] }],
+      "no-console": "off"
     }
   },
   "browserslist": [
