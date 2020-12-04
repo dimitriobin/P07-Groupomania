@@ -11,16 +11,16 @@ const actions = {
   addPost({ commit }, data) {
     http.post('/posts', data)
       .then((res) => {
-        commit('newPost', res);
+        commit('newPost', res.data);
       })
-      .catch((err) => { throw new Error(err); });
+      .catch((err) => { console.log(err); });
   },
   fetchAllPosts({ commit }) {
     http.get('/posts')
       .then((res) => {
         commit('setAllPosts', res.data);
       })
-      .catch((err) => { throw new Error(err); });
+      .catch((err) => { console.log(err); });
   },
 };
 

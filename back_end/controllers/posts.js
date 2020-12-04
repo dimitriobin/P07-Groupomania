@@ -3,9 +3,9 @@ const { Post } = require('../models');
 const fs = require('fs');
 
 exports.createOnePost = (req, res, next) => {
+    console.log(req.file);
     const postObject = req.file ? {
         title: req.body.title,
-        description: req.body.description,
         image_url: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
         user_id: req.body.user_id,
         subject_id: req.body.subject_id

@@ -9,13 +9,6 @@ module.exports = (sequelize, DataTypes) => {
           notEmpty: true
         }
       },
-      description: {
-        type: DataTypes.TEXT,
-        allowNull: false,
-        validate: {
-          notEmpty: true
-        }
-      },
       image_url: {
         type: DataTypes.STRING
       },
