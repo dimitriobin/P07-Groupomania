@@ -11,6 +11,7 @@
             class="border-0 w-100 h-100 ml-2 text-left p-3">
             Que voulez-vous dire ?</b-button>
         <b-modal
+        v-model="visible"
         id="createPost"
         title="Quoi de neuf ?"
         hide-footer
@@ -57,13 +58,12 @@
                     <b-form-input
                         v-model="newPost.url"
                         id="url"
-                        type="text"
-                        required>
+                        type="text">
                     </b-form-input>
                 </b-form-group>
                 <p class=" align-self-end"><small>* : obligatoire</small></p>
                 <b-button
-                    @click.prevent="createPost()"
+                    @click="createPost()"
                     type="submit"
                     variant="primary"
                     class="mx-auto">
@@ -81,6 +81,7 @@ export default {
   name: 'CreatePost',
   data() {
     return {
+      visible: false,
       newPost: {
         title: '',
         image_file: null,
@@ -95,13 +96,23 @@ export default {
   methods: {
     ...mapActions(['addPost']),
     createPost() {
+      // Create a FormData instance
       const fd = new FormData();
+      // Append form values inside
       fd.append('title', this.newPost.title);
       fd.append('url', this.newPost.url);
       fd.append('image_url', this.newPost.image_file, this.newPost.image_file.name);
       fd.append('subject_id', 1);
       fd.append('user_id', 1);
+      // Call the addPost action with the formData in param
       this.addPost(fd);
+      // Reset the values of the form
+      this.newPost.title = '';
+      this.newPost.image_file = null;
+      this.newPost.url = '';
+      this.newPost.subject_id = '';
+      // Hide the modal
+      this.visible = false;
     },
   },
 };
