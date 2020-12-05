@@ -28,6 +28,9 @@
             <b-dropdown-item to="/user">Voir votre profil</b-dropdown-item>
             <b-dropdown-item to="/personal">Modifier vos informations</b-dropdown-item>
           </b-nav-item-dropdown>
+          <b-nav-item @click.prevent="logOut">
+            <b-icon icon="power" variant="dark" font-scale="1.5"></b-icon>
+          </b-nav-item>
         </b-navbar-nav>
     </b-navbar>
 </template>
@@ -39,6 +42,12 @@ export default {
   name: 'Header',
   components: {
     SearchBar,
+  },
+  methods: {
+    logOut() {
+      this.$store.dispatch('Auth/logout');
+      this.$router.push('Register');
+    },
   },
 };
 </script>
