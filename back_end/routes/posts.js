@@ -8,12 +8,12 @@ const { createOnePost, readAllPosts, readAllPostsByUser, readAllPostsBySubject, 
 /////////////////////////////////////////////
 // CREATE ONE Post
 /////////////////////////////////////////////
-router.post('/', /*auth,*/ multer, createOnePost);
+router.post('/', auth, multer, createOnePost);
 
 /////////////////////////////////////////////
 // READ ALL Posts
 /////////////////////////////////////////////
-router.get('/', /*auth,*/ readAllPosts);
+router.get('/', auth, readAllPosts);
 
 /////////////////////////////////////////////
 // READ ALL Posts by user

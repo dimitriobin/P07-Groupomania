@@ -45,6 +45,7 @@
             </b-form>
           </b-col>
         <b-modal
+          v-model="visible"
           id="signupForm"
           hide-header
           hide-footer
@@ -183,6 +184,7 @@ export default {
         email: '',
         password: '',
       },
+      visible: false,
     };
   },
   computed: {
@@ -204,6 +206,7 @@ export default {
       user.append('shareWithPartners', this.signup.shareWithPartners);
       user.append('contactable', this.signup.contactable);
       this.$store.dispatch('Auth/register', user);
+      this.visible = false;
     },
     handleLogin() {
       if (this.login.email && this.login.password) {

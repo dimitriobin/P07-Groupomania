@@ -1,4 +1,5 @@
 import http from '../../http-common';
+import authHeader from '../../services/auth-header';
 
 const state = () => ({
   posts: [],

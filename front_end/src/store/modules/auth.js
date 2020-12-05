@@ -1,4 +1,5 @@
 import http from '../../http-common';
+import router from '../../router';
 
 const storedUser = JSON.parse(localStorage.getItem('user'));
 const initialState = storedUser
@@ -17,7 +18,7 @@ export default {
             localStorage.setItem('user', JSON.stringify(response.data));
           }
           commit('loginSuccess', response.data);
-          this.$router.push('Home');
+          router.push('/');
         })
         .catch((error) => {
           console.log(error);
