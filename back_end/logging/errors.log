@@ -250,3 +250,7 @@
 ::1 - - [04/Dec/2020:10:53:19 +0000] "POST /api/posts HTTP/1.1" 500 525
 ::1 - - [04/Dec/2020:12:24:08 +0000] "GET /api/posts HTTP/1.1" 404 15
 ::1 - - [04/Dec/2020:12:25:03 +0000] "GET /api/posts HTTP/1.1" 404 15
+::1 - - [05/Dec/2020:08:12:03 +0000] "POST /api/users/signup HTTP/1.1" 500 1864
+::1 - - [05/Dec/2020:08:15:11 +0000] "POST /api/users/login HTTP/1.1" 404 14
+::1 - - [05/Dec/2020:08:15:13 +0000] "POST /api/users/login HTTP/1.1" 404 14
+::1 - - [05/Dec/2020:08:15:14 +0000] "POST /api/users/login HTTP/1.1" 404 14
