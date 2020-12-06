@@ -9,7 +9,9 @@
         :key="post.id"
         :title="post.title"
         :image_url="post.image_url"
-        :url="post.url" />
+        :url="post.url"
+        :user="post.user"
+        :subject="post.subject" />
     </b-col>
     <b-col tag="aside" cols="12" lg="4">
       <Sidebar />
