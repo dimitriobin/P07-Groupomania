@@ -26,7 +26,7 @@
                 alt="Description de l'image"
                 :src="image_url"></b-img>
             <a target="_blank" :href="url">{{ url }}</a>
-            <p class="mb-0 text-muted"><small>{{ date }}</small></p>
+            <p class="mb-0 text-muted"><small>{{ dateToTimestamp(date) }}</small></p>
         </b-col>
         <b-col cols="12" tag="footer" class="h2">
             <b-row align-h="around" class="px-5">
@@ -68,6 +68,12 @@
 </template>
 
 <script>
+import dayjs from 'dayjs';
+import fr from 'dayjs/locale/fr';
+import RelativeTime from 'dayjs/plugin/relativeTime';
+
+dayjs.extend(RelativeTime);
+dayjs.locale(fr);
 
 export default {
   name: 'Post',
@@ -79,6 +85,11 @@ export default {
     'subject',
     'date',
   ],
+  methods: {
+    dateToTimestamp(date) {
+      return dayjs(date).fromNow();
+    },
+  },
 };
 </script>
 
