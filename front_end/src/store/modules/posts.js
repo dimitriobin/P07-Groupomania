@@ -1,5 +1,9 @@
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
 import http from '../../http-common';
 import authHeader from '../../services/auth-header';
+
+dayjs.extend(relativeTime);
 
 const state = () => ({
   posts: [],
