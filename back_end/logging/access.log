@@ -1264,3 +1264,6 @@
 ::1 - - [06/Dec/2020:14:22:01 +0000] "OPTIONS /api/posts HTTP/1.1" 204 0
 ::1 - - [06/Dec/2020:14:22:01 +0000] "GET /api/posts HTTP/1.1" 304 -
 ::1 - - [06/Dec/2020:14:22:01 +0000] "GET /images/1136_star-wars-9-kylo-ren-rey1607258175059.jpg HTTP/1.1" 404 192
+::1 - - [06/Dec/2020:14:29:24 +0000] "OPTIONS /api/posts HTTP/1.1" 204 0
+::1 - - [06/Dec/2020:14:29:24 +0000] "GET /api/posts HTTP/1.1" 200 7991
+::1 - - [06/Dec/2020:14:29:25 +0000] "GET /images/1136_star-wars-9-kylo-ren-rey1607258175059.jpg HTTP/1.1" 404 192

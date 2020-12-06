@@ -26,7 +26,7 @@
                 alt="Description de l'image"
                 :src="image_url"></b-img>
             <a target="_blank" :href="url">{{ url }}</a>
-            <p class="mb-0 text-muted"><small>Il Y A 4 HEURES</small></p>
+            <p class="mb-0 text-muted"><small>{{ date }}</small></p>
         </b-col>
         <b-col cols="12" tag="footer" class="h2">
             <b-row align-h="around" class="px-5">
@@ -77,6 +77,7 @@ export default {
     'url',
     'user',
     'subject',
+    'date',
   ],
 };
 </script>

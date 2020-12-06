@@ -10,8 +10,8 @@
         :title="post.title"
         :image_url="post.image_url"
         :url="post.url"
-        :user="post.user"
-        :subject="post.subject" />
+        :user="post.User.user_name"
+        :subject="post.Subject.name" />
     </b-col>
     <b-col tag="aside" cols="12" lg="4">
       <Sidebar />
