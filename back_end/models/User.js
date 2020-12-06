@@ -21,7 +21,11 @@ module.exports = (sequelize, DataTypes) => {
     },
     password: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+        is: ['^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){8,16}$']
+      }
     },
     image_url: {
       type: DataTypes.STRING
@@ -35,7 +39,8 @@ module.exports = (sequelize, DataTypes) => {
     parentEmail: {
       type: DataTypes.STRING,
       validate: {
-        isEmail: true
+        isEmail: true,
+        is: ['^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$']
       }
     },
     restricted: {
