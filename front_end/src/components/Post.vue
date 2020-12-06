@@ -35,11 +35,16 @@
                     </b-icon>
                     <b-badge pill class="icon_counter" variant="dark">16</b-badge>
                 </b-button>
-                <b-button v-b-toggle.comments class="bg-white border-0 position-relative">
+                <b-button @click="collapse" class="bg-white border-0 position-relative">
                     <b-icon
                         icon="chat-left-text" variant="dark" class="mx-1 mx-lg-2" font-scale="2">
                     </b-icon>
-                    <b-badge pill class="icon_counter" variant="dark">16</b-badge>
+                    <b-badge
+                    v-if="comments.length > 0"
+                        pill
+                        class="icon_counter"
+                        variant="dark">{{ commentsNumber }}
+                    </b-badge>
                 </b-button>
                 <b-dropdown variant="link" toggle-class="text-decoration-none" no-caret>
                     <template v-slot:button-content>
@@ -53,15 +58,23 @@
             </b-row>
         </b-col>
         <!-- Need to change the id of comment with the dynamique id of the post -->
-        <b-collapse id="comments" class="w-100 mt-2 border-top">
-            <b-row class="p-3 mt-3">
+        <b-collapse
+            v-model="visible"
+            :id="id"
+            class="w-100 mt-2 border-top">
+            <b-row
+                v-for="comment in comments"
+                :key="comment.id"
+                class="p-3 mt-3">
                 <b-col cols="auto" class="d-flex flex-column text-left">
-                    <a href="#" class="card-text text-dark font-weight-bold">John Doe</a>
-                    <small>Il y'a 2 jours</small>
+                    <a
+                        href="#"
+                        class="card-text text-dark font-weight-bold">
+                        {{ comment.User.user_name }}
+                    </a>
+                    <small>{{ dateToTimestamp(comment.createdAt) }}</small>
                 </b-col>
-                <b-col tag="p" class="text-justify">
-                     Accusamus consectetur, harum ab inventore natus, aut
-                      similique nisi ea id vel dolores repellat veniam </b-col>
+                <b-col tag="p" class="text-justify">{{ comment.content }}</b-col>
             </b-row>
         </b-collapse>
     </b-row>
@@ -78,6 +91,7 @@ dayjs.locale(fr);
 export default {
   name: 'Post',
   props: [
+    'id',
     'title',
     'image_url',
     'url',
@@ -85,11 +99,24 @@ export default {
     'subject',
     'date',
     'user_image',
+    'comments',
   ],
+  data() {
+    return {
+      visible: false,
+      commentsNumber: '',
+    };
+  },
   methods: {
     dateToTimestamp(date) {
       return dayjs(date).fromNow();
     },
+    collapse() {
+      this.visible = !this.visible;
+    },
+  },
+  created() {
+    this.commentsNumber = this.comments.length;
   },
 };
 </script>

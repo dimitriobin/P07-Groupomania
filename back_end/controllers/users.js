@@ -7,6 +7,11 @@ const { Op } = require('sequelize');
 const fsPromise = fs.promises;
 
 exports.signup = (req, res, next) => {
+    const passRegexp = new RegExp(/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){8,16}$/);
+    if(passRegexp.test(req.body.password) == false) {
+        return res.send(passRegexp.test(req.body.password))
+        // return res.status(401).send('Please enter a strong password');
+    }
     bcrypt.hash(req.body.password, 10)
     .then(hashPass => {
         const userObject = req.file ? {

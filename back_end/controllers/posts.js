@@ -1,5 +1,5 @@
 'use strict'
-const { Post, Subject, User } = require('../models');
+const { Post, Subject, User, Comment } = require('../models');
 const fs = require('fs');
 
 exports.createOnePost = (req, res, next) => {
@@ -27,7 +27,8 @@ exports.createOnePost = (req, res, next) => {
 exports.readAllPosts = (req, res, next) => {
     Post.findAll({include: [
         {model: Subject},
-        {model: User}
+        {model: User},
+        {model: Comment, include: { model: User }}
     ]})
     .then(posts => {
         if(posts.length <= 0) {
