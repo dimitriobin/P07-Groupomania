@@ -1250,3 +1250,17 @@
 ::1 - - [05/Dec/2020:13:02:01 +0000] "GET /api/posts HTTP/1.1" 304 -
 ::1 - - [05/Dec/2020:13:03:03 +0000] "OPTIONS /api/posts HTTP/1.1" 204 0
 ::1 - - [05/Dec/2020:13:03:03 +0000] "GET /api/posts HTTP/1.1" 304 -
+::1 - - [06/Dec/2020:14:17:09 +0000] "OPTIONS /api/posts HTTP/1.1" 204 0
+::1 - - [06/Dec/2020:14:17:09 +0000] "GET /api/posts HTTP/1.1" 200 2545
+::1 - - [06/Dec/2020:14:17:09 +0000] "GET /images/1136_star-wars-9-kylo-ren-rey1607258175059.jpg HTTP/1.1" 404 192
+::1 - - [06/Dec/2020:14:17:44 +0000] "OPTIONS /api/posts HTTP/1.1" 204 0
+::1 - - [06/Dec/2020:14:17:44 +0000] "POST /api/posts HTTP/1.1" 201 268
+::1 - - [06/Dec/2020:14:17:47 +0000] "GET /api/posts HTTP/1.1" 200 2821
+::1 - - [06/Dec/2020:14:17:48 +0000] "GET /images/1136_star-wars-9-kylo-ren-rey1607258175059.jpg HTTP/1.1" 404 192
+::1 - - [06/Dec/2020:14:20:05 +0000] "GET /images/1136_star-wars-9-kylo-ren-rey1607258175059.jpg HTTP/1.1" 404 192
+::1 - - [06/Dec/2020:14:21:12 +0000] "OPTIONS /api/posts HTTP/1.1" 204 0
+::1 - - [06/Dec/2020:14:21:12 +0000] "GET /api/posts HTTP/1.1" 304 -
+::1 - - [06/Dec/2020:14:21:12 +0000] "GET /images/1136_star-wars-9-kylo-ren-rey1607258175059.jpg HTTP/1.1" 404 192
+::1 - - [06/Dec/2020:14:22:01 +0000] "OPTIONS /api/posts HTTP/1.1" 204 0
+::1 - - [06/Dec/2020:14:22:01 +0000] "GET /api/posts HTTP/1.1" 304 -
+::1 - - [06/Dec/2020:14:22:01 +0000] "GET /images/1136_star-wars-9-kylo-ren-rey1607258175059.jpg HTTP/1.1" 404 192

@@ -1,5 +1,5 @@
 'use strict'
-const { Post } = require('../models');
+const { Post, Subject, User } = require('../models');
 const fs = require('fs');
 
 exports.createOnePost = (req, res, next) => {
@@ -25,7 +25,10 @@ exports.createOnePost = (req, res, next) => {
 
 
 exports.readAllPosts = (req, res, next) => {
-    Post.findAll()
+    Post.findAll({include: [
+        {model: Subject},
+        {model: User}
+    ]})
     .then(posts => {
         if(posts.length <= 0) {
             return res.status(404).send('Posts not found');

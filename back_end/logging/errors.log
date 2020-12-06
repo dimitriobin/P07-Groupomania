@@ -254,3 +254,8 @@
 ::1 - - [05/Dec/2020:08:15:11 +0000] "POST /api/users/login HTTP/1.1" 404 14
 ::1 - - [05/Dec/2020:08:15:13 +0000] "POST /api/users/login HTTP/1.1" 404 14
 ::1 - - [05/Dec/2020:08:15:14 +0000] "POST /api/users/login HTTP/1.1" 404 14
+::1 - - [06/Dec/2020:14:17:09 +0000] "GET /images/1136_star-wars-9-kylo-ren-rey1607258175059.jpg HTTP/1.1" 404 192
+::1 - - [06/Dec/2020:14:17:48 +0000] "GET /images/1136_star-wars-9-kylo-ren-rey1607258175059.jpg HTTP/1.1" 404 192
+::1 - - [06/Dec/2020:14:20:05 +0000] "GET /images/1136_star-wars-9-kylo-ren-rey1607258175059.jpg HTTP/1.1" 404 192
+::1 - - [06/Dec/2020:14:21:12 +0000] "GET /images/1136_star-wars-9-kylo-ren-rey1607258175059.jpg HTTP/1.1" 404 192
+::1 - - [06/Dec/2020:14:22:01 +0000] "GET /images/1136_star-wars-9-kylo-ren-rey1607258175059.jpg HTTP/1.1" 404 192
