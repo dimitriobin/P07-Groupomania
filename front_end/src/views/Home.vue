@@ -12,7 +12,8 @@
         :url="post.url"
         :user="post.User.user_name"
         :subject="post.Subject.name"
-        :date="post.createdAt" />
+        :date="post.createdAt"
+        :user_image="post.User.image_url" />
     </b-col>
     <b-col tag="aside" cols="12" lg="4">
       <Sidebar />

@@ -5,7 +5,7 @@
         class="bg-white rounded-lg shadow p-4 mb-4">
         <b-col cols="12" tag="header" class="mb-2">
             <b-row no-gutters align-v="center">
-                <b-avatar src="https://picsum.photos/100" size="lg" class="mr-4"></b-avatar>
+                <b-avatar :src="user_image" size="lg" class="mr-4"></b-avatar>
                 <b-col class="text-left">
                     <a class="h5 font-weight-bold text-dark" href="#">{{ user }}</a>
                     <p class="mb-0">
@@ -84,6 +84,7 @@ export default {
     'user',
     'subject',
     'date',
+    'user_image',
   ],
   methods: {
     dateToTimestamp(date) {
