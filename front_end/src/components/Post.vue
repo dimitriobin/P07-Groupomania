@@ -7,9 +7,9 @@
             <b-row no-gutters align-v="center">
                 <b-avatar src="https://picsum.photos/100" size="lg" class="mr-4"></b-avatar>
                 <b-col class="text-left">
-                    <a class="h5 font-weight-bold text-dark" href="#">John Doe</a>
+                    <a class="h5 font-weight-bold text-dark" href="#">{{ user }}</a>
                     <p class="mb-0">
-                        <a class="h6 text-dark" href="#">Politics</a>
+                        <a class="h6 text-dark" href="#">{{ subject }}</a>
                         <a class="ml-2" href="#"><small>Suivre</small></a>
                     </p>
                 </b-col>
@@ -75,6 +75,8 @@ export default {
     'title',
     'image_url',
     'url',
+    'user',
+    'subject',
   ],
 };
 </script>
