@@ -12,7 +12,7 @@
         :image_url="post.image_url"
         :url="post.url"
         :user="post.User.user_name"
-        :subject="post.Subject.name"
+        :subject="post.Subject"
         :date="post.createdAt"
         :user_image="post.User.image_url"
         :comments="post.Comments" />
