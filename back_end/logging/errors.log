@@ -414,3 +414,8 @@
 ::1 - - [07/Dec/2020:12:41:01 +0000] "GET /api/users/[object%20Object] HTTP/1.1" 404 14
 ::1 - - [07/Dec/2020:12:41:05 +0000] "GET /api/users/[object%20Object] HTTP/1.1" 404 14
 ::1 - - [07/Dec/2020:12:43:57 +0000] "GET /api/users/test HTTP/1.1" 404 14
+::1 - - [07/Dec/2020:12:58:34 +0000] "GET /api/users/1 HTTP/1.1" 500 2318
+::1 - - [07/Dec/2020:12:59:02 +0000] "GET /api/users/1 HTTP/1.1" 500 2318
+::1 - - [07/Dec/2020:13:08:01 +0000] "GET /api/users/1 HTTP/1.1" 500 12
+::1 - - [07/Dec/2020:13:08:42 +0000] "GET /api/users/1 HTTP/1.1" 500 12
+::1 - - [07/Dec/2020:13:08:54 +0000] "GET /api/users/1 HTTP/1.1" 500 12

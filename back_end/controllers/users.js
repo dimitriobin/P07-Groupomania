@@ -1,5 +1,5 @@
 'use strict'
-const { User, Post, Comment, Report } = require('../models');
+const { User, Post, Comment, Report, Subject } = require('../models');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
@@ -70,7 +70,22 @@ exports.readAllUser = (req, res, next) => {
 
 
 exports.readOneUser = (req, res, next) => {
-    User.findAll({where: {id: req.params.id}})
+    User.findAll({
+        include: [
+            {
+                model: Post,
+                include: [
+                    {model: Subject},
+                    {model: User},
+                    {model: Comment}
+                ] 
+            },
+            {
+                model: Subject
+            }
+        ],
+        where: {id: req.params.id}
+    })
     .then(user => {
         if(user.length <= 0) {
             return res.status(404).send('User not found');
