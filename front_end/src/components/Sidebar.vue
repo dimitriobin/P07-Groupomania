@@ -74,7 +74,8 @@ export default {
   computed: {
     ...mapGetters(['allSubjects']),
     topFive() {
-      return this.allSubjects.slice(0, 5);
+      const subjects = this.allSubjects;
+      return subjects.sort((a, b) => a - b).slice(0, 5);
     },
   },
   methods: {
