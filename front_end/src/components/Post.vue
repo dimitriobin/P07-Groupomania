@@ -9,7 +9,9 @@
                 <b-col class="text-left">
                     <a class="h5 font-weight-bold text-dark" href="#">{{ user }}</a>
                     <p class="mb-0">
-                        <a class="h6 text-dark" href="#">{{ subject }}</a>
+                        <a
+                            @click="fetchAllPostsBySubject(subject.id)"
+                            class="h6 text-dark">{{ subject.name }}</a>
                         <a class="ml-2" href="#"><small>Suivre</small></a>
                     </p>
                 </b-col>
@@ -81,6 +83,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import dayjs from 'dayjs';
 import fr from 'dayjs/locale/fr';
 import RelativeTime from 'dayjs/plugin/relativeTime';
@@ -108,6 +111,7 @@ export default {
     };
   },
   methods: {
+    ...mapActions(['fetchAllPostsBySubject']),
     dateToTimestamp(date) {
       return dayjs(date).fromNow();
     },

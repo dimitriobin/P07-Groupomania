@@ -43,7 +43,11 @@ exports.readAllPosts = (req, res, next) => {
 
 
 exports.readAllPostsByUser = (req, res, next) => {
-    Post.findAll({where: {user_id: req.params.user_id}})
+    Post.findAll({include: [
+            {model: Subject},
+            {model: User},
+            {model: Comment, include: { model: User }}
+        ], where: {user_id: req.params.user_id}})
     .then(posts => {
         if(posts.length <= 0) {
             return res.status(404).send('Posts not found');
@@ -57,7 +61,11 @@ exports.readAllPostsByUser = (req, res, next) => {
 
 
 exports.readAllPostsBySubject = (req, res, next) => {
-    Post.findAll({where: {subject_id: req.params.subject_id}})
+    Post.findAll({include: [
+        {model: Subject},
+        {model: User},
+        {model: Comment, include: { model: User }}
+    ], where: {subject_id: req.params.subject_id}})
     .then(posts => {
         if(posts.length <= 0) {
             return res.status(404).send('Posts not found');

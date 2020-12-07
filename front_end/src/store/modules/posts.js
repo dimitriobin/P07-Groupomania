@@ -27,6 +27,13 @@ const actions = {
       })
       .catch((err) => { console.log(err); });
   },
+  fetchAllPostsBySubject({ commit }, id) {
+    http.get(`/posts/subject/${id}`, { headers: authHeader() })
+      .then((res) => {
+        commit('setAllPosts', res.data);
+      })
+      .catch((error) => { console.log(error); });
+  },
 };
 
 const mutations = {
