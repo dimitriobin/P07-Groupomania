@@ -4,10 +4,16 @@
       <h2 class="h5 text-muted text-left font-weight-bold mb-3">Top des sujets</h2>
       <b-list-group tag="ol">
         <b-list-group-item
+          v-for="(subject, index) in allSubjects"
+          :key="index"
           tag="li"
           class="d-flex justify-content-between align-items-center border-0 py-2 text-left">
-          <b-button variant="link" class="text-dark p-0 text-left">
-            1. Histoires d'afterwork</b-button>
+          <b-button
+            @click="fetchAllPostsBySubject(subject.id)"
+            variant="link"
+            class="text-dark p-0 text-left">
+            {{ subject.name }}
+          </b-button>
           <b-link to="/subject" class="text-right">Suivre</b-link>
         </b-list-group-item>
       </b-list-group>
@@ -61,8 +67,19 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
+
 export default {
   name: 'Sidebar',
+  computed: {
+    ...mapGetters(['allSubjects']),
+  },
+  methods: {
+    ...mapActions(['fetchAllSubjects', 'fetchAllPostsBySubject']),
+  },
+  created() {
+    this.fetchAllSubjects();
+  },
 };
 </script>
 
