@@ -23,16 +23,18 @@
         Des collègues qui peuvent vous intéresser
       </h2>
       <b-row
+        v-for="(user, index) in userSuggest"
+        :key="index"
         no-gutters
         align-v="center"
         class="ml-3 mb-3">
-        <b-img
+        <b-avatar
           alt="Photo de profil"
-          src="https://picsum.photos/50"
-          class="rounded-circle mr-3"></b-img>
+          :src="user.image_url"
+          class="rounded-circle mr-3"></b-avatar>
         <b-col class="text-left">
-          <p class="h5 mb-0">John Doe</p>
-          <b-link href="#" class="h6 text-left">Visiter la page</b-link>
+          <p class="h5 mb-0">{{ user.user_name }}</p>
+          <router-link :to="`/user/${user.id}`" class="h6 text-left">Visiter la page</router-link>
         </b-col>
       </b-row>
     </b-col>
@@ -49,6 +51,10 @@ export default {
     topFive() {
       const subjects = this.allSubjects;
       return subjects.sort((a, b) => a - b).slice(0, 5);
+    },
+    userSuggest() {
+      const users = this.allUsers;
+      return users.slice(0, 7);
     },
   },
   methods: {
