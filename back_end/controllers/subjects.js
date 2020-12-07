@@ -16,7 +16,11 @@ exports.createOneSubject = (req, res, next) => {
 
 
 exports.readAllSubjects = (req, res, next) => {
-    Subject.findAll()
+    Subject.findAll({
+        include: [
+            {model: User}
+        ]
+    })
     .then(subjects => {
         if(subjects.length <= 0) {
             return res.status(404).send('Subjects not found');
