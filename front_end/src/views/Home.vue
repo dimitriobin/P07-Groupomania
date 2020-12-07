@@ -11,7 +11,7 @@
         :title="post.title"
         :image_url="post.image_url"
         :url="post.url"
-        :user="post.User.user_name"
+        :user="post.User"
         :subject="post.Subject"
         :date="post.createdAt"
         :user_image="post.User.image_url"

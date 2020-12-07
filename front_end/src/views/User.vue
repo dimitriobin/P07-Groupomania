@@ -7,7 +7,7 @@
       tag="h1"
       cols="12"
       class="text-center sr-only">
-      User name
+      user_name
       </b-col>
     <b-col cols="12" lg="8" order="1" order-lg="0">
       <Post />

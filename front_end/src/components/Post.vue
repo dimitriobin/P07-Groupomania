@@ -7,7 +7,9 @@
             <b-row no-gutters align-v="center">
                 <b-avatar :src="user_image" size="lg" class="mr-4"></b-avatar>
                 <b-col class="text-left">
-                    <a class="h5 font-weight-bold text-dark" href="#">{{ user }}</a>
+                    <a
+                        :href="`/user/${user.id}`"
+                        class="h5 font-weight-bold text-dark">{{ user.user_name }}</a>
                     <p class="mb-0">
                         <a
                             @click="fetchAllPostsBySubject(subject.id)"
