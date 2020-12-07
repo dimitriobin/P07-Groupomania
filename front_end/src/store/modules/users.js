@@ -12,15 +12,26 @@ const getters = {
 };
 
 const actions = {
+  fetchAllUsers({ commit }) {
+    http.get('/users', { headers: authHeader() })
+      .then((res) => {
+        commit('setAllUsers', res.data);
+      })
+      .catch((error) => console.log(error));
+  },
   fetchUser({ commit }, id) {
     http.get(`/users/${id}`, { headers: authHeader() })
       .then((user) => {
         commit('setUser', user.data[0]);
-      });
+      })
+      .catch((error) => console.log(error));
   },
 };
 
 const mutations = {
+  setAllUsers(state, users) {
+    state.users = users;
+  },
   setUser(state, user) {
     state.user = user;
   },
