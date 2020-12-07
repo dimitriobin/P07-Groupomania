@@ -10,20 +10,6 @@
             1. Histoires d'afterwork</b-button>
           <b-link to="/subject" class="text-right">Suivre</b-link>
         </b-list-group-item>
-        <b-list-group-item
-          tag="li"
-          class="d-flex justify-content-between align-items-center border-0 py-2">
-          <b-button variant="link" class="text-dark p-0 text-left">
-            2. J'aime mon boss</b-button>
-          <b-link to="/subject" class="text-right">Suivre</b-link>
-        </b-list-group-item>
-        <b-list-group-item
-          tag="li"
-          class="d-flex justify-content-between align-items-center border-0 py-2">
-          <b-button variant="link" class="text-dark p-0 text-left">
-            3. Machine à café</b-button>
-          <b-link to="/subject" class="text-right">Suivre</b-link>
-        </b-list-group-item>
       </b-list-group>
     </b-col>
     <b-col cols="12" class=" p-4 rounded-lg bg-white  shadow">
