@@ -1,15 +1,49 @@
 <template>
   <section id="PersonalAccount">
-    <h1 class="h2 text-center mb-4">Vos données personnelles</h1>
-    <b-tabs content-class="mt-3" fill>
+    <h1 class="h2 text-center mb-4 sr-only">Vos données personnelles</h1>
+    <b-tabs
+      content-class="p-5"
+      pills
+      fill>
       <!-- Subjects -->
-      <b-tab title="Sujets suivis">
-        <b-list-group flush tag="ul">
-          <b-list-group-item tag="li">
-            <b-avatar class="mr-3"  src="https://picsum.photos/100"></b-avatar>
-            Dapibus ac facilisis in
+      <b-tab
+        title="Sujets">
+        <h2 class="h4 text-center my-5">Vous suivez ces sujets</h2>
+        <b-list-group
+          flush
+          tag="ul"
+          class="w-50 mx-auto">
+          <b-list-group-item
+            v-for="(subject, index) in oneUser.Subjects"
+            :key="index"
+            tag="li"
+            class="d-flex justify-content-between align-items-center border-0 py-2 text-left">
+              {{ subject.name }}
+            <b-link class="text-right">Suivre</b-link>
+          </b-list-group-item>
+          <b-list-group-item :class="{ 'd-none' : moreSubjects}">
+            <a
+              @click="moreSubjects = !moreSubjects"
+              v-b-toggle.moreSubjects>
+              Voir plus de sujets</a>
           </b-list-group-item>
         </b-list-group>
+        <b-collapse
+          id="moreSubjects">
+          <b-list-group
+            flush
+            tag="ul"
+            class="w-50 mx-auto">
+            <b-list-group-item
+              v-for="(subject, index) in subjectsNotFollowed"
+              :key="index"
+              tag="li"
+              class="d-flex justify-content-between align-items-center border-0 py-2 text-left">
+                {{ subject.name }}
+              <b-link class="text-right">Suivre</b-link>
+            </b-list-group-item>
+          </b-list-group>
+        </b-collapse>
       </b-tab>
       <!-- Profile -->
       <b-tab title="Profile">
@@ -146,17 +180,26 @@ export default {
   name: 'PersonalAccount',
   data() {
     return {
-      userId: this.$route.params,
+      moreSubjects: false,
     };
   },
   computed: {
-    ...mapGetters(['oneUser']),
+    ...mapGetters(['oneUser', 'Auth/loggedUser', 'allSubjects']),
+    getUserId() {
+      return this['Auth/loggedUser'].storedUser.userId;
+    },
+    subjectsNotFollowed() {
+      const followed = this.oneUser.Subjects.map((subject) => subject.id);
+      return this.allSubjects.filter((subject) => !followed.includes(subject.id));
+    },
   },
   methods: {
-    ...mapActions(['fetchUser']),
+    ...mapActions(['fetchUser', 'fetchAllSubjects']),
   },
   created() {
-    this.fetchUser();
+    this.fetchAllSubjects();
+    this.fetchUser(this.getUserId);
+    this.subjectsNotFollowed();
   },
 };
 </script>
