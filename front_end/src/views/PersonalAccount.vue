@@ -140,11 +140,24 @@
 
 <script>
 // @ is an alias to /src
-// import HelloWorld from '@/components/HelloWorld.vue';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: 'PersonalAccount',
-  components: {},
+  data() {
+    return {
+      userId: this.$route.params,
+    };
+  },
+  computed: {
+    ...mapGetters(['oneUser']),
+  },
+  methods: {
+    ...mapActions(['fetchUser']),
+  },
+  created() {
+    this.fetchUser();
+  },
 };
 </script>
 
