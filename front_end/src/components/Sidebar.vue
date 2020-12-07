@@ -4,7 +4,7 @@
       <h2 class="h5 text-muted text-left font-weight-bold mb-3">Top des sujets</h2>
       <b-list-group tag="ol">
         <b-list-group-item
-          v-for="(subject, index) in allSubjects"
+          v-for="(subject, index) in topFive"
           :key="index"
           tag="li"
           class="d-flex justify-content-between align-items-center border-0 py-2 text-left">
@@ -14,7 +14,7 @@
             class="text-dark p-0 text-left">
             {{ subject.name }}
           </b-button>
-          <b-link to="/subject" class="text-right">Suivre</b-link>
+          <b-link class="text-right">Suivre</b-link>
         </b-list-group-item>
       </b-list-group>
     </b-col>
@@ -73,6 +73,9 @@ export default {
   name: 'Sidebar',
   computed: {
     ...mapGetters(['allSubjects']),
+    topFive() {
+      return this.allSubjects.slice(0, 5);
+    },
   },
   methods: {
     ...mapActions(['fetchAllSubjects', 'fetchAllPostsBySubject']),
