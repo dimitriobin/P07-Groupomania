@@ -7,15 +7,9 @@
       tag="h1"
       cols="12"
       class="text-center sr-only">
-      user_name
+      <!-- {{ user_name }} -->
       </b-col>
     <b-col cols="12" lg="8" order="1" order-lg="0">
-      <Post />
-      <Post />
-      <Post />
-      <Post />
-      <Post />
-      <Post />
     </b-col>
     <!-- ASIDE INFOS -->
     <b-col
@@ -30,7 +24,7 @@
           size="150px"
           class="mb-3">
         </b-avatar>
-        <h2 class="mb-3">User_name</h2>
+        <h2 class="mb-3">{{ user.user_name }}</h2>
         <b-button variant="info">Envoyer un message</b-button>
       </b-card>
       <b-card
@@ -67,12 +61,29 @@
 
 <script>
 // @ is an alias to /src
-import Post from '@/components/Post.vue';
+// import Post from '@/components/Post.vue';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: 'User',
   components: {
-    Post,
+    // Post,
+  },
+  data() {
+    return {
+      userId: this.$route.params.id,
+      user: '',
+    };
+  },
+  computed: {
+    ...mapGetters(['oneUser']),
+  },
+  methods: {
+    ...mapActions(['fetchUser']),
+  },
+  created() {
+    this.fetchUser(this.userId);
+    this.user = this.oneUser;
   },
 };
 </script>
