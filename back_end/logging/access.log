@@ -1751,3 +1751,10 @@
 ::1 - - [07/Dec/2020:13:57:42 +0000] "OPTIONS /api/subjects HTTP/1.1" 204 0
 ::1 - - [07/Dec/2020:13:57:42 +0000] "GET /api/posts HTTP/1.1" 304 -
 ::1 - - [07/Dec/2020:13:57:42 +0000] "GET /api/subjects HTTP/1.1" 200 12180
+::1 - - [07/Dec/2020:14:05:32 +0000] "OPTIONS /api/subjects HTTP/1.1" 204 0
+::1 - - [07/Dec/2020:14:05:32 +0000] "GET /api/subjects HTTP/1.1" 304 -
+::1 - - [07/Dec/2020:14:09:08 +0000] "OPTIONS /api/subjects HTTP/1.1" 204 0
+::1 - - [07/Dec/2020:14:09:08 +0000] "GET /api/subjects HTTP/1.1" 304 -
+::1 - - [07/Dec/2020:14:09:09 +0000] "OPTIONS /api/posts HTTP/1.1" 204 0
+::1 - - [07/Dec/2020:14:09:09 +0000] "GET /api/subjects HTTP/1.1" 304 -
+::1 - - [07/Dec/2020:14:09:09 +0000] "GET /api/posts HTTP/1.1" 304 -

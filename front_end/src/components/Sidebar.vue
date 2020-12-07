@@ -20,39 +20,12 @@
     </b-col>
     <b-col cols="12" class=" p-4 rounded-lg bg-white  shadow">
       <h2 class="h5 text-muted text-wrap text-left font-weight-bolder mb-3">
-        Visitez les profils de vos collègues
+        Des collègues qui peuvent vous intéresser
       </h2>
-      <b-row no-gutters align-v="center" class="ml-3 mb-3">
-        <b-img
-          alt="Photo de profil"
-          src="https://picsum.photos/50"
-          class="rounded-circle mr-3"></b-img>
-        <b-col class="text-left">
-          <p class="h5 mb-0">John Doe</p>
-          <b-link href="#" class="h6 text-left">Visiter la page</b-link>
-        </b-col>
-      </b-row>
-      <b-row no-gutters align-v="center" class="ml-3 mb-3">
-        <b-img
-          alt="Photo de profil"
-          src="https://picsum.photos/50"
-          class="rounded-circle mr-3"></b-img>
-        <b-col class="text-left">
-          <p class="h5 mb-0">John Doe</p>
-          <b-link href="#" class="h6 text-left">Visiter la page</b-link>
-        </b-col>
-      </b-row>
-      <b-row no-gutters align-v="center" class="ml-3 mb-3">
-        <b-img
-          alt="Photo de profil"
-          src="https://picsum.photos/50"
-          class="rounded-circle mr-3"></b-img>
-        <b-col class="text-left">
-          <p class="h5 mb-0">John Doe</p>
-          <b-link href="#" class="h6 text-left">Visiter la page</b-link>
-        </b-col>
-      </b-row>
-      <b-row no-gutters align-v="center" class="ml-3 mb-3">
+      <b-row
+        no-gutters
+        align-v="center"
+        class="ml-3 mb-3">
         <b-img
           alt="Photo de profil"
           src="https://picsum.photos/50"
@@ -72,17 +45,18 @@ import { mapGetters, mapActions } from 'vuex';
 export default {
   name: 'Sidebar',
   computed: {
-    ...mapGetters(['allSubjects']),
+    ...mapGetters(['allSubjects', 'allUsers']),
     topFive() {
       const subjects = this.allSubjects;
       return subjects.sort((a, b) => a - b).slice(0, 5);
     },
   },
   methods: {
-    ...mapActions(['fetchAllSubjects', 'fetchAllPostsBySubject']),
+    ...mapActions(['fetchAllSubjects', 'fetchAllUsers']),
   },
   created() {
     this.fetchAllSubjects();
+    this.fetchAllUsers();
   },
 };
 </script>
