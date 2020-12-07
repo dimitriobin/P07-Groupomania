@@ -9,13 +9,6 @@ module.exports = (sequelize, DataTypes) => {
           validate: {
             notEmpty: true,
           }
-        },
-        description: {
-          type: DataTypes.TEXT,
-          allowNull: false,
-          validate: {
-            notEmpty: true
-          }
         }
       }, {
         freezeTableName: true

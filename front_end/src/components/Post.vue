@@ -7,11 +7,14 @@
             <b-row no-gutters align-v="center">
                 <b-avatar :src="user_image" size="lg" class="mr-4"></b-avatar>
                 <b-col class="text-left">
-                    <a class="h5 font-weight-bold text-dark" href="#">{{ user }}</a>
+                    <router-link
+                        :to="`/user/${user.id}`"
+                        class="h5 font-weight-bold text-dark">{{ user.user_name }}</router-link>
                     <p class="mb-0">
-                        <a
+                        <b-button
                             @click="fetchAllPostsBySubject(subject.id)"
-                            class="h6 text-dark">{{ subject.name }}</a>
+                            variant="link"
+                            class="h6 p-0 m-0 text-dark">{{ subject.name }}</b-button>
                         <a class="ml-2" href="#"><small>Suivre</small></a>
                     </p>
                 </b-col>
