@@ -8,7 +8,12 @@ const initialState = storedUser
 
 export default {
   namespaced: true,
-  state: initialState,
+  state: {
+    initialState,
+  },
+  getters: {
+    loggedUser: (state) => state.initialState,
+  },
   actions: {
     login({ commit }, user) {
       http.post('/users/login', user)

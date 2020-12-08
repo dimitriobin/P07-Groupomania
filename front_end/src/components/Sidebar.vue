@@ -58,7 +58,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['fetchAllSubjects', 'fetchAllUsers']),
+    ...mapActions(['fetchAllSubjects', 'fetchAllUsers', 'fetchAllPostsBySubject']),
   },
   created() {
     this.fetchAllSubjects();

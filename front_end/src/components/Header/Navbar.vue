@@ -25,7 +25,7 @@
             <template v-slot:button-content>
               <b-icon icon="person-fill" variant="dark" font-scale="1.5"></b-icon>
             </template>
-            <b-dropdown-item to="/user">Voir votre profil</b-dropdown-item>
+            <b-dropdown-item :to="`/user/${getUserId}`">Voir votre profil</b-dropdown-item>
             <b-dropdown-item to="/personal">Modifier vos informations</b-dropdown-item>
           </b-nav-item-dropdown>
           <b-nav-item @click.prevent="logOut">
@@ -37,11 +37,18 @@
 
 <script>
 import SearchBar from '@/components/Header/SearchBar.vue';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'Header',
   components: {
     SearchBar,
+  },
+  computed: {
+    ...mapGetters(['Auth/loggedUser']),
+    getUserId() {
+      return this['Auth/loggedUser'].storedUser.userId;
+    },
   },
   methods: {
     logOut() {
