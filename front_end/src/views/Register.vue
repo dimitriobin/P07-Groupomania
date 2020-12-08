@@ -44,28 +44,30 @@
               </b-button>
             </b-form>
           </b-col>
+<!-- ////////////////////////////////////////////////////////////////////////////////////// -->
+<!-- ///////////////////////////////////REGISTER FORM////////////////////////////////////// -->
+<!-- ////////////////////////////////////////////////////////////////////////////////////// -->
         <b-modal
           v-model="visible"
           id="signupForm"
+          size="lg"
           hide-header
           hide-footer
           body-class="p-5">
-            <h2 class="text-center mb-4">Rejoignez nous</h2>
-            <b-form >
+          <h2 class="text-center mb-4">Rejoignez nous</h2>
+          <b-form >
             <b-form-group
               id="input-group-1"
               label="Email :"
               label-cols="3"
-              label-for="input-1"
-            >
+              label-for="input-1">
               <b-form-input
-              v-model="signup.email"
+                v-model="signup.email"
                 id="input-1"
                 type="email"
-                placeholder="user@mail.com"
-              ></b-form-input>
+                placeholder="user@mail.com">
+              </b-form-input>
             </b-form-group>
-
             <b-form-group
               id="input-group-2"
               label="Pseudo:"
@@ -74,10 +76,9 @@
               <b-form-input
                 v-model="signup.user_name"
                 id="input-2"
-                placeholder="Username"
-              ></b-form-input>
+                placeholder="Username">
+              </b-form-input>
             </b-form-group>
-
             <b-form-group
               id="input-group-3"
               label="Mot de passe:"
@@ -86,10 +87,9 @@
               <b-form-input
                 v-model="signup.password"
                 id="input-3"
-                placeholder="*********************"
-              ></b-form-input>
+                placeholder="*********************">
+              </b-form-input>
             </b-form-group>
-
             <b-form-group
               id="input-group-6"
               label="Photo de profil:"
@@ -99,58 +99,56 @@
               <b-form-file
                 v-model="signup.image_url"
                 id="input-6"
-                :state="Boolean(signup.image_url)"
                 placeholder="Choose a file or drop it here..."
                 drop-placeholder="Drop file here..."
                 accept="image/*"
-                class=" flex-grow-1"
-              ></b-form-file>
+                class=" flex-grow-1">
+                <img src="https://picsum.photos/200" alt="">
+              </b-form-file>
             </b-form-group>
-
             <b-form-group
               id="input-group-7"
               label="Date de naissance:"
               label-cols="3"
               label-for="input-7">
-              <b-form-datepicker
-              v-model="signup.birthdate"
-              id="input-7"
-              placeholder="jj-mm-aaaa">
-              </b-form-datepicker>
+              <input
+                type="date"
+                v-model="signup.birthdate"
+                id="input-7"
+                placeholder="jj-mm-aaaa"
+                class="form-control"
+                @input="userIsMajor">
             </b-form-group>
-
             <b-form-group
               id="input-group-8"
               label="Email des responsables:"
               label-cols="3"
               label-for="input-8"
-            >
+              v-show="userIsMajor">
               <b-form-input
                 v-model="signup.parentEmail"
                 id="input-8"
                 type="email"
-                placeholder="parents@mail.com"
-              ></b-form-input>
+                placeholder="parents@mail.com">
+              </b-form-input>
             </b-form-group>
-              <label for="restricted" class="mr-2">Restreindre l'usage de vos données</label>
-              <input
-              id="restricted"
-              v-model="signup.restricted"
-              value="false"
-              type="checkbox">
-              <label for="shareWithPartners" class="mr-2">
-                Partage de vos données avec nos partenaires</label>
-              <input
-              id="shareWithPartners"
-              v-model="signup.shareWithPartners"
-              value="false"
-              type="checkbox">
-              <label for="contactable" class="mr-2">Recevoir des offres de nos partenaires</label>
-              <input
-              id="contactable"
-              v-model="signup.contactable"
-              value="false"
-              type="checkbox">
+            <b-form-group
+              id="input-group-9"
+              label="RGPD:"
+              label-cols="3">
+              <b-form-checkbox
+                v-model="signup.restricted">
+                Restreindre l'usage de vos données
+              </b-form-checkbox>
+              <b-form-checkbox
+                v-model="signup.shareWithPartners">
+                Partage de vos données avec nos partenaires
+              </b-form-checkbox>
+              <b-form-checkbox
+                v-model="signup.contactable">
+                Recevoir des offres de nos partenaires
+              </b-form-checkbox>
+            </b-form-group>
             <b-button
               @click.prevent="handleRegister"
               type="submit"
@@ -164,6 +162,10 @@
 
 <script>
 import { mapActions } from 'vuex';
+import dayjs from 'dayjs';
+import RelativeTime from 'dayjs/plugin/relativeTime';
+
+dayjs.extend(RelativeTime);
 
 export default {
   name: 'Register',
@@ -184,12 +186,17 @@ export default {
         email: '',
         password: '',
       },
-      visible: false,
+      visible: true,
     };
   },
   computed: {
     loggedIn() {
       return this.$store.state.Auth.status.loggedIn;
+    },
+    userIsMajor() {
+      const now = dayjs();
+      const birthdate = dayjs(this.signup.birthdate);
+      return now.diff(birthdate, 'year') <= 18;
     },
   },
   methods: {
@@ -206,7 +213,6 @@ export default {
       user.append('shareWithPartners', this.signup.shareWithPartners);
       user.append('contactable', this.signup.contactable);
       this.$store.dispatch('Auth/register', user);
-      this.visible = false;
     },
     handleLogin() {
       if (this.login.email && this.login.password) {
