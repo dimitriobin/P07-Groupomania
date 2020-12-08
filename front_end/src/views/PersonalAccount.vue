@@ -57,7 +57,7 @@
             <b-form-input
               id="input-1"
               type="email"
-              placeholder="user@mail.com"
+              :placeholder="oneUser.email"
             ></b-form-input>
           </b-form-group>
 
@@ -68,7 +68,7 @@
             label-for="input-2">
             <b-form-input
               id="input-2"
-              placeholder="Username"
+              :placeholder="oneUser.user_name"
             ></b-form-input>
           </b-form-group>
 
@@ -113,8 +113,8 @@
           class="d-flex">
             <b-form-file
                 id="input-6"
-                :state="Boolean(/*file1*/)"
-                placeholder="Choose a file or drop it here..."
+                :state="Boolean(oneUser.image_url)"
+                placeholder="Selectionner un fichier"
                 drop-placeholder="Drop file here..."
                 accept="image/*"
                 class=" flex-grow-1"
@@ -128,7 +128,7 @@
             label-for="input-7">
             <b-form-datepicker
             id="input-7"
-            placeholder="17-02-1984">
+            :placeholder="oneUser.birthdate">
             </b-form-datepicker>
           </b-form-group>
 
@@ -141,7 +141,7 @@
             <b-form-input
               id="input-8"
               type="email"
-              placeholder="parents@mail.com"
+              :placeholder="oneUser.parentEmail"
             ></b-form-input>
           </b-form-group>
           <b-button type="submit" variant="dark">Envoyer</b-button>
@@ -150,20 +150,53 @@
       <!-- Privacy -->
       <b-tab title="Privacy">
         <b-form>
-          <b-form-group description="rgpd">
-            <b-form-checkbox-group id="checkboxes" stacked>
-              <b-form-checkbox value="restricted">
-                Restreindre l'utilisation de mes données
-              </b-form-checkbox>
-              <b-form-checkbox value="contacted">
-                Etre contacté par des partenaires commerciaux
-              </b-form-checkbox>
-              <b-form-checkbox value="sharedWithPartners">
-                Accepter que les données soient transmises a des partenaires
-              </b-form-checkbox>
-            </b-form-checkbox-group>
-          </b-form-group>
-          <b-button type="submit" variant="dark">Envoyer</b-button>
+          <!-- <b-form-group description="rgpd"> -->
+            <b-row>
+              <b-col
+                cols="12"
+                class="d-flex align-items-center flex-row-reverse justify-content-end">
+                <label
+                  for="restricted"
+                  class="ml-2 my-0">
+                  Restreindre l'utilisation de mes données</label>
+                <input
+                  cols="9"
+                  id="restricted"
+                  type="checkbox"
+                  :checked="oneUser.restricted">
+              </b-col>
+              <b-col
+                cols="12"
+                class="d-flex align-items-center flex-row-reverse justify-content-end">
+                <label
+                  for="contactable"
+                  class="ml-2 my-0">
+                  Etre contacté par des partenaires commerciaux</label>
+                <input
+                  cols="9"
+                  id="contactable"
+                  type="checkbox"
+                  :checked="oneUser.contactable">
+              </b-col>
+              <b-col
+                cols="12"
+                class="d-flex align-items-center flex-row-reverse justify-content-end">
+                <label
+                  for="sharedWithPartners"
+                  class="ml-2 my-0">
+                  Accepter que les données soient transmises a des partenaires</label>
+                <input
+                  cols="9"
+                  id="sharedWithPartners"
+                  type="checkbox"
+                  :checked="oneUser.sharedWithPartners">
+              </b-col>
+            </b-row>
+          <!-- </b-form-group> -->
+          <b-button
+            type="submit"
+            variant="dark"
+            class="my-3">Envoyer</b-button>
         </b-form>
         <b-button type="submit" variant="link">Supprimer mon compte</b-button>
         <b-button type="submit" variant="link">Télécharger les données de votre compte</b-button>
@@ -183,6 +216,10 @@ export default {
       moreSubjects: false,
     };
   },
+  created() {
+    this.fetchAllSubjects();
+    this.fetchUser(this.getUserId);
+  },
   computed: {
     ...mapGetters(['oneUser', 'Auth/loggedUser', 'allSubjects']),
     getUserId() {
@@ -195,11 +232,6 @@ export default {
   },
   methods: {
     ...mapActions(['fetchUser', 'fetchAllSubjects']),
-  },
-  created() {
-    this.fetchAllSubjects();
-    this.fetchUser(this.getUserId);
-    this.subjectsNotFollowed();
   },
 };
 </script>
