@@ -4,38 +4,67 @@
       <b-row>
         <b-col cols="6" class="mx-auto p-5 shadow rounded">
             <h2 class="sr-only">Connexion</h2>
-              <b-form >
-              <b-form-group
-                id="input-group-1"
-                label="Email :"
-                label-cols="3"
-                label-for="input-1"
-                label-class="sr-only"
-              >
-                <b-form-input
-                v-model="login.email"
-                  id="input-1"
-                  type="email"
-                  placeholder="user@mail.com"
-                ></b-form-input>
-              </b-form-group>
-              <b-form-group
-                id="input-group-3"
-                label="Mot de passe:"
-                label-cols="3"
-                label-for="input-3"
-                label-class="sr-only">
-                <b-form-input
-                  v-model="login.password"
-                  id="input-3"
-                  placeholder="*********************"
-                ></b-form-input>
-              </b-form-group>
+<!-- ////////////////////////////////////////////////////////////////////////////////////// -->
+<!-- ///////////////////////////////////LOGIN FORM////////////////////////////////////// -->
+<!-- ////////////////////////////////////////////////////////////////////////////////////// -->
+          <ValidationObserver
+            ref="observer"
+            v-slot="{ handleSubmit }">
+            <b-form @submit.prevent="handleSubmit(handleLogin)">
+<!-- ///////////////////////////////////EMAIL////////////////////////////////////// -->
+              <ValidationProvider
+                name="email"
+                rules="required|email"
+                v-slot="{ valid, errors }">
+                <b-form-group
+                  id="loginMail-group"
+                  label="Email :"
+                  label-cols="3"
+                  label-for="loginMail">
+                  <b-form-input
+                    v-model="user.email"
+                    id="loginMail"
+                    type="text"
+                    placeholder="john@mail.com"
+                    autofocus
+                    trim
+                    :state="errors[0] ? false : (valid ? true : null)">
+                  </b-form-input>
+                  <b-form-invalid-feedback>
+                    {{ errors[0] }}
+                  </b-form-invalid-feedback>
+                </b-form-group>
+              </ValidationProvider>
+<!-- ///////////////////////////////////PASSWORD////////////////////////////////////// -->
+              <ValidationProvider
+                name="mot de passe"
+                vid="mdp"
+                rules="required"
+                v-slot="{ valid, errors }">
+                <b-form-group
+                  id="loginPass-group"
+                  label="Mot de passe:"
+                  label-cols="3"
+                  label-for="loginPass">
+                  <b-form-input
+                    id="loginPass"
+                    v-model="user.password"
+                    type="password"
+                    trim
+                    placeholder="*********************"
+                    :state="errors[0] ? false : (valid ? true : null)">
+                  </b-form-input>
+                  <b-form-invalid-feedback>
+                    {{ errors[0] }}
+                  </b-form-invalid-feedback>
+                </b-form-group>
+              </ValidationProvider>
               <b-button
-                @click.prevent="handleLogin"
                 type="submit"
                 variant="info"
-                class="w-100">Envoyer</b-button>
+                class="w-100">
+                Envoyer
+              </b-button>
               <b-button
                 v-b-modal.signupForm
                 variant="success"
@@ -43,12 +72,12 @@
                 Créer un compte
               </b-button>
             </b-form>
-          </b-col>
+          </ValidationObserver>
+        </b-col>
 <!-- ////////////////////////////////////////////////////////////////////////////////////// -->
 <!-- ///////////////////////////////////REGISTER FORM////////////////////////////////////// -->
 <!-- ////////////////////////////////////////////////////////////////////////////////////// -->
         <b-modal
-          v-model="visible"
           id="signupForm"
           size="lg"
           hide-header
@@ -285,7 +314,6 @@ export default {
         email: '',
         password: '',
       },
-      visible: true,
     };
   },
   computed: {
@@ -341,14 +369,21 @@ export default {
         .catch((error) => console.log(error));
     },
     handleLogin() {
-      if (this.login.email && this.login.password) {
-        this.$store.dispatch('Auth/login', this.login);
+      if (this.user.email && this.user.password) {
+        console.log(this.user);
+        this.login(this.user)
+          .then(() => {
+            this.user.email = '';
+            this.user.password = '';
+            return this.$router.push({ name: 'Home' });
+          })
+          .catch((error) => console.log(error));
       }
     },
   },
   mounted() {
     if (this.loggedIn) {
-      this.$router.push('/');
+      this.$router.push({ name: 'Home' });
     }
   },
 };
