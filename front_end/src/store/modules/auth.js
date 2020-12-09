@@ -24,6 +24,7 @@ export default {
             localStorage.setItem('user', JSON.stringify(response.data));
           }
           commit('loginSuccess', response.data);
+          return Promise.resolve(response.data);
         })
         .catch((error) => {
           commit('loginFailure');

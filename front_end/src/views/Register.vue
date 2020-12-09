@@ -329,20 +329,6 @@ export default {
   },
   methods: {
     ...mapActions(['register', 'login']),
-    resetInputs() {
-      this.signup = {
-        user_name: '',
-        email: '',
-        password: '',
-        confirmation: '',
-        image_url: null,
-        birthdate: '',
-        parentEmail: '',
-        restricted: '',
-        shareWithPartners: '',
-        contactable: '',
-      };
-    },
     handleRegister() {
       const user = new FormData();
       user.append('user_name', this.signup.user_name);
@@ -360,11 +346,10 @@ export default {
             email: this.signup.email,
             password: this.signup.password,
           };
-          this.login(newUser);
+          return this.login(newUser);
         })
         .then(() => {
-          this.resetInputs();
-          return this.$router.push({ name: 'Home' });
+          document.location.reload();
         })
         .catch((error) => console.log(error));
     },
@@ -373,9 +358,7 @@ export default {
         console.log(this.user);
         this.login(this.user)
           .then(() => {
-            this.user.email = '';
-            this.user.password = '';
-            return this.$router.push({ name: 'Home' });
+            document.location.reload();
           })
           .catch((error) => console.log(error));
       }

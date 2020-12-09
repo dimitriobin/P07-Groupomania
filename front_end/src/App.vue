@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Header v-show="logged" />
+    <Header v-show="isLogged" />
     <b-container>
       <router-view />
     </b-container>
@@ -18,7 +18,7 @@ export default {
   },
   computed: {
     ...mapGetters(['loggedUser']),
-    logged() {
+    isLogged() {
       return this.loggedUser.status.loggedIn;
     },
   },
