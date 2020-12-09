@@ -28,7 +28,7 @@
             <b-dropdown-item :to="`/user/${getUserId}`">Voir votre profil</b-dropdown-item>
             <b-dropdown-item to="/personal">Modifier vos informations</b-dropdown-item>
           </b-nav-item-dropdown>
-          <b-nav-item @click.prevent="logOut">
+          <b-nav-item @click.prevent="logout">
             <b-icon icon="power" variant="dark" font-scale="1.5"></b-icon>
           </b-nav-item>
         </b-navbar-nav>
@@ -37,7 +37,7 @@
 
 <script>
 import SearchBar from '@/components/Header/SearchBar.vue';
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: 'Header',
@@ -52,10 +52,7 @@ export default {
     },
   },
   methods: {
-    logOut() {
-      this.$store.dispatch('logout');
-      this.$router.push('register');
-    },
+    ...mapActions(['logout']),
   },
 };
 </script>

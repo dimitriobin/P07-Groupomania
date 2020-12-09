@@ -2543,3 +2543,17 @@
 ::1 - - [09/Dec/2020:18:04:45 +0000] "GET /api/users HTTP/1.1" 304 -
 ::1 - - [09/Dec/2020:18:10:26 +0000] "OPTIONS /api/users/login HTTP/1.1" 204 0
 ::1 - - [09/Dec/2020:18:10:26 +0000] "POST /api/users/login HTTP/1.1" 200 168
+::1 - - [09/Dec/2020:18:12:50 +0000] "OPTIONS /api/posts HTTP/1.1" 204 0
+::1 - - [09/Dec/2020:18:12:50 +0000] "OPTIONS /api/subjects HTTP/1.1" 204 0
+::1 - - [09/Dec/2020:18:12:50 +0000] "OPTIONS /api/users HTTP/1.1" 204 0
+::1 - - [09/Dec/2020:18:12:50 +0000] "GET /api/posts HTTP/1.1" 304 -
+::1 - - [09/Dec/2020:18:12:50 +0000] "GET /api/users HTTP/1.1" 304 -
+::1 - - [09/Dec/2020:18:12:50 +0000] "GET /api/subjects HTTP/1.1" 304 -
+::1 - - [09/Dec/2020:18:13:08 +0000] "OPTIONS /api/users/login HTTP/1.1" 204 0
+::1 - - [09/Dec/2020:18:13:08 +0000] "POST /api/users/login HTTP/1.1" 200 168
+::1 - - [09/Dec/2020:18:13:08 +0000] "OPTIONS /api/posts HTTP/1.1" 204 0
+::1 - - [09/Dec/2020:18:13:08 +0000] "OPTIONS /api/subjects HTTP/1.1" 204 0
+::1 - - [09/Dec/2020:18:13:08 +0000] "OPTIONS /api/users HTTP/1.1" 204 0
+::1 - - [09/Dec/2020:18:13:08 +0000] "GET /api/posts HTTP/1.1" 304 -
+::1 - - [09/Dec/2020:18:13:08 +0000] "GET /api/subjects HTTP/1.1" 304 -
+::1 - - [09/Dec/2020:18:13:08 +0000] "GET /api/users HTTP/1.1" 304 -

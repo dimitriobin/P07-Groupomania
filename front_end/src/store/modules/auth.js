@@ -33,6 +33,7 @@ export default {
     logout({ commit }) {
       localStorage.removeItem('user');
       commit('logout');
+      document.location.reload();
     },
     register({ commit }, user) {
       return http.post('/users/signup', user)
