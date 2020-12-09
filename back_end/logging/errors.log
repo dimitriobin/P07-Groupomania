@@ -463,3 +463,5 @@
 ::1 - - [08/Dec/2020:09:41:15 +0000] "POST /api/users/login HTTP/1.1" 400 14
 ::1 - - [08/Dec/2020:09:41:36 +0000] "POST /api/users/login HTTP/1.1" 400 14
 ::1 - - [09/Dec/2020:13:10:42 +0000] "POST /api/users/signup HTTP/1.1" 500 1938
+::1 - - [09/Dec/2020:15:13:36 +0000] "POST /api/users/signup HTTP/1.1" 500 1694
+::1 - - [09/Dec/2020:15:14:58 +0000] "POST /api/users/signup HTTP/1.1" 500 635

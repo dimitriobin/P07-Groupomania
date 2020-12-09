@@ -45,14 +45,15 @@ export default {
     SearchBar,
   },
   computed: {
-    ...mapGetters(['Auth/loggedUser']),
+    ...mapGetters(['loggedUser']),
     getUserId() {
-      return this['Auth/loggedUser'].storedUser.userId;
+      if (!this.loggedUser.status.storedUser) return '';
+      return this.loggedUser.status.storedUser.userId;
     },
   },
   methods: {
     logOut() {
-      this.$store.dispatch('Auth/logout');
+      this.$store.dispatch('logout');
       this.$router.push('register');
     },
   },

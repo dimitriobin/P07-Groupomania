@@ -167,8 +167,8 @@
                   <b-form-file
                     v-model="signup.image_url"
                     id="registerImage"
-                    placeholder="Choose a file or drop it here..."
-                    drop-placeholder="Drop file here..."
+                    placeholder="Faites glisser ou sélectionnez une photo"
+                    drop-placeholder="Déposez ici..."
                     accept="image/*"
                     class=" flex-grow-1"
                     :state="errors[0] ? false : (valid ? true : null)">
@@ -254,7 +254,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import dayjs from 'dayjs';
 import RelativeTime from 'dayjs/plugin/relativeTime';
 import { ValidationProvider, ValidationObserver } from 'vee-validate';
@@ -281,7 +281,7 @@ export default {
         shareWithPartners: '',
         contactable: '',
       },
-      login: {
+      user: {
         email: '',
         password: '',
       },
@@ -289,8 +289,9 @@ export default {
     };
   },
   computed: {
+    ...mapGetters(['loggedUser']),
     loggedIn() {
-      return this.$store.state.Auth.status.loggedIn;
+      return this.loggedUser.status.loggedIn;
     },
     userIsMajor() {
       const now = dayjs();
@@ -299,7 +300,21 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['register']),
+    ...mapActions(['register', 'login']),
+    resetInputs() {
+      this.signup = {
+        user_name: '',
+        email: '',
+        password: '',
+        confirmation: '',
+        image_url: null,
+        birthdate: '',
+        parentEmail: '',
+        restricted: '',
+        shareWithPartners: '',
+        contactable: '',
+      };
+    },
     handleRegister() {
       const user = new FormData();
       user.append('user_name', this.signup.user_name);
@@ -311,7 +326,19 @@ export default {
       user.append('restricted', this.signup.restricted);
       user.append('shareWithPartners', this.signup.shareWithPartners);
       user.append('contactable', this.signup.contactable);
-      this.$store.dispatch('Auth/register', user);
+      this.register(user)
+        .then(() => {
+          const newUser = {
+            email: this.signup.email,
+            password: this.signup.password,
+          };
+          this.login(newUser);
+        })
+        .then(() => {
+          this.resetInputs();
+          return this.$router.push({ name: 'Home' });
+        })
+        .catch((error) => console.log(error));
     },
     handleLogin() {
       if (this.login.email && this.login.password) {
@@ -319,7 +346,7 @@ export default {
       }
     },
   },
-  created() {
+  mounted() {
     if (this.loggedIn) {
       this.$router.push('/');
     }

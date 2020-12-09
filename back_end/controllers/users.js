@@ -26,7 +26,7 @@ exports.signup = (req, res, next) => {
         };
         User.create(userObject)
         .then(createdUser => {
-            res.status(201).send('User created');
+            res.status(201).send(createdUser);
         })
         .catch(error => {
             res.status(500).json({error});
