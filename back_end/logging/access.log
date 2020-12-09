@@ -2448,3 +2448,5 @@
 ::1 - - [08/Dec/2020:13:01:16 +0000] "OPTIONS /api/users/21 HTTP/1.1" 204 0
 ::1 - - [08/Dec/2020:13:01:16 +0000] "GET /api/subjects HTTP/1.1" 304 -
 ::1 - - [08/Dec/2020:13:01:16 +0000] "GET /api/users/21 HTTP/1.1" 304 -
+::1 - - [09/Dec/2020:13:10:42 +0000] "POST /api/users/signup HTTP/1.1" 500 1938
+::1 - - [09/Dec/2020:13:11:04 +0000] "POST /api/users/signup HTTP/1.1" 201 12

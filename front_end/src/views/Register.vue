@@ -65,20 +65,22 @@
                 rules="required|email"
                 v-slot="{ valid, errors }">
                 <b-form-group
-                  id="input-group-1"
+                  id="registerMail-group"
                   label="Email :"
                   label-cols="3"
-                  label-for="input-1">
+                  label-for="registerMail">
                   <b-form-input
                     v-model="signup.email"
-                    id="input-1"
-                    type="email"
+                    id="registerMail"
+                    type="text"
                     placeholder="john@mail.com"
+                    autofocus
+                    trim
                     :state="errors[0] ? false : (valid ? true : null)">
                   </b-form-input>
-                  <b-form-invalide-feedback>
+                  <b-form-invalid-feedback>
                     {{ errors[0] }}
-                  </b-form-invalide-feedback>
+                  </b-form-invalid-feedback>
                 </b-form-group>
               </ValidationProvider>
 <!-- ///////////////////////////////////USERNAME////////////////////////////////////// -->
@@ -87,42 +89,45 @@
                 rules="required|alpha_spaces"
                 v-slot="{ valid, errors }">
                 <b-form-group
-                  id="input-group-2"
+                  id="registerName-group"
                   label="Pseudo:"
                   label-cols="3"
-                  label-for="input-2">
+                  label-for="registerName">
                   <b-form-input
                     v-model="signup.user_name"
-                    id="input-2"
+                    id="registerName"
+                    type="text"
                     placeholder="John Doe"
+                    trim
                     :state="errors[0] ? false : (valid ? true : null)">
                   </b-form-input>
-                  <b-form-invalide-feedback>
+                  <b-form-invalid-feedback>
                     {{ errors[0] }}
-                  </b-form-invalide-feedback>
+                  </b-form-invalid-feedback>
                 </b-form-group>
               </ValidationProvider>
 <!-- ///////////////////////////////////PASSWORD////////////////////////////////////// -->
               <ValidationProvider
                 name="mot de passe"
                 vid="mdp"
-                rules="required|strongPassword"
+                rules="required|min:8|max:16|strongPassword"
                 v-slot="{ valid, errors }">
                 <b-form-group
-                  id="input-group-3"
+                  id="registerPass-group"
                   label="Mot de passe:"
                   label-cols="3"
-                  label-for="input-3">
+                  label-for="registerPass">
                   <b-form-input
-                    id="input-3"
+                    id="registerPass"
                     v-model="signup.password"
                     type="password"
+                    trim
                     placeholder="*********************"
                     :state="errors[0] ? false : (valid ? true : null)">
                   </b-form-input>
-                  <b-form-invalide-feedback>
+                  <b-form-invalid-feedback>
                     {{ errors[0] }}
-                  </b-form-invalide-feedback>
+                  </b-form-invalid-feedback>
                 </b-form-group>
               </ValidationProvider>
 <!-- //////////////////////////PASSWORD CONFIRMATION//////////////////////////////// -->
@@ -131,20 +136,21 @@
                 rules="required|confirmed:mdp"
                 v-slot="{ valid, errors }">
                 <b-form-group
-                  id="input-group-3-confirmation"
+                  id="registerConfirmPass-group"
                   label="Confirmation du mot de passe:"
                   label-cols="3"
-                  label-for="input-3-confirmation">
+                  label-for="registerConfirmPass">
                   <b-form-input
-                    id="input-3-confirmation"
+                    id="registerConfirmPass"
                     v-model="signup.confirmation"
                     type="password"
                     placeholder="*********************"
+                    trim
                     :state="errors[0] ? false : (valid ? true : null)">
                   </b-form-input>
-                  <b-form-invalide-feedback>
+                  <b-form-invalid-feedback>
                     {{ errors[0] }}
-                  </b-form-invalide-feedback>
+                  </b-form-invalid-feedback>
                 </b-form-group>
               </ValidationProvider>
 <!-- ///////////////////////////////////AVATAR////////////////////////////////////// -->
@@ -153,23 +159,23 @@
                 rules="image"
                 v-slot="{ valid, errors }">
                 <b-form-group
-                  id="input-group-6"
+                  id="registerImage-group"
                   label="Photo de profil:"
                   label-cols="3"
-                  label-for="input-6"
+                  label-for="registerImage"
                   class="d-flex">
                   <b-form-file
                     v-model="signup.image_url"
-                    id="input-6"
+                    id="registerImage"
                     placeholder="Choose a file or drop it here..."
                     drop-placeholder="Drop file here..."
                     accept="image/*"
                     class=" flex-grow-1"
                     :state="errors[0] ? false : (valid ? true : null)">
                   </b-form-file>
-                  <b-form-invalide-feedback>
+                  <b-form-invalid-feedback>
                     {{ errors[0] }}
-                  </b-form-invalide-feedback>
+                  </b-form-invalid-feedback>
                 </b-form-group>
               </ValidationProvider>
 <!-- ///////////////////////////////////BIRTHDATE////////////////////////////////////// -->
@@ -178,22 +184,21 @@
                 rules="required|isDate|isPast"
                 v-slot="{ valid, errors }">
                 <b-form-group
-                  id="input-group-7"
+                  id="registerBirthdate-group"
                   label="Date de naissance:"
                   label-cols="3"
-                  label-for="input-7">
+                  label-for="registerBirthdate">
                   <input
+                    id="registerBirthdate"
                     type="date"
                     v-model="signup.birthdate"
-                    id="input-7"
                     placeholder="jj-mm-aaaa"
                     class="form-control"
                     :class="{ 'is-invalid' : errors[0], 'is-valid' : valid}"
-                    @input="userIsMajor"
                     :state="errors[0] ? false : (valid ? true : null)">
-                  <b-form-invalide-feedback>
+                  <b-form-invalid-feedback>
                     {{ errors[0] }}
-                  </b-form-invalide-feedback>
+                  </b-form-invalid-feedback>
                 </b-form-group>
               </ValidationProvider>
 <!-- ///////////////////////////////////PARENTS EMAIL////////////////////////////////////// -->
@@ -202,26 +207,26 @@
                 rules="email"
                 v-slot="{ valid, errors }">
                 <b-form-group
-                  id="input-group-8"
+                  id="registerParentMail-group"
                   label="Email des responsables:"
                   label-cols="3"
-                  label-for="input-8"
+                  label-for="registerParentMail"
                   v-show="userIsMajor">
                   <b-form-input
                     v-model="signup.parentEmail"
-                    id="input-8"
+                    id="registerParentMail"
                     type="email"
                     placeholder="parents@mail.com"
                     :state="errors[0] ? false : (valid ? true : null)">
                   </b-form-input>
-                  <b-form-invalide-feedback>
+                  <b-form-invalid-feedback>
                     {{ errors[0] }}
-                  </b-form-invalide-feedback>
+                  </b-form-invalid-feedback>
               </b-form-group>
               </ValidationProvider>
 <!-- ///////////////////////////////////RGPD////////////////////////////////////// -->
                 <b-form-group
-                  id="input-group-9"
+                  id="registerRgpd-group"
                   label="RGPD:"
                   label-cols="3">
                   <b-form-checkbox
@@ -291,9 +296,6 @@ export default {
       const now = dayjs();
       const birthdate = dayjs(this.signup.birthdate);
       return now.diff(birthdate, 'year') <= 18;
-    },
-    nameState() {
-      return this.signup.user_name.length > 2;
     },
   },
   methods: {

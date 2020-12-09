@@ -5,6 +5,8 @@ import {
   required,
   email,
   alpha_spaces,
+  min,
+  max,
   confirmed,
   image,
 } from 'vee-validate/dist/rules';
@@ -24,6 +26,16 @@ extend('email', {
 extend('alpha_spaces', {
   ...alpha_spaces,
   message: 'Indiquez votre {_field_} au bon format',
+});
+
+extend('min', {
+  ...min,
+  message: 'Le {_field_} doit contenir au moins {length} caractères',
+});
+
+extend('max', {
+  ...max,
+  message: 'Le {_field_} doit contenir au maximum {length} caractères',
 });
 
 extend('strongPassword', {
