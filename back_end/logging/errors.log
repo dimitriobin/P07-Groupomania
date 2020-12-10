@@ -540,3 +540,8 @@
 ::1 - - [10/Dec/2020:15:51:26 +0000] "POST /api/users/login HTTP/1.1" 400 28
 ::1 - - [10/Dec/2020:15:51:34 +0000] "POST /api/users/login HTTP/1.1" 404 28
 ::1 - - [10/Dec/2020:15:52:44 +0000] "POST /api/users/login HTTP/1.1" 404 28
+::1 - - [10/Dec/2020:16:12:22 +0000] "POST /api/users/signup HTTP/1.1" 500 1775
+::1 - - [10/Dec/2020:16:12:29 +0000] "POST /api/users/signup HTTP/1.1" 500 1800
+::1 - - [10/Dec/2020:16:17:36 +0000] "POST /api/users/login HTTP/1.1" 400 28
+::1 - - [10/Dec/2020:16:17:41 +0000] "POST /api/users/login HTTP/1.1" 404 28
+::1 - - [10/Dec/2020:16:47:00 +0000] "POST /api/users/signup HTTP/1.1" 500 1775
