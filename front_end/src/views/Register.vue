@@ -1,6 +1,12 @@
 <template>
     <section class="full-height d-flex flex-column justify-content-center">
-      <h1 class="sr-only">Connexion ou inscription</h1>
+      <h1 class="sr-only">Inscription et connexion</h1>
+      <b-img
+        :src="require('../assets/img/icon-above-font.png')"
+        fluid
+        width="450"
+        class="mx-auto mb-5">
+      </b-img>
       <b-row>
         <b-col cols="6" class="mx-auto p-5 shadow rounded">
             <h2 class="sr-only">Connexion</h2>
@@ -63,7 +69,7 @@
                 type="submit"
                 variant="info"
                 class="w-100">
-                Envoyer
+                Se connecter
               </b-button>
               <b-button
                 v-b-modal.signupForm
