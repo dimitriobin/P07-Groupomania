@@ -9,19 +9,17 @@ const fsPromise = fs.promises;
 exports.signup = (req, res, next) => {
     const passRegexp = new RegExp(/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){8,16}$/);
     if(passRegexp.test(req.body.password) == false) {
-        return res.send(passRegexp.test(req.body.password))
-        // return res.status(401).send('Please enter a strong password');
+        return res.status(401).send('Please enter a strong password');
     }
     bcrypt.hash(req.body.password, 10)
     .then(hashPass => {
         const userObject = req.file ? {
-            user_name: req.body.user_name,
-            email: req.body.email,
+            ...req.body,
             password: hashPass,
-            image_url: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+            image_url: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+
         } : {
-            user_name: req.body.user_name,
-            email: req.body.email,
+            ...req.body,
             password: hashPass
         };
         User.create(userObject)
@@ -40,12 +38,12 @@ exports.login = (req, res, next) => {
     User.findOne({where: {email: req.body.email}})
     .then(user => {
         if(!user){
-            return res.status(404).send('User not found')
+            return res.status(404).json({message: 'User not found'})
         }
         bcrypt.compare(req.body.password, user.password)
         .then(validPass => {
             if(!validPass){
-                return res.status(400).send('Wrong password')
+                return res.status(400).send({message: 'Wrong password'})
             }
             res.status(200).json({
                 userId: user.id,

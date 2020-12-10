@@ -28,7 +28,8 @@ export default {
         })
         .catch((error) => {
           commit('loginFailure');
-          return Promise.reject(error);
+          const { message } = error.response.data;
+          return Promise.reject(message);
         });
     },
     logout({ commit }) {
@@ -37,6 +38,8 @@ export default {
       document.location.reload();
     },
     register({ commit }, user) {
+      // console.log(user);
+      user.forEach((entry) => console.log(entry));
       return http.post('/users/signup', user)
         .then((res) => {
           commit('registerSuccess');
@@ -44,7 +47,8 @@ export default {
         })
         .catch((error) => {
           commit('registerFailure');
-          return Promise.reject(error);
+          const { message } = error.response.data.error.errors[0];
+          return Promise.reject(message);
         });
     },
   },

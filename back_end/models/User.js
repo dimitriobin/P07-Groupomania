@@ -7,8 +7,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       unique: true,
       validate: {
-        notEmpty: true,
-        isAlphanumeric: true
+        notEmpty: true
       }
     },
     email: {
@@ -31,6 +30,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     birthdate: {
         type: DataTypes.DATEONLY,
+        allowNull: false,
         validate: {
           isDate: true
         }
@@ -38,8 +38,12 @@ module.exports = (sequelize, DataTypes) => {
     parentEmail: {
       type: DataTypes.STRING,
       validate: {
-        isEmail: true,
-        is: ['^((?!\.)[\w-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$']
+        isUserMinor(value) {
+          const age = ( ( Date.now() - Date.parse(this.birthdate) ) / 31536000000 );
+          if ( age < 18 && !value ) {
+            throw new Error('Si vous êtes mineur, vous devez fournir l\'email de vos responsables.');
+          }
+        }
       }
     },
     restricted: {

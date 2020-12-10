@@ -14,7 +14,7 @@
 <!-- ///////////////////////////////////LOGIN FORM////////////////////////////////////// -->
 <!-- ////////////////////////////////////////////////////////////////////////////////////// -->
           <ValidationObserver
-            ref="observer"
+            ref="loginObserver"
             v-slot="{ handleSubmit }">
             <b-form @submit.prevent="handleSubmit(handleLogin)">
 <!-- ///////////////////////////////////EMAIL////////////////////////////////////// -->
@@ -91,7 +91,7 @@
           body-class="p-5">
           <h2 class="text-center mb-4">Rejoignez nous</h2>
           <ValidationObserver
-            ref="observer"
+            ref="registerObserver"
             v-slot="{ handleSubmit }">
             <b-form @submit.prevent="handleSubmit(handleRegister)">
 <!-- ///////////////////////////////////EMAIL////////////////////////////////////// -->
@@ -120,7 +120,7 @@
               </ValidationProvider>
 <!-- ///////////////////////////////////USERNAME////////////////////////////////////// -->
               <ValidationProvider
-                name="nom"
+                name="pseudo"
                 rules="required|alpha_spaces"
                 v-slot="{ valid, errors }">
                 <b-form-group
@@ -311,15 +311,16 @@ export default {
         confirmation: '',
         image_url: null,
         birthdate: '',
-        parentEmail: '',
-        restricted: '',
-        shareWithPartners: '',
-        contactable: '',
+        parentEmail: null,
+        restricted: true,
+        shareWithPartners: false,
+        contactable: false,
       },
       user: {
         email: '',
         password: '',
       },
+      signupMessage: '',
     };
   },
   computed: {
@@ -336,18 +337,19 @@ export default {
   methods: {
     ...mapActions(['register', 'login']),
     handleRegister() {
+      // Create a formData
       const user = new FormData();
-      user.append('user_name', this.signup.user_name);
-      user.append('email', this.signup.email);
-      user.append('password', this.signup.password);
-      user.append('image_url', this.signup.image_url);
-      user.append('birthdate', this.signup.birthdate);
-      user.append('parentEmail', this.signup.parentEmail);
-      user.append('restricted', this.signup.restricted);
-      user.append('shareWithPartners', this.signup.shareWithPartners);
-      user.append('contactable', this.signup.contactable);
+      // Append only no-nule values in the formdata
+      Object.entries(this.signup).forEach(([key, value]) => {
+        if (value !== null) {
+          return user.append(`${key}`, value);
+        }
+        return '';
+      });
+      // Call the register function with the formdata in arg
       this.register(user)
         .then(() => {
+          // if the register succeed, log the user
           const newUser = {
             email: this.signup.email,
             password: this.signup.password,
@@ -355,19 +357,57 @@ export default {
           return this.login(newUser);
         })
         .then(() => {
+          // ig the user is logged , refresh the page
           document.location.reload();
         })
-        .catch((error) => console.log(error));
+        .catch((error) => {
+          // If some known errors are send by the back end, display them in the UI
+          switch (error) {
+            case 'user.user_name must be unique':
+              this.$refs.registerObserver.setErrors({
+                pseudo: ['Ce pseudo est déjà utilisé'],
+              });
+              break;
+            case 'user.email must be unique':
+              this.$refs.registerObserver.setErrors({
+                email: ['Cet email est déjà utilisé'],
+              });
+              break;
+            default:
+              break;
+          }
+          // for errors that aren't known, display in the console
+          return console.error(error);
+        });
     },
     handleLogin() {
+      let user = {};
       if (this.user.email && this.user.password) {
-        console.log(this.user);
-        this.login(this.user)
-          .then(() => {
-            document.location.reload();
-          })
-          .catch((error) => console.log(error));
+        user = { ...this.user };
       }
+      this.login(user)
+        .then(() => {
+          document.location.reload();
+        })
+        .catch((error) => {
+        // If some known errors are send by the back end, display them in the UI
+          switch (error) {
+            case 'Wrong password':
+              this.$refs.loginObserver.setErrors({
+                mdp: ['Mot de passe incorrect'],
+              });
+              break;
+            case 'User not found':
+              this.$refs.loginObserver.setErrors({
+                email: ['Email incorrect'],
+              });
+              break;
+            default:
+              break;
+          }
+          // for errors that aren't known, display in the console
+          return console.error(error);
+        });
     },
   },
   mounted() {
