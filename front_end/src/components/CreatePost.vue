@@ -17,7 +17,9 @@
         title="Quoi de neuf ?"
         hide-footer
         class="shadow rounded-lg p-4 mb-4">
-            <b-form class="d-flex flex-column">
+            <b-form
+                class="d-flex flex-column"
+                @submit="createPost()">
                 <b-form-group
                     id="input-group-title"
                     label="Titre* :"
@@ -64,7 +66,6 @@
                 </b-form-group>
                 <p class=" align-self-end"><small>* : obligatoire</small></p>
                 <b-button
-                    @click="createPost()"
                     type="submit"
                     variant="primary"
                     class="mx-auto">
@@ -103,7 +104,6 @@ export default {
           value: item.id,
           text: item.name,
         };
-        console.log(newOption);
         this.options.push(newOption);
       });
     },
@@ -113,8 +113,8 @@ export default {
       // Append form values inside
       fd.append('title', this.newPost.title);
       fd.append('url', this.newPost.url);
-      fd.append('image_url', this.newPost.image_file, this.newPost.image_file.name);
-      fd.append('subject_id', 1);
+      fd.append('image_url', this.newPost.image_file /* , this.newPost.image_file.name */);
+      fd.append('subject_id', this.newPost.subject_id);
       fd.append('user_id', this.userId);
       // Call the addPost action with the formData in param
       this.addPost(fd);

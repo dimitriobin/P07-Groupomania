@@ -4,7 +4,6 @@ const { QueryTypes } = require('sequelize');
 const fs = require('fs');
 
 exports.createOnePost = (req, res, next) => {
-    console.log(req.file);
     const postObject = req.file ? {
         title: req.body.title,
         image_url: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
