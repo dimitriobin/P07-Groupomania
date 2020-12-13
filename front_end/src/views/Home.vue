@@ -8,15 +8,8 @@
         <Post
           v-for="post in allPosts"
           :key="post.id"
-          :id="post.id.toString()"
-          :title="post.title"
-          :image_url="post.image_url"
-          :url="post.url"
-          :user="post.User"
-          :subject="post.Subject"
-          :date="post.createdAt"
-          :user_image="post.User.image_url"
-          :comments="post.Comments" />
+          :post="post"
+          @pressed="fetchAllPostsBySubject($event)" />
       </div>
       <SubjectSuggest v-else />
     </b-col>
@@ -48,11 +41,11 @@ export default {
     ...mapGetters(['allPosts', 'loggedUser', 'allFollows']),
   },
   methods: {
-    ...mapActions(['fetchAllPosts', 'getFollows']),
+    ...mapActions(['fetchAllPosts', 'getFollows', 'fetchAllPostsByFollow', 'fetchAllPostsBySubject']),
   },
   created() {
     this.getFollows(this.loggedUser.storedUser.userId);
-    this.fetchAllPosts();
+    this.fetchAllPostsByFollow();
   },
 };
 </script>

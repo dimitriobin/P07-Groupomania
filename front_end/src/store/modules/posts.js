@@ -27,6 +27,15 @@ const actions = {
       })
       .catch((err) => { console.log(err); });
   },
+  fetchAllPostsByFollow({ commit }) {
+    const { userId } = JSON.parse(localStorage.getItem('user'));
+    http.get(`/posts/${userId}`, { headers: authHeader() })
+      .then((res) => {
+        console.log(res.data);
+        commit('setAllPosts', res.data);
+      })
+      .catch((err) => { console.log(err); });
+  },
   fetchAllPostsBySubject({ commit }, id) {
     http.get(`/posts/subject/${id}`, { headers: authHeader() })
       .then((res) => {

@@ -1,5 +1,6 @@
 'use strict'
-const { Post, Subject, User, Comment } = require('../models');
+const { Post, Subject, User, Comment, sequelize } = require('../models');
+const { QueryTypes } = require('sequelize');
 const fs = require('fs');
 
 exports.createOnePost = (req, res, next) => {
@@ -34,6 +35,41 @@ exports.readAllPosts = (req, res, next) => {
         if(posts.length <= 0) {
             return res.status(404).send('Posts not found');
         }
+        res.status(200).json(posts);
+    })
+    .catch(error => {
+        res.status(500).json({error});
+    });
+};
+
+
+exports.readAllPostsByFollow = (req, res, next) => {
+    sequelize.query(
+        `
+        SELECT
+            post.*,
+            user.user_name AS 'User.user_name',
+            user.image_url AS 'User.image_url',
+            user.id AS 'User.id',
+            subject.id AS 'Subject.id',
+            subject.name AS 'Subject.name'
+        FROM groupomania.post AS post
+        JOIN groupomania.user AS user
+            ON post.user_id = user.id
+        JOIN groupomania.subject AS subject
+            ON post.subject_id = subject.id
+        WHERE post.subject_id IN ( SELECT follow.SubjectId FROM groupomania.subjectfollows AS follow WHERE UserId = ${req.params.user_id})
+            OR post.user_id = ${req.params.user_id}
+        ORDER BY post.createdAt DESC;
+    `
+    , { 
+        nest: true,
+        type: QueryTypes.SELECT })
+    .then((posts) => {
+        console.log(posts);
+        // if(posts.length <= 0) {
+        //     return res.status(404).send('Posts not found');
+        // }
         res.status(200).json(posts);
     })
     .catch(error => {
