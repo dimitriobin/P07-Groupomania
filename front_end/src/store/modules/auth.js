@@ -1,5 +1,4 @@
 import http from '../../http-common';
-import router from '../../router';
 
 const storedUser = JSON.parse(localStorage.getItem('user'));
 const initialState = storedUser
@@ -7,43 +6,42 @@ const initialState = storedUser
   : { status: { loggedIn: false }, storedUser: null };
 
 export default {
-  namespaced: true,
-  state: {
-    initialState,
-  },
+  state: initialState,
   getters: {
-    loggedUser: (state) => state.initialState,
+    loggedUser: (state) => state,
+    userId: (state) => state.storedUser.userId,
   },
   actions: {
     login({ commit }, user) {
-      http.post('/users/login', user)
+      return http.post('/users/login', user)
         .then((response) => {
-          console.log(response.data);
           if (response.data.token) {
             localStorage.setItem('user', JSON.stringify(response.data));
           }
           commit('loginSuccess', response.data);
-          router.push('/');
+          return Promise.resolve(response.data);
         })
         .catch((error) => {
-          console.log(error);
           commit('loginFailure');
+          const { message } = error.response.data;
+          return Promise.reject(message);
         });
     },
     logout({ commit }) {
       localStorage.removeItem('user');
       commit('logout');
+      document.location.reload();
     },
     register({ commit }, user) {
-      console.log(user);
-      http.post('/users/signup', user)
+      return http.post('/users/signup', user)
         .then((res) => {
-          console.log(res);
           commit('registerSuccess');
+          return Promise.resolve(res.data);
         })
         .catch((error) => {
-          console.log(error);
           commit('registerFailure');
+          const { message } = error.response.data.error.errors[0];
+          return Promise.reject(message);
         });
     },
   },

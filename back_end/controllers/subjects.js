@@ -87,7 +87,8 @@ exports.deleteOneSubject = (req, res, next) => {
 
 // Permit a user to follow some subjects
 exports.followSubject = (req, res, next) => {
-    User.findOne({where: {id: req.body.UserId}})
+    console.log(req.body);
+    User.findOne({where: {id: req.body.userId}})
     .then(user => {
         if(!user){
             return res.status(404).send('User not found')
@@ -98,7 +99,9 @@ exports.followSubject = (req, res, next) => {
                 return res.status(404).send('Subject not found')
             }
             user.addSubject(subject, {through: 'subjectFollows'})
-            .then(res.status(200).send('Subject followed'))
+            .then(follow => {
+                res.status(200).json(follow);
+            })
             .catch(error => res.status(500).json({ error }))
         })
         .catch(error => res.status(500).json({ error }))
@@ -121,7 +124,7 @@ exports.readAllFollowsByUser = (req, res, next) => {
 
 
 exports.unFollowSubject = (req, res, next) => {
-    User.findOne({where: {id: req.body.UserId}})
+    User.findOne({where: {id: req.body.userId}})
     .then(user => {
         if(!user){
             return res.status(404).send('User not found')
@@ -132,7 +135,9 @@ exports.unFollowSubject = (req, res, next) => {
                 return res.status(404).send('Subject not found')
             }
             user.removeSubject(subject, {through: 'subjectFollows'})
-            .then(res.status(200).send('Subject unfollowed'))
+            .then(unFollow => {
+                res.status(200).json(unFollow);
+            })
             .catch(error => res.status(500).json({ error }))
         })
         .catch(error => res.status(500).json({ error }))
