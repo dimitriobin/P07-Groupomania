@@ -260,7 +260,7 @@ export default {
         })
         .then(() => {
           // ig the user is logged , refresh the page
-          this.$emit('showSuggest');
+          document.location.reload();
         })
         .catch((error) => {
           // If some known errors are send by the back end, display them in the UI
