@@ -2,20 +2,16 @@
   <b-row no-gutters id="Sidebar">
     <b-col cols="12" class="p-4 rounded-lg bg-white mb-3 shadow">
       <h2 class="h5 text-muted text-left font-weight-bold mb-3">Top des sujets</h2>
-      <b-list-group tag="ol">
-        <b-list-group-item
-          v-for="(subject, index) in topFive"
-          :key="index"
-          tag="li"
-          class="d-flex justify-content-between align-items-center border-0 py-2 text-left">
-          <b-button
-            @click="fetchAllPostsBySubject(subject.id)"
-            variant="link"
+      <b-list-group
+        tag="ol"
+        class="px-4">
+          <subject
+            v-for="(subject, index) in topFive"
+            :key="index"
+            @pressed="fetchAllPostsBySubject(subject.id)"
+            :subject="subject"
             class="text-dark p-0 text-left">
-            {{ subject.name }}
-          </b-button>
-          <b-link class="text-right">Suivre</b-link>
-        </b-list-group-item>
+          </subject>
       </b-list-group>
     </b-col>
     <b-col cols="12" class=" p-4 rounded-lg bg-white  shadow">
@@ -43,9 +39,13 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
+import Subject from '@/components/Subject.vue';
 
 export default {
   name: 'Sidebar',
+  components: {
+    Subject,
+  },
   computed: {
     ...mapGetters(['allSubjects', 'allUsers']),
     topFive() {
