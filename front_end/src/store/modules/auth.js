@@ -6,15 +6,10 @@ const initialState = storedUser
   : { status: { loggedIn: false }, storedUser: null };
 
 export default {
-  state: {
-    initialState,
-    status: {
-      loggedIn: '',
-    },
-    user: '',
-  },
+  state: initialState,
   getters: {
-    loggedUser: (state) => state.initialState,
+    loggedUser: (state) => state,
+    userId: (state) => state.storedUser.userId,
   },
   actions: {
     login({ commit }, user) {
@@ -38,8 +33,6 @@ export default {
       document.location.reload();
     },
     register({ commit }, user) {
-      // console.log(user);
-      user.forEach((entry) => console.log(entry));
       return http.post('/users/signup', user)
         .then((res) => {
           commit('registerSuccess');

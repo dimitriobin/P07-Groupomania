@@ -18,8 +18,7 @@
           hide-header
           hide-footer
           body-class="p-5">
-          <SubjectSuggest v-if="isSuggestVisible" />
-          <Signup v-else @userSigned="showSuggests" />
+          <Signup />
         </b-modal>
       </b-row>
     </section>
@@ -29,29 +28,19 @@
 import { mapGetters } from 'vuex';
 import Signup from '../components/Register/Signup.vue';
 import Login from '../components/Register/Login.vue';
-import SubjectSuggest from '../components/Register/SubjectSuggest.vue';
+// import SubjectSuggest from '../components/Register/SubjectSuggest.vue';
 
 export default {
   name: 'Register',
   components: {
     Signup,
     Login,
-    SubjectSuggest,
-  },
-  data() {
-    return {
-      isSuggestVisible: false,
-    };
+    // SubjectSuggest,
   },
   computed: {
     ...mapGetters(['loggedUser']),
     loggedIn() {
       return this.loggedUser.status.loggedIn;
-    },
-  },
-  methods: {
-    showSuggests() {
-      this.isSuggestVisible = true;
     },
   },
   mounted() {

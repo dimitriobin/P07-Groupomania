@@ -250,20 +250,17 @@ export default {
       });
       // Call the register function with the formdata in arg
       this.register(user)
-        // .then(() => {
-        //   // if the register succeed, log the user
-        //   const newUser = {
-        //     email: this.signup.email,
-        //     password: this.signup.password,
-        //   };
-        //   return this.login(newUser);
-        // })
-        // .then(() => {
-        //   // ig the user is logged , refresh the page
-        //   document.location.reload();
-        // })
         .then(() => {
-          this.$emit('userSigned');
+          // if the register succeed, log the user
+          const newUser = {
+            email: this.signup.email,
+            password: this.signup.password,
+          };
+          return this.login(newUser);
+        })
+        .then(() => {
+          // ig the user is logged , refresh the page
+          this.$emit('showSuggest');
         })
         .catch((error) => {
           // If some known errors are send by the back end, display them in the UI

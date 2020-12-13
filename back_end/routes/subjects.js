@@ -55,7 +55,7 @@ router.post('/follow', auth, readAllFollowsByUser);
 /////////////////////////////////////////////
 // Delete one follow = unfollow
 /////////////////////////////////////////////
-router.delete('/:id/unfollow', auth, unFollowSubject)
+router.post('/:id/unfollow', auth, unFollowSubject)
 
 
 
