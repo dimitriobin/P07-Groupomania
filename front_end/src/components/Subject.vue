@@ -1,20 +1,18 @@
 <template>
   <b-list-group-item
     tag="li"
-    class="d-flex justify-content-between align-items-center border-0 py-2 text-left">
+    class="d-flex align-items-center justify-content-start border-0 py-1 px-0 text-left">
     <b-button
-      @click="this.$emits('pressed')"
+      @click="$emit('pressed')"
       variant="link"
-      class="text-dark p-0 text-left">
+      class="text-dark p-0 mr-3">
       {{ subject.name }}
     </b-button>
     <b-link
       v-if="!followed"
-      class="text-right"
       @click="toFollow(subject.id)">Suivre</b-link>
     <b-link
       v-else
-      class="text-right"
       @click="toUnFollow(subject.id)">Ne plus suivre</b-link>
   </b-list-group-item>
 </template>

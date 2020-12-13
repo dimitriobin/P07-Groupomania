@@ -10,13 +10,10 @@
                     <router-link
                         :to="`/user/${user.id}`"
                         class="h5 font-weight-bold text-dark">{{ user.user_name }}</router-link>
-                    <p class="mb-0">
-                        <b-button
-                            @click="fetchAllPostsBySubject(subject.id)"
-                            variant="link"
-                            class="h6 p-0 m-0 text-dark">{{ subject.name }}</b-button>
-                        <a class="ml-2" href="#"><small>Suivre</small></a>
-                    </p>
+                    <subject
+                        @pressed="fetchAllPostsBySubject(subject.id)"
+                        :subject="subject">
+                    </subject>
                 </b-col>
             </b-row>
         </b-col>
@@ -90,6 +87,7 @@ import { mapActions } from 'vuex';
 import dayjs from 'dayjs';
 import fr from 'dayjs/locale/fr';
 import RelativeTime from 'dayjs/plugin/relativeTime';
+import Subject from '@/components/Subject.vue';
 
 dayjs.extend(RelativeTime);
 dayjs.locale(fr);
@@ -107,6 +105,9 @@ export default {
     'user_image',
     'comments',
   ],
+  components: {
+    Subject,
+  },
   data() {
     return {
       visible: false,
