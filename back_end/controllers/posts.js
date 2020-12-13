@@ -66,10 +66,9 @@ exports.readAllPostsByFollow = (req, res, next) => {
         nest: true,
         type: QueryTypes.SELECT })
     .then((posts) => {
-        console.log(posts);
-        // if(posts.length <= 0) {
-        //     return res.status(404).send('Posts not found');
-        // }
+        if(posts.length <= 0) {
+            return res.status(404).send('Posts not found');
+        }
         res.status(200).json(posts);
     })
     .catch(error => {

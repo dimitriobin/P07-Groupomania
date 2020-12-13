@@ -31,7 +31,6 @@ const actions = {
     const { userId } = JSON.parse(localStorage.getItem('user'));
     http.get(`/posts/${userId}`, { headers: authHeader() })
       .then((res) => {
-        console.log(res.data);
         commit('setAllPosts', res.data);
       })
       .catch((err) => { console.log(err); });

@@ -8,7 +8,8 @@
             pill
             variant="light"
             size="lg"
-            class="border-0 w-100 h-100 ml-2 text-left p-3">
+            class="border-0 w-100 h-100 ml-2 text-left p-3"
+            @click="subjectListing">
             Que voulez-vous dire ?</b-button>
         <b-modal
         v-model="visible"
@@ -75,7 +76,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'CreatePost',
@@ -88,13 +89,24 @@ export default {
         url: '',
         subject_id: '',
       },
-      options: [
-        { value: 1, text: 'Subject one' },
-      ],
+      options: [],
     };
+  },
+  computed: {
+    ...mapGetters(['allSubjects', 'userId']),
   },
   methods: {
     ...mapActions(['addPost']),
+    subjectListing() {
+      this.allSubjects.forEach((item) => {
+        const newOption = {
+          value: item.id,
+          text: item.name,
+        };
+        console.log(newOption);
+        this.options.push(newOption);
+      });
+    },
     createPost() {
       // Create a FormData instance
       const fd = new FormData();
@@ -103,7 +115,7 @@ export default {
       fd.append('url', this.newPost.url);
       fd.append('image_url', this.newPost.image_file, this.newPost.image_file.name);
       fd.append('subject_id', 1);
-      fd.append('user_id', 1);
+      fd.append('user_id', this.userId);
       // Call the addPost action with the formData in param
       this.addPost(fd);
       // Reset the values of the form
