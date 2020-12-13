@@ -2,9 +2,7 @@
   <b-row id="home">
     <b-col tag="main" cols="12" lg="8">
       <h1 class="sr-only">Fil d'actualités</h1>
-      <SubjectSuggest
-        v-if="allFollows.length < 3" />
-      <div v-else>
+      <div v-if="allFollows.length > 3">
         <SortingNav />
         <CreatePost />
         <Post
@@ -20,6 +18,7 @@
           :user_image="post.User.image_url"
           :comments="post.Comments" />
       </div>
+      <SubjectSuggest v-else />
     </b-col>
     <b-col tag="aside" cols="12" lg="4">
       <Sidebar />
