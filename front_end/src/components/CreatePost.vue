@@ -19,7 +19,7 @@
         class="shadow rounded-lg p-4 mb-4">
             <b-form
                 class="d-flex flex-column"
-                @submit="createPost()">
+                @submit.prevent="createPost()">
                 <b-form-group
                     id="input-group-title"
                     label="Titre* :"

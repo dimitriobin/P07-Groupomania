@@ -59,7 +59,7 @@ exports.readAllPostsByFollow = (req, res, next) => {
             ON post.subject_id = subject.id
         WHERE post.subject_id IN ( SELECT follow.SubjectId FROM groupomania.subjectfollows AS follow WHERE UserId = :user)
             OR post.user_id = :user
-        ORDER BY post.createdAt ASC;
+        ORDER BY post.createdAt DESC;
     `
     , {
         replacements: {

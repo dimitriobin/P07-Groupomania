@@ -30,7 +30,7 @@
                 alt="Description de l'image"
                 :src="post.image_url"></b-img>
             <a target="_blank" :href="post.url">{{ post.url }}</a>
-            <p class="mb-0 text-muted"><small>{{ dateToTimestamp(post.date) }}</small></p>
+            <p class="mb-0 text-muted"><small>{{ dateToTimestamp(post.createdAt) }}</small></p>
         </b-col>
         <b-col cols="12" tag="footer" class="h2">
             <b-row align-h="around" class="px-5">

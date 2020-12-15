@@ -854,3 +854,5 @@
 ::1 - - [14/Dec/2020:09:12:43 +0000] "POST /api/users/login HTTP/1.1" 404 28
 ::1 - - [15/Dec/2020:14:03:28 +0000] "POST /api/users/login HTTP/1.1" 400 28
 ::1 - - [15/Dec/2020:14:05:28 +0000] "POST /api/posts HTTP/1.1" 500 473
+::1 - - [15/Dec/2020:14:12:49 +0000] "POST /api/posts HTTP/1.1" 500 478
+::1 - - [15/Dec/2020:14:14:00 +0000] "POST /api/posts HTTP/1.1" 500 479
