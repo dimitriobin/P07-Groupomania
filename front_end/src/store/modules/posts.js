@@ -49,6 +49,7 @@ const mutations = {
     state.posts = posts;
   },
   newPost(state, createdPost) {
+    console.log(createdPost);
     state.posts.unshift(createdPost);
   },
 };

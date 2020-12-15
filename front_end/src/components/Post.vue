@@ -5,10 +5,14 @@
         class="bg-white rounded-lg shadow p-4 mb-4">
         <b-col cols="12" tag="header" class="mb-2">
             <b-row no-gutters align-v="center">
-                <b-avatar :src="post.userImage" size="lg" class="mr-4"></b-avatar>
+                <b-avatar
+                    :src="post.User.image_url"
+                    size="lg"
+                    class="mr-4">
+                </b-avatar>
                 <b-col class="text-left">
                     <router-link
-                        :to="`/user/${post.userId}`"
+                        :to="`/user/${post.User.id}`"
                         class="h5 font-weight-bold text-dark">
                         {{ post.User.user_name }}
                     </router-link>
@@ -24,12 +28,12 @@
                 {{ post.title }}
             </h3>
             <b-img
-                v-if="post.image_url !== null"
+                v-if="post.image_url"
                 fluid
                 class="w-100 my-3"
                 alt="Description de l'image"
                 :src="post.image_url"></b-img>
-            <a target="_blank" :href="post.url">{{ post.url }}</a>
+            <a v-if="post.url" target="_blank" :href="post.url">{{ post.url }}</a>
             <p class="mb-0 text-muted"><small>{{ dateToTimestamp(post.createdAt) }}</small></p>
         </b-col>
         <b-col cols="12" tag="footer" class="h2">
@@ -85,7 +89,6 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
 import dayjs from 'dayjs';
 import fr from 'dayjs/locale/fr';
 import RelativeTime from 'dayjs/plugin/relativeTime';
@@ -109,7 +112,6 @@ export default {
     };
   },
   methods: {
-    ...mapActions(['fetchAllPostsBySubject']),
     dateToTimestamp(date) {
       return dayjs(date).fromNow();
     },

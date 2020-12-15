@@ -16,7 +16,16 @@ exports.createOnePost = (req, res, next) => {
     };
     Post.create(postObject)
     .then(createdPost => {
-        res.status(201).json(createdPost);
+        Post.findOne({
+            include: [
+                {model: Subject},
+                {model: User},
+                {model: Comment, include: { model: User }}
+            ], where: {id: createdPost.id}})
+        .then(post => {
+            res.status(201).json(post);
+        })
+        .catch(error => res.status(500).json({error}))
     })
     .catch(error => {
         res.status(500).json({error});

@@ -28,6 +28,7 @@
                         v-model="newPost.title"
                         id="title"
                         type="text"
+                        autofocus
                         required>
                     </b-form-input>
                 </b-form-group>
@@ -47,8 +48,8 @@
                     label-for="postImage">
                     <b-form-file
                         id="postImage"
-                        v-model="newPost.image_file"
-                        :state="Boolean(newPost.image_file)"
+                        v-model="newPost.image_url"
+                        :state="Boolean(newPost.image_url)"
                         accept="image/*"
                         placeholder="Choose a file or drop it here..."
                         drop-placeholder="Drop file here...">
@@ -86,7 +87,7 @@ export default {
       visible: false,
       newPost: {
         title: '',
-        image_file: null,
+        image_url: null,
         url: '',
         subject_id: '',
       },
@@ -110,17 +111,21 @@ export default {
     createPost() {
       // Create a FormData instance
       const fd = new FormData();
-      // Append form values inside
-      fd.append('title', this.newPost.title);
-      fd.append('url', this.newPost.url);
-      fd.append('image_url', this.newPost.image_file /* , this.newPost.image_file.name */);
-      fd.append('subject_id', this.newPost.subject_id);
       fd.append('user_id', this.userId);
+      // Append form values inside
+      Object.entries(this.newPost).forEach(
+        ([key, value]) => {
+          if (value !== null && value !== '') {
+            console.log(`${key}, value`);
+            fd.append(`${key}`, value);
+          }
+        },
+      );
       // Call the addPost action with the formData in param
       this.addPost(fd);
       // Reset the values of the form
       this.newPost.title = '';
-      this.newPost.image_file = null;
+      this.newPost.image_url = null;
       this.newPost.url = '';
       this.newPost.subject_id = '';
       // Hide the modal
