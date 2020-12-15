@@ -57,11 +57,14 @@ exports.readAllPostsByFollow = (req, res, next) => {
             ON post.user_id = user.id
         JOIN groupomania.subject AS subject
             ON post.subject_id = subject.id
-        WHERE post.subject_id IN ( SELECT follow.SubjectId FROM groupomania.subjectfollows AS follow WHERE UserId = ${req.params.user_id})
-            OR post.user_id = ${req.params.user_id}
-        ORDER BY post.createdAt DESC;
+        WHERE post.subject_id IN ( SELECT follow.SubjectId FROM groupomania.subjectfollows AS follow WHERE UserId = :user)
+            OR post.user_id = :user
+        ORDER BY post.createdAt ASC;
     `
-    , { 
+    , {
+        replacements: {
+            user: `${req.params.user_id}`
+        },
         nest: true,
         type: QueryTypes.SELECT })
     .then((posts) => {
