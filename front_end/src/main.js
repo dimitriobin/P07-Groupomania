@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue';
+import VueObserveVisibility from 'vue-observe-visibility';
 import router from './router';
 import store from './store';
 import App from './App.vue';
@@ -11,6 +12,7 @@ import './validation-config';
 
 Vue.use(BootstrapVue);
 Vue.use(BootstrapVueIcons);
+Vue.use(VueObserveVisibility);
 
 Vue.config.productionTip = false;
 

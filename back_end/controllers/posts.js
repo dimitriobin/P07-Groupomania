@@ -1,9 +1,24 @@
 'use strict'
 const { Post, Subject, User, Comment } = require('../models');
+const { Op } = require('sequelize');
 const fs = require('fs');
 
+const getPagination = (page, size) => {
+    const limit = size ? +size : 3;
+    const offset = page ? page * limit : 0;
+
+    return { limit, offset };
+};
+
+const getPagingData = (data, page, limit) => {
+    const { count: totalItems, rows: posts } = data;
+    const currentPage = page ? +page : 0;
+    const totalPages = Math.ceil(totalItems / limit);
+
+    return { totalItems, posts, totalPages, currentPage };
+};
+
 exports.createOnePost = (req, res, next) => {
-    console.log(req.file);
     const postObject = req.file ? {
         title: req.body.title,
         image_url: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
@@ -16,7 +31,16 @@ exports.createOnePost = (req, res, next) => {
     };
     Post.create(postObject)
     .then(createdPost => {
-        res.status(201).json(createdPost);
+        Post.findOne({
+            include: [
+                {model: Subject},
+                {model: User},
+                {model: Comment, include: { model: User }}
+            ], where: {id: createdPost.id}})
+        .then(post => {
+            res.status(201).json(post);
+        })
+        .catch(error => res.status(500).json({error}))
     })
     .catch(error => {
         res.status(500).json({error});
@@ -35,6 +59,49 @@ exports.readAllPosts = (req, res, next) => {
             return res.status(404).send('Posts not found');
         }
         res.status(200).json(posts);
+    })
+    .catch(error => {
+        res.status(500).json({error});
+    });
+};
+
+
+exports.readAllPostsByFollow = (req, res, next) => {
+    const { page, size } = req.query;
+    const { limit, offset } = getPagination(page, size);
+
+    User.findOne({where: {id: req.params.user_id} ,include: Subject})
+    .then(user => {
+        const followsId = [];
+        user.Subjects.forEach(subject => {
+            followsId.push(subject.dataValues.id);
+        })
+        Post.findAndCountAll({
+            include: [
+                {model: Subject},
+                {model: User},
+                {model: Comment, include: { model: User }}
+            ],
+            limit,
+            offset,
+            where: {
+                [Op.or]: [
+                    {user_id : req.params.user_id},
+                    {subject_id : followsId}
+                ]
+            },
+            order: [ ['createdAt', 'DESC'] ]
+        })
+        .then((posts) => {
+            if(posts.length <= 0) {
+                return res.status(404).json({message: 'Posts not found'});
+            }
+            const response = getPagingData(posts, page, limit);
+            res.status(200).json(response);
+        })
+        .catch(error => {
+            res.status(500).json({error});
+        })
     })
     .catch(error => {
         res.status(500).json({error});

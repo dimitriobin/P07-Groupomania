@@ -5,7 +5,7 @@
     <b-button
       @click="$emit('pressed')"
       variant="link"
-      class="text-dark p-0 mr-3">
+      class="text-dark p-0 mr-3 text-left">
       {{ subject.name }}
     </b-button>
     <b-link

@@ -3,7 +3,7 @@ const router = require('express').Router();
 const auth = require('../middlewares/auth');
 const multer = require('../middlewares/multer-config');
 
-const { createOnePost, readAllPosts, readAllPostsByUser, readAllPostsBySubject, readOnePost, updateOnePost, deleteOnePost } = require ('../controllers/posts');
+const { createOnePost, readAllPosts, readAllPostsByUser, readAllPostsBySubject, readOnePost, updateOnePost, deleteOnePost, readAllPostsByFollow } = require ('../controllers/posts');
 
 /////////////////////////////////////////////
 // CREATE ONE Post
@@ -14,6 +14,11 @@ router.post('/', auth, multer, createOnePost);
 // READ ALL Posts
 /////////////////////////////////////////////
 router.get('/', auth, readAllPosts);
+
+/////////////////////////////////////////////
+// READ ALL Followed Posts
+/////////////////////////////////////////////
+router.get('/:user_id', auth, readAllPostsByFollow);
 
 /////////////////////////////////////////////
 // READ ALL Posts by user

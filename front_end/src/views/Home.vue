@@ -6,17 +6,13 @@
         <SortingNav />
         <CreatePost />
         <Post
-          v-for="post in allPosts"
-          :key="post.id"
-          :id="post.id.toString()"
-          :title="post.title"
-          :image_url="post.image_url"
-          :url="post.url"
-          :user="post.User"
-          :subject="post.Subject"
-          :date="post.createdAt"
-          :user_image="post.User.image_url"
-          :comments="post.Comments" />
+          v-for="(post, index) in allPosts"
+          :key="index"
+          :post="post"
+          @pressed="fetchAllPostsBySubject($event)" />
+        <LazyLoadingScroll
+          v-if="allPosts.length && postPagination.currentPage < postPagination.lastPage"
+          @loadMore="fetchAllPostsByFollow($event)" />
       </div>
       <SubjectSuggest v-else />
     </b-col>
@@ -34,6 +30,7 @@ import SortingNav from '@/components/SortingNav.vue';
 import CreatePost from '@/components/CreatePost.vue';
 import SubjectSuggest from '@/components/SubjectSuggest.vue';
 import { mapGetters, mapActions } from 'vuex';
+import LazyLoadingScroll from '@/components/lazyLoadingScroll.vue';
 
 export default {
   name: 'Home',
@@ -43,16 +40,17 @@ export default {
     SortingNav,
     CreatePost,
     SubjectSuggest,
+    LazyLoadingScroll,
   },
   computed: {
-    ...mapGetters(['allPosts', 'loggedUser', 'allFollows']),
+    ...mapGetters(['allPosts', 'postPagination', 'loggedUser', 'allFollows']),
   },
   methods: {
-    ...mapActions(['fetchAllPosts', 'getFollows']),
+    ...mapActions(['fetchAllPosts', 'getFollows', 'fetchAllPostsByFollow', 'fetchAllPostsBySubject']),
   },
-  created() {
+  mounted() {
     this.getFollows(this.loggedUser.storedUser.userId);
-    this.fetchAllPosts();
+    this.fetchAllPostsByFollow(1);
   },
 };
 </script>

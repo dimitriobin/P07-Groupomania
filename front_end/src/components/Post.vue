@@ -5,30 +5,36 @@
         class="bg-white rounded-lg shadow p-4 mb-4">
         <b-col cols="12" tag="header" class="mb-2">
             <b-row no-gutters align-v="center">
-                <b-avatar :src="user_image" size="lg" class="mr-4"></b-avatar>
+                <b-avatar
+                    :src="post.User.image_url"
+                    size="lg"
+                    class="mr-4">
+                </b-avatar>
                 <b-col class="text-left">
                     <router-link
-                        :to="`/user/${user.id}`"
-                        class="h5 font-weight-bold text-dark">{{ user.user_name }}</router-link>
+                        :to="`/user/${post.User.id}`"
+                        class="h5 font-weight-bold text-dark">
+                        {{ post.User.user_name }}
+                    </router-link>
                     <subject
-                        @pressed="fetchAllPostsBySubject(subject.id)"
-                        :subject="subject">
+                        @pressed="$emit('pressed', post.Subject.id)"
+                        :subject="post.Subject">
                     </subject>
                 </b-col>
             </b-row>
         </b-col>
         <b-col cols="12" class="my-3  text-left">
             <h3 class="h4 font-weight-bold">
-                {{ title }}
+                {{ post.title }}
             </h3>
             <b-img
-                v-if="image_url !== null"
+                v-if="post.image_url"
                 fluid
                 class="w-100 my-3"
                 alt="Description de l'image"
-                :src="image_url"></b-img>
-            <a target="_blank" :href="url">{{ url }}</a>
-            <p class="mb-0 text-muted"><small>{{ dateToTimestamp(date) }}</small></p>
+                :src="post.image_url"></b-img>
+            <a v-if="post.url" target="_blank" :href="post.url">{{ post.url }}</a>
+            <p class="mb-0 text-muted"><small>{{ dateToTimestamp(post.createdAt) }}</small></p>
         </b-col>
         <b-col cols="12" tag="footer" class="h2">
             <b-row align-h="around" class="px-5">
@@ -41,12 +47,12 @@
                     <b-icon
                         icon="chat-left-text" variant="dark" class="mx-1 mx-lg-2" font-scale="2">
                     </b-icon>
-                    <b-badge
+                    <!-- <b-badge
                     v-if="comments.length > 0"
                         pill
                         class="icon_counter"
                         variant="dark">{{ commentsNumber }}
-                    </b-badge>
+                    </b-badge> -->
                 </b-button>
                 <b-dropdown variant="link" toggle-class="text-decoration-none" no-caret>
                     <template v-slot:button-content>
@@ -60,7 +66,7 @@
             </b-row>
         </b-col>
         <!-- Need to change the id of comment with the dynamique id of the post -->
-        <b-collapse
+        <!-- <b-collapse
             v-model="visible"
             :id="id"
             class="w-100 mt-2 border-top">
@@ -78,12 +84,11 @@
                 </b-col>
                 <b-col tag="p" class="text-justify">{{ comment.content }}</b-col>
             </b-row>
-        </b-collapse>
+        </b-collapse> -->
     </b-row>
 </template>
 
 <script>
-import { mapActions } from 'vuex';
 import dayjs from 'dayjs';
 import fr from 'dayjs/locale/fr';
 import RelativeTime from 'dayjs/plugin/relativeTime';
@@ -95,15 +100,7 @@ dayjs.locale(fr);
 export default {
   name: 'Post',
   props: [
-    'id',
-    'title',
-    'image_url',
-    'url',
-    'user',
-    'subject',
-    'date',
-    'user_image',
-    'comments',
+    'post',
   ],
   components: {
     Subject,
@@ -115,7 +112,6 @@ export default {
     };
   },
   methods: {
-    ...mapActions(['fetchAllPostsBySubject']),
     dateToTimestamp(date) {
       return dayjs(date).fromNow();
     },
@@ -124,7 +120,7 @@ export default {
     },
   },
   created() {
-    this.commentsNumber = this.comments.length;
+    // this.commentsNumber = this.comments.length;
   },
 };
 </script>
