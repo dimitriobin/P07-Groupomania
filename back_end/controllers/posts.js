@@ -1,5 +1,5 @@
 'use strict'
-const { Post, Subject, User, Comment, sequelize } = require('../models');
+const { Post, Subject, User, Comment } = require('../models');
 const { Op } = require('sequelize');
 const fs = require('fs');
 
