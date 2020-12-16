@@ -27,20 +27,25 @@ const actions = {
       })
       .catch((err) => { console.log(err); });
   },
-  fetchAllPostsByFollow({ commit }) {
+  fetchAllPostsByFollow({ commit }, page) {
     const { userId } = JSON.parse(localStorage.getItem('user'));
-    http.get(`/posts/${userId}`, { headers: authHeader() })
+    return http.get(`/posts/${userId}?page=${page}`, { headers: authHeader() })
       .then((res) => {
-        commit('setAllPosts', res.data);
+        console.log(res);
+        commit('addLoadedPosts', res.data.rows);
+        return Promise.resolve(res.data.count);
       })
-      .catch((err) => { console.log(err); });
+      .catch((err) => {
+        console.log(err);
+        Promise.reject(err.response.data.message);
+      });
   },
   fetchAllPostsBySubject({ commit }, id) {
     http.get(`/posts/subject/${id}`, { headers: authHeader() })
       .then((res) => {
         commit('setAllPosts', res.data);
       })
-      .catch((error) => { console.log(error); });
+      .catch((error) => console.log(error));
   },
 };
 
@@ -48,8 +53,10 @@ const mutations = {
   setAllPosts(state, posts) {
     state.posts = posts;
   },
+  addLoadedPosts(state, loadedPosts) {
+    state.posts.push(...loadedPosts);
+  },
   newPost(state, createdPost) {
-    console.log(createdPost);
     state.posts.unshift(createdPost);
   },
 };

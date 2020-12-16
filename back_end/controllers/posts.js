@@ -1,6 +1,6 @@
 'use strict'
 const { Post, Subject, User, Comment, sequelize } = require('../models');
-const { QueryTypes } = require('sequelize');
+const { Op } = require('sequelize');
 const fs = require('fs');
 
 exports.createOnePost = (req, res, next) => {
@@ -52,35 +52,38 @@ exports.readAllPosts = (req, res, next) => {
 
 
 exports.readAllPostsByFollow = (req, res, next) => {
-    sequelize.query(
-        `
-        SELECT
-            post.*,
-            user.user_name AS 'User.user_name',
-            user.image_url AS 'User.image_url',
-            user.id AS 'User.id',
-            subject.id AS 'Subject.id',
-            subject.name AS 'Subject.name'
-        FROM groupomania.post AS post
-        JOIN groupomania.user AS user
-            ON post.user_id = user.id
-        JOIN groupomania.subject AS subject
-            ON post.subject_id = subject.id
-        WHERE post.subject_id IN ( SELECT follow.SubjectId FROM groupomania.subjectfollows AS follow WHERE UserId = :user)
-            OR post.user_id = :user
-        ORDER BY post.createdAt DESC;
-    `
-    , {
-        replacements: {
-            user: `${req.params.user_id}`
-        },
-        nest: true,
-        type: QueryTypes.SELECT })
-    .then((posts) => {
-        if(posts.length <= 0) {
-            return res.status(404).send('Posts not found');
-        }
-        res.status(200).json(posts);
+    User.findOne({where: {id: req.params.user_id} ,include: Subject})
+    .then(user => {
+        const followsId = [];
+        user.Subjects.forEach(subject => {
+            followsId.push(subject.dataValues.id);
+        })
+        console.log(followsId);
+        Post.findAndCountAll({
+            include: [
+                {model: Subject},
+                {model: User},
+                {model: Comment, include: { model: User }}
+            ],
+            limit: 10,
+            offset: (req.query.page * 10),
+            where: {
+                [Op.or]: [
+                    {user_id : req.params.user_id},
+                    {subject_id : followsId}
+                ]
+            },
+            order: [ ['createdAt', 'DESC'] ]
+        })
+        .then((posts) => {
+            if(posts.length <= 0) {
+                return res.status(404).json({message: 'Posts not found'});
+            }
+            res.status(200).json(posts);
+        })
+        .catch(error => {
+            res.status(500).json({error});
+        })
     })
     .catch(error => {
         res.status(500).json({error});

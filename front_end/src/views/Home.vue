@@ -6,10 +6,25 @@
         <SortingNav />
         <CreatePost />
         <Post
-          v-for="post in allPosts"
-          :key="post.id"
+          v-for="(post, index) in allPosts"
+          :key="index"
           :post="post"
           @pressed="fetchAllPostsBySubject($event)" />
+          <div
+            v-if="allPosts.length"
+            v-observe-visibility="handleScrolledToBottom">
+            <b-spinner
+              v-if="loading"
+              class="d-block my-5 mx-auto"
+              type="grow"
+              label="Chargement...">
+            </b-spinner>
+            <span
+              v-else
+              class="text-center">
+              {{ message }}
+            </span>
+          </div>
       </div>
       <SubjectSuggest v-else />
     </b-col>
@@ -37,15 +52,35 @@ export default {
     CreatePost,
     SubjectSuggest,
   },
+  data() {
+    return {
+      loading: false,
+      page: 1,
+      message: '',
+    };
+  },
   computed: {
     ...mapGetters(['allPosts', 'loggedUser', 'allFollows']),
   },
   methods: {
     ...mapActions(['fetchAllPosts', 'getFollows', 'fetchAllPostsByFollow', 'fetchAllPostsBySubject']),
+    handleScrolledToBottom(isVisible) {
+      this.loading = true;
+      if (!isVisible) return;
+      this.page += 1;
+      this.fetchAllPostsByFollow(this.page)
+        .catch((error) => {
+          if (error === 'Posts not found') {
+            console.log(error);
+            this.loading = false;
+            this.message = 'Pas d\'autres publications';
+          }
+        });
+    },
   },
   created() {
     this.getFollows(this.loggedUser.storedUser.userId);
-    this.fetchAllPostsByFollow();
+    this.fetchAllPostsByFollow(this.page);
   },
 };
 </script>
