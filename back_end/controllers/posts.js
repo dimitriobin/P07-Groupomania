@@ -3,6 +3,21 @@ const { Post, Subject, User, Comment, sequelize } = require('../models');
 const { Op } = require('sequelize');
 const fs = require('fs');
 
+const getPagination = (page, size) => {
+    const limit = size ? +size : 3;
+    const offset = page ? page * limit : 0;
+
+    return { limit, offset };
+};
+
+const getPagingData = (data, page, limit) => {
+    const { count: totalItems, rows: posts } = data;
+    const currentPage = page ? +page : 0;
+    const totalPages = Math.ceil(totalItems / limit);
+
+    return { totalItems, posts, totalPages, currentPage };
+};
+
 exports.createOnePost = (req, res, next) => {
     const postObject = req.file ? {
         title: req.body.title,
@@ -52,21 +67,23 @@ exports.readAllPosts = (req, res, next) => {
 
 
 exports.readAllPostsByFollow = (req, res, next) => {
+    const { page, size } = req.query;
+    const { limit, offset } = getPagination(page, size);
+
     User.findOne({where: {id: req.params.user_id} ,include: Subject})
     .then(user => {
         const followsId = [];
         user.Subjects.forEach(subject => {
             followsId.push(subject.dataValues.id);
         })
-        console.log(followsId);
         Post.findAndCountAll({
             include: [
                 {model: Subject},
                 {model: User},
                 {model: Comment, include: { model: User }}
             ],
-            limit: 10,
-            offset: (req.query.page * 10),
+            limit,
+            offset,
             where: {
                 [Op.or]: [
                     {user_id : req.params.user_id},
@@ -79,7 +96,8 @@ exports.readAllPostsByFollow = (req, res, next) => {
             if(posts.length <= 0) {
                 return res.status(404).json({message: 'Posts not found'});
             }
-            res.status(200).json(posts);
+            const response = getPagingData(posts, page, limit);
+            res.status(200).json(response);
         })
         .catch(error => {
             res.status(500).json({error});

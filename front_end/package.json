@@ -57,7 +57,8 @@
         }
       ],
       "no-console": "off",
-      "camelcase": "off"
+      "camelcase": "off",
+      "no-unneeded-ternary": "off"
     }
   },
   "browserslist": [

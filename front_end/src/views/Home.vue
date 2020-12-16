@@ -10,21 +10,9 @@
           :key="index"
           :post="post"
           @pressed="fetchAllPostsBySubject($event)" />
-          <div
-            v-if="allPosts.length"
-            v-observe-visibility="handleScrolledToBottom">
-            <b-spinner
-              v-if="loading"
-              class="d-block my-5 mx-auto"
-              type="grow"
-              label="Chargement...">
-            </b-spinner>
-            <span
-              v-else
-              class="text-center">
-              {{ message }}
-            </span>
-          </div>
+        <LazyLoadingScroll
+          v-if="allPosts.length && postPagination.currentPage < postPagination.lastPage"
+          @loadMore="fetchAllPostsByFollow($event)" />
       </div>
       <SubjectSuggest v-else />
     </b-col>
@@ -42,6 +30,7 @@ import SortingNav from '@/components/SortingNav.vue';
 import CreatePost from '@/components/CreatePost.vue';
 import SubjectSuggest from '@/components/SubjectSuggest.vue';
 import { mapGetters, mapActions } from 'vuex';
+import LazyLoadingScroll from '@/components/lazyLoadingScroll.vue';
 
 export default {
   name: 'Home',
@@ -51,36 +40,17 @@ export default {
     SortingNav,
     CreatePost,
     SubjectSuggest,
-  },
-  data() {
-    return {
-      loading: false,
-      page: 1,
-      message: '',
-    };
+    LazyLoadingScroll,
   },
   computed: {
-    ...mapGetters(['allPosts', 'loggedUser', 'allFollows']),
+    ...mapGetters(['allPosts', 'postPagination', 'loggedUser', 'allFollows']),
   },
   methods: {
     ...mapActions(['fetchAllPosts', 'getFollows', 'fetchAllPostsByFollow', 'fetchAllPostsBySubject']),
-    handleScrolledToBottom(isVisible) {
-      this.loading = true;
-      if (!isVisible) return;
-      this.page += 1;
-      this.fetchAllPostsByFollow(this.page)
-        .catch((error) => {
-          if (error === 'Posts not found') {
-            console.log(error);
-            this.loading = false;
-            this.message = 'Pas d\'autres publications';
-          }
-        });
-    },
   },
-  created() {
+  mounted() {
     this.getFollows(this.loggedUser.storedUser.userId);
-    this.fetchAllPostsByFollow(this.page);
+    this.fetchAllPostsByFollow(1);
   },
 };
 </script>

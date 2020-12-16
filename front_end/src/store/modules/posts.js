@@ -7,10 +7,15 @@ dayjs.extend(relativeTime);
 
 const state = () => ({
   posts: [],
+  pagination: {
+    lastPage: '',
+    currentPage: '',
+  },
 });
 
 const getters = {
   allPosts: (state) => state.posts,
+  postPagination: (state) => state.pagination,
 };
 const actions = {
   addPost({ commit }, data) {
@@ -29,14 +34,17 @@ const actions = {
   },
   fetchAllPostsByFollow({ commit }, page) {
     const { userId } = JSON.parse(localStorage.getItem('user'));
-    return http.get(`/posts/${userId}?page=${page}`, { headers: authHeader() })
+    return http.get(`/posts/${userId}?page=${page}&size=10`, { headers: authHeader() })
       .then((res) => {
-        console.log(res);
-        commit('addLoadedPosts', res.data.rows);
-        return Promise.resolve(res.data.count);
+        const pagination = {
+          currentPage: res.data.currentPage,
+          lastPage: res.data.totalPages,
+        };
+        commit('addLoadedPosts', res.data.posts);
+        commit('setPagination', pagination);
+        return Promise.resolve(res.data);
       })
       .catch((err) => {
-        console.log(err);
         Promise.reject(err.response.data.message);
       });
   },
@@ -55,6 +63,10 @@ const mutations = {
   },
   addLoadedPosts(state, loadedPosts) {
     state.posts.push(...loadedPosts);
+  },
+  setPagination(state, pagination) {
+    state.pagination.currentPage = pagination.currentPage;
+    state.pagination.lastPage = pagination.lastPage;
   },
   newPost(state, createdPost) {
     state.posts.unshift(createdPost);
