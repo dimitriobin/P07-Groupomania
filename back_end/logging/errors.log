@@ -1078,3 +1078,13 @@
 ::1 - - [18/Dec/2020:16:53:33 +0000] "POST /api/subjects/1/follow HTTP/1.1" 500 12
 ::1 - - [18/Dec/2020:16:54:02 +0000] "POST /api/subjects/1/follow HTTP/1.1" 500 12
 ::1 - - [18/Dec/2020:16:56:59 +0000] "POST /api/subjects/1/follow HTTP/1.1" 500 16
+::1 - - [18/Dec/2020:18:18:29 +0000] "GET /api/subjects HTTP/1.1" 401 12
+::1 - - [18/Dec/2020:18:20:32 +0000] "GET /api/subjects HTTP/1.1" 401 12
+::1 - - [18/Dec/2020:18:21:14 +0000] "GET /api/subjects HTTP/1.1" 401 12
+::1 - - [18/Dec/2020:18:22:41 +0000] "POST /api/users/signup HTTP/1.1" 500 1801
+::1 - - [18/Dec/2020:18:25:55 +0000] "GET /api/subjects HTTP/1.1" 401 12
+::1 - - [18/Dec/2020:18:27:24 +0000] "GET /api/subjects HTTP/1.1" 401 12
+::1 - - [18/Dec/2020:18:27:34 +0000] "GET /api/subjects HTTP/1.1" 401 12
+::1 - - [18/Dec/2020:18:32:28 +0000] "GET /api/subjects HTTP/1.1" 401 12
+::1 - - [18/Dec/2020:18:34:24 +0000] "GET /api/subjects HTTP/1.1" 401 12
+::1 - - [18/Dec/2020:18:38:30 +0000] "POST /api/users/login HTTP/1.1" 400 28

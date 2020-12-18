@@ -256,11 +256,11 @@ export default {
             email: this.signup.email,
             password: this.signup.password,
           };
-          return this.login(newUser);
+          this.login(newUser);
         })
         .then(() => {
-          // ig the user is logged , refresh the page
-          document.location.reload();
+          // if the user is logged , refresh the page
+          this.$emit('isLogged');
         })
         .catch((error) => {
           // If some known errors are send by the back end, display them in the UI

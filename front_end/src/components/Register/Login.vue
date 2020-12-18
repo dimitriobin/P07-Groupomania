@@ -72,7 +72,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import { ValidationProvider, ValidationObserver } from 'vee-validate';
 
 export default {
@@ -89,6 +89,9 @@ export default {
       },
     };
   },
+  computed: {
+    ...mapGetters(['isFollowing']),
+  },
   methods: {
     ...mapActions(['register', 'login']),
     handleLogin() {
@@ -98,7 +101,11 @@ export default {
       }
       this.login(user)
         .then(() => {
-          document.location.reload();
+          if (this.isFollowing) {
+            document.location.reload();
+          } else {
+            this.$emit('isLogged');
+          }
         })
         .catch((error) => {
         // If some known errors are send by the back end, display them in the UI
