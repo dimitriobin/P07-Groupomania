@@ -6,7 +6,7 @@
         tag="ol"
         class="px-4">
           <subject
-            v-for="(subject, index) in topFive"
+            v-for="(subject, index) in allSubjects"
             :key="index"
             @pressed="fetchAllPostsBySubject(subject.id)"
             :subject="subject"
@@ -48,10 +48,6 @@ export default {
   },
   computed: {
     ...mapGetters(['allSubjects', 'allUsers']),
-    topFive() {
-      const subjects = this.allSubjects;
-      return subjects.sort((a, b) => a - b).slice(0, 5);
-    },
     userSuggest() {
       const users = this.allUsers;
       return users.slice(0, 7);
@@ -60,7 +56,7 @@ export default {
   methods: {
     ...mapActions(['fetchAllSubjects', 'fetchAllUsers', 'fetchAllPostsBySubject']),
   },
-  created() {
+  mounted() {
     this.fetchAllSubjects();
     this.fetchAllUsers();
   },

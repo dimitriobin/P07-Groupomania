@@ -1,7 +1,7 @@
 <template>
   <b-list-group-item
     tag="li"
-    class="d-flex align-items-center justify-content-start border-0 py-1 px-0 text-left">
+    class="d-flex align-items-center justify-content-start border-0 py-1 px-0">
     <b-button
       @click="$emit('pressed')"
       variant="link"
@@ -9,11 +9,11 @@
       {{ subject.name }}
     </b-button>
     <b-link
-      v-if="!followed"
-      @click="toFollow(subject.id)">Suivre</b-link>
+      v-if="isFollowed"
+      @click="toUnFollow(subject.id)">Ne plus suivre</b-link>
     <b-link
       v-else
-      @click="toUnFollow(subject.id)">Ne plus suivre</b-link>
+      @click="toFollow(subject.id)">Suivre</b-link>
   </b-list-group-item>
 </template>
 
@@ -23,35 +23,24 @@ import { mapGetters, mapActions } from 'vuex';
 export default {
   name: 'Subject',
   props: ['subject'],
-  data() {
-    return {
-      datas: this.subject,
-      followed: '',
-    };
-  },
   computed: {
     ...mapGetters(['allFollows', 'userId']),
+    isFollowed() {
+      const followsId = [];
+      this.allFollows.forEach((item) => {
+        followsId.push(item.id);
+      });
+      return followsId.includes(this.subject.id);
+    },
   },
   methods: {
-    ...mapActions(['follow', 'unFollow']),
-    isFollowed() {
-      const follows = [];
-      this.allFollows.forEach((item) => {
-        follows.push(item.id);
-      });
-      return follows.includes(this.datas.id);
-    },
+    ...mapActions(['getFollows', 'follow', 'unFollow']),
     toFollow(id) {
       this.follow(id);
-      this.followed = true;
     },
     toUnFollow(id) {
       this.unFollow(id);
-      this.followed = false;
     },
-  },
-  mounted() {
-    this.followed = this.isFollowed();
   },
 };
 </script>

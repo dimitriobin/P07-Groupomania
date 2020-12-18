@@ -132,9 +132,9 @@ try {
 
 
 // Routes
-app.use('/api/users', rateLimiter, speedLimiter, usersRoute);
-app.use('/api/comments', rateLimiter, speedLimiter, commentsRoute);
-app.use('/api/posts', rateLimiter, speedLimiter, postsRoute);
-app.use('/api/subjects', rateLimiter, speedLimiter, subjectsRoute);
+app.use('/api/users', /*rateLimiter,*/ speedLimiter, usersRoute);
+app.use('/api/comments', /*rateLimiter,*/ speedLimiter, commentsRoute);
+app.use('/api/posts', /*rateLimiter,*/ speedLimiter, postsRoute);
+app.use('/api/subjects', /*rateLimiter,*/ speedLimiter, subjectsRoute);
 
 module.exports = app;
