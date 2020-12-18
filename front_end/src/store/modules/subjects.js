@@ -9,6 +9,7 @@ const state = {
 const getters = {
   allSubjects: (state) => state.subjects,
   allFollows: (state) => state.follows,
+  isFollowing: (state) => state.follows.length >= 3,
 };
 
 const actions = {

@@ -18,6 +18,12 @@
           :subject="subject">
         </subject>
       </b-row>
+      <b-button
+        :disabled="!isFollowing"
+        @click="refresh()"
+        variant="success">
+        Envoyer
+      </b-button>
     </b-col>
   </b-row>
 </template>
@@ -31,16 +37,14 @@ export default {
   components: {
     Subject,
   },
-  data() {
-    return {
-      subjects: '',
-    };
-  },
   computed: {
-    ...mapGetters(['allSubjects', 'allFollows', 'loggedUser']),
+    ...mapGetters(['allSubjects', 'isFollowing']),
   },
   methods: {
-    ...mapActions(['fetchAllSubjects', 'follow', 'getFollows']),
+    ...mapActions(['fetchAllSubjects']),
+    refresh() {
+      document.location.reload();
+    },
   },
   mounted() {
     this.fetchAllSubjects();
