@@ -22,25 +22,29 @@ const actions = {
   },
   follow({ commit }, id) {
     const user = JSON.parse(localStorage.getItem('user'));
-    http.post(`/subjects/${id}/follow`, { userId: user.userId }, { headers: authHeader() })
+    return http.post(`/subjects/${id}/follow`, { userId: user.userId }, { headers: authHeader() })
       .then((response) => {
         commit('newFollow', response.data[0]);
-        return Promise.resolve(response.data);
+        return Promise.resolve(response.data[0]);
       })
       .catch((error) => Promise.reject(error.response.data));
   },
   unFollow({ commit }, id) {
     const user = JSON.parse(localStorage.getItem('user'));
-    http.post(`/subjects/${id}/unfollow`, { userId: user.userId }, { headers: authHeader() })
-      .then(() => {
+    return http.post(`/subjects/${id}/unfollow`, { userId: user.userId }, { headers: authHeader() })
+      .then((response) => {
         commit('removeFollow', id);
-      });
+        return Promise.resolve(response.data);
+      })
+      .catch((error) => Promise.reject(error.response.data));
   },
   getFollows({ commit }, userId) {
-    http.post('/subjects/follow', { UserId: userId }, { headers: authHeader() })
+    return http.post('/subjects/follow', { userId }, { headers: authHeader() })
       .then((res) => {
         commit('setFollows', res.data);
-      });
+        return Promise.resolve(res.data);
+      })
+      .catch((error) => Promise.reject(error));
   },
 };
 
@@ -55,7 +59,13 @@ const mutations = {
     state.follows.push(follow);
   },
   removeFollow(state, id) {
-    state.follows.splice(state.follows.indexOf(id), 1);
+    let indexToRemove = '';
+    state.follows.forEach((item, index) => {
+      if (item.id === id) {
+        indexToRemove = index;
+      }
+    });
+    state.follows.splice(indexToRemove, 1);
   },
 };
 
