@@ -22,7 +22,7 @@ const actions = {
   fetchUser({ commit }, id) {
     http.get(`/users/${id}`, { headers: authHeader() })
       .then((user) => {
-        commit('setUser', user.data[0]);
+        commit('user', user.data);
       })
       .catch((error) => console.log(error));
   },
@@ -32,7 +32,7 @@ const mutations = {
   setAllUsers(state, users) {
     state.users = users;
   },
-  setUser(state, user) {
+  user(state, user) {
     state.user = user;
   },
 };
