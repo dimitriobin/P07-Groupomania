@@ -68,7 +68,7 @@ exports.readAllUser = (req, res, next) => {
 
 
 exports.readOneUser = (req, res, next) => {
-    User.findAll({
+    User.findOne({
         include: [
             {
                 model: Post,

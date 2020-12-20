@@ -1125,3 +1125,17 @@
 ::1 - - [20/Dec/2020:14:57:41 +0000] "GET /api/posts/subject/undefined?page=undefined HTTP/1.1" 500 7201
 ::1 - - [20/Dec/2020:14:59:31 +0000] "GET /api/posts/42?page=4&size=10 HTTP/1.1" 429 42
 ::1 - - [20/Dec/2020:15:30:41 +0000] "GET /api/posts/subject/undefined?page=undefined&size=10 HTTP/1.1" 500 7204
+::1 - - [20/Dec/2020:17:17:43 +0000] "POST /api/posts HTTP/1.1" 500 490
+::1 - - [20/Dec/2020:17:19:17 +0000] "POST /api/posts HTTP/1.1" 500 482
+::1 - - [20/Dec/2020:17:20:05 +0000] "POST /api/posts HTTP/1.1" 500 482
+::1 - - [20/Dec/2020:17:20:28 +0000] "POST /api/posts HTTP/1.1" 500 506
+::1 - - [20/Dec/2020:17:21:02 +0000] "POST /api/posts HTTP/1.1" 500 502
+::1 - - [20/Dec/2020:17:21:18 +0000] "POST /api/posts HTTP/1.1" 500 498
+::1 - - [20/Dec/2020:17:21:44 +0000] "POST /api/posts HTTP/1.1" 500 529
+::1 - - [20/Dec/2020:17:22:10 +0000] "POST /api/posts HTTP/1.1" 500 512
+::1 - - [20/Dec/2020:17:22:46 +0000] "POST /api/posts HTTP/1.1" 500 511
+::1 - - [20/Dec/2020:17:23:08 +0000] "POST /api/posts HTTP/1.1" 500 495
+::1 - - [20/Dec/2020:17:26:03 +0000] "POST /api/posts HTTP/1.1" 500 490
+::1 - - [20/Dec/2020:17:26:44 +0000] "POST /api/posts HTTP/1.1" 500 498
+::1 - - [20/Dec/2020:17:26:51 +0000] "POST /api/posts HTTP/1.1" 500 498
+::1 - - [20/Dec/2020:17:28:04 +0000] "POST /api/posts HTTP/1.1" 500 492

@@ -19,11 +19,16 @@ const getters = {
 };
 const actions = {
   addPost({ commit }, data) {
-    http.post('/posts', data, { headers: authHeader() })
+    return http.post('/posts', data, { headers: authHeader() })
       .then((res) => {
         commit('newPost', res.data);
+        return Promise.resolve(res.data);
       })
-      .catch((err) => { console.log(err); });
+      .catch((err) => {
+        console.log(err.response.data);
+        const { message } = err.response.data.error.errors[0];
+        return Promise.reject(message);
+      });
   },
   fetchAllPosts({ commit }) {
     http.get('/posts', { headers: authHeader() })

@@ -282,7 +282,6 @@ export default {
           return console.error(error);
         });
     },
-
   },
 };
 </script>
