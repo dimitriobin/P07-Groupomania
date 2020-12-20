@@ -59,11 +59,18 @@
           <b-form-file
             id="postImage"
             v-model="newPost.image_url"
+            @change="showPreview($event)"
             accept="image/*"
             placeholder="Faites glisser ou sélectionnez une photo"
             drop-placeholder="Déposez ici..."
             :state="errors[0] ? false : (valid ? true : null)">
           </b-form-file>
+          <b-img
+            id="preview"
+            class="w-100"
+            v-if="previewUrl"
+            :src="previewUrl">
+          </b-img>
           <b-form-invalid-feedback>
             {{ errors[0] }}
           </b-form-invalid-feedback>
@@ -92,8 +99,15 @@
       <b-button
         type="submit"
         variant="primary"
-        class="mx-auto">
+        class="mx-auto w-25">
         Poster
+      </b-button>
+      <b-button
+        v-if="method === 'update'"
+        @click="$emit('hide')"
+        variant="danger"
+        class="mx-auto w-25 mt-2">
+        Annuler
       </b-button>
     </b-form>
   </ValidationObserver>
@@ -121,6 +135,7 @@ export default {
         url: '',
         subject_id: '',
       },
+      previewUrl: null,
       options: [],
     };
   },
@@ -128,7 +143,7 @@ export default {
     ...mapGetters(['allSubjects', 'userId', 'oneUser']),
   },
   methods: {
-    ...mapActions(['addPost', 'fetchUser']),
+    ...mapActions(['addPost', 'fetchUser', 'updatePost']),
     subjectListing() {
       this.allSubjects.forEach((item) => {
         const newOption = {
@@ -138,13 +153,17 @@ export default {
         this.options.push(newOption);
       });
     },
+    showPreview(e) {
+      const file = e.target.files[0];
+      this.previewUrl = URL.createObjectURL(file);
+    },
     onSubmit() {
       switch (this.method) {
         case 'create':
           this.createPost();
           break;
         case 'update':
-          this.updatePost();
+          this.update();
           break;
         default:
           break;
@@ -188,14 +207,46 @@ export default {
           return console.error(error);
         });
     },
-    updatePost() {
-      console.log('updatePost is called');
+    update() {
+      // Create a FormData instance
+      const fd = new FormData();
+      fd.append('user_id', this.userId);
+      // Append form values inside
+      Object.entries(this.newPost).forEach(
+        ([key, value]) => {
+          if (value !== null && value !== '') {
+            fd.append(`${key}`, value);
+          }
+        },
+      );
+      this.updatePost({
+        id: this.post.id,
+        data: fd,
+      })
+        .then(() => this.$emit('hide'))
+        .catch((error) => {
+          // If some known errors are send by the back end, display them in the UI
+          switch (error) {
+            case 'Validation isUrl on url failed':
+              this.$refs.postObserver.setErrors({
+                url: ['Veuillez entrer une url valide'],
+              });
+              break;
+            default:
+              break;
+          }
+          // for errors that aren't known, display in the console
+          return console.error(error);
+        });
     },
   },
   mounted() {
     this.subjectListing();
     if (this.method === 'update') {
       this.newPost.title = this.post.title;
+      this.previewUrl = this.post.image_url;
+      this.newPost.url = this.post.url;
+      this.newPost.subject_id = this.post.subject_id;
     }
   },
 };

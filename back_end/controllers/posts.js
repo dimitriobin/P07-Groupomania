@@ -194,8 +194,17 @@ exports.updateOnePost = (req, res, next) => {
             }
         })
         .then(updatedPost => {
-            res.status(200).send('Post updated');
-        })
+            Post.findOne({
+                include: [
+                    {model: Subject},
+                    {model: User},
+                    {model: Comment, include: { model: User }}
+                ], where: {id: req.params.id}})
+            .then(post => {
+                res.status(201).json(post);
+            })
+            .catch(error => res.status(500).json({error}))
+            })
         .catch(error => res.status(500).json({error}))
     })
     .catch(error => res.status(500).json({error}))

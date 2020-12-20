@@ -73,7 +73,12 @@
                             </b-icon>
                         </template>
                         <b-dropdown-item href="#">Signaler</b-dropdown-item>
-                        <b-dropdown-item v-if="isAuthor()" href="#">Editer</b-dropdown-item>
+                        <b-dropdown-item
+                            v-if="isAuthor()"
+                            href="#"
+                            @click="edit = true">
+                            Editer
+                        </b-dropdown-item>
                         <b-dropdown-item v-if="isAuthor()" href="#">Supprimer</b-dropdown-item>
                     </b-dropdown>
                 </b-row>
@@ -100,7 +105,11 @@
             </b-collapse> -->
         </div>
         <PostForm
-            v-else />
+            class="w-100"
+            v-else
+            method="update"
+            :post="post"
+            @hide="edit = false" />
     </b-row>
 </template>
 
