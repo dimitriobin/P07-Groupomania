@@ -132,7 +132,9 @@ exports.readAllPostsBySubject = (req, res, next) => {
         {model: Subject},
         {model: User},
         {model: Comment, include: { model: User }}
-    ], where: {subject_id: req.params.subject_id}})
+        ],
+        where: {subject_id: req.params.subject_id},
+        order: [ ['createdAt', 'DESC'] ]})
     .then(posts => {
         if(posts.length <= 0) {
             return res.status(404).send('Posts not found');
