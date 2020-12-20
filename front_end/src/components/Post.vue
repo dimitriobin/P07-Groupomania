@@ -73,8 +73,8 @@
                             </b-icon>
                         </template>
                         <b-dropdown-item href="#">Signaler</b-dropdown-item>
-                        <b-dropdown-item href="#">Editer</b-dropdown-item>
-                        <b-dropdown-item href="#">Supprimer</b-dropdown-item>
+                        <b-dropdown-item v-if="isAuthor()" href="#">Editer</b-dropdown-item>
+                        <b-dropdown-item v-if="isAuthor()" href="#">Supprimer</b-dropdown-item>
                     </b-dropdown>
                 </b-row>
             </b-col>
@@ -110,6 +110,7 @@ import fr from 'dayjs/locale/fr';
 import RelativeTime from 'dayjs/plugin/relativeTime';
 import Subject from '@/components/Subject.vue';
 import PostForm from '@/components/PostForm.vue';
+import { mapGetters } from 'vuex';
 
 dayjs.extend(RelativeTime);
 dayjs.locale(fr);
@@ -130,7 +131,13 @@ export default {
       edit: false,
     };
   },
+  computed: {
+    ...mapGetters(['userId']),
+  },
   methods: {
+    isAuthor() {
+      return this.userId === this.post.user_id;
+    },
     dateToTimestamp(date) {
       return dayjs(date).fromNow();
     },
