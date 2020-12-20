@@ -14,7 +14,7 @@
         @loadMore="fetchMore($event)" />
     </b-col>
     <b-col tag="aside" cols="12" lg="4">
-      <Sidebar />
+      <Sidebar @subjectClick="handleFetching('bySubjects', $event)" />
     </b-col>
   </b-row>
 </template>
@@ -58,7 +58,6 @@ export default {
       }
     },
     fetchMore(page) {
-      console.log(page);
       switch (this.display) {
         case 'bySubjects':
           this.fetchAllPostsBySubject({ id: this.subjectId, page });

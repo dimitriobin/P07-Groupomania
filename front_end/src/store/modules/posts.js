@@ -49,7 +49,7 @@ const actions = {
       });
   },
   fetchAllPostsBySubject({ commit }, { id, page }) {
-    http.get(`/posts/subject/${id}?page=${page}&size=10`, { headers: authHeader() })
+    http.get(`/posts/subject/${id}?page=${page}&size=5`, { headers: authHeader() })
       .then((res) => {
         const pagination = {
           currentPage: res.data.currentPage,
