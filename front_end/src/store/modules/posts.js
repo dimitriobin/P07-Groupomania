@@ -48,12 +48,24 @@ const actions = {
         Promise.reject(err.response.data.message);
       });
   },
-  fetchAllPostsBySubject({ commit }, id) {
-    http.get(`/posts/subject/${id}`, { headers: authHeader() })
+  fetchAllPostsBySubject({ commit }, { id, page }) {
+    http.get(`/posts/subject/${id}?page=${page}&size=5`, { headers: authHeader() })
       .then((res) => {
-        commit('setAllPosts', res.data);
+        const pagination = {
+          currentPage: res.data.currentPage,
+          lastPage: res.data.totalPages,
+        };
+        if (page === 0) {
+          commit('setAllPosts', res.data.posts);
+        } else {
+          commit('addLoadedPosts', res.data.posts);
+        }
+        commit('setPagination', pagination);
+        return Promise.resolve(res.data);
       })
-      .catch((error) => console.log(error));
+      .catch((err) => {
+        Promise.reject(err.response.data.message);
+      });
   },
 };
 

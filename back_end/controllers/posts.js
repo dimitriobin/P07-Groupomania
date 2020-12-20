@@ -4,7 +4,7 @@ const { Op } = require('sequelize');
 const fs = require('fs');
 
 const getPagination = (page, size) => {
-    const limit = size ? +size : 3;
+    const limit = size ? +size : 1;
     const offset = page ? page * limit : 0;
 
     return { limit, offset };
@@ -128,16 +128,29 @@ exports.readAllPostsByUser = (req, res, next) => {
 
 
 exports.readAllPostsBySubject = (req, res, next) => {
-    Post.findAll({include: [
-        {model: Subject},
-        {model: User},
-        {model: Comment, include: { model: User }}
-    ], where: {subject_id: req.params.subject_id}})
+    const { page, size } = req.query;
+    const { limit, offset } = getPagination(page, size);
+    Post.findAndCountAll({
+        include: [
+            {model: Subject},
+            {model: User},
+            {model: Comment, include: { model: User }}
+        ],
+        limit,
+        offset,
+        where: {
+            subject_id: {
+                [Op.eq]: req.params.subject_id
+            }
+        },
+        order: [ ['createdAt', 'DESC'] ]
+    })
     .then(posts => {
         if(posts.length <= 0) {
             return res.status(404).send('Posts not found');
         }
-        res.status(200).json(posts);
+        const response = getPagingData(posts, page, limit);
+        res.status(200).json(response);
     })
     .catch(error => {
         res.status(500).json({error});
