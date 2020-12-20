@@ -3,7 +3,30 @@
     <b-col tag="main" cols="12" lg="8">
       <h1 class="sr-only">Fil d'actualités</h1>
       <SortingNav />
-      <CreatePost />
+      <div class="shadow rounded-lg p-4 mb-4 d-flex align-items-center">
+      <b-avatar
+        :src="oneUser.image_url"
+        size="lg">
+      </b-avatar>
+      <b-button
+        v-b-modal.createPost
+        pill
+        variant="light"
+        size="lg"
+        class="border-0 w-100 h-100 ml-2 text-left p-3">
+        Que voulez-vous dire {{ oneUser.user_name }} ?</b-button>
+        <b-modal
+          v-model="showCreatePostForm"
+          lazy
+          id="createPost"
+          title="Que voulez vous dire ?"
+          hide-footer
+          class="shadow rounded-lg p-4 mb-4">
+          <PostForm
+            method="create"
+            @formSubmit="showCreatePostForm = false" />
+        </b-modal>
+      </div>
       <Post
         v-for="(post, index) in allPosts"
         :key="index"
@@ -24,7 +47,7 @@
 import Post from '@/components/Post.vue';
 import Sidebar from '@/components/Sidebar.vue';
 import SortingNav from '@/components/SortingNav.vue';
-import CreatePost from '@/components/CreatePost.vue';
+import PostForm from '@/components/PostForm.vue';
 import { mapGetters, mapActions } from 'vuex';
 import LazyLoadingScroll from '@/components/lazyLoadingScroll.vue';
 
@@ -34,20 +57,21 @@ export default {
     Post,
     Sidebar,
     SortingNav,
-    CreatePost,
+    PostForm,
     LazyLoadingScroll,
   },
   data() {
     return {
       display: '',
       subjectId: '',
+      showCreatePostForm: false,
     };
   },
   computed: {
-    ...mapGetters(['allPosts', 'postPagination', 'loggedUser', 'userId', 'allFollows']),
+    ...mapGetters(['allPosts', 'postPagination', 'loggedUser', 'userId', 'allFollows', 'oneUser']),
   },
   methods: {
-    ...mapActions(['fetchAllPosts', 'getFollows', 'fetchAllPostsByFollow', 'fetchAllPostsBySubject']),
+    ...mapActions(['fetchAllPosts', 'getFollows', 'fetchAllPostsByFollow', 'fetchAllPostsBySubject', 'fetchUser']),
     handleFetching(display, id) {
       this.display = display;
       this.subjectId = id;
@@ -74,6 +98,7 @@ export default {
   mounted() {
     this.getFollows(this.userId);
     this.handleFetching('byFollows');
+    this.fetchUser(this.userId);
   },
 };
 </script>

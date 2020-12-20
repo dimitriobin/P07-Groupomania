@@ -30,6 +30,18 @@ const actions = {
         return Promise.reject(message);
       });
   },
+  updatePost({ commit }, { id, data }) {
+    return http.put(`/posts/${id}`, data, { headers: authHeader() })
+      .then((res) => {
+        commit('changePost', res.data);
+        return Promise.resolve(res.data);
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+        const { message } = err.response.data.error.errors[0];
+        return Promise.reject(message);
+      });
+  },
   fetchAllPosts({ commit }) {
     http.get('/posts', { headers: authHeader() })
       .then((res) => {
@@ -87,6 +99,16 @@ const mutations = {
   },
   newPost(state, createdPost) {
     state.posts.unshift(createdPost);
+  },
+  changePost(state, updatedPost) {
+    console.log(updatedPost);
+    let oldPostIndex = '';
+    state.posts.forEach((item, index) => {
+      if (item.id === updatedPost.id) {
+        oldPostIndex = index;
+      }
+    });
+    state.posts.splice(oldPostIndex, 1, updatedPost);
   },
 };
 
