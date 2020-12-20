@@ -8,7 +8,7 @@
           <subject
             v-for="(subject, index) in allSubjects"
             :key="index"
-            @pressed="fetchAllPostsBySubject(subject.id)"
+            @pressed="fetchAllPostsBySubject(subject.id, 1)"
             :subject="subject"
             class="text-dark p-0 text-left">
           </subject>

@@ -9,7 +9,7 @@ export default {
   state: initialState,
   getters: {
     loggedUser: (state) => state,
-    userId: (state) => state.user.userId,
+    userId: (state) => state.storedUser.userId,
   },
   actions: {
     login({ commit }, user) {
@@ -48,15 +48,15 @@ export default {
   mutations: {
     loginSuccess(state, user) {
       state.status.loggedIn = true;
-      state.user = user;
+      state.storedUser = user;
     },
     loginFailure(state) {
       state.status.loggedIn = false;
-      state.user = null;
+      state.storedUser = null;
     },
     logout(state) {
       state.status.loggedIn = false;
-      state.user = null;
+      state.storedUser = null;
     },
     registerSuccess(state) {
       state.status.loggedIn = false;

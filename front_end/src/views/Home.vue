@@ -8,10 +8,10 @@
         v-for="(post, index) in allPosts"
         :key="index"
         :post="post"
-        @pressed="fetchAllPostsBySubject($event)" />
+        @pressed="handleFetching('bySubjects', $event)" />
       <LazyLoadingScroll
         v-if="allPosts.length && postPagination.currentPage < postPagination.lastPage"
-        @loadMore="fetchAllPostsByFollow($event)" />
+        @loadMore="fetchMore($event)" />
     </b-col>
     <b-col tag="aside" cols="12" lg="4">
       <Sidebar />
@@ -37,15 +37,44 @@ export default {
     CreatePost,
     LazyLoadingScroll,
   },
+  data() {
+    return {
+      display: '',
+      subjectId: '',
+    };
+  },
   computed: {
-    ...mapGetters(['allPosts', 'postPagination', 'loggedUser', 'allFollows']),
+    ...mapGetters(['allPosts', 'postPagination', 'loggedUser', 'userId', 'allFollows']),
   },
   methods: {
     ...mapActions(['fetchAllPosts', 'getFollows', 'fetchAllPostsByFollow', 'fetchAllPostsBySubject']),
+    handleFetching(display, id) {
+      this.display = display;
+      this.subjectId = id;
+      if (display === 'byFollows') {
+        this.fetchAllPostsByFollow(0);
+      } else if (display === 'bySubjects') {
+        this.fetchAllPostsBySubject({ id: this.subjectId, page: 0 });
+      }
+    },
+    fetchMore(page) {
+      console.log(page);
+      switch (this.display) {
+        case 'bySubjects':
+          this.fetchAllPostsBySubject({ id: this.subjectId, page });
+          break;
+
+        case 'byFollows':
+          this.fetchAllPostsByFollow(page);
+          break;
+        default:
+          break;
+      }
+    },
   },
   mounted() {
-    this.getFollows(this.loggedUser.storedUser.userId);
-    this.fetchAllPostsByFollow(1);
+    this.getFollows(this.userId);
+    this.handleFetching('byFollows');
   },
 };
 </script>
