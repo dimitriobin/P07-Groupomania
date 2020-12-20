@@ -9,7 +9,7 @@ export default {
   state: initialState,
   getters: {
     loggedUser: (state) => state,
-    userId: (state) => state.storedUser.userId,
+    userId: (state) => state.user.userId,
   },
   actions: {
     login({ commit }, user) {

@@ -22,7 +22,7 @@
         :disabled="!isFollowing"
         @click="refresh()"
         variant="success">
-        Envoyer
+        Continuer
       </b-button>
     </b-col>
   </b-row>

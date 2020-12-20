@@ -90,10 +90,10 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['isFollowing']),
+    ...mapGetters(['isFollowing', 'userId']),
   },
   methods: {
-    ...mapActions(['register', 'login']),
+    ...mapActions(['register', 'login', 'getFollows']),
     handleLogin() {
       let user = {};
       if (this.user.email && this.user.password) {
@@ -101,11 +101,14 @@ export default {
       }
       this.login(user)
         .then(() => {
-          if (this.isFollowing) {
-            document.location.reload();
-          } else {
-            this.$emit('isLogged');
-          }
+          this.getFollows(this.userId)
+            .then(() => {
+              if (this.isFollowing) {
+                document.location.reload();
+              } else {
+                this.$emit('isLogged');
+              }
+            });
         })
         .catch((error) => {
         // If some known errors are send by the back end, display them in the UI

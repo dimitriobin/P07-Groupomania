@@ -13833,3 +13833,8 @@
 ::1 - - [18/Dec/2020:18:58:17 +0000] "POST /api/subjects/follow HTTP/1.1" 200 2
 ::1 - - [18/Dec/2020:18:58:17 +0000] "GET /api/users HTTP/1.1" 304 -
 ::1 - - [18/Dec/2020:18:58:18 +0000] "GET /api/posts/142?page=1&size=10 HTTP/1.1" 200 58
+::1 - - [20/Dec/2020:12:59:47 +0000] "OPTIONS /api/subjects HTTP/1.1" 204 0
+::1 - - [20/Dec/2020:12:59:47 +0000] "GET /api/subjects HTTP/1.1" 401 12
+::1 - - [20/Dec/2020:12:59:47 +0000] "OPTIONS /api/users HTTP/1.1" 204 0
+::1 - - [20/Dec/2020:12:59:47 +0000] "OPTIONS /api/subjects/follow HTTP/1.1" 204 0
+::1 - - [20/Dec/2020:12:59:47 +0000] "OPTIONS /api/posts/42?page=1&size=10 HTTP/1.1" 204 0

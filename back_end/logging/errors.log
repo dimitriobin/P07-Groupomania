@@ -1088,3 +1088,5 @@
 ::1 - - [18/Dec/2020:18:32:28 +0000] "GET /api/subjects HTTP/1.1" 401 12
 ::1 - - [18/Dec/2020:18:34:24 +0000] "GET /api/subjects HTTP/1.1" 401 12
 ::1 - - [18/Dec/2020:18:38:30 +0000] "POST /api/users/login HTTP/1.1" 400 28
+::1 - - [20/Dec/2020:12:59:47 +0000] "GET /api/subjects HTTP/1.1" 401 12
+::1 - - [20/Dec/2020:12:59:47 +0000] "GET /api/users HTTP/1.1" 401 12
