@@ -70,6 +70,11 @@ export default {
   computed: {
     ...mapGetters(['allPosts', 'postPagination', 'loggedUser', 'userId', 'allFollows', 'oneUser']),
   },
+  watch: {
+    allFollows() {
+      this.handleFetching(this.display, this.subjectId);
+    },
+  },
   methods: {
     ...mapActions(['fetchAllPosts', 'getFollows', 'fetchAllPostsByFollow', 'fetchAllPostsBySubject', 'fetchUser']),
     handleFetching(display, id) {

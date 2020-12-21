@@ -1164,3 +1164,11 @@
 ::1 - - [21/Dec/2020:10:50:43 +0000] "DELETE /api/posts/52 HTTP/1.1" 500 17
 ::1 - - [21/Dec/2020:10:50:55 +0000] "DELETE /api/posts/52 HTTP/1.1" 500 17
 ::1 - - [21/Dec/2020:10:51:23 +0000] "DELETE /api/posts/52 HTTP/1.1" 500 17
+::1 - - [21/Dec/2020:11:09:27 +0000] "POST /api/subjects/follow HTTP/1.1" 429 42
+::1 - - [21/Dec/2020:11:09:27 +0000] "GET /api/posts/42?page=0&size=10 HTTP/1.1" 429 42
+::1 - - [21/Dec/2020:11:09:27 +0000] "GET /api/users/42 HTTP/1.1" 429 42
+::1 - - [21/Dec/2020:11:09:38 +0000] "GET /api/subjects HTTP/1.1" 429 42
+::1 - - [21/Dec/2020:11:09:38 +0000] "POST /api/subjects/follow HTTP/1.1" 429 42
+::1 - - [21/Dec/2020:11:09:38 +0000] "GET /api/users HTTP/1.1" 429 42
+::1 - - [21/Dec/2020:11:09:38 +0000] "GET /api/posts/42?page=0&size=10 HTTP/1.1" 429 42
+::1 - - [21/Dec/2020:11:09:38 +0000] "GET /api/users/42 HTTP/1.1" 429 42

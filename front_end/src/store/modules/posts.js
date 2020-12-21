@@ -57,7 +57,11 @@ const actions = {
           currentPage: res.data.currentPage,
           lastPage: res.data.totalPages,
         };
-        commit('addLoadedPosts', res.data.posts);
+        if (page === 0) {
+          commit('setAllPosts', res.data.posts);
+        } else {
+          commit('addLoadedPosts', res.data.posts);
+        }
         commit('setPagination', pagination);
         return Promise.resolve(res.data);
       })
