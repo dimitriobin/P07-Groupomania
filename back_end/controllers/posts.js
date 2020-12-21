@@ -217,8 +217,10 @@ exports.deleteOnePost = (req, res, next) => {
         if(!post) {
             return res.status(404).send('Post not found');
         }
-        const filename = post.image_url.split('/images/')[1];
-        fs.unlink(`images/${filename}`, err => {if(err) console.log(err)});
+        if (post.image_url) {
+            const filename = post.image_url.split('/images/')[1];
+            fs.unlink(`images/${filename}`, err => {if(err) console.log(err)});
+        }
         Post.destroy({
             where: {
                 id: req.params.id
@@ -227,7 +229,7 @@ exports.deleteOnePost = (req, res, next) => {
         .then(deletedPost => {
             res.status(200).send('Post deleted');
         })
-        .catch(error => res.status(500).json({error}))
+        .catch(error => res.status(500).json({error: 'here'}))
     })
-    .catch(error => res.status(500).json({error}))
+    .catch(error => res.status(500).json({error: 'there'}))
 };

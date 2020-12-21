@@ -84,6 +84,16 @@ const actions = {
         Promise.reject(err.response.data.message);
       });
   },
+  removePost({ commit }, id) {
+    return http.delete(`/posts/${id}`, { headers: authHeader() })
+      .then((response) => {
+        commit('removeOnePost', id);
+        return Promise.resolve(response.data);
+      })
+      .catch((err) => {
+        Promise.reject(err.response.data);
+      });
+  },
 };
 
 const mutations = {
@@ -101,7 +111,6 @@ const mutations = {
     state.posts.unshift(createdPost);
   },
   changePost(state, updatedPost) {
-    console.log(updatedPost);
     let oldPostIndex = '';
     state.posts.forEach((item, index) => {
       if (item.id === updatedPost.id) {
@@ -109,6 +118,15 @@ const mutations = {
       }
     });
     state.posts.splice(oldPostIndex, 1, updatedPost);
+  },
+  removeOnePost(state, id) {
+    let oldPostIndex = '';
+    state.posts.forEach((item, index) => {
+      if (item.id === id) {
+        oldPostIndex = index;
+      }
+    });
+    state.posts.splice(oldPostIndex, 1);
   },
 };
 

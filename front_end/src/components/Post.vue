@@ -79,7 +79,10 @@
                             @click="edit = true">
                             Editer
                         </b-dropdown-item>
-                        <b-dropdown-item v-if="isAuthor()" href="#">Supprimer</b-dropdown-item>
+                        <b-dropdown-item
+                            v-if="isAuthor()"
+                            href="#"
+                            @click="remove()">Supprimer</b-dropdown-item>
                     </b-dropdown>
                 </b-row>
             </b-col>
@@ -119,7 +122,7 @@ import fr from 'dayjs/locale/fr';
 import RelativeTime from 'dayjs/plugin/relativeTime';
 import Subject from '@/components/Subject.vue';
 import PostForm from '@/components/PostForm.vue';
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 dayjs.extend(RelativeTime);
 dayjs.locale(fr);
@@ -144,6 +147,7 @@ export default {
     ...mapGetters(['userId']),
   },
   methods: {
+    ...mapActions(['removePost']),
     isAuthor() {
       return this.userId === this.post.user_id;
     },
@@ -152,6 +156,9 @@ export default {
     },
     collapse() {
       this.visible = !this.visible;
+    },
+    remove() {
+      this.removePost(this.post.id);
     },
   },
   created() {
