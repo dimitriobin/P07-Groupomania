@@ -1,5 +1,5 @@
 'use strict'
-const { Comment } = require('../models');
+const { Comment, User } = require('../models');
 
 exports.createOneComment = (req, res, next) => {
     const commentObject = {
@@ -10,11 +10,16 @@ exports.createOneComment = (req, res, next) => {
     }
     Comment.create(commentObject)
     .then(createdComment => {
-        res.status(201).send('Comment created');
+        Comment.findOne({
+            include: User,
+            where: {
+                id: createdComment.id
+            }
+        })
+        .then(comment => res.status(201).json(comment))
+        .catch(error => res.status(500).json({error}));
     })
-    .catch(error => {
-        res.status(500).json({error});
-    })
+    .catch(error => res.status(500).json({error}));
 };
 
 

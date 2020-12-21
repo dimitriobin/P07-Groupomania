@@ -37,11 +37,13 @@
 
 <script>
 import { ValidationProvider, ValidationObserver } from 'vee-validate';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: 'CommentForm',
   props: [
     'postId',
+    'subjectId',
   ],
   components: {
     ValidationProvider,
@@ -51,6 +53,21 @@ export default {
     return {
       comment: '',
     };
+  },
+  computed: {
+    ...mapGetters(['userId']),
+  },
+  methods: {
+    ...mapActions(['addComment']),
+    onSubmit() {
+      const dataObject = {
+        content: this.comment,
+        subject_id: this.subjectId,
+        user_id: this.userId,
+        post_id: this.postId,
+      };
+      this.addComment(dataObject);
+    },
   },
 };
 </script>

@@ -92,7 +92,8 @@
                 :id="Number.toString(post.id)"
                 class="w-100 mt-2 border-top">
                 <CommentForm
-                    :postId="post.id" />
+                    :postId="post.id"
+                    :subjectId="post.subject_id" />
                 <b-row
                     v-for="comment in post.Comments"
                     :key="comment.id"
