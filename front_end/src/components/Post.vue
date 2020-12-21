@@ -86,13 +86,15 @@
                     </b-dropdown>
                 </b-row>
             </b-col>
-            <!-- Need to change the id of comment with the dynamique id of the post -->
-            <!-- <b-collapse
-                v-model="visible"
-                :id="id"
+            <!-- COMMENTS -->
+            <b-collapse
+                v-model="showComments"
+                :id="Number.toString(post.id)"
                 class="w-100 mt-2 border-top">
+                <CommentForm
+                    :postId="post.id" />
                 <b-row
-                    v-for="comment in comments"
+                    v-for="comment in post.Comments"
                     :key="comment.id"
                     class="p-3 mt-3">
                     <b-col cols="auto" class="d-flex flex-column text-left">
@@ -105,7 +107,7 @@
                     </b-col>
                     <b-col tag="p" class="text-justify">{{ comment.content }}</b-col>
                 </b-row>
-            </b-collapse> -->
+            </b-collapse>
         </div>
         <PostForm
             class="w-100"
@@ -122,6 +124,7 @@ import fr from 'dayjs/locale/fr';
 import RelativeTime from 'dayjs/plugin/relativeTime';
 import Subject from '@/components/Subject.vue';
 import PostForm from '@/components/PostForm.vue';
+import CommentForm from '@/components/CommentForm.vue';
 import { mapActions, mapGetters } from 'vuex';
 
 dayjs.extend(RelativeTime);
@@ -135,10 +138,11 @@ export default {
   components: {
     Subject,
     PostForm,
+    CommentForm,
   },
   data() {
     return {
-      visible: false,
+      showComments: false,
       commentsNumber: '',
       edit: false,
     };
@@ -155,7 +159,7 @@ export default {
       return dayjs(date).fromNow();
     },
     collapse() {
-      this.visible = !this.visible;
+      this.showComments = !this.showComments;
     },
     remove() {
       this.removePost(this.post.id);

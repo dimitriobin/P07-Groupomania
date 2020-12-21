@@ -16733,3 +16733,14 @@
 ::1 - - [21/Dec/2020:11:12:30 +0000] "GET /api/posts/42?page=2&size=10 HTTP/1.1" 200 6672
 ::1 - - [21/Dec/2020:11:12:33 +0000] "OPTIONS /api/posts/42?page=3&size=10 HTTP/1.1" 204 0
 ::1 - - [21/Dec/2020:11:12:33 +0000] "GET /api/posts/42?page=3&size=10 HTTP/1.1" 200 4767
+::1 - - [21/Dec/2020:14:04:32 +0000] "OPTIONS /api/subjects HTTP/1.1" 204 0
+::1 - - [21/Dec/2020:14:04:32 +0000] "OPTIONS /api/users HTTP/1.1" 204 0
+::1 - - [21/Dec/2020:14:04:32 +0000] "OPTIONS /api/subjects/follow HTTP/1.1" 204 0
+::1 - - [21/Dec/2020:14:04:32 +0000] "OPTIONS /api/posts/42?page=0&size=10 HTTP/1.1" 204 0
+::1 - - [21/Dec/2020:14:04:32 +0000] "OPTIONS /api/users/42 HTTP/1.1" 204 0
+::1 - - [21/Dec/2020:14:04:33 +0000] "GET /api/subjects HTTP/1.1" 200 38314
+::1 - - [21/Dec/2020:14:04:33 +0000] "GET /api/users HTTP/1.1" 304 -
+::1 - - [21/Dec/2020:14:04:33 +0000] "POST /api/subjects/follow HTTP/1.1" 200 1389
+::1 - - [21/Dec/2020:14:04:33 +0000] "GET /api/users/42 HTTP/1.1" 200 19216
+::1 - - [21/Dec/2020:14:04:33 +0000] "GET /api/posts/42?page=0&size=10 HTTP/1.1" 304 -
+::1 - - [21/Dec/2020:14:04:33 +0000] "GET /api/posts/42?page=0&size=10 HTTP/1.1" 304 -

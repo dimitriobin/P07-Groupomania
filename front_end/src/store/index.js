@@ -4,6 +4,7 @@ import Post from './modules/posts';
 import Auth from './modules/auth';
 import User from './modules/users';
 import Subject from './modules/subjects';
+import Comment from './modules/comments';
 
 Vue.use(Vuex);
 
@@ -19,5 +20,6 @@ export default new Vuex.Store({
     Auth,
     User,
     Subject,
+    Comment,
   },
 });
