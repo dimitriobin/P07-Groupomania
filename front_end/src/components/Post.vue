@@ -90,7 +90,7 @@
             <!-- COMMENTS -->
             <b-collapse
                 v-model="showComments"
-                :id="Number.toString(post.id)"
+                :id="'commentsFor' + post.id"
                 @show="handleFetching()"
                 class="w-100 mt-2 border-top">
                 <Comment
@@ -163,7 +163,7 @@ export default {
       this.removePost(this.post.id);
     },
     handleFetching() {
-      if (!this.comments.length > 0) {
+      if (!(this.comments.length > 0)) {
         this.fetchAllCommentsByPost(this.post.id);
       }
     },
