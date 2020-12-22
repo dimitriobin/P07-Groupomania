@@ -41,7 +41,9 @@
             </b-col>
             <b-col cols="12" tag="footer" class="h2">
                 <b-row align-h="around" class="px-5">
-                    <b-button class="bg-white border-0 position-relative">
+                    <b-button
+                      @click="likePost(post.id)"
+                      class="bg-white border-0 position-relative">
                         <b-icon
                           v-if="!isLiked"
                           icon="heart"
@@ -175,16 +177,16 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['userId', 'allComments']),
+    ...mapGetters(['userId', 'allComments', 'allLikes']),
     comments() {
       return this.allComments.filter((item) => item.post_id === this.post.id);
     },
     isLiked() {
-      return this.post.Likes.forEach((like) => (like.UserId === this.userId));
+      return this.post.Likes.some((like) => like.UserId === this.userId);
     },
   },
   methods: {
-    ...mapActions(['removePost', 'fetchAllCommentsByPost']),
+    ...mapActions(['removePost', 'fetchAllCommentsByPost', 'likePost']),
     isAuthor() {
       return this.userId === this.post.user_id;
     },

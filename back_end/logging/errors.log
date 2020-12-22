@@ -1298,3 +1298,11 @@
 ::1 - - [22/Dec/2020:21:00:38 +0000] "DELETE /api/posts/1/unlike HTTP/1.1" 500 2325
 ::1 - - [22/Dec/2020:21:02:00 +0000] "DELETE /api/posts/1/unlike HTTP/1.1" 500 2297
 ::1 - - [22/Dec/2020:21:02:14 +0000] "DELETE /api/posts/1/unlike HTTP/1.1" 500 2296
+::1 - - [22/Dec/2020:22:41:49 +0000] "POST /api/posts/1/like HTTP/1.1" 401 12
+::1 - - [22/Dec/2020:22:42:09 +0000] "POST /api/posts/1/like HTTP/1.1" 401 12
+::1 - - [22/Dec/2020:22:43:56 +0000] "POST /api/posts/1/like HTTP/1.1" 401 12
+::1 - - [22/Dec/2020:22:54:36 +0000] "POST /api/posts/1/like HTTP/1.1" 500 1051
+::1 - - [22/Dec/2020:22:54:41 +0000] "POST /api/posts/1/like HTTP/1.1" 500 1051
+::1 - - [22/Dec/2020:22:55:10 +0000] "POST /api/posts/5/like HTTP/1.1" 500 1051
+::1 - - [22/Dec/2020:22:57:35 +0000] "POST /api/posts/1/like HTTP/1.1" 500 1051
+::1 - - [22/Dec/2020:22:59:00 +0000] "POST /api/posts/1/like HTTP/1.1" 500 1051
