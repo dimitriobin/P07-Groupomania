@@ -42,9 +42,27 @@
             <b-col cols="12" tag="footer" class="h2">
                 <b-row align-h="around" class="px-5">
                     <b-button class="bg-white border-0 position-relative">
-                        <b-icon icon="heart" variant="dark" class="mx-1 mx-lg-2" font-scale="2">
+                        <b-icon
+                          v-if="!isLiked"
+                          icon="heart"
+                          variant="dark"
+                          class="mx-1 mx-lg-2"
+                          font-scale="2">
                         </b-icon>
-                        <b-badge pill class="icon_counter" variant="dark">16</b-badge>
+                        <b-icon
+                          v-else
+                          icon="heart-fill"
+                          variant="dark"
+                          class="mx-1 mx-lg-2"
+                          font-scale="2">
+                        </b-icon>
+                        <b-badge
+                          v-if="post.Likes.length > 0"
+                          pill
+                          class="icon_counter"
+                          variant="dark">
+                          {{ post.Likes.length }}
+                        </b-badge>
                     </b-button>
                     <b-button @click="collapse" class="bg-white border-0 position-relative">
                         <b-icon
@@ -160,6 +178,9 @@ export default {
     ...mapGetters(['userId', 'allComments']),
     comments() {
       return this.allComments.filter((item) => item.post_id === this.post.id);
+    },
+    isLiked() {
+      return this.post.Likes.forEach((like) => (like.UserId === this.userId));
     },
   },
   methods: {

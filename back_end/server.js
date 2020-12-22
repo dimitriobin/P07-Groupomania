@@ -63,6 +63,7 @@ server.on('listening', () => {
 //         db.User.create({
 //             user_name: process.env.ANONYME_NAME,
 //             email: process.env.ANONYME_EMAIL,
+//             birthdate: '1970-01-01',
 //             password: hash
 //           })
 //     })

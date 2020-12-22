@@ -1,7 +1,8 @@
 'use strict'
-const { Post, Subject, User, Comment } = require('../models');
+const { Post, Subject, User, Comment, Like } = require('../models');
 const { Op } = require('sequelize');
 const fs = require('fs');
+const jwt = require('jsonwebtoken');
 
 const getPagination = (page, size) => {
     const limit = size ? +size : 1;
@@ -17,6 +18,15 @@ const getPagingData = (data, page, limit) => {
 
     return { totalItems, posts, totalPages, currentPage };
 };
+
+const getUserId = (bearerToken) => {
+    const token = bearerToken.split(' ')[1];
+    const decodedToken = jwt.verify(token, process.env.TOKEN_SECRET);
+    const userId = decodedToken.userId;
+    if (userId) {
+        return userId;
+    }
+} 
 
 exports.createOnePost = (req, res, next) => {
     const postObject = req.file ? {
@@ -80,7 +90,10 @@ exports.readAllPostsByFollow = (req, res, next) => {
             include: [
                 {model: Subject},
                 {model: User},
-                {model: Comment, attributes: ['id']}
+                {model: Comment, attributes: ['id']},
+                {model: Like, include: {
+                    model: User, attributes: ['user_name']
+                }}
             ],
             limit,
             offset,
@@ -229,7 +242,49 @@ exports.deleteOnePost = (req, res, next) => {
         .then(deletedPost => {
             res.status(200).send('Post deleted');
         })
-        .catch(error => res.status(500).json({error: 'here'}))
+        .catch(error => res.status(500).json({error}))
     })
-    .catch(error => res.status(500).json({error: 'there'}))
+    .catch(error => res.status(500).json({error}))
 };
+
+
+// Permit a user to like a Post
+exports.likePost = (req, res, next) => {
+    Like.create({
+        UserId: getUserId(req.headers.authorization),
+        PostId: req.params.id
+    })
+    .then(response => {
+        res.status(201).json(response);
+    })
+    .catch(error => res.status(500).json({ error }))
+};
+
+
+exports.readAllLikesByUser = (req, res, next) => {
+    User.findOne({where: {id: req.body.userId}, include: Subject})
+    .then(user => {
+        if(!user){
+            return res.status(404).send('Subject not found')
+        }
+        res.status(200).json(user.Subjects)
+    })
+    .catch(error => res.status(500).json({ error }))
+};
+
+
+exports.unlikePost = (req, res, next) => {
+    Like.destroy({
+        where: {
+            [Op.and]: [
+                {UserId : getUserId(req.headers.authorization)},
+                {PostId : req.params.id}
+            ]
+        }
+    })
+    .then(response => {
+        res.status(200).json(response);
+    })
+    .catch(error => res.status(500).json({error}))
+};
+
