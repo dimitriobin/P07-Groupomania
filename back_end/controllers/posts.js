@@ -80,7 +80,7 @@ exports.readAllPostsByFollow = (req, res, next) => {
             include: [
                 {model: Subject},
                 {model: User},
-                {model: Comment, include: { model: User }}
+                {model: Comment, attributes: ['id']}
             ],
             limit,
             offset,

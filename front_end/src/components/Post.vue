@@ -53,12 +53,13 @@
                             class="mx-1 mx-lg-2"
                             font-scale="2">
                         </b-icon>
-                        <!-- <b-badge
-                        v-if="comments.length > 0"
+                        <b-badge
+                            v-if="post.Comments.length > 0 "
                             pill
                             class="icon_counter"
-                            variant="dark">{{ commentsNumber }}
-                        </b-badge> -->
+                            variant="dark">
+                            {{ comments.length ? comments.length : post.Comments.length }}
+                        </b-badge>
                     </b-button>
                     <b-dropdown
                         variant="link"
@@ -86,33 +87,28 @@
                     </b-dropdown>
                 </b-row>
             </b-col>
-            <!-- Need to change the id of comment with the dynamique id of the post -->
-            <!-- <b-collapse
-                v-model="visible"
-                :id="id"
+            <!-- COMMENTS -->
+            <b-collapse
+                v-model="showComments"
+                :id="'commentsFor' + post.id"
+                @show="handleFetching()"
                 class="w-100 mt-2 border-top">
-                <b-row
-                    v-for="comment in comments"
-                    :key="comment.id"
-                    class="p-3 mt-3">
-                    <b-col cols="auto" class="d-flex flex-column text-left">
-                        <a
-                            href="#"
-                            class="card-text text-dark font-weight-bold">
-                            {{ comment.User.user_name }}
-                        </a>
-                        <small>{{ dateToTimestamp(comment.createdAt) }}</small>
-                    </b-col>
-                    <b-col tag="p" class="text-justify">{{ comment.content }}</b-col>
-                </b-row>
-            </b-collapse> -->
+                <Comment
+                  v-for="(comment, index) in comments"
+                  :key="index"
+                  :data="comment" />
+                <CommentForm
+                  :postId="post.id"
+                  :subjectId="post.subject_id"
+                  method="create" />
+            </b-collapse>
         </div>
         <PostForm
             class="w-100"
             v-else
             method="update"
             :post="post"
-            @hide="edit = false" />
+            @submited="edit = false" />
     </b-row>
 </template>
 
@@ -122,6 +118,8 @@ import fr from 'dayjs/locale/fr';
 import RelativeTime from 'dayjs/plugin/relativeTime';
 import Subject from '@/components/Subject.vue';
 import PostForm from '@/components/PostForm.vue';
+import CommentForm from '@/components/CommentForm.vue';
+import Comment from '@/components/Comment.vue';
 import { mapActions, mapGetters } from 'vuex';
 
 dayjs.extend(RelativeTime);
@@ -135,19 +133,23 @@ export default {
   components: {
     Subject,
     PostForm,
+    CommentForm,
+    Comment,
   },
   data() {
     return {
-      visible: false,
-      commentsNumber: '',
+      showComments: false,
       edit: false,
     };
   },
   computed: {
-    ...mapGetters(['userId']),
+    ...mapGetters(['userId', 'allComments']),
+    comments() {
+      return this.allComments.filter((item) => item.post_id === this.post.id);
+    },
   },
   methods: {
-    ...mapActions(['removePost']),
+    ...mapActions(['removePost', 'fetchAllCommentsByPost']),
     isAuthor() {
       return this.userId === this.post.user_id;
     },
@@ -155,14 +157,16 @@ export default {
       return dayjs(date).fromNow();
     },
     collapse() {
-      this.visible = !this.visible;
+      this.showComments = !this.showComments;
     },
     remove() {
       this.removePost(this.post.id);
     },
-  },
-  created() {
-    // this.commentsNumber = this.comments.length;
+    handleFetching() {
+      if (!(this.comments.length > 0)) {
+        this.fetchAllCommentsByPost(this.post.id);
+      }
+    },
   },
 };
 </script>

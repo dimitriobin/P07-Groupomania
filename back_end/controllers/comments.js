@@ -1,5 +1,5 @@
 'use strict'
-const { Comment } = require('../models');
+const { Comment, User } = require('../models');
 
 exports.createOneComment = (req, res, next) => {
     const commentObject = {
@@ -10,11 +10,18 @@ exports.createOneComment = (req, res, next) => {
     }
     Comment.create(commentObject)
     .then(createdComment => {
-        res.status(201).send('Comment created');
+        Comment.findOne({
+            include: [
+                { model: User, attributes: ['user_name']}
+            ],
+            where: {
+                id: createdComment.id
+            }
+        })
+        .then(comment => res.status(201).json(comment))
+        .catch(error => res.status(500).json({error}));
     })
-    .catch(error => {
-        res.status(500).json({error});
-    })
+    .catch(error => res.status(500).json({error}));
 };
 
 
@@ -63,7 +70,11 @@ exports.readAllCommentsByUser = (req, res, next) => {
 
 
 exports.readAllCommentsByPost = (req, res, next) => {
-    Comment.findAll({where: {post_id: req.params.post_id}})
+    Comment.findAll({
+        include: [
+            {model: User, attributes: ['user_name']}
+        ],
+        where: {post_id: req.params.post_id}})
     .then(comments => {
         if(comments.length <= 0) {
             return res.status(404).send('Comments not found');
@@ -97,10 +108,19 @@ exports.updateOneComment = (req, res, next) => {
         Comment.update({ ...req.body }, {
             where: {
               id: req.params.id
-            }
+            },
         })
-        .then(updatedComment => {
-            res.status(200).send('Comment updated');
+        .then(() => {
+            Comment.findOne({
+                include: [
+                    { model: User, attributes: ['user_name']}
+                ],
+                where: {
+                    id: req.params.id
+                }
+            })
+            .then(comment => res.status(201).json(comment))
+            .catch(error => res.status(500).json({error}));
         })
         .catch(error => res.status(500).json({error}))
     })
