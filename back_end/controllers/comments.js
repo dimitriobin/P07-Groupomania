@@ -108,10 +108,19 @@ exports.updateOneComment = (req, res, next) => {
         Comment.update({ ...req.body }, {
             where: {
               id: req.params.id
-            }
+            },
         })
-        .then(updatedComment => {
-            res.status(200).send('Comment updated');
+        .then(() => {
+            Comment.findOne({
+                include: [
+                    { model: User, attributes: ['user_name']}
+                ],
+                where: {
+                    id: req.params.id
+                }
+            })
+            .then(comment => res.status(201).json(comment))
+            .catch(error => res.status(500).json({error}));
         })
         .catch(error => res.status(500).json({error}))
     })

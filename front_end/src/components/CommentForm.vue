@@ -17,6 +17,8 @@
             type="text"
             trim
             placeholder="Proposez un commentaire ..."
+            class="border-0"
+            autofocus
             :state="errors[0] ? false : (valid ? true : null)">
           </b-form-input>
           <b-form-invalid-feedback>
@@ -28,7 +30,7 @@
         type="submit"
         variant="link"
         class="mx-auto w-25 commentSubmit">
-        Poster
+        {{ (method === 'update') ? 'Modifier' : 'Poster'}}
       </b-button>
     </b-form>
   </ValidationObserver>
@@ -43,6 +45,9 @@ export default {
   props: [
     'postId',
     'subjectId',
+    'method',
+    'value',
+    'comment_id',
   ],
   components: {
     ValidationProvider,
@@ -57,7 +62,7 @@ export default {
     ...mapGetters(['userId']),
   },
   methods: {
-    ...mapActions(['addComment']),
+    ...mapActions(['addComment', 'updateComment']),
     onSubmit() {
       const dataObject = {
         content: this.comment,
@@ -65,9 +70,19 @@ export default {
         user_id: this.userId,
         post_id: this.postId,
       };
-      this.addComment(dataObject);
+      if (this.method === 'update') {
+        this.updateComment({ id: this.comment_id, data: dataObject });
+      } else if (this.method === 'create') {
+        this.addComment(dataObject);
+      }
       this.comment = '';
+      this.$emit('submited');
     },
+  },
+  mounted() {
+    if (this.method === 'update') {
+      this.comment = this.value;
+    }
   },
 };
 </script>
@@ -75,7 +90,7 @@ export default {
 <style scoped>
 .commentSubmit {
   position: absolute;
-  right: 10px;
+  right: 30px;
 }
 
 </style>

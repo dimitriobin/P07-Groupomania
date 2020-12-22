@@ -99,7 +99,8 @@
                   :data="comment" />
                 <CommentForm
                     :postId="post.id"
-                    :subjectId="post.subject_id" />
+                    :subjectId="post.subject_id"
+                    method="create" />
             </b-collapse>
         </div>
         <PostForm
@@ -163,7 +164,7 @@ export default {
       this.removePost(this.post.id);
     },
     handleFetching() {
-      if (!this.comments.length > 0) {
+      if (!this.comments.length) {
         this.fetchAllCommentsByPost(this.post.id);
       }
     },

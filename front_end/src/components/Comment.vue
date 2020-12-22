@@ -9,12 +9,30 @@
         </a>
         <small>{{ dateToTimestamp(data.createdAt) }}</small>
     </b-col>
-    <b-col tag="p" class="text-justify">{{ data.content }}</b-col>
+    <b-col
+      v-if="!edit"
+      tag="p"
+      class="text-justify">
+      {{ data.content }}
+    </b-col>
+    <b-col
+      v-else>
+      <CommentForm
+        :postId="data.post_id"
+        :subjectId="data.subject_id"
+        method="update"
+        :value="data.content"
+        :comment_id="data.id"
+        @submited="switchEdit()" />
+    </b-col>
     <b-col
       v-if="isAuthor()"
       cols="2"
-      class="text-right align-self-center">
-      <b-icon-pencil class="mr-3"></b-icon-pencil>
+      class="text-right">
+      <b-icon-pencil
+        @click="switchEdit()"
+        class="mr-3">
+      </b-icon-pencil>
       <b-icon-x-circle></b-icon-x-circle>
     </b-col>
   </b-row>
@@ -25,6 +43,7 @@ import dayjs from 'dayjs';
 import fr from 'dayjs/locale/fr';
 import RelativeTime from 'dayjs/plugin/relativeTime';
 import { mapGetters } from 'vuex';
+import CommentForm from '@/components/CommentForm.vue';
 
 dayjs.extend(RelativeTime);
 dayjs.locale(fr);
@@ -34,6 +53,14 @@ export default {
   props: [
     'data',
   ],
+  components: {
+    CommentForm,
+  },
+  data() {
+    return {
+      edit: false,
+    };
+  },
   computed: {
     ...mapGetters(['userId']),
   },
@@ -43,6 +70,9 @@ export default {
     },
     isAuthor() {
       return this.userId === this.data.user_id;
+    },
+    switchEdit() {
+      this.edit = !this.edit;
     },
   },
 };

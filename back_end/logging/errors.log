@@ -1226,3 +1226,6 @@
 ::1 - - [22/Dec/2020:10:58:41 +0000] "GET /api/posts/42?page=0&size=10 HTTP/1.1" 401 12
 ::1 - - [22/Dec/2020:10:58:41 +0000] "GET /api/users/42 HTTP/1.1" 401 12
 ::1 - - [22/Dec/2020:13:37:00 +0000] "GET /api/comments/post/44 HTTP/1.1" 404 18
+::1 - - [22/Dec/2020:13:37:13 +0000] "GET /api/comments/post/40 HTTP/1.1" 404 18
+::1 - - [22/Dec/2020:13:37:14 +0000] "GET /api/comments/post/39 HTTP/1.1" 404 18
+::1 - - [22/Dec/2020:14:10:42 +0000] "GET /api/comments/post/54 HTTP/1.1" 404 18
