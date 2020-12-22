@@ -62,7 +62,7 @@ const actions = {
         } else {
           commit('addLoadedPosts', res.data.posts);
         }
-        commit('setPagination', pagination);
+        commit('setPostPagination', pagination);
         return Promise.resolve(res.data);
       })
       .catch((err) => {
@@ -81,7 +81,7 @@ const actions = {
         } else {
           commit('addLoadedPosts', res.data.posts);
         }
-        commit('setPagination', pagination);
+        commit('setPostPagination', pagination);
         return Promise.resolve(res.data);
       })
       .catch((err) => {
@@ -107,7 +107,7 @@ const mutations = {
   addLoadedPosts(state, loadedPosts) {
     state.posts.push(...loadedPosts);
   },
-  setPagination(state, pagination) {
+  setPostPagination(state, pagination) {
     state.pagination.currentPage = pagination.currentPage;
     state.pagination.lastPage = pagination.lastPage;
   },

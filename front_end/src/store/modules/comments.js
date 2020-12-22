@@ -18,12 +18,13 @@ const actions = {
       })
       .catch((err) => Promise.reject(err.response.data.error.errors[0].message));
   },
-  fetchAllCommentsByPost({ commit }, postId) {
-    http.get(`/comments/post/${postId}`, { headers: authHeader() })
+  fetchAllCommentsByPost({ commit }, { id, page }) {
+    return http.get(`/comments/post/${id}?page=${page}`, { headers: authHeader() })
       .then((res) => {
-        commit('setComments', res.data);
+        commit('setComments', res.data.comments);
+        return Promise.resolve(res.data);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => Promise.reject(err.response.data));
   },
   updateComment({ commit }, { id, data }) {
     return http.put(`/comments/${id}`, data, { headers: authHeader() })
@@ -50,7 +51,7 @@ const mutations = {
     });
   },
   addComment(state, comment) {
-    state.comments.push(comment);
+    state.comments.unshift(comment);
   },
   replaceComment(state, comment) {
     let oldIndex = '';

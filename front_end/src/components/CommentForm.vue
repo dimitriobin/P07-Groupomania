@@ -95,6 +95,7 @@ export default {
           .then(() => {
             this.comment = '';
             this.$emit('submited');
+            this.$emit('createdComment');
           })
           .catch((error) => {
             // If some known errors are send by the back end, display them in the UI

@@ -1242,3 +1242,17 @@
 ::1 - - [22/Dec/2020:15:00:44 +0000] "PUT /api/comments/52 HTTP/1.1" 500 437
 ::1 - - [22/Dec/2020:15:00:45 +0000] "PUT /api/comments/52 HTTP/1.1" 500 437
 ::1 - - [22/Dec/2020:15:44:38 +0000] "DELETE /api/comments/undefined HTTP/1.1" 404 17
+::1 - - [22/Dec/2020:16:29:58 +0000] "GET /api/comments/post/49 HTTP/1.1" 500 12
+::1 - - [22/Dec/2020:16:36:55 +0000] "GET /api/comments/post/42 HTTP/1.1" 500 12
+::1 - - [22/Dec/2020:16:37:05 +0000] "GET /api/comments/post/54 HTTP/1.1" 500 12
+::1 - - [22/Dec/2020:17:09:20 +0000] "GET /api/comments/post/54?page=undefined HTTP/1.1" 500 1501
+::1 - - [22/Dec/2020:17:17:17 +0000] "GET /api/subjects HTTP/1.1" 429 42
+::1 - - [22/Dec/2020:17:17:17 +0000] "GET /api/users HTTP/1.1" 429 42
+::1 - - [22/Dec/2020:17:17:17 +0000] "POST /api/subjects/follow HTTP/1.1" 429 42
+::1 - - [22/Dec/2020:17:17:17 +0000] "GET /api/posts/21?page=0&size=10 HTTP/1.1" 429 42
+::1 - - [22/Dec/2020:17:17:17 +0000] "GET /api/users/21 HTTP/1.1" 429 42
+::1 - - [22/Dec/2020:17:17:22 +0000] "POST /api/subjects/follow HTTP/1.1" 429 42
+::1 - - [22/Dec/2020:17:17:22 +0000] "GET /api/subjects HTTP/1.1" 429 42
+::1 - - [22/Dec/2020:17:17:22 +0000] "GET /api/users HTTP/1.1" 429 42
+::1 - - [22/Dec/2020:17:17:22 +0000] "GET /api/posts/21?page=0&size=10 HTTP/1.1" 429 42
+::1 - - [22/Dec/2020:17:17:22 +0000] "GET /api/users/21 HTTP/1.1" 429 42

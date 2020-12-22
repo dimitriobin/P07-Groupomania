@@ -1,6 +1,21 @@
 'use strict'
 const { Comment, User } = require('../models');
 
+const getPagination = (page, size) => {
+    const limit = size ? +size : 3;
+    const offset = page ? page * limit : 0;
+
+    return { limit, offset };
+};
+
+const getPagingData = (data, page, limit) => {
+    const { count: totalItems, rows: comments } = data;
+    const currentPage = page ? +page : 0;
+    const totalPages = Math.ceil(totalItems / limit);
+
+    return { totalItems, comments, totalPages, currentPage };
+};
+
 exports.createOneComment = (req, res, next) => {
     const commentObject = {
         ...req.body,
@@ -70,16 +85,23 @@ exports.readAllCommentsByUser = (req, res, next) => {
 
 
 exports.readAllCommentsByPost = (req, res, next) => {
-    Comment.findAll({
+    const { page, size } = req.query;
+    const { limit, offset } = getPagination(page, size);
+    Comment.findAndCountAll({
         include: [
             {model: User, attributes: ['user_name']}
         ],
-        where: {post_id: req.params.post_id}})
+        limit,
+        offset,
+        where: {post_id: req.params.post_id},
+        order: [ ['createdAt', 'DESC'] ]
+    })
     .then(comments => {
         if(comments.length <= 0) {
             return res.status(404).send('Comments not found');
         }
-        res.status(200).json(comments);
+        const response = getPagingData(comments, page, limit);
+        res.status(200).json(response);
     })
     .catch(error => {
         res.status(500).json({error});

@@ -54,11 +54,11 @@
                             font-scale="2">
                         </b-icon>
                         <b-badge
-                            v-if="post.Comments.length > 0 "
+                            v-if="commentsCount > 0 "
                             pill
                             class="icon_counter"
                             variant="dark">
-                            {{ comments.length ? comments.length : post.Comments.length }}
+                            {{ commentsCount }}
                         </b-badge>
                     </b-button>
                     <b-dropdown
@@ -91,16 +91,26 @@
             <b-collapse
                 v-model="showComments"
                 :id="'commentsFor' + post.id"
-                @show="handleFetching()"
-                class="w-100 mt-2 border-top">
-                <Comment
-                  v-for="(comment, index) in comments"
-                  :key="index"
-                  :data="comment" />
+                @show.once="handleFetching(0)"
+                class="w-100 mt-2 border-top text-center">
                 <CommentForm
                   :postId="post.id"
                   :subjectId="post.subject_id"
-                  method="create" />
+                  method="create"
+                  @createdComment="commentsCount += 1" />
+                <Comment
+                  v-for="(comment, index) in comments"
+                  :key="index"
+                  :data="comment"
+                  @deletedComment="commentsCount -= 1" />
+                <b-spinner v-if="loading"></b-spinner>
+                <b-button
+                  v-if="currentPage < (totalPages - 1)"
+                  variant="link"
+                  class="w-100"
+                  @click="handleFetching(currentPage += 1)">
+                  Voir plus de commentaires
+                </b-button>
             </b-collapse>
         </div>
         <PostForm
@@ -140,6 +150,10 @@ export default {
     return {
       showComments: false,
       edit: false,
+      commentsCount: 0,
+      loading: false,
+      currentPage: 0,
+      totalPages: '',
     };
   },
   computed: {
@@ -162,11 +176,19 @@ export default {
     remove() {
       this.removePost(this.post.id);
     },
-    handleFetching() {
-      if (!(this.comments.length > 0)) {
-        this.fetchAllCommentsByPost(this.post.id);
-      }
+    handleFetching(page) {
+      this.loading = true;
+      this.fetchAllCommentsByPost({ id: this.post.id, page })
+        .then((response) => {
+          this.loading = false;
+          this.currentPage = response.currentPage;
+          this.totalPages = response.totalPages;
+        })
+        .catch((error) => console.log(error));
     },
+  },
+  mounted() {
+    this.commentsCount = this.post.Comments.length;
   },
 };
 </script>
