@@ -106,7 +106,7 @@ app.use((req, res, next) => {
 //////////////////////////////////////////////
 const rateLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100 // limit each IP to 100 requests per windowMs
+    max: 200 // limit each IP to 200 requests per windowMs
 });
 
 
@@ -115,7 +115,7 @@ const rateLimiter = rateLimit({
 //////////////////////////////////////////////
 const speedLimiter = slowDown({
     windowMs: 30 * 1000, // 30 sec
-    delayAfter: 10, // allow 10 requests per 30 seconds, then...
+    delayAfter: 50, // allow 50 requests per 30 seconds, then...
     delayMs: 500 // begin adding 500ms of delay per request above 100:
 });
 

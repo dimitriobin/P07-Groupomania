@@ -42,10 +42,10 @@
             <b-col cols="12" tag="footer" class="h2">
                 <b-row align-h="around" class="px-5">
                     <b-button
-                      @click="likePost(post.id)"
                       class="bg-white border-0 position-relative">
                         <b-icon
                           v-if="!isLiked"
+                          @click="likePost(post.id)"
                           icon="heart"
                           variant="dark"
                           class="mx-1 mx-lg-2"
@@ -53,6 +53,7 @@
                         </b-icon>
                         <b-icon
                           v-else
+                          @click="unlikePost(post.id)"
                           icon="heart-fill"
                           variant="dark"
                           class="mx-1 mx-lg-2"
@@ -186,7 +187,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['removePost', 'fetchAllCommentsByPost', 'likePost']),
+    ...mapActions(['removePost', 'fetchAllCommentsByPost', 'likePost', 'unlikePost']),
     isAuthor() {
       return this.userId === this.post.user_id;
     },

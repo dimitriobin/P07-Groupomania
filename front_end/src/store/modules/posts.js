@@ -106,6 +106,19 @@ const actions = {
         console.log(err.response.data);
       });
   },
+  unlikePost({ commit, rootGetters }, id) {
+    http.delete(`/posts/${id}/unlike`, { headers: authHeader() })
+      .then(() => {
+        const dataObj = {
+          UserId: rootGetters.userId,
+          PostId: id,
+        };
+        commit('removeLike', dataObj);
+      })
+      .catch((err) => {
+        console.log(err.response);
+      });
+  },
 };
 
 const mutations = {
@@ -144,6 +157,17 @@ const mutations = {
     state.posts.forEach((post) => {
       if (post.id === parseInt(data.PostId, 10)) {
         post.Likes.push(data);
+      }
+    });
+  },
+  removeLike(state, data) {
+    state.posts.forEach((post) => {
+      if (post.id === parseInt(data.PostId, 10)) {
+        post.Likes.forEach((like, index) => {
+          if (like.UserId === data.UserId) {
+            post.Likes.splice(index, 1);
+          }
+        });
       }
     });
   },

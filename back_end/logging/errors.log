@@ -1306,3 +1306,14 @@
 ::1 - - [22/Dec/2020:22:55:10 +0000] "POST /api/posts/5/like HTTP/1.1" 500 1051
 ::1 - - [22/Dec/2020:22:57:35 +0000] "POST /api/posts/1/like HTTP/1.1" 500 1051
 ::1 - - [22/Dec/2020:22:59:00 +0000] "POST /api/posts/1/like HTTP/1.1" 500 1051
+::1 - - [22/Dec/2020:23:36:37 +0000] "POST /api/posts/1/like HTTP/1.1" 500 1051
+::1 - - [22/Dec/2020:23:36:38 +0000] "POST /api/posts/1/like HTTP/1.1" 500 1051
+::1 - - [22/Dec/2020:23:38:16 +0000] "POST /api/posts/1/like HTTP/1.1" 500 1051
+::1 - - [22/Dec/2020:23:40:54 +0000] "GET /api/users/22 HTTP/1.1" 429 42
+::1 - - [22/Dec/2020:23:40:54 +0000] "GET /api/posts/22?page=0&size=10 HTTP/1.1" 429 42
+::1 - - [22/Dec/2020:23:40:54 +0000] "GET /api/posts/22?page=0&size=10 HTTP/1.1" 429 42
+::1 - - [22/Dec/2020:23:41:00 +0000] "GET /api/subjects HTTP/1.1" 429 42
+::1 - - [22/Dec/2020:23:41:00 +0000] "POST /api/subjects/follow HTTP/1.1" 429 42
+::1 - - [22/Dec/2020:23:41:00 +0000] "GET /api/users HTTP/1.1" 429 42
+::1 - - [22/Dec/2020:23:41:00 +0000] "GET /api/posts/22?page=0&size=10 HTTP/1.1" 429 42
+::1 - - [22/Dec/2020:23:41:00 +0000] "GET /api/users/22 HTTP/1.1" 429 42
