@@ -108,7 +108,7 @@
             v-else
             method="update"
             :post="post"
-            @hide="edit = false" />
+            @submited="edit = false" />
     </b-row>
 </template>
 

@@ -13,15 +13,15 @@ const actions = {
   addComment({ commit }, data) {
     return http.post('/comments/', data, { headers: authHeader() })
       .then((res) => {
-        commit('addComments', res.data);
+        commit('addComment', res.data);
         return Promise.resolve(res.data);
       })
-      .catch((err) => Promise.reject(err.response.data.message));
+      .catch((err) => Promise.reject(err.response.data.error.errors[0].message));
   },
   fetchAllCommentsByPost({ commit }, postId) {
     http.get(`/comments/post/${postId}`, { headers: authHeader() })
       .then((res) => {
-        commit('addComments', res.data);
+        commit('setComments', res.data);
       })
       .catch((err) => console.log(err));
   },
@@ -36,10 +36,13 @@ const actions = {
 };
 
 const mutations = {
-  addComments(state, comments) {
+  setComments(state, comments) {
     comments.forEach((comment) => {
       state.comments.push(comment);
     });
+  },
+  addComment(state, comment) {
+    state.comments.push(comment);
   },
   replaceComment(state, comment) {
     let oldIndex = '';

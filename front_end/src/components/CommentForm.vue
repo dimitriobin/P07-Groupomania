@@ -77,7 +77,6 @@ export default {
             this.$emit('submited');
           })
           .catch((error) => {
-            console.log(error);
             // If some known errors are send by the back end, display them in the UI
             switch (error) {
               case 'Validation notEmpty on content failed':
@@ -92,7 +91,25 @@ export default {
             return console.error(error);
           });
       } else if (this.method === 'create') {
-        this.addComment(dataObject);
+        this.addComment(dataObject)
+          .then(() => {
+            this.comment = '';
+            this.$emit('submited');
+          })
+          .catch((error) => {
+            // If some known errors are send by the back end, display them in the UI
+            switch (error) {
+              case 'Validation notEmpty on content failed':
+                this.$refs.commentObserver.setErrors({
+                  commentaire: ['Ce champ ne peux pas être vide'],
+                });
+                break;
+              default:
+                break;
+            }
+            // for errors that aren't known, display in the console
+            return console.error(error);
+          });
       }
     },
   },
