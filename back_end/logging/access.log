@@ -18205,3 +18205,14 @@
 ::1 - - [22/Dec/2020:13:21:22 +0000] "GET /api/posts/42?page=0&size=10 HTTP/1.1" 304 -
 ::1 - - [22/Dec/2020:13:21:26 +0000] "OPTIONS /api/comments/post/51 HTTP/1.1" 204 0
 ::1 - - [22/Dec/2020:13:21:26 +0000] "GET /api/comments/post/51 HTTP/1.1" 304 -
+::1 - - [22/Dec/2020:13:23:39 +0000] "OPTIONS /api/comments/ HTTP/1.1" 204 0
+::1 - - [22/Dec/2020:13:23:39 +0000] "POST /api/comments/ HTTP/1.1" 201 180
+::1 - - [22/Dec/2020:13:24:31 +0000] "OPTIONS /api/comments/post/49 HTTP/1.1" 204 0
+::1 - - [22/Dec/2020:13:24:31 +0000] "GET /api/comments/post/49 HTTP/1.1" 200 1255
+::1 - - [22/Dec/2020:13:36:46 +0000] "OPTIONS /api/comments/post/46 HTTP/1.1" 204 0
+::1 - - [22/Dec/2020:13:36:46 +0000] "GET /api/comments/post/46 HTTP/1.1" 200 178
+::1 - - [22/Dec/2020:13:36:51 +0000] "GET /api/comments/post/46 HTTP/1.1" 304 -
+::1 - - [22/Dec/2020:13:36:52 +0000] "OPTIONS /api/comments/post/48 HTTP/1.1" 204 0
+::1 - - [22/Dec/2020:13:36:52 +0000] "GET /api/comments/post/48 HTTP/1.1" 200 911
+::1 - - [22/Dec/2020:13:37:00 +0000] "OPTIONS /api/comments/post/44 HTTP/1.1" 204 0
+::1 - - [22/Dec/2020:13:37:00 +0000] "GET /api/comments/post/44 HTTP/1.1" 404 18
