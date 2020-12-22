@@ -27,13 +27,39 @@
     </b-col>
     <b-col
       v-if="isAuthor()"
-      cols="2"
+      cols="3"
       class="text-right">
-      <b-icon-pencil
+      <b-button
         @click="switchEdit()"
-        class="mr-3">
-      </b-icon-pencil>
-      <b-icon-x-circle></b-icon-x-circle>
+        variant="link"
+        class="text-dark">
+        <b-icon-pencil>
+        </b-icon-pencil>
+      </b-button>
+      <b-button
+        variant="link"
+        class="text-dark"
+        :id="'removeComment' + data.id">
+        <b-icon-x-circle>
+        </b-icon-x-circle>
+      </b-button>
+      <b-popover
+        :target="'removeComment' + data.id"
+        triggers="click"
+        placement="right"
+        :show.sync="showRemove">
+        <template #title>Etes vous sur de vouloir supprimer ce post ?</template>
+        <div class="d-flex justify-content-around align-items-center">
+          <b-button
+            variant="success"
+            class="w-25"
+            @click="deleteComment(data.id).then(showRemove = false)">Oui</b-button>
+          <b-button
+            variant="danger"
+            class="w-25"
+            @click="showRemove = false">Non</b-button>
+        </div>
+      </b-popover>
     </b-col>
   </b-row>
 </template>
@@ -42,7 +68,7 @@
 import dayjs from 'dayjs';
 import fr from 'dayjs/locale/fr';
 import RelativeTime from 'dayjs/plugin/relativeTime';
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import CommentForm from '@/components/CommentForm.vue';
 
 dayjs.extend(RelativeTime);
@@ -59,12 +85,14 @@ export default {
   data() {
     return {
       edit: false,
+      showRemove: false,
     };
   },
   computed: {
     ...mapGetters(['userId']),
   },
   methods: {
+    ...mapActions(['deleteComment']),
     dateToTimestamp(date) {
       return dayjs(date).fromNow();
     },

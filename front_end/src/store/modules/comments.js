@@ -33,6 +33,14 @@ const actions = {
       })
       .catch((err) => Promise.reject(err.response.data.error.errors[0].message));
   },
+  deleteComment({ commit }, id) {
+    return http.delete(`/comments/${id}`, { headers: authHeader() })
+      .then((res) => {
+        commit('removeComment', id);
+        return Promise.resolve(res.data);
+      })
+      .catch((err) => Promise.reject(err.response.data));
+  },
 };
 
 const mutations = {
@@ -52,6 +60,15 @@ const mutations = {
       }
     });
     state.comments.splice(oldIndex, 1, comment);
+  },
+  removeComment(state, id) {
+    let commentIndex = '';
+    state.comments.forEach((item, index) => {
+      if (item.id === id) {
+        commentIndex = index;
+      }
+    });
+    state.comments.splice(commentIndex, 1);
   },
 };
 
