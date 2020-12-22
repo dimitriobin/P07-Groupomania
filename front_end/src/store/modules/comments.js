@@ -13,7 +13,8 @@ const actions = {
   addComment({ commit }, data) {
     http.post('/comments/', data, { headers: authHeader() })
       .then((res) => {
-        commit('injectComments', res.data);
+        console.log(res.data);
+        commit('addComments', res.data);
       })
       .catch((err) => console.log(err));
   },
@@ -28,7 +29,11 @@ const actions = {
 
 const mutations = {
   addComments(state, comments) {
-    state.comments.push(...comments);
+    if (comments.length > 1) {
+      state.comments.push(...comments);
+    } else {
+      state.comments.push(comments);
+    }
   },
 };
 

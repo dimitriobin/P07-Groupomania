@@ -8,7 +8,6 @@
       @submit.prevent="handleSubmit(onSubmit)">
       <ValidationProvider
         name="commentaire"
-        rules="required"
         v-slot="{ valid, errors }">
         <b-form-group
           id="input-group-comment">
@@ -67,6 +66,7 @@ export default {
         post_id: this.postId,
       };
       this.addComment(dataObject);
+      this.comment = '';
     },
   },
 };

@@ -11,7 +11,9 @@ exports.createOneComment = (req, res, next) => {
     Comment.create(commentObject)
     .then(createdComment => {
         Comment.findOne({
-            include: User,
+            include: [
+                { model: User, attributes: ['user_name']}
+            ],
             where: {
                 id: createdComment.id
             }
@@ -70,7 +72,7 @@ exports.readAllCommentsByUser = (req, res, next) => {
 exports.readAllCommentsByPost = (req, res, next) => {
     Comment.findAll({
         include: [
-            {model: User}
+            {model: User, attributes: ['user_name']}
         ],
         where: {post_id: req.params.post_id}})
     .then(comments => {

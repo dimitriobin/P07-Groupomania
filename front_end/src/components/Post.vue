@@ -54,10 +54,11 @@
                             font-scale="2">
                         </b-icon>
                         <b-badge
-                            v-if="post.Comments.length > 0"
+                            v-if="post.Comments.length > 0 "
                             pill
                             class="icon_counter"
-                            variant="dark">{{ post.Comments.length }}
+                            variant="dark">
+                            {{ comments.length ? comments.length : post.Comments.length }}
                         </b-badge>
                     </b-button>
                     <b-dropdown
@@ -166,9 +167,6 @@ export default {
         this.fetchAllCommentsByPost(this.post.id);
       }
     },
-  },
-  created() {
-    // this.commentsNumber = this.comments.length;
   },
 };
 </script>
