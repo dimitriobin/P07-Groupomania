@@ -68,7 +68,11 @@ exports.readAllCommentsByUser = (req, res, next) => {
 
 
 exports.readAllCommentsByPost = (req, res, next) => {
-    Comment.findAll({where: {post_id: req.params.post_id}})
+    Comment.findAll({
+        include: [
+            {model: User}
+        ],
+        where: {post_id: req.params.post_id}})
     .then(comments => {
         if(comments.length <= 0) {
             return res.status(404).send('Comments not found');

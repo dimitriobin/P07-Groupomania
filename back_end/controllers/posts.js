@@ -1,6 +1,6 @@
 'use strict'
-const { Post, Subject, User, Comment } = require('../models');
-const { Op } = require('sequelize');
+const { Post, Subject, User, Comment, sequelize } = require('../models');
+const { Op, Sequelize } = require('sequelize');
 const fs = require('fs');
 
 const getPagination = (page, size) => {
@@ -80,7 +80,7 @@ exports.readAllPostsByFollow = (req, res, next) => {
             include: [
                 {model: Subject},
                 {model: User},
-                {model: Comment, include: { model: User }}
+                {model: Comment, attributes: ['id']}
             ],
             limit,
             offset,

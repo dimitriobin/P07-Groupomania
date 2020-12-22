@@ -132,6 +132,12 @@ const mutations = {
     });
     state.posts.splice(oldPostIndex, 1);
   },
+  injectComments(state, comments) {
+    console.log(state, comments);
+    // state.posts.forEach((post) => {
+    //   if (post.id === comments)
+    // })
+  },
 };
 
 export default {
