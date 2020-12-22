@@ -41,10 +41,31 @@
             </b-col>
             <b-col cols="12" tag="footer" class="h2">
                 <b-row align-h="around" class="px-5">
-                    <b-button class="bg-white border-0 position-relative">
-                        <b-icon icon="heart" variant="dark" class="mx-1 mx-lg-2" font-scale="2">
+                    <b-button
+                      class="bg-white border-0 position-relative">
+                        <b-icon
+                          v-if="!isLiked"
+                          @click="likePost(post.id)"
+                          icon="heart"
+                          variant="dark"
+                          class="mx-1 mx-lg-2"
+                          font-scale="2">
                         </b-icon>
-                        <b-badge pill class="icon_counter" variant="dark">16</b-badge>
+                        <b-icon
+                          v-else
+                          @click="unlikePost(post.id)"
+                          icon="heart-fill"
+                          variant="dark"
+                          class="mx-1 mx-lg-2"
+                          font-scale="2">
+                        </b-icon>
+                        <b-badge
+                          v-if="post.Likes.length > 0"
+                          pill
+                          class="icon_counter"
+                          variant="dark">
+                          {{ post.Likes.length }}
+                        </b-badge>
                     </b-button>
                     <b-button @click="collapse" class="bg-white border-0 position-relative">
                         <b-icon
@@ -157,13 +178,16 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['userId', 'allComments']),
+    ...mapGetters(['userId', 'allComments', 'allLikes']),
     comments() {
       return this.allComments.filter((item) => item.post_id === this.post.id);
     },
+    isLiked() {
+      return this.post.Likes.some((like) => like.UserId === this.userId);
+    },
   },
   methods: {
-    ...mapActions(['removePost', 'fetchAllCommentsByPost']),
+    ...mapActions(['removePost', 'fetchAllCommentsByPost', 'likePost', 'unlikePost']),
     isAuthor() {
       return this.userId === this.post.user_id;
     },

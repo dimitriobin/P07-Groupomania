@@ -3,7 +3,19 @@ const router = require('express').Router();
 const auth = require('../middlewares/auth');
 const multer = require('../middlewares/multer-config');
 
-const { createOnePost, readAllPosts, readAllPostsByUser, readAllPostsBySubject, readOnePost, updateOnePost, deleteOnePost, readAllPostsByFollow } = require ('../controllers/posts');
+const { 
+  createOnePost,
+  readAllPosts,
+  readAllPostsByUser,
+  readAllPostsBySubject,
+  readOnePost,
+  updateOnePost,
+  deleteOnePost,
+  readAllPostsByFollow,
+  likePost,
+  readAllLikesByUser,
+  unlikePost
+} = require ('../controllers/posts');
 
 /////////////////////////////////////////////
 // CREATE ONE Post
@@ -47,6 +59,24 @@ router.put('/:id', auth, multer, updateOnePost);
 // DELETE ONE Post
 /////////////////////////////////////////////
 router.delete('/:id', auth, deleteOnePost);
+
+
+/////////////////////////////////////////////
+// Create a like
+/////////////////////////////////////////////
+router.post('/:id/like', auth, likePost);
+
+
+/////////////////////////////////////////////
+// Read all likes for one user
+/////////////////////////////////////////////
+router.post('/like', auth, readAllLikesByUser);
+
+
+/////////////////////////////////////////////
+// Delete one like = unlike
+/////////////////////////////////////////////
+router.delete('/:id/unlike', auth, unlikePost)
 
 
 

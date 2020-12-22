@@ -66,6 +66,8 @@ module.exports = (sequelize, DataTypes) => {
     User.hasMany(models.Post, {foreignKey: {name: 'user_id', allowNull: false}});
     User.hasMany(models.Comment, {foreignKey: {name: 'user_id', allowNull: false}});
     User.belongsToMany(models.Subject, {through: 'subjectFollows'});
+    User.belongsToMany(models.Post, {through: models.Like});
+    User.hasMany(models.Like, {foreignKey: {name: 'UserId', allowNull: false}});
   }
 
 
