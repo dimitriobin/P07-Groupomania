@@ -53,7 +53,7 @@
           <b-button
             variant="success"
             class="w-25"
-            @click="deleteComment(data.id).then(showRemove = false)">Oui</b-button>
+            @click="handleDelete()">Oui</b-button>
           <b-button
             variant="danger"
             class="w-25"
@@ -101,6 +101,13 @@ export default {
     },
     switchEdit() {
       this.edit = !this.edit;
+    },
+    handleDelete() {
+      this.deleteComment(this.data.id)
+        .then(() => {
+          this.showRemove = false;
+          this.$emit('deletedComment');
+        });
     },
   },
 };
