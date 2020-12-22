@@ -3,9 +3,9 @@
     class="p-3 mt-3">
     <b-col cols="auto" class="d-flex flex-column text-left">
         <a
-            href="#"
-            class="card-text text-dark font-weight-bold">
-            {{ data.User.user_name }}
+          href="#"
+          class="card-text text-dark font-weight-bold">
+          {{ data.User.user_name }}
         </a>
         <small>{{ dateToTimestamp(data.createdAt) }}</small>
     </b-col>

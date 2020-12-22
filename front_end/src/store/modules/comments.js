@@ -16,7 +16,7 @@ const actions = {
         commit('addComments', res.data);
         return Promise.resolve(res.data);
       })
-      .catch((err) => Promise.reject(err.response.data));
+      .catch((err) => Promise.reject(err.response.data.message));
   },
   fetchAllCommentsByPost({ commit }, postId) {
     http.get(`/comments/post/${postId}`, { headers: authHeader() })
@@ -31,17 +31,15 @@ const actions = {
         commit('replaceComment', res.data);
         return Promise.resolve(res.data);
       })
-      .catch((err) => Promise.reject(err.response.data));
+      .catch((err) => Promise.reject(err.response.data.error.errors[0].message));
   },
 };
 
 const mutations = {
   addComments(state, comments) {
-    if (comments.length > 1) {
-      state.comments.push(...comments);
-    } else {
-      state.comments.push(comments);
-    }
+    comments.forEach((comment) => {
+      state.comments.push(comment);
+    });
   },
   replaceComment(state, comment) {
     let oldIndex = '';

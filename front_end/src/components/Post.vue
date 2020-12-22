@@ -98,9 +98,9 @@
                   :key="index"
                   :data="comment" />
                 <CommentForm
-                    :postId="post.id"
-                    :subjectId="post.subject_id"
-                    method="create" />
+                  :postId="post.id"
+                  :subjectId="post.subject_id"
+                  method="create" />
             </b-collapse>
         </div>
         <PostForm
@@ -139,7 +139,6 @@ export default {
   data() {
     return {
       showComments: false,
-      commentsNumber: '',
       edit: false,
     };
   },
@@ -164,7 +163,7 @@ export default {
       this.removePost(this.post.id);
     },
     handleFetching() {
-      if (!this.comments.length) {
+      if (!this.comments.length > 0) {
         this.fetchAllCommentsByPost(this.post.id);
       }
     },
