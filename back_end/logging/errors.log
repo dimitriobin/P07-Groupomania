@@ -1419,3 +1419,9 @@
 ::1 - - [23/Dec/2020:15:17:05 +0000] "GET /api/posts/21?page=0&size=10&order=top HTTP/1.1" 500 5572
 ::1 - - [23/Dec/2020:15:30:40 +0000] "GET /api/posts/21?page=0&size=10&order=top HTTP/1.1" 500 5572
 ::1 - - [23/Dec/2020:15:35:30 +0000] "GET /api/posts/21?page=0&size=10&order=subject_id HTTP/1.1" 500 5327
+::1 - - [23/Dec/2020:17:35:16 +0000] "GET /api/subjects HTTP/1.1" 500 2345
+::1 - - [23/Dec/2020:17:35:52 +0000] "GET /api/subjects HTTP/1.1" 500 2345
+::1 - - [23/Dec/2020:17:36:40 +0000] "GET /api/subjects HTTP/1.1" 500 4047
+::1 - - [23/Dec/2020:17:37:22 +0000] "GET /api/subjects HTTP/1.1" 500 4045
+::1 - - [23/Dec/2020:17:38:33 +0000] "GET /api/subjects HTTP/1.1" 500 4047
+::1 - - [23/Dec/2020:17:39:21 +0000] "GET /api/subjects HTTP/1.1" 500 4018

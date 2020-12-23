@@ -6,7 +6,7 @@
         tag="ol"
         class="px-4">
           <subject
-            v-for="(subject, index) in allSubjects"
+            v-for="(subject, index) in topFive"
             :key="index"
             @pressed="$emit('subjectClick', subject.id)"
             :subject="subject"
@@ -51,6 +51,9 @@ export default {
     userSuggest() {
       const users = this.allUsers;
       return users.slice(0, 7);
+    },
+    topFive() {
+      return this.allSubjects.filter((subject, index) => index < 5);
     },
   },
   methods: {
