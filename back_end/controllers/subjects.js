@@ -1,5 +1,5 @@
 'use strict'
-const { Subject, User } = require('../models');
+const { Subject, User, sequelize } = require('../models');
 
 exports.createOneSubject = (req, res, next) => {
     const subjectObject = {
@@ -19,7 +19,8 @@ exports.readAllSubjects = (req, res, next) => {
     Subject.findAll({
         include: [
             {model: User}
-        ]
+        ],
+        order: [[sequelize.literal(`(SELECT COUNT(*) FROM groupomania.subjectFollows where subject.id = subjectFollows.SubjectId)`), 'DESC']]
     })
     .then(subjects => {
         if(subjects.length <= 0) {
