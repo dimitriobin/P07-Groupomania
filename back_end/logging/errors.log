@@ -1317,3 +1317,8 @@
 ::1 - - [22/Dec/2020:23:41:00 +0000] "GET /api/users HTTP/1.1" 429 42
 ::1 - - [22/Dec/2020:23:41:00 +0000] "GET /api/posts/22?page=0&size=10 HTTP/1.1" 429 42
 ::1 - - [22/Dec/2020:23:41:00 +0000] "GET /api/users/22 HTTP/1.1" 429 42
+::1 - - [23/Dec/2020:12:28:53 +0000] "GET /api/subjects HTTP/1.1" 401 12
+::1 - - [23/Dec/2020:12:28:53 +0000] "POST /api/subjects/follow HTTP/1.1" 401 12
+::1 - - [23/Dec/2020:12:28:53 +0000] "GET /api/users HTTP/1.1" 401 12
+::1 - - [23/Dec/2020:12:28:53 +0000] "GET /api/posts/22?page=0&size=10 HTTP/1.1" 401 12
+::1 - - [23/Dec/2020:12:28:53 +0000] "GET /api/users/22 HTTP/1.1" 401 12

@@ -147,7 +147,10 @@ exports.readAllPostsBySubject = (req, res, next) => {
         include: [
             {model: Subject},
             {model: User},
-            {model: Comment, include: { model: User }}
+            {model: Comment, include: { model: User }},
+            {model: Like, include: {
+                model: User, attributes: ['user_name']
+            }}
         ],
         limit,
         offset,
