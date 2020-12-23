@@ -3,7 +3,7 @@
     <b-col tag="main" cols="12" lg="8">
       <h1 class="sr-only">Fil d'actualités</h1>
       <SortingNav
-        @sortBy="order = $event" />
+        @sortBy="newSorting($event)" />
       <div class="shadow rounded-lg p-4 mb-4 d-flex align-items-center">
       <b-avatar
         :src="oneUser.image_url"
@@ -66,7 +66,7 @@ export default {
       display: '',
       subjectId: '',
       showCreatePostForm: false,
-      order: 'createdAt',
+      order: 'new',
     };
   },
   computed: {
@@ -100,6 +100,10 @@ export default {
         default:
           break;
       }
+    },
+    newSorting(keyword) {
+      this.order = keyword;
+      this.handleFetching(this.display);
     },
   },
   mounted() {

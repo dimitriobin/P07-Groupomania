@@ -1,5 +1,5 @@
 'use strict'
-const { Post, Subject, User, Comment, Like } = require('../models');
+const { Post, Subject, User, Comment, Like, sequelize } = require('../models');
 const { Op } = require('sequelize');
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
@@ -83,6 +83,24 @@ exports.readAllPostsByFollow = (req, res, next) => {
     const { page, size } = req.query;
     const { limit, offset } = getPagination(page, size);
 
+    let sorting = [];
+    switch (req.query.order) {
+        case 'new':
+            sorting = [`createdAt`, 'DESC'];
+            break;
+
+        case 'top':
+            sorting = [[sequelize.literal(`(SELECT COUNT(*) FROM groupomania.like WHERE post.id = like.PostId)`), 'DESC']]
+            break;
+        
+        case 'hot':
+            sorting = [[sequelize.literal(`(SELECT COUNT(*) FROM groupomania.comment WHERE post.id = comment.post_id)`), 'DESC']]
+            break;
+    
+        default:
+            break;
+    }
+
     User.findOne({where: {id: req.params.user_id} ,include: Subject})
     .then(user => {
         const followsId = [];
@@ -94,9 +112,10 @@ exports.readAllPostsByFollow = (req, res, next) => {
                 {model: Subject},
                 {model: User},
                 {model: Comment, attributes: ['id']},
-                {model: Like, include: {
-                    model: User, attributes: ['user_name']
-                }}
+                {
+                    model: Like, 
+                    include: { model: User, attributes: ['user_name'] },
+                }
             ],
             limit,
             offset,
@@ -106,7 +125,7 @@ exports.readAllPostsByFollow = (req, res, next) => {
                     {subject_id : followsId}
                 ]
             },
-            order: [ [`${req.query.order}`, 'DESC'] ]
+            order: [ [...sorting] ]
         })
         .then((posts) => {
             if(posts.length <= 0) {
