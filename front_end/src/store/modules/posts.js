@@ -48,9 +48,9 @@ const actions = {
       })
       .catch((err) => { console.log(err); });
   },
-  fetchAllPostsByFollow({ commit }, page) {
+  fetchAllPostsByFollow({ commit }, { page, order }) {
     const { userId } = JSON.parse(localStorage.getItem('user'));
-    return http.get(`/posts/${userId}?page=${page}&size=10`, { headers: authHeader() })
+    return http.get(`/posts/${userId}?page=${page}&size=10&order=${order}`, { headers: authHeader() })
       .then((res) => {
         const pagination = {
           currentPage: res.data.currentPage,

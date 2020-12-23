@@ -2,7 +2,8 @@
   <b-row id="home">
     <b-col tag="main" cols="12" lg="8">
       <h1 class="sr-only">Fil d'actualités</h1>
-      <SortingNav />
+      <SortingNav
+        @sortBy="order = $event" />
       <div class="shadow rounded-lg p-4 mb-4 d-flex align-items-center">
       <b-avatar
         :src="oneUser.image_url"
@@ -65,6 +66,7 @@ export default {
       display: '',
       subjectId: '',
       showCreatePostForm: false,
+      order: 'createdAt',
     };
   },
   computed: {
@@ -81,7 +83,7 @@ export default {
       this.display = display;
       this.subjectId = id;
       if (display === 'byFollows') {
-        this.fetchAllPostsByFollow(0);
+        this.fetchAllPostsByFollow({ page: 0, order: this.order });
       } else if (display === 'bySubjects') {
         this.fetchAllPostsBySubject({ id: this.subjectId, page: 0 });
       }
@@ -93,7 +95,7 @@ export default {
           break;
 
         case 'byFollows':
-          this.fetchAllPostsByFollow(page);
+          this.fetchAllPostsByFollow({ page, order: this.order });
           break;
         default:
           break;

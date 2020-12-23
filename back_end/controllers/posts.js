@@ -45,7 +45,10 @@ exports.createOnePost = (req, res, next) => {
             include: [
                 {model: Subject},
                 {model: User},
-                {model: Comment, include: { model: User }}
+                {model: Comment, include: { model: User }},
+                {model: Like, include: {
+                    model: User, attributes: ['user_name']
+                }}
             ], where: {id: createdPost.id}})
         .then(post => {
             res.status(201).json(post);
@@ -103,7 +106,7 @@ exports.readAllPostsByFollow = (req, res, next) => {
                     {subject_id : followsId}
                 ]
             },
-            order: [ ['createdAt', 'DESC'] ]
+            order: [ [`${req.query.order}`, 'DESC'] ]
         })
         .then((posts) => {
             if(posts.length <= 0) {
