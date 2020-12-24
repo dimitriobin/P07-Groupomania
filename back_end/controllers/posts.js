@@ -62,21 +62,39 @@ exports.createOnePost = (req, res, next) => {
 
 
 exports.readAllPosts = (req, res, next) => {
-    Post.findAll({include: [
-        {model: Subject},
-        {model: User},
-        {model: Comment, include: { model: User }}
-    ]})
-    .then(posts => {
+    const { page, size } = req.query;
+    const { limit, offset } = getPagination(page, size);
+    const keyword = req.query.keyword;
+    let condition = keyword ? { title: { [Op.like]: `%${keyword}%` } } : null;
+  
+    Post.findAndCountAll({
+        include: [
+            {model: Subject},
+            {model: User},
+            {model: Comment, attributes: ['id']},
+            {
+                model: Like, 
+                include: { model: User, attributes: ['user_name'] },
+            }
+        ],
+        limit,
+        offset,
+        where: {
+            condition
+        },
+        order: [ 'createdAt', 'DESC' ]
+    })
+    .then((posts) => {
         if(posts.length <= 0) {
-            return res.status(404).send('Posts not found');
+            return res.status(404).json({message: 'Posts not found'});
         }
-        res.status(200).json(posts);
+        const response = getPagingData(posts, page, limit);
+        res.status(200).json(response);
     })
     .catch(error => {
         res.status(500).json({error});
-    });
-};
+    })
+  };
 
 
 exports.readAllPostsByFollow = (req, res, next) => {
