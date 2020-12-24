@@ -5,7 +5,7 @@ const multer = require('../middlewares/multer-config');
 
 const { 
   createOnePost,
-  readAllPosts,
+  fetchAllPostsByKeyword,
   readAllPostsByUser,
   readAllPostsBySubject,
   readOnePost,
@@ -23,9 +23,9 @@ const {
 router.post('/', auth, multer, createOnePost);
 
 /////////////////////////////////////////////
-// READ ALL Posts
+// READ ALL Posts By Keyword
 /////////////////////////////////////////////
-router.get('/', auth, readAllPosts);
+router.get('/', auth, fetchAllPostsByKeyword);
 
 
 /////////////////////////////////////////////

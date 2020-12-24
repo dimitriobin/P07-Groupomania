@@ -61,11 +61,10 @@ exports.createOnePost = (req, res, next) => {
 };
 
 
-exports.readAllPosts = (req, res, next) => {
+exports.fetchAllPostsByKeyword = (req, res, next) => {
     const { page, size } = req.query;
     const { limit, offset } = getPagination(page, size);
     const keyword = req.query.keyword;
-    let condition = keyword ? { title: { [Op.like]: `%${keyword}%` } } : null;
   
     Post.findAndCountAll({
         include: [
@@ -79,12 +78,11 @@ exports.readAllPosts = (req, res, next) => {
         ],
         limit,
         offset,
-        where: {
-            condition
-        },
-        order: [ 'createdAt', 'DESC' ]
+        where: { title: { [Op.like]: `%${keyword}%`} },
+        order: [ ['createdAt', 'DESC'] ]
     })
     .then((posts) => {
+        console.log('here');
         if(posts.length <= 0) {
             return res.status(404).json({message: 'Posts not found'});
         }

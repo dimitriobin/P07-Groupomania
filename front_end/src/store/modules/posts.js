@@ -11,11 +11,16 @@ const state = () => ({
     lastPage: '',
     currentPage: '',
   },
+  display: {
+    subjectToDisplay: '',
+    keyword: '',
+  },
 });
 
 const getters = {
   allPosts: (state) => state.posts,
   postPagination: (state) => state.pagination,
+  display: (state) => state.display,
 };
 const actions = {
   addPost({ commit }, data) {
@@ -41,12 +46,29 @@ const actions = {
         return Promise.reject(message);
       });
   },
-  fetchAllPosts({ commit }) {
-    http.get('/posts', { headers: authHeader() })
+  displayBy({ commit }, { displayBy, keyword, subjectId }) {
+    const subject = subjectId ? subjectId : null;
+    const word = keyword ? keyword : null;
+    commit('setDisplay', { displayBy, word, subject });
+  },
+  fetchAllPostsByKeyword({ commit }, { page, keyword }) {
+    return http.get(`/posts?page=${page}&size=10&keyword=${keyword}`, { headers: authHeader() })
       .then((res) => {
-        commit('setAllPosts', res.data);
+        const pagination = {
+          currentPage: res.data.currentPage,
+          lastPage: res.data.totalPages,
+        };
+        if (page === 0) {
+          commit('setAllPosts', res.data.posts);
+        } else {
+          commit('addLoadedPosts', res.data.posts);
+        }
+        commit('setPostPagination', pagination);
+        return Promise.resolve(res.data);
       })
-      .catch((err) => { console.log(err); });
+      .catch((err) => {
+        Promise.reject(err.response.data.message);
+      });
   },
   fetchAllPostsByFollow({ commit }, { page, order }) {
     const { userId } = JSON.parse(localStorage.getItem('user'));
@@ -122,6 +144,11 @@ const actions = {
 };
 
 const mutations = {
+  setDisplay(state, displayObj) {
+    state.display.displayBy = displayObj.displayBy;
+    state.display.subjectToDisplay = displayObj.subject;
+    state.display.keyword = displayObj.word;
+  },
   setAllPosts(state, posts) {
     state.posts = posts;
   },

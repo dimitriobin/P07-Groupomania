@@ -3,17 +3,17 @@
     tag="li"
     class="d-flex align-items-center justify-content-start border-0 py-1 px-0">
     <b-button
-      @click="$emit('pressed')"
+      @click="displayBy({ displayBy: 'bySubjects', subjectId: subject.id })"
       variant="link"
       class="text-dark p-0 mr-3 text-left">
       {{ subject.name }}
     </b-button>
     <b-link
       v-if="isFollowed"
-      @click="toUnFollow(subject.id)">Ne plus suivre</b-link>
+      @click="unFollow(subject.id)">Ne plus suivre</b-link>
     <b-link
       v-else
-      @click="toFollow(subject.id)">Suivre</b-link>
+      @click="follow(subject.id)">Suivre</b-link>
   </b-list-group-item>
 </template>
 
@@ -34,13 +34,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['getFollows', 'follow', 'unFollow']),
-    toFollow(id) {
-      this.follow(id);
-    },
-    toUnFollow(id) {
-      this.unFollow(id);
-    },
+    ...mapActions(['follow', 'unFollow', 'displayBy']),
   },
 };
 </script>

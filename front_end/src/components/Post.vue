@@ -178,7 +178,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['userId', 'allComments', 'allLikes']),
+    ...mapGetters(['userId', 'allComments']),
     comments() {
       return this.allComments.filter((item) => item.post_id === this.post.id);
     },
