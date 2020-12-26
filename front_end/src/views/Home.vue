@@ -3,6 +3,7 @@
     <b-col tag="main" cols="12" lg="8">
       <h1 class="sr-only">Fil d'actualités</h1>
       <SortingNav
+        :order="order"
         @sortBy="newSorting($event)" />
       <div class="shadow rounded-lg p-4 mb-4 d-flex align-items-center">
       <b-avatar
@@ -90,9 +91,11 @@ export default {
           this.fetchAllPostsByFollow({ page: pagination, order: this.order });
           break;
         case 'bySubjects':
+          this.order = 'new';
           this.fetchAllPostsBySubject({ id: this.display.subjectToDisplay, page: pagination });
           break;
         case 'byKeyword':
+          this.order = 'new';
           this.fetchAllPostsByKeyword({ page: pagination, keyword: this.display.keyword });
           break;
 
@@ -102,6 +105,7 @@ export default {
     },
     newSorting(keyword) {
       this.order = keyword;
+      this.displayBy({ displayBy: 'byFollows' });
       this.handleFetching();
     },
   },
