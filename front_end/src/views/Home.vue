@@ -27,7 +27,7 @@
           class="shadow rounded-lg p-4 mb-4">
           <PostForm
             method="create"
-            @formSubmit="showCreatePostForm = false" />
+            @hide="showCreatePostForm = false" />
         </b-modal>
       </div>
       <Post
@@ -51,7 +51,7 @@ import Sidebar from '@/components/Sidebar.vue';
 import SortingNav from '@/components/SortingNav.vue';
 import PostForm from '@/components/PostForm.vue';
 import { mapGetters, mapActions } from 'vuex';
-import LazyLoadingScroll from '@/components/lazyLoadingScroll.vue';
+import LazyLoadingScroll from '@/components/LazyLoadingScroll.vue';
 
 export default {
   name: 'Home',

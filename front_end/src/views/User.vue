@@ -11,17 +11,12 @@
       </b-col>
     <b-col cols="12" lg="8" order="1" order-lg="0">
       <Post
-        v-for="post in oneUser.Posts"
+        v-for="post in allPosts"
         :key="post.id"
-        :id="post.id.toString()"
-        :title="post.title"
-        :image_url="post.image_url"
-        :url="post.url"
-        :user="post.User"
-        :subject="post.Subject"
-        :date="post.createdAt"
-        :user_image="post.User.image_url"
-        :comments="post.Comments" />
+        :post="post" />
+      <LazyLoadingScroll
+        v-if="allPosts.length && postPagination.currentPage < postPagination.lastPage"
+        @loadMore="fetchAllPostsByUser({ page: $event, id: $route.params.id })" />
     </b-col>
     <!-- ASIDE INFOS -->
     <b-col
@@ -42,19 +37,20 @@
       </b-card>
       <b-card
         class="w-100 align-items-center border-0 shadow"
-        body-class="w-100 py-4 px-5">
-        <h2 class="h3">Sujets suivis</h2>
-        <b-list-group tag="ul">
-          <b-list-group-item
-            v-for="(subject, index) in oneUser.Subjects"
-            :key="index"
-            tag="li"
-            class="d-flex justify-content-between align-items-center border-0 py-2 text-left">
-            <b-button variant="link" class="text-dark p-0 text-left">
-              {{ subject.name }}
-            </b-button>
-            <b-link class="text-right">Suivre</b-link>
-          </b-list-group-item>
+        body-class="w-100 p-4">
+        <h2 class="h3 text-center">Sujets suivis</h2>
+        <b-list-group
+          tag="ul"
+          class="px-4 list-unstyled">
+            <li>
+              <subject
+                v-for="(subject, index) in oneUser.Subjects"
+                :key="index"
+                @pressed="$emit('subjectClick', subject.id)"
+                :subject="subject"
+                class="text-dark p-0 text-left">
+              </subject>
+            </li>
         </b-list-group>
       </b-card>
     </b-col>
@@ -64,26 +60,27 @@
 <script>
 // @ is an alias to /src
 import Post from '@/components/Post.vue';
+import Subject from '@/components/Subject.vue';
+import LazyLoadingScroll from '@/components/LazyLoadingScroll.vue';
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: 'User',
   components: {
     Post,
-  },
-  data() {
-    return {
-      userId: this.$route.params.id,
-    };
+    Subject,
+    LazyLoadingScroll,
   },
   computed: {
-    ...mapGetters(['oneUser']),
+    ...mapGetters(['oneUser', 'userId', 'allPosts', 'postPagination']),
   },
   methods: {
-    ...mapActions(['fetchUser']),
+    ...mapActions(['fetchUser', 'getFollows', 'fetchAllPostsByUser']),
   },
-  created() {
-    this.fetchUser(this.userId);
+  mounted() {
+    this.fetchUser(this.$route.params.id);
+    this.getFollows(this.userId);
+    this.fetchAllPostsByUser({ page: 0, id: this.$route.params.id });
   },
 };
 </script>

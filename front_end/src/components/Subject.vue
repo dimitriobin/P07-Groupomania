@@ -34,7 +34,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['follow', 'unFollow', 'displayBy']),
+    ...mapActions(['getFollows', 'follow', 'unFollow', 'displayBy']),
   },
 };
 </script>
