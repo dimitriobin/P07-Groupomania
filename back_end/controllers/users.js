@@ -1,5 +1,5 @@
 'use strict'
-const { User, Post, Comment, Report, Subject } = require('../models');
+const { User, Post, Comment, Report, Subject, Like } = require('../models');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
@@ -70,14 +70,6 @@ exports.readAllUser = (req, res, next) => {
 exports.readOneUser = (req, res, next) => {
     User.findOne({
         include: [
-            {
-                model: Post,
-                include: [
-                    {model: Subject},
-                    {model: User},
-                    {model: Comment}
-                ] 
-            },
             {
                 model: Subject
             }
