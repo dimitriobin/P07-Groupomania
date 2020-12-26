@@ -1,19 +1,23 @@
 <template>
   <ValidationObserver
+    tag="div"
     ref="commentObserver"
-    name="createCommentForm"
     v-slot="{ handleSubmit }">
     <b-form
       class="d-flex flex-column"
       @submit.prevent="handleSubmit(onSubmit)">
       <ValidationProvider
+        tag="div"
         name="commentaire"
         v-slot="{ valid, errors }">
         <b-form-group
-          id="input-group-comment">
+          :id="(comment_id) ? ('group-comment' + comment_id) : ('group-addComment' + postId)"
+          :label-for="(comment_id) ? ('comment' + comment_id) : ('addComment' + postId)"
+          label="Votre commentaire"
+          label-sr-only>
           <b-form-input
             v-model="comment"
-            id="comment"
+            :id="(comment_id) ? ('comment' + comment_id) : ('addComment' + postId)"
             type="text"
             trim
             placeholder="Proposez un commentaire ..."

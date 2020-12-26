@@ -32,6 +32,7 @@
       <b-card
         class="w-100 align-items-center border-0 shadow mb-4">
         <b-avatar
+          v-if="oneUser.image_url"
           :src="oneUser.image_url"
           size="150px"
           class="mb-3">
