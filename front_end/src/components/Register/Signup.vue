@@ -102,7 +102,7 @@
           </b-form-invalid-feedback>
         </b-form-group>
       </ValidationProvider>
-<!-- ///////////////////////////////////AVATAR////////////////////////////////////// -->
+<!-- ///////////////////////////////////img////////////////////////////////////// -->
       <ValidationProvider
         name="photo de profil"
         rules="image"

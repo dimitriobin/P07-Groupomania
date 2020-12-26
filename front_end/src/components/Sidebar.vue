@@ -4,14 +4,16 @@
       <h2 class="h5 text-muted text-left font-weight-bold mb-3">Top des sujets</h2>
       <b-list-group
         tag="ol"
-        class="px-4">
-          <subject
-            v-for="(subject, index) in topFive"
-            :key="index"
-            @pressed="$emit('subjectClick', subject.id)"
-            :subject="subject"
-            class="text-dark p-0 text-left">
-          </subject>
+        class="px-4 list-unstyled">
+          <li>
+            <subject
+              v-for="(subject, index) in topFive"
+              :key="index"
+              @pressed="$emit('subjectClick', subject.id)"
+              :subject="subject"
+              class="text-dark p-0 text-left">
+            </subject>
+          </li>
       </b-list-group>
     </b-col>
     <b-col cols="12" class=" p-4 rounded-lg bg-white  shadow">
@@ -25,7 +27,8 @@
         align-v="center"
         class="ml-3 mb-3">
         <b-avatar
-          alt="Photo de profil"
+          v-if="user.image_url"
+          :alt="`Photo de profil de ${user.user_name}`"
           :src="user.image_url"
           class="rounded-circle mr-3"></b-avatar>
         <b-col class="text-left">

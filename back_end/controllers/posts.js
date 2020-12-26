@@ -252,7 +252,10 @@ exports.updateOnePost = (req, res, next) => {
                 include: [
                     {model: Subject},
                     {model: User},
-                    {model: Comment, include: { model: User }}
+                    {model: Comment, include: { model: User }},
+                    {model: Like, include: {
+                        model: User, attributes: ['user_name']
+                    }}
                 ], where: {id: req.params.id}})
             .then(post => {
                 res.status(201).json(post);

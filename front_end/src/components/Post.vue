@@ -9,6 +9,8 @@
             <b-col cols="12" tag="header" class="mb-2">
                 <b-row no-gutters align-v="center">
                     <b-avatar
+                        v-if="post.User.image_url"
+                        :alt="`Photo de profil de ${post.User.user_name}`"
                         :src="post.User.image_url"
                         size="lg"
                         class="mr-4">
@@ -139,7 +141,7 @@
             v-else
             method="update"
             :post="post"
-            @submited="edit = false" />
+            @hide="edit = false" />
     </b-row>
 </template>
 

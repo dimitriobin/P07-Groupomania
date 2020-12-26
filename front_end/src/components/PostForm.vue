@@ -190,7 +190,7 @@ export default {
           this.newPost.url = '';
           this.newPost.subject_id = '';
           // Hide the modal
-          this.$emit('formSubmit');
+          this.$emit('hide');
         })
         .catch((error) => {
           // If some known errors are send by the back end, display them in the UI
