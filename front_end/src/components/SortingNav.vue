@@ -4,19 +4,19 @@
       <b-nav-item
         class="mx-3"
         @click="handleSorting('top')"
-        :active="selected === 'top'">
+        :active="order === 'top'">
         Top
       </b-nav-item>
       <b-nav-item
         class="mx-3"
         @click="handleSorting('new')"
-        :active="selected === 'new'">
+        :active="order === 'new'">
         New
       </b-nav-item>
       <b-nav-item
         class="mx-3"
         @click="handleSorting('hot')"
-        :active="selected === 'hot'">
+        :active="order === 'hot'">
         Hot
       </b-nav-item>
   </b-nav>
@@ -25,6 +25,9 @@
 <script>
 export default {
   name: 'SortingNav',
+  props: [
+    'order',
+  ],
   data() {
     return {
       selected: 'new',
