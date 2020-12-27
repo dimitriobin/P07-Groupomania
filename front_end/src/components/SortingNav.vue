@@ -33,7 +33,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(['fetchAllPostsByNew', 'fetchAllPostsByTop']),
+    ...mapActions(['fetchAllPostsByNew', 'fetchAllPostsByTop', 'fetchAllPostsByHot']),
     handleSorting(keyword) {
       this.selected = keyword;
       switch (keyword) {
@@ -42,6 +42,9 @@ export default {
           break;
         case 'top':
           this.fetchAllPostsByTop(0);
+          break;
+        case 'hot':
+          this.fetchAllPostsByHot(0);
           break;
         default:
           break;

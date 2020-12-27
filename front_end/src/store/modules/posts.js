@@ -88,8 +88,28 @@ const actions = {
         Promise.reject(err.response.data.message);
       });
   },
-  // fetchAllPostsByTop
-  // fetchAllPostsByHot
+  fetchAllPostsByHot({ commit }, page) {
+    const { userId } = JSON.parse(localStorage.getItem('user'));
+    return http.get(`/posts/${userId}?page=${page}&size=8&order=hot`, { headers: authHeader() })
+      .then((res) => {
+        const pagination = {
+          totalPosts: res.data.totalItems,
+          currentPage: res.data.currentPage,
+          lastPage: res.data.totalPages,
+        };
+        if (page === 0) {
+          commit('setAllPosts', res.data.posts);
+        } else {
+          commit('addLoadedPosts', res.data.posts);
+        }
+        commit('setPostPagination', pagination);
+        commit('setDisplay', 'hot');
+        return Promise.resolve(res.data);
+      })
+      .catch((err) => {
+        Promise.reject(err.response.data.message);
+      });
+  },
   // fetchAllPostsByOneSubject
   // fetchAllPostsByOneUser
   // displayBy({ commit }, { displayBy, keyword, subjectId }) {

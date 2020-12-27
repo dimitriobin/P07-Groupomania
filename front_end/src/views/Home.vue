@@ -78,6 +78,7 @@ export default {
     ...mapActions([
       'fetchAllPostsByNew',
       'fetchAllPostsByTop',
+      'fetchAllPostsByHot',
       'getFollows',
       'fetchAllPostsByFollow',
       'fetchAllPostsBySubject',
@@ -90,6 +91,9 @@ export default {
           break;
         case 'top':
           this.fetchAllPostsByTop(page);
+          break;
+        case 'hot':
+          this.fetchAllPostsByHot(page);
           break;
         default:
           break;
