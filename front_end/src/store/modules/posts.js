@@ -11,16 +11,13 @@ const state = () => ({
     lastPage: '',
     currentPage: 0,
   },
-  display: {
-    subjectToDisplay: '',
-    keyword: '',
-  },
+  displayBy: 'new',
 });
 
 const getters = {
   allPosts: (state) => state.posts,
   postPagination: (state) => state.pagination,
-  display: (state) => state.display,
+  displayBy: (state) => state.displayBy,
 };
 const actions = {
   addPost({ commit }, data) {
@@ -51,7 +48,6 @@ const actions = {
     const { userId } = JSON.parse(localStorage.getItem('user'));
     return http.get(`/posts/${userId}?page=${page}&size=8&order=new`, { headers: authHeader() })
       .then((res) => {
-        console.log(res.data);
         const pagination = {
           totalPosts: res.data.totalItems,
           currentPage: res.data.currentPage,
@@ -63,6 +59,7 @@ const actions = {
           commit('addLoadedPosts', res.data.posts);
         }
         commit('setPostPagination', pagination);
+        commit('setDisplay', 'new');
         return Promise.resolve(res.data);
       })
       .catch((err) => {
@@ -191,10 +188,8 @@ const actions = {
 };
 
 const mutations = {
-  setDisplay(state, displayObj) {
-    state.display.displayBy = displayObj.displayBy;
-    state.display.subjectToDisplay = displayObj.subject;
-    state.display.keyword = displayObj.word;
+  setDisplay(state, displayBy) {
+    state.displayBy = displayBy;
   },
   setAllPosts(state, posts) {
     state.posts = posts;

@@ -63,57 +63,31 @@ export default {
   },
   data() {
     return {
-      subjectId: '',
       showCreatePostForm: false,
-      displayBy: 'new',
     };
   },
   computed: {
-    ...mapGetters(['allPosts', 'postPagination', 'userId', 'allFollows', 'oneUser', 'display']),
+    ...mapGetters(['allPosts', 'postPagination', 'userId', 'allFollows', 'oneUser', 'displayBy']),
   },
   watch: {
     allFollows() {
-      this.handleFetching(this.postPagination.currentPage);
-    },
-    display: {
-      handler() {
-        this.handleFetching();
-      },
-      deep: true,
+      this.handleFetching(0);
     },
   },
   methods: {
     ...mapActions(['fetchAllPostsByNew', 'getFollows', 'fetchAllPostsByFollow', 'fetchAllPostsBySubject', 'fetchAllPostsByKeyword', 'fetchUser']),
     handleFetching(page) {
-      console.log(page);
       switch (this.displayBy) {
         case 'new':
           this.fetchAllPostsByNew(page);
           break;
-          // case 'byFollows':
-          //   this.fetchAllPostsByFollow({ page: pagination, order: this.order });
-          //   break;
-          // case 'bySubjects':
-          //   this.order = 'new';
-          //   this.fetchAllPostsBySubject({ id: this.display.subjectToDisplay, page: pagination });
-          //   break;
-          // case 'byKeyword':
-          //   this.order = 'new';
-          //   this.fetchAllPostsByKeyword({ page: pagination, keyword: this.display.keyword });
-          //   break;
 
         default:
           break;
       }
     },
-    newSorting(keyword) {
-      this.order = keyword;
-      this.displayBy({ displayBy: 'byFollows' });
-      this.handleFetching();
-    },
   },
   mounted() {
-    this.fetchAllPostsByNew(0);
     this.getFollows(this.userId);
     this.fetchUser(this.userId);
   },

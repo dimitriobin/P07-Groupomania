@@ -4,39 +4,45 @@
       <b-nav-item
         class="mx-3"
         @click="handleSorting('top')"
-        :active="order === 'top'">
+        :active="selected === 'top'">
         Top
       </b-nav-item>
       <b-nav-item
         class="mx-3"
         @click="handleSorting('new')"
-        :active="order === 'new'">
+        :active="selected === 'new'">
         New
       </b-nav-item>
       <b-nav-item
         class="mx-3"
         @click="handleSorting('hot')"
-        :active="order === 'hot'">
+        :active="selected === 'hot'">
         Hot
       </b-nav-item>
   </b-nav>
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   name: 'SortingNav',
-  props: [
-    'order',
-  ],
   data() {
     return {
       selected: 'new',
     };
   },
   methods: {
+    ...mapActions(['fetchAllPostsByNew']),
     handleSorting(keyword) {
-      this.$emit('sortBy', keyword);
       this.selected = keyword;
+      switch (keyword) {
+        case 'new':
+          this.fetchAllPostsByNew(0);
+          break;
+        default:
+          break;
+      }
     },
   },
 };
