@@ -13,7 +13,7 @@ export default {
   name: 'LazyLoadingScroll',
   data() {
     return {
-      page: 1,
+      page: 0,
     };
   },
   methods: {

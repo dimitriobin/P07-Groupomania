@@ -2,9 +2,7 @@
   <b-row id="home">
     <b-col tag="main" cols="12" lg="8">
       <h1 class="sr-only">Fil d'actualités</h1>
-      <SortingNav
-        :order="order"
-        @sortBy="newSorting($event)" />
+      <SortingNav />
       <div class="shadow rounded-lg p-4 mb-4 d-flex align-items-center">
       <b-avatar
         v-if="oneUser.image_url"
@@ -35,8 +33,9 @@
         :key="post.id"
         :post="post" />
       <LazyLoadingScroll
-        v-if="allPosts.length && postPagination.currentPage < postPagination.lastPage"
+        v-if="allPosts.length && allPosts.length < postPagination.totalPosts"
         @loadMore="handleFetching($event)" />
+      <p v-else>Fin des posts</p>
     </b-col>
     <b-col tag="aside" cols="12" lg="4">
       <Sidebar />
@@ -66,7 +65,7 @@ export default {
     return {
       subjectId: '',
       showCreatePostForm: false,
-      order: 'new',
+      displayBy: 'new',
     };
   },
   computed: {
@@ -74,7 +73,7 @@ export default {
   },
   watch: {
     allFollows() {
-      this.handleFetching();
+      this.handleFetching(this.postPagination.currentPage);
     },
     display: {
       handler() {
@@ -84,21 +83,24 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['fetchAllPosts', 'getFollows', 'fetchAllPostsByFollow', 'fetchAllPostsBySubject', 'fetchAllPostsByKeyword', 'fetchUser', 'displayBy']),
+    ...mapActions(['fetchAllPostsByNew', 'getFollows', 'fetchAllPostsByFollow', 'fetchAllPostsBySubject', 'fetchAllPostsByKeyword', 'fetchUser']),
     handleFetching(page) {
-      const pagination = page ? page : 0;
-      switch (this.display.displayBy) {
-        case 'byFollows':
-          this.fetchAllPostsByFollow({ page: pagination, order: this.order });
+      console.log(page);
+      switch (this.displayBy) {
+        case 'new':
+          this.fetchAllPostsByNew(page);
           break;
-        case 'bySubjects':
-          this.order = 'new';
-          this.fetchAllPostsBySubject({ id: this.display.subjectToDisplay, page: pagination });
-          break;
-        case 'byKeyword':
-          this.order = 'new';
-          this.fetchAllPostsByKeyword({ page: pagination, keyword: this.display.keyword });
-          break;
+          // case 'byFollows':
+          //   this.fetchAllPostsByFollow({ page: pagination, order: this.order });
+          //   break;
+          // case 'bySubjects':
+          //   this.order = 'new';
+          //   this.fetchAllPostsBySubject({ id: this.display.subjectToDisplay, page: pagination });
+          //   break;
+          // case 'byKeyword':
+          //   this.order = 'new';
+          //   this.fetchAllPostsByKeyword({ page: pagination, keyword: this.display.keyword });
+          //   break;
 
         default:
           break;
@@ -111,7 +113,7 @@ export default {
     },
   },
   mounted() {
-    this.displayBy({ displayBy: 'byFollows' });
+    this.fetchAllPostsByNew(0);
     this.getFollows(this.userId);
     this.fetchUser(this.userId);
   },

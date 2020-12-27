@@ -133,6 +133,7 @@ exports.readAllPostsByFollow = (req, res, next) => {
                     include: { model: User, attributes: ['user_name'] },
                 }
             ],
+            distinct: true,
             limit,
             offset,
             where: {
@@ -147,6 +148,7 @@ exports.readAllPostsByFollow = (req, res, next) => {
             if(posts.length <= 0) {
                 return res.status(404).json({message: 'Posts not found'});
             }
+            console.log(posts);
             const response = getPagingData(posts, page, limit);
             res.status(200).json(response);
         })
