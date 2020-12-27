@@ -173,6 +173,7 @@ exports.readAllPostsByUser = (req, res, next) => {
                 model: User, attributes: ['user_name']
             }}
         ],
+        distinct: true,
         limit,
         offset,
         where: {user_id: req.params.user_id},

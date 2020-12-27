@@ -154,25 +154,27 @@ const actions = {
         Promise.reject(err.response.data.message);
       });
   },
-  // fetchAllPostsByOneUser({ commit }, { id, page }) {
-  //   http.get(`/posts/user/${id}?page=${page}&size=5`, { headers: authHeader() })
-  //     .then((res) => {
-  //       const pagination = {
-  //         currentPage: res.data.currentPage,
-  //         lastPage: res.data.totalPages,
-  //       };
-  //       if (page === 0) {
-  //         commit('setAllPosts', res.data.posts);
-  //       } else {
-  //         commit('addLoadedPosts', res.data.posts);
-  //       }
-  //       commit('setPostPagination', pagination);
-  //       return Promise.resolve(res.data);
-  //     })
-  //     .catch((err) => {
-  //       Promise.reject(err.response.data.message);
-  //     });
-  // },
+  fetchAllPostsByOneUser({ commit }, { id, page }) {
+    http.get(`/posts/user/${id}?page=${page}&size=8`, { headers: authHeader() })
+      .then((res) => {
+        const pagination = {
+          totalPosts: res.data.totalItems,
+          currentPage: res.data.currentPage,
+          lastPage: res.data.totalPages,
+        };
+        if (page === 0) {
+          commit('setAllPosts', res.data.posts);
+        } else {
+          commit('addLoadedPosts', res.data.posts);
+        }
+        commit('setPostPagination', pagination);
+        commit('setDisplay', `user_${id}`);
+        return Promise.resolve(res.data);
+      })
+      .catch((err) => {
+        Promise.reject(err.response.data.message);
+      });
+  },
   removePost({ commit }, id) {
     return http.delete(`/posts/${id}`, { headers: authHeader() })
       .then((response) => {

@@ -113,6 +113,7 @@ export default {
     },
   },
   mounted() {
+    this.fetchAllPostsByNew(0);
     this.getFollows(this.userId);
     this.fetchUser(this.userId);
   },
