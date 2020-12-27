@@ -75,13 +75,22 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['fetchAllPostsByNew', 'getFollows', 'fetchAllPostsByFollow', 'fetchAllPostsBySubject', 'fetchAllPostsByKeyword', 'fetchUser']),
+    ...mapActions([
+      'fetchAllPostsByNew',
+      'fetchAllPostsByTop',
+      'getFollows',
+      'fetchAllPostsByFollow',
+      'fetchAllPostsBySubject',
+      'fetchAllPostsByKeyword',
+      'fetchUser']),
     handleFetching(page) {
       switch (this.displayBy) {
         case 'new':
           this.fetchAllPostsByNew(page);
           break;
-
+        case 'top':
+          this.fetchAllPostsByTop(page);
+          break;
         default:
           break;
       }

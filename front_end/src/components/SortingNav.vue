@@ -33,12 +33,15 @@ export default {
     };
   },
   methods: {
-    ...mapActions(['fetchAllPostsByNew']),
+    ...mapActions(['fetchAllPostsByNew', 'fetchAllPostsByTop']),
     handleSorting(keyword) {
       this.selected = keyword;
       switch (keyword) {
         case 'new':
           this.fetchAllPostsByNew(0);
+          break;
+        case 'top':
+          this.fetchAllPostsByTop(0);
           break;
         default:
           break;

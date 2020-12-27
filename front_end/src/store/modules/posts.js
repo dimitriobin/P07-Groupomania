@@ -66,6 +66,28 @@ const actions = {
         Promise.reject(err.response.data.message);
       });
   },
+  fetchAllPostsByTop({ commit }, page) {
+    const { userId } = JSON.parse(localStorage.getItem('user'));
+    return http.get(`/posts/${userId}?page=${page}&size=8&order=top`, { headers: authHeader() })
+      .then((res) => {
+        const pagination = {
+          totalPosts: res.data.totalItems,
+          currentPage: res.data.currentPage,
+          lastPage: res.data.totalPages,
+        };
+        if (page === 0) {
+          commit('setAllPosts', res.data.posts);
+        } else {
+          commit('addLoadedPosts', res.data.posts);
+        }
+        commit('setPostPagination', pagination);
+        commit('setDisplay', 'top');
+        return Promise.resolve(res.data);
+      })
+      .catch((err) => {
+        Promise.reject(err.response.data.message);
+      });
+  },
   // fetchAllPostsByTop
   // fetchAllPostsByHot
   // fetchAllPostsByOneSubject
