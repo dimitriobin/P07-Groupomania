@@ -76,13 +76,13 @@ exports.fetchAllPostsByKeyword = (req, res, next) => {
                 include: { model: User, attributes: ['user_name'] },
             }
         ],
+        distinct: true,
         limit,
         offset,
         where: { title: { [Op.like]: `%${keyword}%`} },
         order: [ ['createdAt', 'DESC'] ]
     })
     .then((posts) => {
-        console.log('here');
         if(posts.length <= 0) {
             return res.status(404).json({message: 'Posts not found'});
         }
@@ -148,7 +148,6 @@ exports.readAllPostsByFollow = (req, res, next) => {
             if(posts.length <= 0) {
                 return res.status(404).json({message: 'Posts not found'});
             }
-            console.log(posts);
             const response = getPagingData(posts, page, limit);
             res.status(200).json(response);
         })

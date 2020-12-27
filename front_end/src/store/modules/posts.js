@@ -12,14 +12,14 @@ const state = () => ({
     currentPage: 0,
   },
   displayBy: 'new',
-  subjectToDisplay: '',
+  displayInformations: '',
 });
 
 const getters = {
   allPosts: (state) => state.posts,
   postPagination: (state) => state.pagination,
   displayBy: (state) => state.displayBy,
-  subjectToDisplay: (state) => state.subjectToDisplay,
+  displayInformations: (state) => state.displayInformations,
 };
 const actions = {
   addPost({ commit }, data) {
@@ -133,25 +133,27 @@ const actions = {
         Promise.reject(err.response.data.message);
       });
   },
-  // fetchAllPostsByKeyword({ commit }, { page, keyword }) {
-  //   return http.get(`/posts?page=${page}&size=10&keyword=${keyword}`, { headers: authHeader() })
-  //     .then((res) => {
-  //       const pagination = {
-  //         currentPage: res.data.currentPage,
-  //         lastPage: res.data.totalPages,
-  //       };
-  //       if (page === 0) {
-  //         commit('setAllPosts', res.data.posts);
-  //       } else {
-  //         commit('addLoadedPosts', res.data.posts);
-  //       }
-  //       commit('setPostPagination', pagination);
-  //       return Promise.resolve(res.data);
-  //     })
-  //     .catch((err) => {
-  //       Promise.reject(err.response.data.message);
-  //     });
-  // },
+  fetchAllPostsByKeyword({ commit }, { page, keyword }) {
+    return http.get(`/posts?page=${page}&size=10&keyword=${keyword}`, { headers: authHeader() })
+      .then((res) => {
+        const pagination = {
+          totalPosts: res.data.totalItems,
+          currentPage: res.data.currentPage,
+          lastPage: res.data.totalPages,
+        };
+        if (page === 0) {
+          commit('setAllPosts', res.data.posts);
+        } else {
+          commit('addLoadedPosts', res.data.posts);
+        }
+        commit('setPostPagination', pagination);
+        commit('setDisplay', `keyword_${keyword}`);
+        return Promise.resolve(res.data);
+      })
+      .catch((err) => {
+        Promise.reject(err.response.data.message);
+      });
+  },
   // fetchAllPostsByOneUser({ commit }, { id, page }) {
   //   http.get(`/posts/user/${id}?page=${page}&size=5`, { headers: authHeader() })
   //     .then((res) => {
@@ -209,7 +211,7 @@ const mutations = {
   setDisplay(state, displayBy) {
     if (displayBy.split('_')[1]) {
       /* eslint prefer-destructuring: "off" */
-      state.subjectToDisplay = displayBy.split('_')[1];
+      state.displayInformations = displayBy.split('_')[1];
     }
     state.displayBy = displayBy.split('_')[0];
   },

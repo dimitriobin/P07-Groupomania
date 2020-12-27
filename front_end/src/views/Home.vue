@@ -67,7 +67,14 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['allPosts', 'postPagination', 'userId', 'allFollows', 'oneUser', 'displayBy', 'subjectToDisplay']),
+    ...mapGetters([
+      'allPosts',
+      'postPagination',
+      'userId',
+      'allFollows',
+      'oneUser',
+      'displayBy',
+      'displayInformations']),
   },
   watch: {
     allFollows() {
@@ -80,9 +87,8 @@ export default {
       'fetchAllPostsByTop',
       'fetchAllPostsByHot',
       'fetchAllPostsByOneSubject',
-      'getFollows',
-      'fetchAllPostsByFollow',
       'fetchAllPostsByKeyword',
+      'getFollows',
       'fetchUser']),
     handleFetching(page) {
       switch (this.displayBy) {
@@ -96,7 +102,10 @@ export default {
           this.fetchAllPostsByHot(page);
           break;
         case 'subject':
-          this.fetchAllPostsByOneSubject({ page, id: this.subjectToDisplay });
+          this.fetchAllPostsByOneSubject({ page, id: this.displayInformations });
+          break;
+        case 'keyword':
+          this.fetchAllPostsByKeyword({ page, keyword: this.displayInformations });
           break;
         default:
           break;
