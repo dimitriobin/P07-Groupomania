@@ -25,7 +25,7 @@
             <template v-slot:button-content>
               <b-icon icon="person-fill" variant="dark" font-scale="1.5"></b-icon>
             </template>
-            <b-dropdown-item :to="`/user/${getUserId}`">Voir votre profil</b-dropdown-item>
+            <b-dropdown-item :to="`/user/${userId}`">Voir votre profil</b-dropdown-item>
             <b-dropdown-item to="/personal">Modifier vos informations</b-dropdown-item>
           </b-nav-item-dropdown>
           <b-nav-item @click.prevent="logout">
@@ -45,11 +45,7 @@ export default {
     SearchBar,
   },
   computed: {
-    ...mapGetters(['loggedUser']),
-    getUserId() {
-      if (!this.loggedUser.status.storedUser) return '';
-      return this.loggedUser.status.storedUser.userId;
-    },
+    ...mapGetters(['userId']),
   },
   methods: {
     ...mapActions(['logout']),

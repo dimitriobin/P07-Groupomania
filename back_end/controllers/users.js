@@ -71,14 +71,6 @@ exports.readOneUser = (req, res, next) => {
     User.findOne({
         include: [
             {
-                model: Post,
-                include: [
-                    {model: Subject},
-                    {model: User},
-                    {model: Comment}
-                ] 
-            },
-            {
                 model: Subject
             }
         ],

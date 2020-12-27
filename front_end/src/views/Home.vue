@@ -27,7 +27,7 @@
           class="shadow rounded-lg p-4 mb-4">
           <PostForm
             method="create"
-            @formSubmit="showCreatePostForm = false" />
+            @hide="showCreatePostForm = false" />
         </b-modal>
       </div>
       <Post
