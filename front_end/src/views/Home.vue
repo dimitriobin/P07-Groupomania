@@ -51,7 +51,7 @@ import Sidebar from '@/components/Sidebar.vue';
 import SortingNav from '@/components/SortingNav.vue';
 import PostForm from '@/components/PostForm.vue';
 import { mapGetters, mapActions } from 'vuex';
-import LazyLoadingScroll from '@/components/lazyLoadingScroll.vue';
+import LazyLoadingScroll from '@/components/LazyLoadingScroll.vue';
 
 export default {
   name: 'Home',
