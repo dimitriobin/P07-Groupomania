@@ -12,12 +12,14 @@ const state = () => ({
     currentPage: 0,
   },
   displayBy: 'new',
+  subjectToDisplay: '',
 });
 
 const getters = {
   allPosts: (state) => state.posts,
   postPagination: (state) => state.pagination,
   displayBy: (state) => state.displayBy,
+  subjectToDisplay: (state) => state.subjectToDisplay,
 };
 const actions = {
   addPost({ commit }, data) {
@@ -110,13 +112,27 @@ const actions = {
         Promise.reject(err.response.data.message);
       });
   },
-  // fetchAllPostsByOneSubject
-  // fetchAllPostsByOneUser
-  // displayBy({ commit }, { displayBy, keyword, subjectId }) {
-  //   const subject = subjectId ? subjectId : null;
-  //   const word = keyword ? keyword : null;
-  //   commit('setDisplay', { displayBy, word, subject });
-  // },
+  fetchAllPostsByOneSubject({ commit }, { id, page }) {
+    return http.get(`/posts/subject/${id}?page=${page}&size=8`, { headers: authHeader() })
+      .then((res) => {
+        const pagination = {
+          totalPosts: res.data.totalItems,
+          currentPage: res.data.currentPage,
+          lastPage: res.data.totalPages,
+        };
+        if (page === 0) {
+          commit('setAllPosts', res.data.posts);
+        } else {
+          commit('addLoadedPosts', res.data.posts);
+        }
+        commit('setPostPagination', pagination);
+        commit('setDisplay', `subject_${id}`);
+        return Promise.resolve(res.data);
+      })
+      .catch((err) => {
+        Promise.reject(err.response.data.message);
+      });
+  },
   // fetchAllPostsByKeyword({ commit }, { page, keyword }) {
   //   return http.get(`/posts?page=${page}&size=10&keyword=${keyword}`, { headers: authHeader() })
   //     .then((res) => {
@@ -136,47 +152,7 @@ const actions = {
   //       Promise.reject(err.response.data.message);
   //     });
   // },
-  // fetchAllPostsByFollow({ commit }, { page, order }) {
-  //   const { userId } = JSON.parse(localStorage.getItem('user'));
-  //   return http.get(`/posts/${userId}?page=${page}&size=10&order=${order}`, {
-  // headers: authHeader() })
-  //     .then((res) => {
-  //       const pagination = {
-  //         currentPage: res.data.currentPage,
-  //         lastPage: res.data.totalPages,
-  //       };
-  //       if (page === 0) {
-  //         commit('setAllPosts', res.data.posts);
-  //       } else {
-  //         commit('addLoadedPosts', res.data.posts);
-  //       }
-  //       commit('setPostPagination', pagination);
-  //       return Promise.resolve(res.data);
-  //     })
-  //     .catch((err) => {
-  //       Promise.reject(err.response.data.message);
-  //     });
-  // },
-  // fetchAllPostsBySubject({ commit }, { id, page }) {
-  //   http.get(`/posts/subject/${id}?page=${page}&size=5`, { headers: authHeader() })
-  //     .then((res) => {
-  //       const pagination = {
-  //         currentPage: res.data.currentPage,
-  //         lastPage: res.data.totalPages,
-  //       };
-  //       if (page === 0) {
-  //         commit('setAllPosts', res.data.posts);
-  //       } else {
-  //         commit('addLoadedPosts', res.data.posts);
-  //       }
-  //       commit('setPostPagination', pagination);
-  //       return Promise.resolve(res.data);
-  //     })
-  //     .catch((err) => {
-  //       Promise.reject(err.response.data.message);
-  //     });
-  // },
-  // fetchAllPostsByUser({ commit }, { id, page }) {
+  // fetchAllPostsByOneUser({ commit }, { id, page }) {
   //   http.get(`/posts/user/${id}?page=${page}&size=5`, { headers: authHeader() })
   //     .then((res) => {
   //       const pagination = {
@@ -231,7 +207,11 @@ const actions = {
 
 const mutations = {
   setDisplay(state, displayBy) {
-    state.displayBy = displayBy;
+    if (displayBy.split('_')[1]) {
+      /* eslint prefer-destructuring: "off" */
+      state.subjectToDisplay = displayBy.split('_')[1];
+    }
+    state.displayBy = displayBy.split('_')[0];
   },
   setAllPosts(state, posts) {
     state.posts = posts;

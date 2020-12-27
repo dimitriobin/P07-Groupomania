@@ -3,7 +3,7 @@
     tag="div"
     class="d-flex align-items-center justify-content-start border-0 py-1 px-0">
     <b-button
-      @click="displayBy({ displayBy: 'bySubjects', subjectId: subject.id })"
+      @click="fetchAllPostsByOneSubject({ page: 0, id: subject.id })"
       variant="link"
       class="text-dark p-0 mr-3 text-left">
       {{ subject.name }}
@@ -34,7 +34,12 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['getFollows', 'follow', 'unFollow', 'displayBy']),
+    ...mapActions([
+      'getFollows',
+      'follow',
+      'unFollow',
+      'fetchAllPostsByOneSubject',
+      'subjectToDisplay']),
   },
 };
 </script>

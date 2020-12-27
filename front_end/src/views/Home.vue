@@ -67,7 +67,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['allPosts', 'postPagination', 'userId', 'allFollows', 'oneUser', 'displayBy']),
+    ...mapGetters(['allPosts', 'postPagination', 'userId', 'allFollows', 'oneUser', 'displayBy', 'subjectToDisplay']),
   },
   watch: {
     allFollows() {
@@ -79,9 +79,9 @@ export default {
       'fetchAllPostsByNew',
       'fetchAllPostsByTop',
       'fetchAllPostsByHot',
+      'fetchAllPostsByOneSubject',
       'getFollows',
       'fetchAllPostsByFollow',
-      'fetchAllPostsBySubject',
       'fetchAllPostsByKeyword',
       'fetchUser']),
     handleFetching(page) {
@@ -94,6 +94,9 @@ export default {
           break;
         case 'hot':
           this.fetchAllPostsByHot(page);
+          break;
+        case 'subject':
+          this.fetchAllPostsByOneSubject({ page, id: this.subjectToDisplay });
           break;
         default:
           break;
