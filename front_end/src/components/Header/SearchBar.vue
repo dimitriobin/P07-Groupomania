@@ -30,9 +30,9 @@ export default {
     };
   },
   methods: {
-    ...mapActions(['displayBy']),
+    ...mapActions(['displayBy', 'fetchAllPostsByKeyword']),
     handleSearch() {
-      this.displayBy({ displayBy: 'byKeyword', keyword: this.keyword });
+      this.fetchAllPostsByKeyword({ page: 0, keyword: this.keyword });
       this.keyword = '';
     },
   },

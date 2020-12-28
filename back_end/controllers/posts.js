@@ -76,13 +76,13 @@ exports.fetchAllPostsByKeyword = (req, res, next) => {
                 include: { model: User, attributes: ['user_name'] },
             }
         ],
+        distinct: true,
         limit,
         offset,
         where: { title: { [Op.like]: `%${keyword}%`} },
         order: [ ['createdAt', 'DESC'] ]
     })
     .then((posts) => {
-        console.log('here');
         if(posts.length <= 0) {
             return res.status(404).json({message: 'Posts not found'});
         }
@@ -133,6 +133,7 @@ exports.readAllPostsByFollow = (req, res, next) => {
                     include: { model: User, attributes: ['user_name'] },
                 }
             ],
+            distinct: true,
             limit,
             offset,
             where: {
@@ -172,6 +173,7 @@ exports.readAllPostsByUser = (req, res, next) => {
                 model: User, attributes: ['user_name']
             }}
         ],
+        distinct: true,
         limit,
         offset,
         where: {user_id: req.params.user_id},
@@ -202,6 +204,7 @@ exports.readAllPostsBySubject = (req, res, next) => {
                 model: User, attributes: ['user_name']
             }}
         ],
+        distinct: true,
         limit,
         offset,
         where: {
