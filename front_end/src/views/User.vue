@@ -47,7 +47,6 @@
               <subject
                 v-for="(subject, index) in oneUser.Subjects"
                 :key="index"
-                @pressed="$emit('subjectClick', subject.id)"
                 :subject="subject"
                 class="text-dark p-0 text-left">
               </subject>

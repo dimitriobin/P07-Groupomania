@@ -58,7 +58,8 @@
       ],
       "no-console": "off",
       "camelcase": "off",
-      "no-unneeded-ternary": "off"
+      "no-unneeded-ternary": "off",
+      "max-len": ["error", { "code": 150 }]
     }
   },
   "browserslist": [

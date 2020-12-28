@@ -3,6 +3,7 @@ import authHeader from '../../services/auth-header';
 
 const state = () => ({
   comments: [],
+  commentsPagination: [],
 });
 
 const getters = {
@@ -21,7 +22,7 @@ const actions = {
   fetchAllCommentsByPost({ commit }, { id, page }) {
     return http.get(`/comments/post/${id}?page=${page}`, { headers: authHeader() })
       .then((res) => {
-        commit('setComments', res.data.comments);
+        commit('setComments', res.data);
         return Promise.resolve(res.data);
       })
       .catch((err) => Promise.reject(err.response.data));
@@ -46,8 +47,10 @@ const actions = {
 
 const mutations = {
   setComments(state, comments) {
-    comments.forEach((comment) => {
-      state.comments.push(comment);
+    comments.comments.forEach((item) => {
+      if (!state.comments.find((comment) => comment.id === item.id)) {
+        state.comments.push(item);
+      }
     });
   },
   addComment(state, comment) {

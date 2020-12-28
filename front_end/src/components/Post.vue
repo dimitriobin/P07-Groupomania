@@ -128,7 +128,7 @@
                   @deletedComment="commentsCount -= 1" />
                 <b-spinner v-if="loading"></b-spinner>
                 <b-button
-                  v-if="currentPage < (totalPages - 1)"
+                  v-if="comments.length < post.Comments.length"
                   variant="link"
                   class="w-100"
                   @click="handleFetching(currentPage += 1)">
