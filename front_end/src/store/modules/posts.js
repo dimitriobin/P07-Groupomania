@@ -22,31 +22,32 @@ const getters = {
   displayInformations: (state) => state.displayInformations,
 };
 const actions = {
-  addPost({ commit }, data) {
+  addPost({ commit, dispatch }, data) {
     return http.post('/posts', data, { headers: authHeader() })
       .then((res) => {
         commit('newPost', res.data);
         return Promise.resolve(res.data);
       })
       .catch((err) => {
+        if (err.response.data === 'Please login') dispatch('logout');
         const { message } = err.response.data.error.errors[0];
         return Promise.reject(message);
       });
   },
-  updatePost({ commit }, { id, data }) {
+  updatePost({ commit, dispatch }, { id, data }) {
     return http.put(`/posts/${id}`, data, { headers: authHeader() })
       .then((res) => {
         commit('changePost', res.data);
         return Promise.resolve(res.data);
       })
       .catch((err) => {
-        console.log(err.response.data);
+        if (err.response.data === 'Please login') dispatch('logout');
         const { message } = err.response.data.error.errors[0];
         return Promise.reject(message);
       });
   },
   // fetchAllPostsByNew
-  fetchAllPostsByNew({ commit }, page) {
+  fetchAllPostsByNew({ commit, dispatch }, page) {
     const { userId } = JSON.parse(localStorage.getItem('user'));
     return http.get(`/posts/${userId}?page=${page}&size=8&order=new`, { headers: authHeader() })
       .then((res) => {
@@ -65,10 +66,11 @@ const actions = {
         return Promise.resolve(res.data);
       })
       .catch((err) => {
-        Promise.reject(err.response.data.message);
+        if (err.response.data === 'Please login') dispatch('logout');
+        Promise.reject(err.response.data);
       });
   },
-  fetchAllPostsByTop({ commit }, page) {
+  fetchAllPostsByTop({ commit, dispatch }, page) {
     const { userId } = JSON.parse(localStorage.getItem('user'));
     return http.get(`/posts/${userId}?page=${page}&size=8&order=top`, { headers: authHeader() })
       .then((res) => {
@@ -87,10 +89,11 @@ const actions = {
         return Promise.resolve(res.data);
       })
       .catch((err) => {
-        Promise.reject(err.response.data.message);
+        if (err.response.data === 'Please login') dispatch('logout');
+        Promise.reject(err.response.data);
       });
   },
-  fetchAllPostsByHot({ commit }, page) {
+  fetchAllPostsByHot({ commit, dispatch }, page) {
     const { userId } = JSON.parse(localStorage.getItem('user'));
     return http.get(`/posts/${userId}?page=${page}&size=8&order=hot`, { headers: authHeader() })
       .then((res) => {
@@ -109,10 +112,11 @@ const actions = {
         return Promise.resolve(res.data);
       })
       .catch((err) => {
-        Promise.reject(err.response.data.message);
+        if (err.response.data === 'Please login') dispatch('logout');
+        Promise.reject(err.response.data);
       });
   },
-  fetchAllPostsByOneSubject({ commit }, { id, page }) {
+  fetchAllPostsByOneSubject({ commit, dispatch }, { id, page }) {
     return http.get(`/posts/subject/${id}?page=${page}&size=8`, { headers: authHeader() })
       .then((res) => {
         const pagination = {
@@ -130,10 +134,11 @@ const actions = {
         return Promise.resolve(res.data);
       })
       .catch((err) => {
-        Promise.reject(err.response.data.message);
+        if (err.response.data === 'Please login') dispatch('logout');
+        Promise.reject(err.response.data);
       });
   },
-  fetchAllPostsByKeyword({ commit }, { page, keyword }) {
+  fetchAllPostsByKeyword({ commit, dispatch }, { page, keyword }) {
     return http.get(`/posts?page=${page}&size=10&keyword=${keyword}`, { headers: authHeader() })
       .then((res) => {
         const pagination = {
@@ -151,10 +156,11 @@ const actions = {
         return Promise.resolve(res.data);
       })
       .catch((err) => {
-        Promise.reject(err.response.data.message);
+        if (err.response.data === 'Please login') dispatch('logout');
+        Promise.reject(err.response.data);
       });
   },
-  fetchAllPostsByOneUser({ commit }, { id, page }) {
+  fetchAllPostsByOneUser({ commit, dispatch }, { id, page }) {
     http.get(`/posts/user/${id}?page=${page}&size=8`, { headers: authHeader() })
       .then((res) => {
         const pagination = {
@@ -172,29 +178,32 @@ const actions = {
         return Promise.resolve(res.data);
       })
       .catch((err) => {
-        Promise.reject(err.response.data.message);
+        if (err.response.data === 'Please login') dispatch('logout');
+        Promise.reject(err.response.data);
       });
   },
-  removePost({ commit }, id) {
+  removePost({ commit, dispatch }, id) {
     return http.delete(`/posts/${id}`, { headers: authHeader() })
       .then((response) => {
         commit('removeOnePost', id);
         return Promise.resolve(response.data);
       })
       .catch((err) => {
+        if (err.response.data === 'Please login') dispatch('logout');
         Promise.reject(err.response.data);
       });
   },
-  likePost({ commit }, id) {
+  likePost({ commit, dispatch }, id) {
     http.post(`/posts/${id}/like`, {}, { headers: authHeader() })
       .then((res) => {
         commit('addLike', res.data);
       })
       .catch((err) => {
-        console.log(err.response.data);
+        if (err.response.data === 'Please login') dispatch('logout');
+        Promise.reject(err.response.data);
       });
   },
-  unlikePost({ commit, rootGetters }, id) {
+  unlikePost({ commit, dispatch, rootGetters }, id) {
     http.delete(`/posts/${id}/unlike`, { headers: authHeader() })
       .then(() => {
         const dataObj = {
@@ -204,7 +213,8 @@ const actions = {
         commit('removeLike', dataObj);
       })
       .catch((err) => {
-        console.log(err.response);
+        if (err.response.data === 'Please login') dispatch('logout');
+        Promise.reject(err.response.data);
       });
   },
 };
