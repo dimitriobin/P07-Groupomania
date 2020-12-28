@@ -89,7 +89,8 @@ export default {
       'fetchAllPostsByOneSubject',
       'fetchAllPostsByKeyword',
       'getFollows',
-      'fetchUser']),
+      'fetchUser',
+      'logout']),
     handleFetching(page) {
       switch (this.displayBy) {
         case 'new':

@@ -12,19 +12,25 @@ const getters = {
 };
 
 const actions = {
-  fetchAllUsers({ commit }) {
-    http.get('/users', { headers: authHeader() })
+  fetchAllUsers({ commit, dispatch }) {
+    return http.get('/users', { headers: authHeader() })
       .then((res) => {
         commit('setAllUsers', res.data);
       })
-      .catch((error) => console.log(error));
+      .catch((err) => {
+        if (err.response.data === 'Please login') dispatch('logout');
+        return Promise.reject(err.response.data);
+      });
   },
-  fetchUser({ commit }, id) {
-    http.get(`/users/${id}`, { headers: authHeader() })
+  fetchUser({ commit, dispatch }, id) {
+    return http.get(`/users/${id}`, { headers: authHeader() })
       .then((user) => {
         commit('setUser', user.data);
       })
-      .catch((error) => console.log(error));
+      .catch((err) => {
+        if (err.response.data === 'Please login') dispatch('logout');
+        return Promise.reject(err.response.data);
+      });
   },
 };
 

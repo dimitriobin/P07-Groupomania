@@ -11,37 +11,49 @@ const getters = {
 };
 
 const actions = {
-  addComment({ commit }, data) {
+  addComment({ commit, dispatch }, data) {
     return http.post('/comments/', data, { headers: authHeader() })
       .then((res) => {
         commit('addComment', res.data);
         return Promise.resolve(res.data);
       })
-      .catch((err) => Promise.reject(err.response.data.error.errors[0].message));
+      .catch((err) => {
+        if (err.response.data === 'Please login') dispatch('logout');
+        return Promise.reject(err.response.data.error.errors[0].message);
+      });
   },
-  fetchAllCommentsByPost({ commit }, { id, page }) {
+  fetchAllCommentsByPost({ commit, dispatch }, { id, page }) {
     return http.get(`/comments/post/${id}?page=${page}`, { headers: authHeader() })
       .then((res) => {
         commit('setComments', res.data);
         return Promise.resolve(res.data);
       })
-      .catch((err) => Promise.reject(err.response.data));
+      .catch((err) => {
+        if (err.response.data === 'Please login') dispatch('logout');
+        return Promise.reject(err.response.data);
+      });
   },
-  updateComment({ commit }, { id, data }) {
+  updateComment({ commit, dispatch }, { id, data }) {
     return http.put(`/comments/${id}`, data, { headers: authHeader() })
       .then((res) => {
         commit('replaceComment', res.data);
         return Promise.resolve(res.data);
       })
-      .catch((err) => Promise.reject(err.response.data.error.errors[0].message));
+      .catch((err) => {
+        if (err.response.data === 'Please login') dispatch('logout');
+        return Promise.reject(err.response.data.error.errors[0].message);
+      });
   },
-  deleteComment({ commit }, id) {
+  deleteComment({ commit, dispatch }, id) {
     return http.delete(`/comments/${id}`, { headers: authHeader() })
       .then((res) => {
         commit('removeComment', id);
         return Promise.resolve(res.data);
       })
-      .catch((err) => Promise.reject(err.response.data));
+      .catch((err) => {
+        if (err.response.data === 'Please login') dispatch('logout');
+        return Promise.reject(err.response.data);
+      });
   },
 };
 
