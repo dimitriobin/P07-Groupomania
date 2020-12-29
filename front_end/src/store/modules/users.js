@@ -42,6 +42,14 @@ const actions = {
         return Promise.reject(err.response.data);
       });
   },
+  deleteUser({ dispatch }, id) {
+    return http.delete(`/users/${id}`, { headers: authHeader() })
+      .then((user) => Promise.resolve(user))
+      .catch((err) => {
+        if (err.response.data === 'Please login') dispatch('logout');
+        return Promise.reject(err.response.data);
+      });
+  },
 };
 
 const mutations = {

@@ -89,8 +89,41 @@
             variant="dark"
             class="my-3">Envoyer</b-button>
         </b-form>
-        <b-button type="submit" variant="link">Supprimer mon compte</b-button>
-        <b-button type="submit" variant="link">Télécharger les données de votre compte</b-button>
+        <b-button
+          v-b-modal.supressAccount
+          type="button"
+          variant="link">
+          Supprimer mon compte
+        </b-button>
+          <b-modal
+            id="supressAccount"
+            title="BootstrapVue"
+            centered
+            hide-header
+            hide-footer
+            body-class="p-4 d-flex flex-column align-items-center">
+            <p class="my-4 text-center">
+              Vous êtes sur le point de supprimer votre compte de manière
+              définitive.
+            </p>
+            <b-button
+              @click="handleDelete()"
+              variant="success"
+              class="w-50 mb-2">
+              Supprimer votre compte
+            </b-button>
+            <b-button
+              @click="$bvModal.hide('supressAccount')"
+              variant="danger"
+              class="w-50">
+              Annuler
+            </b-button>
+          </b-modal>
+        <b-button
+          type="button"
+          variant="link">
+          Télécharger les données de votre compte
+        </b-button>
       </b-tab>
     </b-tabs>
   </section>
@@ -126,7 +159,13 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['fetchUser', 'fetchAllSubjects', 'getFollows', 'updateUser']),
+    ...mapActions([
+      'fetchUser',
+      'fetchAllSubjects',
+      'getFollows',
+      'updateUser',
+      'deleteUser',
+      'logout']),
     showMoreSubjects() {
       this.showAllSubjects = true;
       this.fetchAllSubjects();
@@ -138,6 +177,12 @@ export default {
       })
         .then(() => {
           this.updateSuccess = true;
+        });
+    },
+    handleDelete() {
+      this.deleteUser(this.userId)
+        .then(() => {
+          this.logout();
         });
     },
   },
