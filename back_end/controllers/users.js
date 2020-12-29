@@ -1,5 +1,5 @@
 'use strict'
-const { User, Post, Comment, Report, Subject } = require('../models');
+const { User, Post, Comment, Report, Subject, Like } = require('../models');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
@@ -110,7 +110,21 @@ exports.updateOneUser = (req, res, next) => {
             }
         })
         .then(updatedUser => {
-            res.status(200).send('User updated');
+            User.findOne({
+                include: [
+                    {
+                        model: Subject
+                    }
+                ],
+                where: {id: req.params.id}
+            })
+            .then(user => {
+                if(user.length <= 0) {
+                    return res.status(404).send('User not found');
+                }
+                res.status(200).json(user);
+            })
+            .catch(error => res.status(500).json({error}))
         })
         .catch(error => res.status(500).json({two: error}))
     })
@@ -131,9 +145,13 @@ exports.deleteOneUser = (req, res, next) => {
         .then(() => {
             Comment.update({user_id: 1}, {where: {user_id: req.params.id}})
             .then(() => {
-                fs.unlink(`images/${filename}`, err => {if(err) console.log(err)});
-                User.destroy({where: {id: req.params.id}})
-                .then(() => res.status(200).send('User deleted'))
+                Like.destroy({where: {UserId: req.params.id}})
+                .then(() => {
+                    fs.unlink(`images/${filename}`, err => {if(err) console.log(err)});
+                    User.destroy({where: {id: req.params.id}})
+                    .then(() => res.status(200).send('User deleted'))
+                    .catch(error => res.status(500).json({error}))
+                })
                 .catch(error => res.status(500).json({error}))
             })
             .catch(error => res.status(500).json({error}))

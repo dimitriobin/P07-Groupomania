@@ -11,145 +11,29 @@
         <h2 class="h4 text-center my-5">Vous suivez ces sujets</h2>
         <b-list-group
           flush
-          tag="ul"
           class="w-50 mx-auto">
-          <b-list-group-item
-            v-for="(subject, index) in oneUser.Subjects"
-            :key="index"
-            tag="li"
-            class="d-flex justify-content-between align-items-center border-0 py-2 text-left">
-              {{ subject.name }}
-            <b-link class="text-right">Suivre</b-link>
-          </b-list-group-item>
-          <b-list-group-item :class="{ 'd-none' : moreSubjects}">
-            <a
-              @click="moreSubjects = !moreSubjects"
-              v-b-toggle.moreSubjects>
-              Voir plus de sujets</a>
-          </b-list-group-item>
+          <Subject
+            v-for="subject in allFollows"
+            :key="subject.id"
+            :subject="subject" />
+          <b-button
+            v-if="!showAllSubjects"
+            @click="showMoreSubjects()"
+            variant="link">Voir tous les sujets</b-button>
+          <Subject
+            v-else
+            v-for="subject in subjectsNotFollowed"
+            :key="subject.id"
+            :subject="subject" />
         </b-list-group>
-        <b-collapse
-          id="moreSubjects">
-          <b-list-group
-            flush
-            tag="ul"
-            class="w-50 mx-auto">
-            <b-list-group-item
-              v-for="(subject, index) in subjectsNotFollowed"
-              :key="index"
-              tag="li"
-              class="d-flex justify-content-between align-items-center border-0 py-2 text-left">
-                {{ subject.name }}
-              <b-link class="text-right">Suivre</b-link>
-            </b-list-group-item>
-          </b-list-group>
-        </b-collapse>
       </b-tab>
       <!-- Profile -->
-      <b-tab title="Profile">
-        <b-form >
-          <b-form-group
-            id="input-group-1"
-            label="Email :"
-            label-cols="2"
-            label-for="input-1"
-          >
-            <b-form-input
-              id="input-1"
-              type="email"
-              :placeholder="oneUser.email"
-            ></b-form-input>
-          </b-form-group>
-
-          <b-form-group
-            id="input-group-2"
-            label="Pseudo:"
-            label-cols="2"
-            label-for="input-2">
-            <b-form-input
-              id="input-2"
-              :placeholder="oneUser.user_name"
-            ></b-form-input>
-          </b-form-group>
-
-          <b-form-group
-            id="input-group-3"
-            label="Ancien mot de passe:"
-            label-cols="2"
-            label-for="input-3">
-            <b-form-input
-              id="input-3"
-              placeholder="*********************"
-            ></b-form-input>
-          </b-form-group>
-
-          <b-form-group
-            id="input-group-4"
-            label="Nouveau mot de passe:"
-            label-cols="2"
-            label-for="input-4">
-            <b-form-input
-              id="input-4"
-              placeholder="*********************"
-            ></b-form-input>
-          </b-form-group>
-
-          <b-form-group
-            id="input-group-5"
-            label="Confirmer le mot de passe:"
-            label-cols="2"
-            label-for="input-5">
-            <b-form-input
-              id="input-5"
-              placeholder="*********************"
-            ></b-form-input>
-          </b-form-group>
-
-          <b-form-group
-          id="input-group-6"
-          label="Photo de profil:"
-          label-cols="2"
-          label-for="input-6"
-          class="d-flex">
-            <b-form-file
-                id="input-6"
-                :state="Boolean(oneUser.image_url)"
-                placeholder="Selectionner un fichier"
-                drop-placeholder="Drop file here..."
-                accept="image/*"
-                class=" flex-grow-1"
-              ></b-form-file>
-          </b-form-group>
-
-          <b-form-group
-            id="input-group-7"
-            label="Date de naissance:"
-            label-cols="2"
-            label-for="input-7">
-            <b-form-datepicker
-            id="input-7"
-            :placeholder="oneUser.birthdate">
-            </b-form-datepicker>
-          </b-form-group>
-
-          <b-form-group
-            id="input-group-8"
-            label="Email des responsables:"
-            label-cols="2"
-            label-for="input-8"
-          >
-            <b-form-input
-              id="input-8"
-              type="email"
-              :placeholder="oneUser.parentEmail"
-            ></b-form-input>
-          </b-form-group>
-          <b-button type="submit" variant="dark">Envoyer</b-button>
-        </b-form>
+      <b-tab title="Profile" lazy>
+        <UserForm :userData="oneUser" />
       </b-tab>
       <!-- Privacy -->
       <b-tab title="Privacy">
-        <b-form>
+        <b-form @submit.prevent="handleUpdateRgpd()">
           <!-- <b-form-group description="rgpd"> -->
             <b-row>
               <b-col
@@ -160,10 +44,11 @@
                   class="ml-2 my-0">
                   Restreindre l'utilisation de mes données</label>
                 <input
+                  v-model="rgpdCheckboxes.restricted"
+                  @change="updateSuccess = false"
                   cols="9"
                   id="restricted"
-                  type="checkbox"
-                  :checked="oneUser.restricted">
+                  type="checkbox">
               </b-col>
               <b-col
                 cols="12"
@@ -173,10 +58,11 @@
                   class="ml-2 my-0">
                   Etre contacté par des partenaires commerciaux</label>
                 <input
+                  v-model="rgpdCheckboxes.contactable"
+                  @change="updateSuccess = false"
                   cols="9"
                   id="contactable"
-                  type="checkbox"
-                  :checked="oneUser.contactable">
+                  type="checkbox">
               </b-col>
               <b-col
                 cols="12"
@@ -186,52 +72,142 @@
                   class="ml-2 my-0">
                   Accepter que les données soient transmises a des partenaires</label>
                 <input
+                  v-model="rgpdCheckboxes.sharedWithPartners"
+                  @change="updateSuccess = false"
                   cols="9"
                   id="sharedWithPartners"
-                  type="checkbox"
-                  :checked="oneUser.sharedWithPartners">
+                  type="checkbox">
               </b-col>
             </b-row>
           <!-- </b-form-group> -->
+          <b-tooltip :show.sync="updateSuccess" target="submitRgpd" placement="right">
+            Les modifications ont bien été prises en compte
+          </b-tooltip>
           <b-button
+            id="submitRgpd"
             type="submit"
             variant="dark"
             class="my-3">Envoyer</b-button>
         </b-form>
-        <b-button type="submit" variant="link">Supprimer mon compte</b-button>
-        <b-button type="submit" variant="link">Télécharger les données de votre compte</b-button>
+        <b-button
+          v-b-modal.supressAccount
+          type="button"
+          variant="link">
+          Supprimer mon compte
+        </b-button>
+          <b-modal
+            id="supressAccount"
+            title="BootstrapVue"
+            centered
+            hide-header
+            hide-footer
+            body-class="p-4 d-flex flex-column align-items-center">
+            <p class="my-4 text-center">
+              Vous êtes sur le point de supprimer votre compte de manière
+              définitive.
+            </p>
+            <b-button
+              @click="handleDelete()"
+              variant="success"
+              class="w-50 mb-2">
+              Supprimer votre compte
+            </b-button>
+            <b-button
+              @click="$bvModal.hide('supressAccount')"
+              variant="danger"
+              class="w-50">
+              Annuler
+            </b-button>
+          </b-modal>
+        <b-button
+          @click="handleExport()"
+          type="button"
+          variant="link">
+          Télécharger les données de votre compte
+        </b-button>
       </b-tab>
     </b-tabs>
   </section>
 </template>
 
 <script>
-// @ is an alias to /src
+import Subject from '@/components/Subject.vue';
+import UserForm from '@/components/UserForm.vue';
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: 'PersonalAccount',
+  components: {
+    Subject,
+    UserForm,
+  },
   data() {
     return {
-      moreSubjects: false,
+      showAllSubjects: false,
+      rgpdCheckboxes: {
+        restricted: '',
+        contactable: '',
+        sharedWithPartners: '',
+      },
+      updateSuccess: false,
+      exportedDataURL: '',
     };
   },
-  created() {
-    this.fetchAllSubjects();
-    this.fetchUser(this.getUserId);
-  },
   computed: {
-    ...mapGetters(['oneUser', 'Auth/loggedUser', 'allSubjects']),
-    getUserId() {
-      return this['Auth/loggedUser'].storedUser.userId;
-    },
+    ...mapGetters(['oneUser', 'userId', 'allSubjects', 'allFollows']),
     subjectsNotFollowed() {
-      const followed = this.oneUser.Subjects.map((subject) => subject.id);
-      return this.allSubjects.filter((subject) => !followed.includes(subject.id));
+      const followsId = this.allFollows.map((follow) => follow.id);
+      return this.allSubjects.filter((subject) => !followsId.includes(subject.id));
     },
   },
   methods: {
-    ...mapActions(['fetchUser', 'fetchAllSubjects']),
+    ...mapActions([
+      'fetchUser',
+      'fetchAllSubjects',
+      'getFollows',
+      'updateUser',
+      'deleteUser',
+      'logout',
+      'exportUser']),
+    showMoreSubjects() {
+      this.showAllSubjects = true;
+      this.fetchAllSubjects();
+    },
+    handleUpdateRgpd() {
+      this.updateUser({
+        id: this.userId,
+        data: this.rgpdCheckboxes,
+      })
+        .then(() => {
+          this.updateSuccess = true;
+        });
+    },
+    handleDelete() {
+      this.deleteUser(this.userId)
+        .then(() => {
+          this.logout();
+        });
+    },
+    handleExport() {
+      this.exportUser(this.userId)
+        .then((response) => {
+          const exportedDataURL = window.URL.createObjectURL(new Blob([response.data]));
+          const fileLink = document.createElement('a');
+          fileLink.href = exportedDataURL;
+          fileLink.setAttribute('download', 'file.pdf');
+          document.body.appendChild(fileLink);
+          fileLink.click();
+        });
+    },
+  },
+  mounted() {
+    this.getFollows(this.userId);
+    this.fetchUser(this.userId)
+      .then(() => {
+        this.rgpdCheckboxes.restricted = this.oneUser.restricted;
+        this.rgpdCheckboxes.contactable = this.oneUser.contactable;
+        this.rgpdCheckboxes.sharedWithPartners = this.oneUser.sharedWithPartners;
+      });
   },
 };
 </script>

@@ -32,6 +32,32 @@ const actions = {
         return Promise.reject(err.response.data);
       });
   },
+  updateUser({ commit, dispatch }, { id, data }) {
+    return http.put(`/users/${id}`, data, { headers: authHeader() })
+      .then((user) => {
+        commit('setUser', user.data);
+      })
+      .catch((err) => {
+        if (err.response.data === 'Please login') dispatch('logout');
+        return Promise.reject(err.response.data);
+      });
+  },
+  deleteUser({ dispatch }, id) {
+    return http.delete(`/users/${id}`, { headers: authHeader() })
+      .then((user) => Promise.resolve(user))
+      .catch((err) => {
+        if (err.response.data === 'Please login') dispatch('logout');
+        return Promise.reject(err.response.data);
+      });
+  },
+  exportUser({ dispatch }, id) {
+    return http.get(`/users/export/${id}`, { headers: authHeader(), responseType: 'blob' })
+      .then((user) => Promise.resolve(user))
+      .catch((err) => {
+        if (err.response.data === 'Please login') dispatch('logout');
+        return Promise.reject(err.response.data);
+      });
+  },
 };
 
 const mutations = {
