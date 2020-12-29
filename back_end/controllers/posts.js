@@ -106,11 +106,11 @@ exports.readAllPostsByFollow = (req, res, next) => {
             break;
 
         case 'top':
-            sorting = [[sequelize.literal(`(SELECT COUNT(*) FROM groupomania.like WHERE post.id = like.PostId)`), 'DESC']]
+            sorting = [[sequelize.literal(`(SELECT COUNT(*) FROM ${process.env.DB_NAME}.like WHERE post.id = like.PostId)`), 'DESC']]
             break;
         
         case 'hot':
-            sorting = [[sequelize.literal(`(SELECT COUNT(*) FROM groupomania.comment WHERE post.id = comment.post_id)`), 'DESC']]
+            sorting = [[sequelize.literal(`(SELECT COUNT(*) FROM ${process.env.DB_NAME}.comment WHERE post.id = comment.post_id)`), 'DESC']]
             break;
     
         default:
