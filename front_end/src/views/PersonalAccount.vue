@@ -11,39 +11,21 @@
         <h2 class="h4 text-center my-5">Vous suivez ces sujets</h2>
         <b-list-group
           flush
-          tag="ul"
           class="w-50 mx-auto">
-          <b-list-group-item
-            v-for="(subject, index) in oneUser.Subjects"
-            :key="index"
-            tag="li"
-            class="d-flex justify-content-between align-items-center border-0 py-2 text-left">
-              {{ subject.name }}
-            <b-link class="text-right">Suivre</b-link>
-          </b-list-group-item>
-          <b-list-group-item :class="{ 'd-none' : moreSubjects}">
-            <a
-              @click="moreSubjects = !moreSubjects"
-              v-b-toggle.moreSubjects>
-              Voir plus de sujets</a>
-          </b-list-group-item>
+          <Subject
+            v-for="subject in allFollows"
+            :key="subject.id"
+            :subject="subject" />
+          <b-button
+            v-if="!showAllSubjects"
+            @click="showMoreSubjects()"
+            variant="link">Voir tous les sujets</b-button>
+          <Subject
+            v-else
+            v-for="subject in subjectsNotFollowed"
+            :key="subject.id"
+            :subject="subject" />
         </b-list-group>
-        <b-collapse
-          id="moreSubjects">
-          <b-list-group
-            flush
-            tag="ul"
-            class="w-50 mx-auto">
-            <b-list-group-item
-              v-for="(subject, index) in subjectsNotFollowed"
-              :key="index"
-              tag="li"
-              class="d-flex justify-content-between align-items-center border-0 py-2 text-left">
-                {{ subject.name }}
-              <b-link class="text-right">Suivre</b-link>
-            </b-list-group-item>
-          </b-list-group>
-        </b-collapse>
       </b-tab>
       <!-- Profile -->
       <b-tab title="Profile">
@@ -206,32 +188,36 @@
 </template>
 
 <script>
-// @ is an alias to /src
+import Subject from '@/components/Subject.vue';
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: 'PersonalAccount',
+  components: {
+    Subject,
+  },
   data() {
     return {
-      moreSubjects: false,
+      showAllSubjects: false,
     };
   },
-  created() {
-    this.fetchAllSubjects();
-    this.fetchUser(this.getUserId);
-  },
   computed: {
-    ...mapGetters(['oneUser', 'Auth/loggedUser', 'allSubjects']),
-    getUserId() {
-      return this['Auth/loggedUser'].storedUser.userId;
-    },
+    ...mapGetters(['oneUser', 'userId', 'allSubjects', 'allFollows']),
     subjectsNotFollowed() {
-      const followed = this.oneUser.Subjects.map((subject) => subject.id);
-      return this.allSubjects.filter((subject) => !followed.includes(subject.id));
+      const followsId = this.allFollows.map((follow) => follow.id);
+      return this.allSubjects.filter((subject) => !followsId.includes(subject.id));
     },
   },
   methods: {
-    ...mapActions(['fetchUser', 'fetchAllSubjects']),
+    ...mapActions(['fetchUser', 'fetchAllSubjects', 'getFollows']),
+    showMoreSubjects() {
+      this.showAllSubjects = true;
+      this.fetchAllSubjects();
+    },
+  },
+  mounted() {
+    this.getFollows(this.userId);
+    this.fetchUser(this.userId);
   },
 };
 </script>

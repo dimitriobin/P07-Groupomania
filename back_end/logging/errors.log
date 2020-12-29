@@ -2014,3 +2014,14 @@
 ::1 - - [28/Dec/2020:17:38:01 +0000] "GET /api/users/21 HTTP/1.1" 401 12
 ::1 - - [28/Dec/2020:17:38:01 +0000] "POST /api/subjects/follow HTTP/1.1" 401 12
 ::1 - - [28/Dec/2020:17:38:01 +0000] "GET /api/posts/user/21?page=0&size=8 HTTP/1.1" 401 12
+::1 - - [29/Dec/2020:10:09:54 +0000] "POST /api/subjects/follow HTTP/1.1" 500 12
+::1 - - [29/Dec/2020:10:10:01 +0000] "POST /api/subjects/follow HTTP/1.1" 500 12
+::1 - - [29/Dec/2020:10:10:33 +0000] "POST /api/subjects/follow HTTP/1.1" 500 12
+::1 - - [29/Dec/2020:10:11:24 +0000] "POST /api/subjects/follow HTTP/1.1" 500 12
+::1 - - [29/Dec/2020:10:13:59 +0000] "POST /api/subjects/follow HTTP/1.1" 500 12
+::1 - - [29/Dec/2020:10:17:00 +0000] "POST /api/subjects/follow HTTP/1.1" 500 12
+::1 - - [29/Dec/2020:10:17:00 +0000] "POST /api/subjects/follow HTTP/1.1" 500 12
+::1 - - [29/Dec/2020:10:17:42 +0000] "POST /api/subjects/follow HTTP/1.1" 500 12
+::1 - - [29/Dec/2020:10:17:52 +0000] "POST /api/subjects/follow HTTP/1.1" 500 12
+::1 - - [29/Dec/2020:10:18:03 +0000] "POST /api/subjects/follow HTTP/1.1" 500 12
+::1 - - [29/Dec/2020:10:18:06 +0000] "POST /api/subjects/follow HTTP/1.1" 500 12
