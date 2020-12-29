@@ -20,7 +20,7 @@ exports.readAllSubjects = (req, res, next) => {
         include: [
             {model: User}
         ],
-        order: [[sequelize.literal(`(SELECT COUNT(*) FROM groupomania.subjectFollows where subject.id = subjectFollows.SubjectId)`), 'DESC']]
+        order: [[sequelize.literal(`(SELECT COUNT(*) FROM ${process.env.DB_NAME}.subjectFollows where subject.id = subjectFollows.SubjectId)`), 'DESC']]
     })
     .then(subjects => {
         if(subjects.length <= 0) {
