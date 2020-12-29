@@ -28,106 +28,8 @@
         </b-list-group>
       </b-tab>
       <!-- Profile -->
-      <b-tab title="Profile">
-        <b-form >
-          <b-form-group
-            id="input-group-1"
-            label="Email :"
-            label-cols="2"
-            label-for="input-1"
-          >
-            <b-form-input
-              id="input-1"
-              type="email"
-              :placeholder="oneUser.email"
-            ></b-form-input>
-          </b-form-group>
-
-          <b-form-group
-            id="input-group-2"
-            label="Pseudo:"
-            label-cols="2"
-            label-for="input-2">
-            <b-form-input
-              id="input-2"
-              :placeholder="oneUser.user_name"
-            ></b-form-input>
-          </b-form-group>
-
-          <b-form-group
-            id="input-group-3"
-            label="Ancien mot de passe:"
-            label-cols="2"
-            label-for="input-3">
-            <b-form-input
-              id="input-3"
-              placeholder="*********************"
-            ></b-form-input>
-          </b-form-group>
-
-          <b-form-group
-            id="input-group-4"
-            label="Nouveau mot de passe:"
-            label-cols="2"
-            label-for="input-4">
-            <b-form-input
-              id="input-4"
-              placeholder="*********************"
-            ></b-form-input>
-          </b-form-group>
-
-          <b-form-group
-            id="input-group-5"
-            label="Confirmer le mot de passe:"
-            label-cols="2"
-            label-for="input-5">
-            <b-form-input
-              id="input-5"
-              placeholder="*********************"
-            ></b-form-input>
-          </b-form-group>
-
-          <b-form-group
-          id="input-group-6"
-          label="Photo de profil:"
-          label-cols="2"
-          label-for="input-6"
-          class="d-flex">
-            <b-form-file
-                id="input-6"
-                :state="Boolean(oneUser.image_url)"
-                placeholder="Selectionner un fichier"
-                drop-placeholder="Drop file here..."
-                accept="image/*"
-                class=" flex-grow-1"
-              ></b-form-file>
-          </b-form-group>
-
-          <b-form-group
-            id="input-group-7"
-            label="Date de naissance:"
-            label-cols="2"
-            label-for="input-7">
-            <b-form-datepicker
-            id="input-7"
-            :placeholder="oneUser.birthdate">
-            </b-form-datepicker>
-          </b-form-group>
-
-          <b-form-group
-            id="input-group-8"
-            label="Email des responsables:"
-            label-cols="2"
-            label-for="input-8"
-          >
-            <b-form-input
-              id="input-8"
-              type="email"
-              :placeholder="oneUser.parentEmail"
-            ></b-form-input>
-          </b-form-group>
-          <b-button type="submit" variant="dark">Envoyer</b-button>
-        </b-form>
+      <b-tab title="Profile" lazy>
+        <UserForm :userData="oneUser" />
       </b-tab>
       <!-- Privacy -->
       <b-tab title="Privacy">
@@ -189,12 +91,14 @@
 
 <script>
 import Subject from '@/components/Subject.vue';
+import UserForm from '@/components/UserForm.vue';
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: 'PersonalAccount',
   components: {
     Subject,
+    UserForm,
   },
   data() {
     return {
