@@ -50,6 +50,14 @@ const actions = {
         return Promise.reject(err.response.data);
       });
   },
+  exportUser({ dispatch }, id) {
+    return http.get(`/users/export/${id}`, { headers: authHeader(), responseType: 'blob' })
+      .then((user) => Promise.resolve(user))
+      .catch((err) => {
+        if (err.response.data === 'Please login') dispatch('logout');
+        return Promise.reject(err.response.data);
+      });
+  },
 };
 
 const mutations = {

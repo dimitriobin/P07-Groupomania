@@ -120,6 +120,7 @@
             </b-button>
           </b-modal>
         <b-button
+          @click="handleExport()"
           type="button"
           variant="link">
           Télécharger les données de votre compte
@@ -149,6 +150,7 @@ export default {
         sharedWithPartners: '',
       },
       updateSuccess: false,
+      exportedDataURL: '',
     };
   },
   computed: {
@@ -165,7 +167,8 @@ export default {
       'getFollows',
       'updateUser',
       'deleteUser',
-      'logout']),
+      'logout',
+      'exportUser']),
     showMoreSubjects() {
       this.showAllSubjects = true;
       this.fetchAllSubjects();
@@ -183,6 +186,17 @@ export default {
       this.deleteUser(this.userId)
         .then(() => {
           this.logout();
+        });
+    },
+    handleExport() {
+      this.exportUser(this.userId)
+        .then((response) => {
+          const exportedDataURL = window.URL.createObjectURL(new Blob([response.data]));
+          const fileLink = document.createElement('a');
+          fileLink.href = exportedDataURL;
+          fileLink.setAttribute('download', 'file.pdf');
+          document.body.appendChild(fileLink);
+          fileLink.click();
         });
     },
   },

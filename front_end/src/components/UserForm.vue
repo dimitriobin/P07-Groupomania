@@ -144,8 +144,8 @@
           <b-img
             :src="previewUrl"
             class="rounded-circle"
-            width="200"
-            height="200"></b-img>
+            width="100"
+            height="100"></b-img>
           <b-form-file
             v-if="edit"
             v-model="user.image_url"

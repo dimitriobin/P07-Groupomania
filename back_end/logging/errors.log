@@ -2030,3 +2030,5 @@
 ::1 - - [29/Dec/2020:14:22:58 +0000] "PUT /api/users/21 HTTP/1.1" 500 777
 ::1 - - [29/Dec/2020:18:17:01 +0000] "DELETE /api/users/21 HTTP/1.1" 500 816
 ::1 - - [29/Dec/2020:18:21:29 +0000] "DELETE /api/users/21 HTTP/1.1" 500 846
+::1 - - [29/Dec/2020:18:24:30 +0000] "POST /api/users/login HTTP/1.1" 404 28
+::1 - - [29/Dec/2020:18:24:42 +0000] "POST /api/users/login HTTP/1.1" 404 28
