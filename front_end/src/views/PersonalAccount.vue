@@ -33,7 +33,7 @@
       </b-tab>
       <!-- Privacy -->
       <b-tab title="Privacy">
-        <b-form>
+        <b-form @submit.prevent="handleUpdateRgpd()">
           <!-- <b-form-group description="rgpd"> -->
             <b-row>
               <b-col
@@ -44,10 +44,11 @@
                   class="ml-2 my-0">
                   Restreindre l'utilisation de mes données</label>
                 <input
+                  v-model="rgpdCheckboxes.restricted"
+                  @change="updateSuccess = false"
                   cols="9"
                   id="restricted"
-                  type="checkbox"
-                  :checked="oneUser.restricted">
+                  type="checkbox">
               </b-col>
               <b-col
                 cols="12"
@@ -57,10 +58,11 @@
                   class="ml-2 my-0">
                   Etre contacté par des partenaires commerciaux</label>
                 <input
+                  v-model="rgpdCheckboxes.contactable"
+                  @change="updateSuccess = false"
                   cols="9"
                   id="contactable"
-                  type="checkbox"
-                  :checked="oneUser.contactable">
+                  type="checkbox">
               </b-col>
               <b-col
                 cols="12"
@@ -70,14 +72,19 @@
                   class="ml-2 my-0">
                   Accepter que les données soient transmises a des partenaires</label>
                 <input
+                  v-model="rgpdCheckboxes.sharedWithPartners"
+                  @change="updateSuccess = false"
                   cols="9"
                   id="sharedWithPartners"
-                  type="checkbox"
-                  :checked="oneUser.sharedWithPartners">
+                  type="checkbox">
               </b-col>
             </b-row>
           <!-- </b-form-group> -->
+          <b-tooltip :show.sync="updateSuccess" target="submitRgpd" placement="right">
+            Les modifications ont bien été prises en compte
+          </b-tooltip>
           <b-button
+            id="submitRgpd"
             type="submit"
             variant="dark"
             class="my-3">Envoyer</b-button>
@@ -103,6 +110,12 @@ export default {
   data() {
     return {
       showAllSubjects: false,
+      rgpdCheckboxes: {
+        restricted: '',
+        contactable: '',
+        sharedWithPartners: '',
+      },
+      updateSuccess: false,
     };
   },
   computed: {
@@ -113,15 +126,29 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['fetchUser', 'fetchAllSubjects', 'getFollows']),
+    ...mapActions(['fetchUser', 'fetchAllSubjects', 'getFollows', 'updateUser']),
     showMoreSubjects() {
       this.showAllSubjects = true;
       this.fetchAllSubjects();
     },
+    handleUpdateRgpd() {
+      this.updateUser({
+        id: this.userId,
+        data: this.rgpdCheckboxes,
+      })
+        .then(() => {
+          this.updateSuccess = true;
+        });
+    },
   },
   mounted() {
     this.getFollows(this.userId);
-    this.fetchUser(this.userId);
+    this.fetchUser(this.userId)
+      .then(() => {
+        this.rgpdCheckboxes.restricted = this.oneUser.restricted;
+        this.rgpdCheckboxes.contactable = this.oneUser.contactable;
+        this.rgpdCheckboxes.sharedWithPartners = this.oneUser.sharedWithPartners;
+      });
   },
 };
 </script>
