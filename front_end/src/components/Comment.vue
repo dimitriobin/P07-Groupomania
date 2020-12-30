@@ -26,40 +26,46 @@
         @submited="switchEdit()" />
     </b-col>
     <b-col
-      v-if="isAuthor()"
       cols="3"
       class="text-right">
-      <b-button
-        @click="switchEdit()"
-        variant="link"
-        class="text-dark">
-        <b-icon-pencil>
-        </b-icon-pencil>
-      </b-button>
-      <b-button
-        variant="link"
-        class="text-dark"
-        :id="'removeComment' + data.id">
-        <b-icon-x-circle>
-        </b-icon-x-circle>
-      </b-button>
-      <b-popover
-        :target="'removeComment' + data.id"
-        triggers="click"
-        placement="right"
-        :show.sync="showRemove">
-        <template #title>Etes vous sur de vouloir supprimer ce post ?</template>
-        <div class="d-flex justify-content-around align-items-center">
-          <b-button
-            variant="success"
-            class="w-25"
-            @click="handleDelete()">Oui</b-button>
-          <b-button
-            variant="danger"
-            class="w-25"
-            @click="showRemove = false">Non</b-button>
-        </div>
-      </b-popover>
+      <b-dropdown
+          variant="link"
+          toggle-class="text-decoration-none"
+          no-caret
+          dropright>
+          <template v-slot:button-content>
+              <b-icon
+                  icon="three-dots"
+                  variant="dark"
+                  class="mx-1 mx-lg-2"
+                  font-scale="2">
+              </b-icon>
+          </template>
+          <b-dropdown-item @click="$bvModal.show(`reportComment_${data.id}`)">
+            Signaler
+          </b-dropdown-item>
+          <b-modal
+            :id="`reportComment_${data.id}`"
+            title="Rapport de signalement"
+            hide-footer
+            centered
+            lazy>
+            <ReportForm
+              itemType="comment"
+              :itemId="data.id" />
+          </b-modal>
+          <b-dropdown-item
+              v-if="isAuthor()"
+              href="#"
+              @click="switchEdit()"
+              class="text-dark">
+              Editer
+          </b-dropdown-item>
+          <b-dropdown-item
+              v-if="isAuthor()"
+              href="#"
+              @click="handleDelete()">Supprimer</b-dropdown-item>
+      </b-dropdown>
     </b-col>
   </b-row>
 </template>
@@ -70,6 +76,7 @@ import fr from 'dayjs/locale/fr';
 import RelativeTime from 'dayjs/plugin/relativeTime';
 import { mapActions, mapGetters } from 'vuex';
 import CommentForm from '@/components/CommentForm.vue';
+import ReportForm from '@/components/ReportForm.vue';
 
 dayjs.extend(RelativeTime);
 dayjs.locale(fr);
@@ -81,6 +88,7 @@ export default {
   ],
   components: {
     CommentForm,
+    ReportForm,
   },
   data() {
     return {
