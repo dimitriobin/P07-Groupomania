@@ -58,6 +58,15 @@ const actions = {
         return Promise.reject(err.response.data);
       });
   },
+  createReport({ dispatch }, report) {
+    console.log(report);
+    return http.post('/users/report', report, { headers: authHeader() })
+      .then((res) => Promise.resolve(res))
+      .catch((err) => {
+        if (err.response.data === 'Please login') dispatch('logout');
+        return Promise.reject(err.response.data);
+      });
+  },
 };
 
 const mutations = {
