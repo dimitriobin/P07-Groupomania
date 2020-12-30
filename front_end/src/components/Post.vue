@@ -96,7 +96,19 @@
                                 font-scale="2">
                             </b-icon>
                         </template>
-                        <b-dropdown-item href="#">Signaler</b-dropdown-item>
+                        <b-dropdown-item @click="$bvModal.show(`reportPost_${post.id}`)">
+                          Signaler
+                        </b-dropdown-item>
+                        <b-modal
+                          :id="`reportPost_${post.id}`"
+                          title="Rapport de signalement"
+                          hide-footer
+                          centered
+                          lazy>
+                          <ReportForm
+                            itemType="post"
+                            :itemId="post.id" />
+                        </b-modal>
                         <b-dropdown-item
                             v-if="isAuthor()"
                             href="#"
@@ -153,6 +165,7 @@ import Subject from '@/components/Subject.vue';
 import PostForm from '@/components/PostForm.vue';
 import CommentForm from '@/components/CommentForm.vue';
 import Comment from '@/components/Comment.vue';
+import ReportForm from '@/components/ReportForm.vue';
 import { mapActions, mapGetters } from 'vuex';
 
 dayjs.extend(RelativeTime);
@@ -168,6 +181,7 @@ export default {
     PostForm,
     CommentForm,
     Comment,
+    ReportForm,
   },
   data() {
     return {
