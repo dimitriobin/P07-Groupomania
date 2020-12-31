@@ -16,7 +16,7 @@
           <b-nav-item to="/">
             <b-icon icon="house-door-fill" variant="dark" font-scale="1.5"></b-icon>
           </b-nav-item>
-          <b-nav-item>
+          <b-nav-item to="/chat">
             <b-icon icon="chat-dots" variant="dark" font-scale="1.5"></b-icon>
           </b-nav-item>
           <b-nav-item-dropdown
