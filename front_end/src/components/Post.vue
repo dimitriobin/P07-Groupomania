@@ -29,7 +29,7 @@
                 </b-row>
             </b-col>
             <b-col cols="12" class="my-3  text-left">
-                <h3 class="h4 font-weight-bold">
+                <h3 class="h4 font-weight-bold text-break">
                     {{ post.title }}
                 </h3>
                 <b-img

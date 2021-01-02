@@ -1,7 +1,7 @@
 <template>
-  <div id="app">
+  <div id="app" class="h-100">
     <Header v-if="isLogged" />
-    <b-container>
+    <b-container class="p-4 h-100">
       <router-view />
     </b-container>
   </div>
@@ -26,4 +26,14 @@ export default {
 </script>
 
 <style>
+#app {
+  box-sizing: border-box;
+  padding-top: 100px;
+}
+
+@media screen and (min-width: 576px) {
+  #app {
+    padding-top: 60px;
+  }
+}
 </style>
