@@ -13,6 +13,7 @@
     "bootstrap-vue": "^2.19.0",
     "core-js": "^3.6.5",
     "dayjs": "^1.9.7",
+    "socket.io-client": "^3.0.4",
     "vee-validate": "^3.4.5",
     "vue": "^2.6.11",
     "vue-observe-visibility": "^0.4.6",
@@ -59,7 +60,12 @@
       "no-console": "off",
       "camelcase": "off",
       "no-unneeded-ternary": "off",
-      "max-len": ["error", { "code": 150 }]
+      "max-len": [
+        "error",
+        {
+          "code": 150
+        }
+      ]
     }
   },
   "browserslist": [

@@ -3,19 +3,27 @@
     <p
       v-for="(message, index) in messages"
       :key="index"
-      class="bg-light px-4 py-2 rounded-pill">
-      {{ message.content }}
-      <br><span class="text-muted"><small>Il y'a 2 min</small></span>
+      class="d-flex flex-column justify-content-center align-items-start">
+        <span
+          :class="{ 'message-sent': message.sender.userId === userId }"
+          class="bg-light px-4 py-2 rounded-pill w-auto text-break mw-70">
+          {{ message.content }}
+        </span>
     </p>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   name: 'ChatMessages',
   props: [
     'messages',
   ],
+  computed: {
+    ...mapGetters(['userId']),
+  },
 };
 </script>
 
@@ -24,5 +32,16 @@ export default {
   height: 100%;
   overflow-x: hidden;
   overflow-y: scroll;
+}
+
+.message-sent {
+  text-align: right;
+  background: rgba(0, 179, 217, 0.1) !important;
+  width: auto !important;
+  align-self: flex-end;
+}
+
+.mw-70 {
+  max-width: 70%;
 }
 </style>
