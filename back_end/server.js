@@ -83,9 +83,10 @@ io.on('connection', socket => {
     io.emit('onelineUsers', users);
 
     socket.on('privateMessage', msg => {
-        console.log(msg);
-        io
-            .to(msg.receiver.socketId)
+        // add the message to the database's table
+        // if (msg.receiver.socketId) {emit the event to both receiver and sender}
+        // else {emit only to the sender }
+        io.to(msg.receiver.socketId)
             .to(socket.id)
             .emit('privateMessage', {
                 ...msg,

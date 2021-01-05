@@ -9,6 +9,7 @@
           class="bg-light px-4 py-2 rounded-pill w-auto text-break mw-70">
           {{ message.content }}
         </span>
+        <span class="align-self-center text-muted"><small>{{ message.date }}</small></span>
     </p>
   </div>
 </template>

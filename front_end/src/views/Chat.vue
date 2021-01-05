@@ -15,13 +15,22 @@
             font-scale="1.5">
           </b-icon-pencil-square>
         </b-button>
-        <b-modal id="onlineUsers" title="Choisissez un collègue" hide-footer>
+        <b-modal
+          id="onlineUsers"
+          title="Choisissez un collègue"
+          hide-footer
+          centered
+          scrollable
+          content-class="h-100">
           <!-- online users -->
           <ChatUser
-            :users="users"
+            v-if="allOnlineUsers.length"
             @selectedReceiver="openPrivateChat($event)" />
+          <p v-else>Aucun collègue n'est en ligne actuellement</p>
         </b-modal>
+      <!-- Conversations overview -->
       </div>
+      <ChatConversations />
     </b-col>
     <!-- chat section -->
     <b-col
@@ -44,7 +53,7 @@
         </b-avatar>
         <h2 class="h5 m-0">{{ getReceiver.user_name }}</h2>
       </div>
-      <ChatMessages :messages="getMessages" />
+      <ChatMessages :messages="getConversation" />
       <!-- form message -->
       <form
         @submit="sendMessage($event)"
@@ -63,7 +72,7 @@
       <h5>Vos messages</h5>
       <p>Envoyez des messages privés à vos collègues </p>
       <b-button
-        @click="showConversation = true"
+        @click="$bvModal.show('onlineUsers')"
         variant="info"
         pill>
         Envoyer un nouveau message
@@ -75,23 +84,29 @@
 <script>
 import ChatUser from '@/components/Chat/ChatUser.vue';
 import ChatMessages from '@/components/Chat/ChatMessages.vue';
+import ChatConversations from '@/components/Chat/ChatConversations.vue';
 import { io } from 'socket.io-client';
 import { mapActions, mapGetters } from 'vuex';
+import dayjs from 'dayjs';
+import fr from 'dayjs/locale/fr';
+import LocalizedFormat from 'dayjs/plugin/localizedFormat';
+
+dayjs.extend(LocalizedFormat);
+dayjs.locale(fr);
 
 export default {
   name: 'Chat',
   components: {
     ChatUser,
     ChatMessages,
+    ChatConversations,
   },
   data() {
     return {
       showConversation: false,
       conversations: [],
-      users: '',
       receiver: '',
       message: '',
-      messages: [],
     };
   },
   computed: {
@@ -99,6 +114,8 @@ export default {
       'userId',
       'oneUser',
       'allUsers',
+      'allOnlineUsers',
+      'allMessages',
     ]),
     socket() {
       return io('http://localhost:3000', { query: `userId=${this.userId}` });
@@ -106,18 +123,20 @@ export default {
     getReceiver() {
       return this.allUsers.filter((user) => user.id === this.receiver.userId)[0];
     },
-    getMessages() {
+    getConversation() {
       /* eslint max-len: "off" */
-      return this.messages.filter((message) => (message.sender.userId === this.receiver.userId) || (message.sender.userId === this.userId && message.receiver.userId === this.receiver.userId));
+      return this.allMessages.filter((message) => (message.sender.userId === this.receiver.userId) || (message.sender.userId === this.userId && message.receiver.userId === this.receiver.userId));
     },
   },
   methods: {
     ...mapActions([
       'fetchUser',
       'fetchAllUsers',
+      'getOnlineUsers',
+      'addMessage',
     ]),
     openPrivateChat(e) {
-      this.receiver = e;
+      [this.receiver] = this.allOnlineUsers.filter((user) => user.userId === e.id);
       this.showConversation = true;
       this.$bvModal.hide('onlineUsers');
     },
@@ -134,15 +153,18 @@ export default {
     this.fetchUser(this.userId);
     this.fetchAllUsers();
     this.socket.on('onelineUsers', (users) => {
-      this.users = users.filter((user) => user.userId !== this.userId);
+      const onlineUsers = users.filter((user) => user.userId !== this.userId);
+      this.getOnlineUsers(onlineUsers);
     });
     this.socket.on('privateMessage', (msg) => {
-      this.messages.push({
+      this.addMessage({
         ...msg,
         sender: {
           userId: msg.sender.userId,
           socketId: msg.sender.socketId,
         },
+        read: false,
+        date: dayjs().format('LLL'),
       });
     });
   },

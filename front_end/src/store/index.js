@@ -5,6 +5,7 @@ import Auth from './modules/auth';
 import User from './modules/users';
 import Subject from './modules/subjects';
 import Comment from './modules/comments';
+import Chat from './modules/chat';
 
 Vue.use(Vuex);
 
@@ -21,5 +22,6 @@ export default new Vuex.Store({
     User,
     Subject,
     Comment,
+    Chat,
   },
 });

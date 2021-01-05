@@ -1,19 +1,21 @@
 <template>
-<b-list-group id="conversationsList" class="flex-grow-1">
+<b-list-group
+  id="onlineUsersList">
   <b-list-group-item
-    v-for="(user, index) in users"
+    v-for="(user, index) in allOtherUsers"
     :key="index"
     href="#"
-    :class="{ 'active': user.userId === selectedUser }"
     class="border-0 rounded-pill text-dark d-flex justify-content-start align-items-center"
-    @click="handleClick(user)">
+    @click="$emit('selectedReceiver', user)">
     <b-avatar
-      :src="getUser(user.userId).image_url"
+      :badge="isOnline(user.id)"
+      badge-variant="success"
+      :src="user.image_url"
       size="3.5rem"
       class="mr-3">
     </b-avatar>
     <div>
-      <p class="m-0 h5">{{ getUser(user.userId).user_name }}</p>
+      <p class="m-0 h5">{{ user.user_name }}</p>
     </div>
   </b-list-group-item>
 </b-list-group>
@@ -24,34 +26,27 @@ import { mapGetters } from 'vuex';
 
 export default {
   name: 'ChatUser',
-  props: [
-    'users',
-  ],
-  data() {
-    return {
-      selectedUser: '',
-    };
-  },
   computed: {
     ...mapGetters([
       'userId',
       'allUsers',
+      'allOnlineUsers',
     ]),
+    allOtherUsers() {
+      return this.allUsers.filter((user) => user.id !== this.userId);
+    },
   },
   methods: {
-    getUser(id) {
-      return this.allUsers.filter((user) => user.id === id)[0];
-    },
-    handleClick(user) {
-      this.selectedUser = user.userId;
-      this.$emit('selectedReceiver', user);
+    isOnline(userId) {
+      const compare = this.allOnlineUsers.filter((user) => (user.userId === userId));
+      return compare.length > 0;
     },
   },
 };
 </script>
 
 <style scoped>
-#conversationsList {
+#onlineUsersList {
   overflow-x: hidden;
   overflow-y: auto;
   box-sizing: border-box;
