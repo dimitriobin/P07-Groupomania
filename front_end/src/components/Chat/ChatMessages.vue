@@ -5,11 +5,11 @@
       :key="index"
       class="d-flex flex-column justify-content-center align-items-start">
         <span
-          :class="{ 'message-sent': message.sender.userId === userId }"
+          :class="{ 'message-sent': message.sender_id === userId }"
           class="bg-light px-4 py-2 rounded-pill w-auto text-break mw-70">
           {{ message.content }}
         </span>
-        <span class="align-self-center text-muted"><small>{{ message.date }}</small></span>
+        <span class="align-self-center text-muted"><small>{{ message.createdAt }}</small></span>
     </p>
   </div>
 </template>

@@ -1,5 +1,5 @@
-// import http from '../../http-common';
-// import authHeader from '../../services/auth-header';
+import http from '../../http-common';
+import authHeader from '../../services/auth-header';
 
 const state = () => ({
   onlineUsers: '',
@@ -15,8 +15,20 @@ const actions = {
   getOnlineUsers({ commit }, users) {
     commit('setOnlineUsers', users);
   },
-  addMessage({ commit }, message) {
-    commit('addNewMessage', message);
+  addMessage({ commit, dispatch }, data) {
+    return http.post('/messages', data, { headers: authHeader() })
+      .then((res) => {
+        console.log(res.data);
+        commit('addNewMessage', res.data);
+        return Promise.resolve(res.data);
+      })
+      .catch((err) => {
+        if (err.response.data === 'Please login') dispatch('logout');
+        return Promise.reject(err.response.data.error.errors[0].message);
+      });
+  },
+  displayMessage({ commit }, msg) {
+    commit('addNewMessage', msg);
   },
   fetchMessages({ commit }, userId) {
     const ajaxRequest = userId;

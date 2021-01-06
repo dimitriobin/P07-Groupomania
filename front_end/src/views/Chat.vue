@@ -125,7 +125,7 @@ export default {
     },
     getConversation() {
       /* eslint max-len: "off" */
-      return this.allMessages.filter((message) => (message.sender.userId === this.receiver.userId) || (message.sender.userId === this.userId && message.receiver.userId === this.receiver.userId));
+      return this.allMessages.filter((message) => (message.sender_id === this.receiver.userId) || (message.sender_id === this.userId && message.receiver_id === this.receiver.userId));
     },
   },
   methods: {
@@ -134,6 +134,7 @@ export default {
       'fetchAllUsers',
       'getOnlineUsers',
       'addMessage',
+      'displayMessage',
     ]),
     openPrivateChat(e) {
       [this.receiver] = this.allOnlineUsers.filter((user) => user.userId === e.id);
@@ -142,10 +143,15 @@ export default {
     },
     sendMessage(e) {
       e.preventDefault();
-      this.socket.emit('privateMessage', {
-        receiver: this.receiver,
+      const messageObject = {
+        receiver_id: this.receiver.userId,
+        sender_id: this.userId,
         content: this.message,
-      });
+      };
+      this.addMessage(messageObject)
+        .then((res) => {
+          this.socket.emit('privateMessage', res);
+        });
       this.message = '';
     },
   },
@@ -157,15 +163,7 @@ export default {
       this.getOnlineUsers(onlineUsers);
     });
     this.socket.on('privateMessage', (msg) => {
-      this.addMessage({
-        ...msg,
-        sender: {
-          userId: msg.sender.userId,
-          socketId: msg.sender.socketId,
-        },
-        read: false,
-        date: dayjs().format('LLL'),
-      });
+      this.displayMessage(msg);
     });
   },
 };

@@ -16,17 +16,10 @@ exports.socketConfig = (io) => {
     io.emit('onelineUsers', users);
 
     socket.on('privateMessage', msg => {
-        // add the message to the database's table
-        // if (msg.receiver.socketId) {emit the event to both receiver and sender}
-        // else {emit only to the sender }
-        io.to(msg.receiver.socketId)
-            .to(socket.id)
-            .emit('privateMessage', {
-                ...msg,
-                sender: users.filter(user => user.socketId === socket.id)[0]
-            }
-        )
-    })
+        const { socketId } = users.filter(user => user.userId === msg.receiver_id)[0];
+        console.log(socketId);
+        io.to(socketId).emit('privateMessage', msg)
+    });
 
     //Leave the room if the user closes the socket
     socket.on('disconnect', () => {
