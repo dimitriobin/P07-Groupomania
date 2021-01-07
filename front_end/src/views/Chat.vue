@@ -4,7 +4,7 @@
     <b-col
       cols="12"
       lg="4"
-      :class="{'d-none d-lg-flex': showConversation, 'd-flex': !showConversation}"
+      :class="{'d-none d-lg-flex': currentConversation, 'd-flex': !currentConversation}"
       class="h-100 border-right flex-column justify-content-between">
       <!-- users header -->
       <div class="d-flex justify-content-between align-items-center p-2">
@@ -23,10 +23,8 @@
           scrollable
           content-class="h-100">
           <!-- online users -->
-          <ChatUser
-            v-if="allOnlineUsers.length"
-            @selectedReceiver="openPrivateChat($event)" />
-          <p v-else>Aucun collègue n'est en ligne actuellement</p>
+          <ChatUser @selected="createConversation($event)"/>
+          <!-- <p v-else>Aucun collègue n'est en ligne actuellement</p> -->
         </b-modal>
       <!-- Conversations overview -->
       </div>
@@ -34,7 +32,7 @@
     </b-col>
     <!-- chat section -->
     <b-col
-      v-if="showConversation"
+      v-if="currentConversation"
       class="h-100 d-flex flex-column justify-content-between align-items-stretch">
       <!-- chat header -->
       <div
@@ -42,18 +40,18 @@
         <b-icon-arrow-left
           font-scale="1.5"
           class="mr-3 d-lg-none"
-          @click="showConversation = false">
+          @click="resetCurrentConversation()">
         </b-icon-arrow-left>
         <b-avatar
           badge
           badge-variant="success"
-          :src="getReceiver.image_url"
+          :src="receiverData.image_url"
           size="2.5rem"
           class="mr-3">
         </b-avatar>
-        <h2 class="h5 m-0">{{ getReceiver.user_name }}</h2>
+        <h2 class="h5 m-0">{{ receiverData.user_name }}</h2>
       </div>
-      <ChatMessages :messages="getConversation" />
+      <ChatMessages />
       <!-- form message -->
       <form
         @submit="sendMessage($event)"
@@ -103,8 +101,6 @@ export default {
   },
   data() {
     return {
-      showConversation: false,
-      conversations: [],
       receiver: '',
       message: '',
     };
@@ -116,16 +112,13 @@ export default {
       'allUsers',
       'allOnlineUsers',
       'allMessages',
+      'currentConversation',
     ]),
     socket() {
       return io('http://localhost:3000', { query: `userId=${this.userId}` });
     },
-    getReceiver() {
-      return this.allUsers.filter((user) => user.id === this.receiver.userId)[0];
-    },
-    getConversation() {
-      /* eslint max-len: "off" */
-      return this.allMessages.filter((message) => (message.sender_id === this.receiver.userId) || (message.sender_id === this.userId && message.receiver_id === this.receiver.userId));
+    receiverData() {
+      return this.currentConversation.userOneId === this.userId ? this.currentConversation.userTwo : this.currentConversation.userOne;
     },
   },
   methods: {
@@ -135,11 +128,17 @@ export default {
       'getOnlineUsers',
       'addMessage',
       'displayMessage',
+      'addConversation',
+      'resetCurrentConversation',
     ]),
-    openPrivateChat(e) {
-      [this.receiver] = this.allOnlineUsers.filter((user) => user.userId === e.id);
+    createConversation(e) {
+      this.receiver = e;
       this.showConversation = true;
       this.$bvModal.hide('onlineUsers');
+      this.addConversation({
+        userOneId: this.receiver,
+        userTwoId: this.userId,
+      });
     },
     sendMessage(e) {
       e.preventDefault();

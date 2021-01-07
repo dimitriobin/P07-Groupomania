@@ -18,7 +18,7 @@ const usersRoute = require('./routes/users');
 const postsRoute = require('./routes/posts');
 const commentsRoute = require('./routes/comments');
 const subjectsRoute = require('./routes/subjects');
-const messagesRoute = require('./routes/messages');
+const conversationsRoute = require('./routes/conversations');
 
 const app = express();
 
@@ -109,7 +109,7 @@ const rateLimiter = rateLimit({
     max: 200 // limit each IP to 200 requests per windowMs
 });
 
-const messagesRateLimiter = rateLimit({
+const conversationsRateLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
     max: 500 // limit each IP to 200 requests per windowMs
 });
@@ -124,7 +124,7 @@ const speedLimiter = slowDown({
     delayMs: 500 // begin adding 500ms of delay per request above 100:
 });
 
-const messagesSpeedLimiter = slowDown({
+const conversationsSpeedLimiter = slowDown({
     windowMs: 30 * 1000, // 30 sec
     delayAfter: 100, // allow 100 requests per 30 seconds, then...
     delayMs: 500 // begin adding 500ms of delay per request above 100:
@@ -147,6 +147,6 @@ app.use('/api/users', rateLimiter, speedLimiter, usersRoute);
 app.use('/api/comments', rateLimiter, speedLimiter, commentsRoute);
 app.use('/api/posts', rateLimiter, speedLimiter, postsRoute);
 app.use('/api/subjects', rateLimiter, speedLimiter, subjectsRoute);
-app.use('/api/messages', messagesRateLimiter, messagesSpeedLimiter, messagesRoute);
+app.use('/api/conversations', conversationsRateLimiter, conversationsSpeedLimiter, conversationsRoute);
 
 module.exports = app;

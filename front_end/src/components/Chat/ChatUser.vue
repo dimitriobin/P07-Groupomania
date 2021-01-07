@@ -6,7 +6,7 @@
     :key="index"
     href="#"
     class="border-0 rounded-pill text-dark d-flex justify-content-start align-items-center"
-    @click="$emit('selectedReceiver', user)">
+    @click="$emit('selected', user.id)">
     <b-avatar
       :badge="isOnline(user.id)"
       badge-variant="success"

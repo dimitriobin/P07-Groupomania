@@ -1,11 +1,11 @@
 <template>
   <div id="chatMessages" class="px-4 pt-0">
     <p
-      v-for="(message, index) in messages"
+      v-for="(message, index) in currentConversation.Messages"
       :key="index"
       class="d-flex flex-column justify-content-center align-items-start">
         <span
-          :class="{ 'message-sent': message.sender_id === userId }"
+          :class="{ 'message-sent': message.userId === userId }"
           class="bg-light px-4 py-2 rounded-pill w-auto text-break mw-70">
           {{ message.content }}
         </span>
@@ -19,11 +19,11 @@ import { mapGetters } from 'vuex';
 
 export default {
   name: 'ChatMessages',
-  props: [
-    'messages',
-  ],
   computed: {
-    ...mapGetters(['userId']),
+    ...mapGetters([
+      'userId',
+      'currentConversation',
+    ]),
   },
 };
 </script>
