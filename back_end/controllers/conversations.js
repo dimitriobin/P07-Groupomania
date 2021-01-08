@@ -112,3 +112,25 @@ exports.readOneConversation = (req, res) => {
   })
   .catch(error => res.status(500).json({ error }));
 };
+
+exports.updateMessage = (req, res) => {
+  Message.findByPk(Number.parseInt(req.params.id))
+  .then(message => {
+    console.log(message);
+    if(!message) return res.status(404).send('Message not found');
+    Message.update({
+      ...req.body
+    }, {
+      where: {
+        id: message.id
+      }
+    })
+    .then(() => {
+      Message.findByPk(Number.parseInt(req.params.id))
+      .then(message => res.status(200).json(message))
+      .catch(error => res.status(500).json({ error }));
+    })
+    .catch(error => res.status(500).json({ error }));
+  })
+  .catch(error => res.status(500).json({ error }));
+};

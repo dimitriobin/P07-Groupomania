@@ -5,11 +5,9 @@ const state = () => ({
   onlineUsers: [],
   conversations: [],
   currentConversation: '',
-  messages: [],
 });
 
 const getters = {
-  allMessages: (state) => state.messages,
   allOnlineUsers: (state) => state.onlineUsers,
   allConversations: (state) => state.conversations,
   currentConversation: (state) => state.currentConversation,
@@ -23,6 +21,7 @@ const actions = {
     return http.post(`/conversations/${state.currentConversation.id}/message`, message, { headers: authHeader() })
       .then((res) => {
         commit('addNewMessage', res.data);
+        commit('updateConversations', res.data);
         return Promise.resolve(res.data);
       })
       .catch((err) => {
@@ -69,10 +68,34 @@ const actions = {
         return Promise.reject(err.response.data.error.errors[0].message);
       });
   },
+  updateMessage({ commit, dispatch }, message) {
+    return http.put(`/conversations/message/${message.id}`, message.modifications, { headers: authHeader() })
+      .then((res) => {
+        console.log(res.data);
+        commit('replaceMessage', res.data);
+        commit('updateConversations', res.data);
+        return Promise.resolve(res.data);
+      })
+      .catch((err) => {
+        if (err.response.data === 'Please login') dispatch('logout');
+        return Promise.reject(err.response.data.error.errors[0].message);
+      });
+  },
   resetCurrentConversation({ commit }) {
     commit('resetCurrentConversation');
   },
-  displayMessage({ commit }, msg) {
+  displayMessage({ commit, state, dispatch }, msg) {
+    console.log(msg);
+    if (state.currentConversation.id === msg.res.conversationId) {
+      dispatch('updateMessage', {
+        id: msg.res.id,
+        modifications: {
+          read: true,
+        },
+      });
+    } else {
+      commit('updateConversations', msg.res);
+    }
     commit('addNewMessage', msg.res);
   },
 };
@@ -91,7 +114,20 @@ const mutations = {
     state.conversations.push(conversation);
   },
   addNewMessage(state, message) {
-    state.currentConversation.Messages.push(message);
+    if (message.conversationId === state.currentConversation.id) {
+      state.currentConversation.Messages.push(message);
+    }
+  },
+  replaceMessage(state, newMessage) {
+    if (newMessage.conversationId === state.currentConversation.id) {
+      state.currentConversation.Messages.forEach((message, index) => {
+        if (message.id === newMessage.id) {
+          state.currentConversation.Messages.splice(index, 1, newMessage);
+        }
+      });
+    }
+  },
+  updateConversations(state, message) {
     state.conversations.forEach((conv) => {
       if (conv.id === message.conversationId) {
         conv.Messages.splice(0, 1, message);

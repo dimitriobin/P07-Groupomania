@@ -102,13 +102,26 @@ export default {
       message: '',
     };
   },
+  watch: {
+    currentConversation() {
+      this.currentConversation.Messages.forEach((message) => {
+        if (!message.read) {
+          this.updateMessage({
+            id: message.id,
+            modifications: {
+              read: true,
+            },
+          });
+        }
+      });
+    },
+  },
   computed: {
     ...mapGetters([
       'userId',
       'oneUser',
       'allUsers',
       'allOnlineUsers',
-      'allMessages',
       'currentConversation',
     ]),
     socket() {
@@ -127,6 +140,7 @@ export default {
       'displayMessage',
       'addConversation',
       'resetCurrentConversation',
+      'updateMessage',
     ]),
     createConversation(e) {
       this.$bvModal.hide('onlineUsers');

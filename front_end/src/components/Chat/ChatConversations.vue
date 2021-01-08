@@ -23,7 +23,7 @@
       </p>
     </div>
     <b-icon-circle-fill
-      v-if="conversation.Messages.length && !conversation.Messages[0].read"
+      v-if="conversation.Messages.length && !conversation.Messages[0].read && conversation.Messages[0].userId !== userId"
       font-scale="1"
       class="ml-auto text-info">
     </b-icon-circle-fill>

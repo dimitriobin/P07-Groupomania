@@ -2,7 +2,12 @@
 const router = require('express').Router();
 const auth = require('../middlewares/auth')
 
-const { createConversation, createMessage, readAllConversations, readOneConversation } = require ('../controllers/conversations');
+const {
+  createConversation,
+  createMessage,
+  readAllConversations,
+  readOneConversation,
+  updateMessage } = require ('../controllers/conversations');
 
 
 /////////////////////////////////////////////
@@ -24,5 +29,11 @@ router.get('/', auth, readAllConversations);
 // READ ONE conversation
 /////////////////////////////////////////////
 router.get('/:id', auth, readOneConversation);
+
+/////////////////////////////////////////////
+// UPDATE ONE message
+/////////////////////////////////////////////
+router.put('/message/:id', auth, updateMessage);
+
 
 module.exports = router;
