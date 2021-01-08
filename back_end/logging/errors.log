@@ -2275,3 +2275,6 @@
 ::1 - - [08/Jan/2021:14:28:32 +0000] "PUT /api/conversations/messages/47 HTTP/1.1" 404 168
 ::1 - - [08/Jan/2021:14:28:32 +0000] "PUT /api/conversations/messages/49 HTTP/1.1" 404 168
 ::1 - - [08/Jan/2021:15:08:30 +0000] "PUT /api/conversations/message/undefined HTTP/1.1" 500 742
+::1 - - [08/Jan/2021:15:42:29 +0000] "GET /api/conversations HTTP/1.1" 401 12
+::1 - - [08/Jan/2021:15:42:29 +0000] "GET /api/users/32 HTTP/1.1" 401 12
+::1 - - [08/Jan/2021:15:42:29 +0000] "GET /api/users HTTP/1.1" 401 12

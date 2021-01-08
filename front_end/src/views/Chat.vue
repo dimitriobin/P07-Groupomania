@@ -104,16 +104,18 @@ export default {
   },
   watch: {
     currentConversation() {
-      this.currentConversation.Messages.forEach((message) => {
-        if (!message.read) {
-          this.updateMessage({
-            id: message.id,
-            modifications: {
-              read: true,
-            },
-          });
-        }
-      });
+      if (this.currentConversation !== '') {
+        this.currentConversation.Messages.forEach((message) => {
+          if (!message.read) {
+            this.updateMessage({
+              id: message.id,
+              modifications: {
+                read: true,
+              },
+            });
+          }
+        });
+      }
     },
   },
   computed: {
@@ -141,13 +143,17 @@ export default {
       'addConversation',
       'resetCurrentConversation',
       'updateMessage',
+      'displayConversation',
     ]),
     createConversation(e) {
       this.$bvModal.hide('onlineUsers');
       this.addConversation({
         userOneId: e,
         userTwoId: this.userId,
-      });
+      })
+        .then((conversation) => {
+          this.socket.emit('newConversation', { toUser: e, conversation });
+        });
     },
     sendMessage(e) {
       e.preventDefault();
@@ -164,10 +170,16 @@ export default {
   mounted() {
     this.fetchUser(this.userId);
     this.fetchAllUsers();
+    // Listen to online users
     this.socket.on('onelineUsers', (users) => {
       const onlineUsers = users.filter((user) => user.userId !== this.userId);
       this.getOnlineUsers(onlineUsers);
     });
+    // Listen to new conversations
+    this.socket.on('newConversation', (conversation) => {
+      this.displayConversation(conversation);
+    });
+    // Listen to private Messages
     this.socket.on('privateMessage', (msg) => {
       this.displayMessage(msg);
     });

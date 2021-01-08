@@ -33,7 +33,7 @@ const actions = {
     return http.post('/conversations', conversation, { headers: authHeader() })
       .then((res) => {
         commit('addNewConversation', res.data);
-        commit('setCurrentConversation', res.data.id);
+        commit('setCurrentConversation', res.data);
         return Promise.resolve(res.data);
       })
       .catch((err) => {
@@ -71,7 +71,6 @@ const actions = {
   updateMessage({ commit, dispatch }, message) {
     return http.put(`/conversations/message/${message.id}`, message.modifications, { headers: authHeader() })
       .then((res) => {
-        console.log(res.data);
         commit('replaceMessage', res.data);
         commit('updateConversations', res.data);
         return Promise.resolve(res.data);
@@ -85,7 +84,6 @@ const actions = {
     commit('resetCurrentConversation');
   },
   displayMessage({ commit, state, dispatch }, msg) {
-    console.log(msg);
     if (state.currentConversation.id === msg.res.conversationId) {
       dispatch('updateMessage', {
         id: msg.res.id,
@@ -97,6 +95,9 @@ const actions = {
       commit('updateConversations', msg.res);
     }
     commit('addNewMessage', msg.res);
+  },
+  displayConversation({ commit }, conversation) {
+    commit('addNewConversation', conversation);
   },
 };
 
@@ -135,7 +136,7 @@ const mutations = {
     });
   },
   resetCurrentConversation(state) {
-    state.currentConversation = null;
+    state.currentConversation = '';
   },
 };
 
