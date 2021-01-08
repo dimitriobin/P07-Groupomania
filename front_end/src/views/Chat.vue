@@ -37,19 +37,23 @@
       <!-- chat header -->
       <div
         class="p-3 d-flex align-items-center">
-        <b-icon-arrow-left
-          font-scale="1.5"
-          class="mr-3 d-lg-none"
-          @click="resetCurrentConversation()">
-        </b-icon-arrow-left>
+        <b-button
+          variant="link"
+          class="text-dark">
+          <b-icon-arrow-left
+            font-scale="1.5"
+            class="mr-3 d-lg-none"
+            @click="resetCurrentConversation()">
+          </b-icon-arrow-left>
+        </b-button>
         <b-avatar
           badge
           badge-variant="success"
-          :src="receiverData.image_url"
+          :src="receiver.image_url"
           size="2.5rem"
           class="mr-3">
         </b-avatar>
-        <h2 class="h5 m-0">{{ receiverData.user_name }}</h2>
+        <h2 class="h5 m-0">{{ receiver.user_name }}</h2>
       </div>
       <ChatMessages />
       <!-- form message -->
@@ -85,12 +89,6 @@ import ChatMessages from '@/components/Chat/ChatMessages.vue';
 import ChatConversations from '@/components/Chat/ChatConversations.vue';
 import { io } from 'socket.io-client';
 import { mapActions, mapGetters } from 'vuex';
-import dayjs from 'dayjs';
-import fr from 'dayjs/locale/fr';
-import LocalizedFormat from 'dayjs/plugin/localizedFormat';
-
-dayjs.extend(LocalizedFormat);
-dayjs.locale(fr);
 
 export default {
   name: 'Chat',
@@ -101,7 +99,6 @@ export default {
   },
   data() {
     return {
-      receiver: '',
       message: '',
     };
   },
@@ -117,7 +114,7 @@ export default {
     socket() {
       return io('http://localhost:3000', { query: `userId=${this.userId}` });
     },
-    receiverData() {
+    receiver() {
       return this.currentConversation.userOneId === this.userId ? this.currentConversation.userTwo : this.currentConversation.userOne;
     },
   },
@@ -132,24 +129,20 @@ export default {
       'resetCurrentConversation',
     ]),
     createConversation(e) {
-      this.receiver = e;
-      this.showConversation = true;
       this.$bvModal.hide('onlineUsers');
       this.addConversation({
-        userOneId: this.receiver,
+        userOneId: e,
         userTwoId: this.userId,
       });
     },
     sendMessage(e) {
       e.preventDefault();
       const messageObject = {
-        receiver_id: this.receiver.userId,
-        sender_id: this.userId,
         content: this.message,
       };
       this.addMessage(messageObject)
         .then((res) => {
-          this.socket.emit('privateMessage', res);
+          this.socket.emit('privateMessage', { res, toUser: this.receiver.id });
         });
       this.message = '';
     },

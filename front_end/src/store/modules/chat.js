@@ -2,7 +2,7 @@ import http from '../../http-common';
 import authHeader from '../../services/auth-header';
 
 const state = () => ({
-  onlineUsers: '',
+  onlineUsers: [],
   conversations: [],
   currentConversation: '',
   messages: [],
@@ -19,10 +19,9 @@ const actions = {
   getOnlineUsers({ commit }, users) {
     commit('setOnlineUsers', users);
   },
-  addMessage({ commit, dispatch }, data) {
-    return http.post('/chat/messages', data, { headers: authHeader() })
+  addMessage({ commit, state, dispatch }, message) {
+    return http.post(`/conversations/${state.currentConversation.id}/message`, message, { headers: authHeader() })
       .then((res) => {
-        console.log(res.data);
         commit('addNewMessage', res.data);
         return Promise.resolve(res.data);
       })
@@ -34,7 +33,6 @@ const actions = {
   addConversation({ commit, dispatch }, conversation) {
     return http.post('/conversations', conversation, { headers: authHeader() })
       .then((res) => {
-        console.log(res.data);
         commit('addNewConversation', res.data);
         commit('setCurrentConversation', res.data.id);
         return Promise.resolve(res.data);
@@ -61,10 +59,8 @@ const actions = {
       });
   },
   fetchConversation({ commit, dispatch }, conversationId) {
-    console.log(conversationId);
     return http.get(`/conversations/${conversationId}`, { headers: authHeader() })
       .then((res) => {
-        console.log(res.data);
         commit('setCurrentConversation', res.data);
         return Promise.resolve(res.data);
       })
@@ -77,11 +73,7 @@ const actions = {
     commit('resetCurrentConversation');
   },
   displayMessage({ commit }, msg) {
-    commit('addNewMessage', msg);
-  },
-  fetchMessages({ commit }, userId) {
-    const ajaxRequest = userId;
-    commit('setMessages', ajaxRequest);
+    commit('addNewMessage', msg.res);
   },
 };
 
@@ -99,10 +91,12 @@ const mutations = {
     state.conversations.push(conversation);
   },
   addNewMessage(state, message) {
-    state.messages.push(message);
-  },
-  setMessages(state, messages) {
-    state.messages = messages;
+    state.currentConversation.Messages.push(message);
+    state.conversations.forEach((conv) => {
+      if (conv.id === message.conversationId) {
+        conv.Messages.splice(0, 1, message);
+      }
+    });
   },
   resetCurrentConversation(state) {
     state.currentConversation = null;

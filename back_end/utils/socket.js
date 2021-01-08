@@ -16,9 +16,15 @@ exports.socketConfig = (io) => {
     io.emit('onelineUsers', users);
 
     socket.on('privateMessage', msg => {
-        const { socketId } = users.filter(user => user.userId === msg.receiver_id)[0];
-        console.log(socketId);
-        io.to(socketId).emit('privateMessage', msg)
+      console.log(users);
+      let socketId = '';
+      const isConnected = users.filter(user => user.userId === msg.toUser).length;
+      if (isConnected) {
+        socketId = users.filter(user => user.userId === msg.toUser)[0].socketId;
+      } else {
+        console.log('This user is not connected');
+      }
+      io.to(socketId).emit('privateMessage', msg)
     });
 
     //Leave the room if the user closes the socket

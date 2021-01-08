@@ -60,13 +60,27 @@ exports.createConversation = (req, res) => {
   .catch(error => res.status(500).json({ error }));
 };
 
+exports.createMessage = (req, res) => {
+  Conversation.findOne({ where: { id: req.params.id } })
+  .then(conversation => {
+    if (!conversation) return res.status(404).send('Conversation not found');
+    Message.create({
+      userId: getUserId(req.headers.authorization),
+      conversationId: Number.parseInt(req.params.id),
+      ...req.body
+    })
+    .then(createdMessage => res.status(201).json(createdMessage))
+    .catch(error => res.status(500).json({ error }));
+  })
+  .catch(error => res.status(500).json({ error }));
+};
 
 exports.readAllConversations = (req, res) => {
   Conversation.findAll({
     include: [
-      {model: User, as: 'userOne', attributes: ['user_name', 'image_url']},
-      {model: User, as: 'userTwo', attributes: ['user_name', 'image_url']},
-      {model: Message}
+      {model: User, as: 'userOne', attributes: ['user_name', 'image_url', 'id']},
+      {model: User, as: 'userTwo', attributes: ['user_name', 'image_url', 'id']},
+      {model: Message, limit: 1, order: [ ['createdAt', 'DESC'] ]}
     ],
     where: {
       [Op.or]: [
@@ -86,8 +100,8 @@ exports.readAllConversations = (req, res) => {
 exports.readOneConversation = (req, res) => {
   Conversation.findOne({
     include: [
-      {model: User, as: 'userOne', attributes: ['user_name', 'image_url']},
-      {model: User, as: 'userTwo', attributes: ['user_name', 'image_url']},
+      {model: User, as: 'userOne', attributes: ['user_name', 'image_url', 'id']},
+      {model: User, as: 'userTwo', attributes: ['user_name', 'image_url', 'id']},
       {model: Message}
     ],
     where: { id: req.params.id }

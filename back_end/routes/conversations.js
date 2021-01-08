@@ -2,13 +2,18 @@
 const router = require('express').Router();
 const auth = require('../middlewares/auth')
 
-const { createConversation, readAllConversations, readOneConversation } = require ('../controllers/conversations');
+const { createConversation, createMessage, readAllConversations, readOneConversation } = require ('../controllers/conversations');
 
 
 /////////////////////////////////////////////
 // CREATE ONE conversation
 /////////////////////////////////////////////
 router.post('/', auth, createConversation);
+
+/////////////////////////////////////////////
+// CREATE ONE message
+/////////////////////////////////////////////
+router.post('/:id/message', auth, createMessage);
 
 /////////////////////////////////////////////
 // READ ALL conversations for one user
