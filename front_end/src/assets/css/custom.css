@@ -1,6 +1,11 @@
+html {
+    height: 100%;
+}
+
 body {
     text-align: center;
     background: #F9F9F9;
+    height: 100%;
 }
 
 a,

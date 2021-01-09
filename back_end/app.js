@@ -3,7 +3,6 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 
-const { Sequelize } = require('sequelize');
 const morgan = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -19,6 +18,7 @@ const usersRoute = require('./routes/users');
 const postsRoute = require('./routes/posts');
 const commentsRoute = require('./routes/comments');
 const subjectsRoute = require('./routes/subjects');
+const conversationsRoute = require('./routes/conversations');
 
 const app = express();
 
@@ -109,6 +109,11 @@ const rateLimiter = rateLimit({
     max: 200 // limit each IP to 200 requests per windowMs
 });
 
+const conversationsRateLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 500 // limit each IP to 200 requests per windowMs
+});
+
 
 //////////////////////////////////////////////
 // Slow down each requests made back to back to discourage spamming the API
@@ -116,6 +121,12 @@ const rateLimiter = rateLimit({
 const speedLimiter = slowDown({
     windowMs: 30 * 1000, // 30 sec
     delayAfter: 50, // allow 50 requests per 30 seconds, then...
+    delayMs: 500 // begin adding 500ms of delay per request above 100:
+});
+
+const conversationsSpeedLimiter = slowDown({
+    windowMs: 30 * 1000, // 30 sec
+    delayAfter: 100, // allow 100 requests per 30 seconds, then...
     delayMs: 500 // begin adding 500ms of delay per request above 100:
 });
 
@@ -136,5 +147,6 @@ app.use('/api/users', rateLimiter, speedLimiter, usersRoute);
 app.use('/api/comments', rateLimiter, speedLimiter, commentsRoute);
 app.use('/api/posts', rateLimiter, speedLimiter, postsRoute);
 app.use('/api/subjects', rateLimiter, speedLimiter, subjectsRoute);
+app.use('/api/conversations', conversationsRateLimiter, conversationsSpeedLimiter, conversationsRoute);
 
 module.exports = app;

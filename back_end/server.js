@@ -2,6 +2,7 @@
 const http = require('http');
 const app = require('./app');
 const db = require('./models');
+const socketio = require('socket.io');
 const bcrypt = require('bcrypt');
 require('dotenv').config();
 
@@ -55,6 +56,20 @@ server.on('listening', () => {
     const bind = typeof address === 'string' ? 'pipe ' + address : 'port ' + port;
     console.log('Listening on ' + bind);
 });
+
+// ///////////////////////////////////////////
+// LIVE CHAT with socket.io
+// ///////////////////////////////////////////
+const io = socketio(server, {
+    cors: {
+        origin: 'http://localhost:8080',
+        methods: ['GET', 'POST']
+    }
+});
+
+const {socketConfig} = require('./utils/socket');
+
+socketConfig(io);
 
 // Initialize an Anonyme user 
 // const createAnonyme = (req, res, next) => {
