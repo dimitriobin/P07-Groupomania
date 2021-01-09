@@ -16,7 +16,6 @@ exports.socketConfig = (io) => {
     io.emit('onelineUsers', users);
 
     socket.on('privateMessage', msg => {
-      console.log(users);
       let socketId = '';
       const isConnected = users.filter(user => user.userId === msg.toUser).length;
       if (isConnected) {
@@ -29,7 +28,6 @@ exports.socketConfig = (io) => {
 
     // When a user create a conversation it inform the receiver directly
     socket.on('newConversation', conversation => {
-      console.log(conversation);
       let socketId = '';
       const isConnected = users.filter(user => user.userId === conversation.toUser).length;
       if (isConnected) {

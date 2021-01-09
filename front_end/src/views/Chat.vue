@@ -58,7 +58,7 @@
       <ChatMessages />
       <!-- form message -->
       <form
-        @submit="sendMessage($event)"
+        @submit="sendMessage"
         class="d-flex justify-content-between align-items-center position-relative">
         <b-form-input
           v-model="message"
