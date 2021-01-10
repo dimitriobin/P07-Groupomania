@@ -57,7 +57,7 @@
 <!-- ///////////////////////////////////USERNAME////////////////////////////////////// -->
       <ValidationProvider
         name="pseudo"
-        rules="alpha_spaces"
+        rules="alpha_num"
         v-slot="{ valid, errors }">
         <b-form-group
           id="userName-group"
