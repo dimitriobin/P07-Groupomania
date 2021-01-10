@@ -7,7 +7,8 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       unique: true,
       validate: {
-        notEmpty: true
+        notEmpty: true,
+        isAlphanumeric: true
       }
     },
     email: {
