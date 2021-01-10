@@ -2294,3 +2294,13 @@
 ::1 - - [10/Jan/2021:12:57:08 +0000] "GET /api/posts/2?page=0&size=8&order=new HTTP/1.1" 401 12
 ::1 - - [10/Jan/2021:12:57:08 +0000] "GET /api/users/2 HTTP/1.1" 401 12
 ::1 - - [10/Jan/2021:12:58:25 +0000] "POST /api/users/login HTTP/1.1" 400 28
+::ffff:127.0.0.1 - - [10/Jan/2021:16:10:49 +0000] "POST /api/subjects/follow HTTP/1.1" 401 12
+::ffff:127.0.0.1 - - [10/Jan/2021:16:10:49 +0000] "GET /api/users/3 HTTP/1.1" 401 12
+::1 - - [10/Jan/2021:16:11:53 +0000] "GET /api/subjects HTTP/1.1" 401 12
+::1 - - [10/Jan/2021:16:11:53 +0000] "POST /api/subjects/follow HTTP/1.1" 401 12
+::1 - - [10/Jan/2021:16:11:53 +0000] "GET /api/users HTTP/1.1" 401 12
+::1 - - [10/Jan/2021:16:11:53 +0000] "GET /api/users/6 HTTP/1.1" 401 12
+::1 - - [10/Jan/2021:16:11:53 +0000] "GET /api/posts/6?page=0&size=8&order=new HTTP/1.1" 401 12
+::1 - - [10/Jan/2021:16:11:53 +0000] "GET /api/users/6 HTTP/1.1" 401 12
+::1 - - [10/Jan/2021:16:11:53 +0000] "GET /api/users HTTP/1.1" 401 12
+::1 - - [10/Jan/2021:16:11:53 +0000] "GET /api/conversations HTTP/1.1" 401 12
