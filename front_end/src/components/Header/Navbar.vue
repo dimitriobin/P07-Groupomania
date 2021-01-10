@@ -25,7 +25,7 @@
             <template v-slot:button-content>
               <b-icon icon="person-fill" variant="dark" font-scale="1.5"></b-icon>
             </template>
-            <b-dropdown-item :to="`/user/${userId}`">Voir votre profil</b-dropdown-item>
+            <b-dropdown-item @click="goPersonnalPage()">Voir votre profil</b-dropdown-item>
             <b-dropdown-item to="/personal">Modifier vos informations</b-dropdown-item>
           </b-nav-item-dropdown>
           <b-nav-item @click.prevent="logout">
@@ -49,6 +49,9 @@ export default {
   },
   methods: {
     ...mapActions(['logout']),
+    goPersonnalPage() {
+      this.$router.push(`/user/${this.userId}`).then(() => window.location.reload());
+    },
   },
 };
 </script>
