@@ -6,6 +6,7 @@
     <b-form
       class="d-flex flex-column"
       @submit.prevent="handleSubmit(onSubmit)">
+      <!-- /////////////// POST TITLE ////////////////////////////////// -->
       <ValidationProvider
         name="titre"
         rules="required|min:20|max:250"
@@ -29,6 +30,7 @@
           </b-form-invalid-feedback>
         </b-form-group>
       </ValidationProvider>
+      <!-- /////////////// POST SUBJECT ////////////////////////////////// -->
       <ValidationProvider
         name="sujet"
         rules="required"
@@ -48,6 +50,7 @@
           </b-form-invalid-feedback>
         </b-form-group>
       </ValidationProvider>
+      <!-- /////////////// POST IMAGE ////////////////////////////////// -->
       <ValidationProvider
         name="image du post"
         rules="image"
@@ -76,8 +79,10 @@
           </b-form-invalid-feedback>
         </b-form-group>
       </ValidationProvider>
+      <!-- /////////////// POST URL ////////////////////////////////// -->
       <ValidationProvider
         name="url"
+        rules="url"
         v-slot="{ valid, errors }">
         <b-form-group
           id="input-group-url"
@@ -96,6 +101,7 @@
         </b-form-group>
       </ValidationProvider>
       <p class=" align-self-end"><small>* : obligatoire</small></p>
+      <!-- /////////////// BUTTONS ////////////////////////////////// -->
       <b-button
         type="submit"
         variant="primary"
