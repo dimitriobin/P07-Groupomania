@@ -46,6 +46,14 @@ extend('strongPassword', {
   message: 'Votre mot de passe doit contenir au moins 1 majuscule, 1 minuscule, 1 chiffre et 1 charactère spécial',
 });
 
+extend('url', {
+  validate: (value) => {
+    const regex = new RegExp(/^(http|ftp|https)?(:\/\/)?[\w-]+(\.[\w-]+)+([\w.,@?^!=%&amp;:/~+#-]*[\w@?^=%&amp;/~+#-])+$/);
+    return regex.test(value);
+  },
+  message: 'Vueillez remplir une url valide',
+});
+
 extend('confirmed', {
   ...confirmed,
   message: 'Confirmez votre {_field_}',
