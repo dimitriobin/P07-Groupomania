@@ -87,12 +87,15 @@ exports.readOneUser = (req, res, next) => {
 
 
 exports.updateOneUser = (req, res, next) => {
-    const userObject = req.file ? {
+    let userObject = req.file ? {
         ...req.body,
         image_url: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     } : {
         ...req.body
     };
+    if (req.body.password) {
+        userObject.password = bcrypt.hashSync(req.body.password, 10);
+    }
     User.findOne({where: {id: req.params.id}})
     .then(user => {
         if(!user) {

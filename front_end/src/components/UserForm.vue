@@ -4,7 +4,32 @@
     name="userForm"
     v-slot="{ handleSubmit }">
     <h2 class="text-center my-5 h4">Vos informations personnelles</h2>
-    <b-form @submit.prevent="handleSubmit(handleUpdate)">
+    <div v-if="!editInfos && !editPass">
+      <div class="d-flex align-items-center mb-4">
+        <h3 class="h4 mr-4">Pseudo</h3>
+        <p v-if="!editInfos" class="m-0">{{ userData.user_name }}</p>
+      </div>
+      <div class="d-flex align-items-center mb-4">
+        <h3 class="h4 mr-4">Email</h3>
+        <p v-if="!editInfos" class="m-0">{{ userData.email }}</p>
+      </div>
+      <div class="d-flex align-items-center mb-4">
+        <h3 class="h4 mr-4">Photo de profil</h3>
+          <b-img
+            :src="previewUrl"
+            class="rounded-circle"
+            width="100"
+            height="100"></b-img>
+      </div>
+      <div class="d-flex align-items-center">
+        <h3 class="h4 mr-4">Date de naissance</h3>
+        <p v-if="!editInfos" class="m-0">{{ userData.birthdate }}</p>
+      </div>
+    </div>
+    <!-- ////////////////////////////////////////////////////////////////////////////////// -->
+    <!-- ////////////////////////////////// INFOS FORM ////////////////////////////////// -->
+    <!-- ////////////////////////////////////////////////////////////////////////////////// -->
+    <b-form v-if="editInfos" @submit.prevent="handleSubmit(handleUpdateInfos)">
 <!-- ///////////////////////////////////EMAIL////////////////////////////////////// -->
       <ValidationProvider
         name="email"
@@ -15,9 +40,7 @@
           label="Email :"
           label-cols="3"
           label-for="userMail">
-          <p v-if="!edit">{{ userData.email }}</p>
           <b-form-input
-            v-else
             v-model="user.email"
             id="userMail"
             type="text"
@@ -41,87 +64,11 @@
           label="Pseudo:"
           label-cols="3"
           label-for="userName">
-          <p v-if="!edit">{{ userData.user_name }}</p>
           <b-form-input
-            v-else
             v-model="user.user_name"
             id="userName"
             type="text"
             :placeholder="userData.user_name"
-            trim
-            :state="errors[0] ? false : (valid ? true : null)">
-          </b-form-input>
-          <b-form-invalid-feedback>
-            {{ errors[0] }}
-          </b-form-invalid-feedback>
-        </b-form-group>
-      </ValidationProvider>
-<!-- ///////////////////////////////////OLD PASSWORD////////////////////////////////////// -->
-      <ValidationProvider
-        v-if="edit"
-        name="mot de passe"
-        vid="mdp"
-        rules="min:8|max:16|strongPassword"
-        v-slot="{ valid, errors }">
-        <b-form-group
-          id="oldUserPass-group"
-          label="Ancien mot de passe:"
-          label-cols="3"
-          label-for="oldUserPass">
-          <b-form-input
-            id="oldUserPass"
-            v-model="user.oldPassword"
-            type="password"
-            trim
-            placeholder="*********************"
-            :state="errors[0] ? false : (valid ? true : null)">
-          </b-form-input>
-          <b-form-invalid-feedback>
-            {{ errors[0] }}
-          </b-form-invalid-feedback>
-        </b-form-group>
-      </ValidationProvider>
-<!-- //////////////////////////NEW PASSWORD//////////////////////////////// -->
-      <ValidationProvider
-        v-if="edit"
-        name="newPassword"
-        vid="mdp"
-        rules="min:8|max:16|strongPassword"
-        v-slot="{ valid, errors }">
-        <b-form-group
-          id="newUserPass-group"
-          label="Nouveau mot de passe:"
-          label-cols="3"
-          label-for="newUserPass">
-          <b-form-input
-            id="newUserPass"
-            v-model="user.newPassword"
-            type="password"
-            placeholder="*********************"
-            trim
-            :state="errors[0] ? false : (valid ? true : null)">
-          </b-form-input>
-          <b-form-invalid-feedback>
-            {{ errors[0] }}
-          </b-form-invalid-feedback>
-        </b-form-group>
-      </ValidationProvider>
-<!-- //////////////////////////NEW PASSWORD CONFIRMATION//////////////////////////////// -->
-      <ValidationProvider
-        v-if="edit"
-        name="confirmation"
-        rules="confirmed:mdp"
-        v-slot="{ valid, errors }">
-        <b-form-group
-          id="userConfirmPass-group"
-          label="Confirmation du mot de passe:"
-          label-cols="3"
-          label-for="userConfirmPass">
-          <b-form-input
-            id="userConfirmPass"
-            v-model="user.confirmation"
-            type="password"
-            placeholder="*********************"
             trim
             :state="errors[0] ? false : (valid ? true : null)">
           </b-form-input>
@@ -147,7 +94,7 @@
             width="100"
             height="100"></b-img>
           <b-form-file
-            v-if="edit"
+            v-if="editInfos"
             v-model="user.image_url"
             id="userImage"
             @change="showPreview($event)"
@@ -162,33 +109,9 @@
           </b-form-invalid-feedback>
         </b-form-group>
       </ValidationProvider>
-<!-- ///////////////////////////////////BIRTHDATE////////////////////////////////////// -->
-      <ValidationProvider
-        name="date de naissance"
-        rules="isDate|isPast"
-        v-slot="{ valid, errors }">
-        <b-form-group
-          id="userBirthdate-group"
-          label="Date de naissance:"
-          label-cols="3"
-          label-for="userBirthdate">
-          <p v-if="!edit">{{ userData.birthdate }}</p>
-          <input
-            v-else
-            id="userBirthdate"
-            type="date"
-            v-model="user.birthdate"
-            class="form-control"
-            :class="{ 'is-invalid' : errors[0], 'is-valid' : valid}"
-            :state="errors[0] ? false : (valid ? true : null)">
-          <b-form-invalid-feedback>
-            {{ errors[0] }}
-          </b-form-invalid-feedback>
-        </b-form-group>
-      </ValidationProvider>
 <!-- ///////////////////////////////////PARENTS EMAIL////////////////////////////////////// -->
       <ValidationProvider
-        v-if="edit"
+        v-if="editInfos && !userIsMajor"
         name="email des parents"
         rules="email"
         v-slot="{ valid, errors }">
@@ -196,8 +119,7 @@
           id="userParentMail-group"
           label="Email des responsables:"
           label-cols="3"
-          label-for="userParentMail"
-          v-show="userIsMajor">
+          label-for="userParentMail">
           <b-form-input
             v-model="user.parentEmail"
             id="userParentMail"
@@ -211,23 +133,114 @@
       </b-form-group>
       </ValidationProvider>
       <b-button
-        v-if="edit"
+        v-if="editInfos"
         type="button"
         variant="danger"
         class="w-100 mt-4"
-        @click="edit = false">Annuler</b-button>
+        @click="editInfos = false">Annuler</b-button>
       <b-button
-        v-if="edit"
+        v-if="editInfos"
+        type="submit"
+        variant="success"
+        class="w-100 mt-4">Envoyer</b-button>
+    </b-form>
+    <!-- ////////////////////////////////////////////////////////////////////////////////// -->
+    <!-- ////////////////////////////////// PASSWORD FORM ////////////////////////////////// -->
+    <!-- ////////////////////////////////////////////////////////////////////////////////// -->
+    <b-form v-if="editPass" @submit.prevent="handleSubmit(handleUpdatePassword)">
+<!-- ///////////////////////////////////OLD PASSWORD////////////////////////////////////// -->
+      <ValidationProvider
+        name="oldMdp"
+        rules="required|strongPassword"
+        v-slot="{ valid, errors }">
+        <b-form-group
+          id="oldUserPass-group"
+          label="Ancien mot de passe:"
+          label-cols="3"
+          label-for="oldUserPass">
+          <b-form-input
+            id="oldUserPass"
+            v-model="user.oldPassword"
+            name="ancien mot de passe"
+            type="password"
+            trim
+            placeholder="*********************"
+            :state="errors[0] ? false : (valid ? true : null)">
+          </b-form-input>
+          <b-form-invalid-feedback>
+            {{ errors[0] }}
+          </b-form-invalid-feedback>
+        </b-form-group>
+      </ValidationProvider>
+<!-- //////////////////////////NEW PASSWORD//////////////////////////////// -->
+      <ValidationProvider
+        name="newPassword"
+        vid="mdp"
+        rules="required|strongPassword"
+        v-slot="{ valid, errors }">
+        <b-form-group
+          id="newUserPass-group"
+          label="Nouveau mot de passe:"
+          label-cols="3"
+          label-for="newUserPass">
+          <b-form-input
+            id="newUserPass"
+            v-model="user.newPassword"
+            type="password"
+            placeholder="*********************"
+            trim
+            :state="errors[0] ? false : (valid ? true : null)">
+          </b-form-input>
+          <b-form-invalid-feedback>
+            {{ errors[0] }}
+          </b-form-invalid-feedback>
+        </b-form-group>
+      </ValidationProvider>
+<!-- //////////////////////////NEW PASSWORD CONFIRMATION//////////////////////////////// -->
+      <ValidationProvider
+        name="confirmation du nouveau mot de passe"
+        rules="confirmed:mdp"
+        v-slot="{ valid, errors }">
+        <b-form-group
+          id="userConfirmPass-group"
+          label="Confirmation du mot de passe:"
+          label-cols="3"
+          label-for="userConfirmPass">
+          <b-form-input
+            id="userConfirmPass"
+            v-model="user.confirmation"
+            type="password"
+            placeholder="*********************"
+            trim
+            :state="errors[0] ? false : (valid ? true : null)">
+          </b-form-input>
+          <b-form-invalid-feedback>
+            {{ errors[0] }}
+          </b-form-invalid-feedback>
+        </b-form-group>
+      </ValidationProvider>
+      <b-button
+        type="button"
+        variant="danger"
+        class="w-100 mt-4"
+        @click="editPass = false">Annuler</b-button>
+      <b-button
         type="submit"
         variant="success"
         class="w-100 mt-4">Envoyer</b-button>
     </b-form>
       <b-button
-        v-if="!edit"
+        v-if="!editInfos && !editPass"
         type="button"
         variant="info"
-        class="w-100 mt-4"
-        @click="edit = true">Modifier vos informations</b-button>
+        class="mt-4 mr-2"
+        @click="editInfos = true">Modifier vos informations</b-button>
+      <b-button
+        v-if="!editInfos && !editPass"
+        type="button"
+        variant="info"
+        class="mt-4"
+        @click="editPass = true">Modifier votre mot de passe</b-button>
   </ValidationObserver>
 </template>
 
@@ -236,6 +249,7 @@ import { ValidationProvider, ValidationObserver } from 'vee-validate';
 import dayjs from 'dayjs';
 import RelativeTime from 'dayjs/plugin/relativeTime';
 import { mapActions, mapGetters } from 'vuex';
+import bcrypt from 'bcryptjs';
 
 dayjs.extend(RelativeTime);
 
@@ -246,7 +260,8 @@ export default {
   ],
   data() {
     return {
-      edit: false,
+      editInfos: false,
+      editPass: false,
       previewUrl: null,
       user: {
         email: '',
@@ -265,11 +280,11 @@ export default {
     ValidationObserver,
   },
   computed: {
-    ...mapGetters(['userId']),
+    ...mapGetters(['userId', 'oneUser']),
     userIsMajor() {
       const now = dayjs();
-      const birthdate = dayjs(this.user.birthdate);
-      return now.diff(birthdate, 'year') <= 18;
+      const birthdate = dayjs(this.userData.birthdate);
+      return now.diff(birthdate, 'year') >= 18;
     },
   },
   methods: {
@@ -278,7 +293,20 @@ export default {
       const file = e.target.files[0];
       this.previewUrl = URL.createObjectURL(file);
     },
-    handleUpdate() {
+    isValidPass() {
+      return new Promise((resolve) => {
+        bcrypt.compare(this.user.oldPassword, this.oneUser.password, (err, res) => {
+          if (res === false || err) {
+            this.$refs.registerObserver.setErrors({
+              oldMdp: ['Mot de passe invalide'],
+            });
+            resolve(false);
+          }
+          resolve(true);
+        });
+      });
+    },
+    handleUpdateInfos() {
       const data = new FormData();
       Object.entries(this.user).forEach(
         ([key, value]) => {
@@ -292,7 +320,32 @@ export default {
         data,
       })
         .then(() => {
-          this.edit = false;
+          this.editInfos = false;
+        });
+    },
+    handleUpdatePassword() {
+      const data = new FormData();
+      this.isValidPass()
+        .then((res) => {
+          if (res === false) return;
+          if (this.user.oldPassword === this.user.newPassword) {
+            this.$refs.registerObserver.setErrors({
+              mdp: ['Le nouveau mot de passe ne peux pas être le même que l\'ancien'],
+            });
+            return;
+          }
+          data.append('password', this.user.confirmation);
+          this.updateUser({
+            id: this.userId,
+            data,
+          })
+            .then(() => {
+              this.editPass = false;
+              this.user.oldPassword = '';
+              this.user.newPassword = '';
+              this.user.confirmation = '';
+            })
+            .catch((err) => console.log(err));
         });
     },
   },
