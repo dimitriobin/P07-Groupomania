@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import {
   required,
   email,
-  alpha_spaces,
+  alpha_num,
   min,
   max,
   confirmed,
@@ -23,8 +23,8 @@ extend('email', {
   message: 'Indiquez une adresse mail au bon format',
 });
 
-extend('alpha_spaces', {
-  ...alpha_spaces,
+extend('alpha_num', {
+  ...alpha_num,
   message: 'Indiquez votre {_field_} au bon format',
 });
 
