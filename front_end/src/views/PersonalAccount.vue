@@ -68,21 +68,21 @@
                 cols="12"
                 class="d-flex align-items-center flex-row-reverse justify-content-end">
                 <label
-                  for="sharedWithPartners"
+                  for="shareWithPartners"
                   class="ml-2 my-0">
                   Accepter que les données soient transmises a des partenaires</label>
                 <input
-                  v-model="rgpdCheckboxes.sharedWithPartners"
+                  v-model="rgpdCheckboxes.shareWithPartners"
                   @change="updateSuccess = false"
                   cols="9"
-                  id="sharedWithPartners"
+                  id="shareWithPartners"
                   type="checkbox">
               </b-col>
             </b-row>
           <!-- </b-form-group> -->
-          <b-tooltip :show.sync="updateSuccess" target="submitRgpd" placement="right">
+          <p v-if="updateSuccess" class="text-success mt-2 mb-0">
             Les modifications ont bien été prises en compte
-          </b-tooltip>
+          </p>
           <b-button
             id="submitRgpd"
             type="submit"
@@ -147,7 +147,7 @@ export default {
       rgpdCheckboxes: {
         restricted: '',
         contactable: '',
-        sharedWithPartners: '',
+        shareWithPartners: '',
       },
       updateSuccess: false,
       exportedDataURL: '',
@@ -174,6 +174,7 @@ export default {
       this.fetchAllSubjects();
     },
     handleUpdateRgpd() {
+      this.updateSuccess = false;
       this.updateUser({
         id: this.userId,
         data: this.rgpdCheckboxes,
@@ -206,7 +207,7 @@ export default {
       .then(() => {
         this.rgpdCheckboxes.restricted = this.oneUser.restricted;
         this.rgpdCheckboxes.contactable = this.oneUser.contactable;
-        this.rgpdCheckboxes.sharedWithPartners = this.oneUser.sharedWithPartners;
+        this.rgpdCheckboxes.shareWithPartners = this.oneUser.shareWithPartners;
       });
   },
 };
