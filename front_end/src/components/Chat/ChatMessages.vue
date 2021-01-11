@@ -1,7 +1,7 @@
 <template>
   <div id="chatMessages" class="px-4 pt-0">
     <p
-      v-for="(message, index) in 0"
+      v-for="(message, index) in conversation"
       :key="index"
       class="d-flex flex-column justify-content-center align-items-start">
         <!-- <span
@@ -32,8 +32,12 @@ export default {
   computed: {
     ...mapGetters([
       'userId',
+      'allConversations',
       'currentConversation',
     ]),
+    conversation() {
+      return this.allConversations.filter((conversation) => conversation.id === this.currentConversation)[0].Messages;
+    },
   },
   methods: {
     scrollDown() {

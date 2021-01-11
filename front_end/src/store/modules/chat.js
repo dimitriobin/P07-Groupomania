@@ -60,7 +60,8 @@ const actions = {
   fetchConversation({ commit, dispatch }, conversationId) {
     return http.get(`/conversations/${conversationId}`, { headers: authHeader() })
       .then((res) => {
-        commit('setCurrentConversation', res.data);
+        commit('addMessages', res.data);
+        commit('setCurrentConversation', conversationId);
         return Promise.resolve(res.data);
       })
       .catch((err) => {
@@ -124,7 +125,7 @@ const mutations = {
     };
     state.conversations.push(convObject);
   },
-  addNewMessage(state, message) {
+  addMessages(state, message) {
     console.log(state, message);
     // a changer
   },

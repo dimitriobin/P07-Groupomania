@@ -99,8 +99,14 @@ export default {
   },
   data() {
     return {
+      currentConvDatas: '',
       message: '',
     };
+  },
+  watch: {
+    currentConversation() {
+      [this.currentConvDatas] = this.allConversations.filter((conv) => conv.id === this.currentConversation);
+    },
   },
   computed: {
     ...mapGetters([
@@ -109,9 +115,14 @@ export default {
       'allUsers',
       'allOnlineUsers',
       'currentConversation',
+      'allConversations',
     ]),
     socket() {
       return io('http://localhost:3000', { query: `userId=${this.userId}` });
+    },
+    receiver() {
+      const [receiverId] = this.currentConvDatas.users.filter((user) => user !== this.userId);
+      return this.allUsers.filter((user) => user.id === receiverId)[0];
     },
   },
   methods: {

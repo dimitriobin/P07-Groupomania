@@ -64,8 +64,6 @@ exports.readAllConversations = (req, res) => {
 exports.readOneConversation = (req, res) => {
   Conversation.findOne({
     include: [
-      {model: User, as: 'userOne', attributes: ['user_name', 'image_url', 'id']},
-      {model: User, as: 'userTwo', attributes: ['user_name', 'image_url', 'id']},
       {model: Message}
     ],
     where: { id: req.params.id }
