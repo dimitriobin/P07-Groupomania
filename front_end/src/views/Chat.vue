@@ -102,22 +102,6 @@ export default {
       message: '',
     };
   },
-  watch: {
-    currentConversation() {
-      if (this.currentConversation !== '') {
-        this.currentConversation.Messages.forEach((message) => {
-          if (!message.read) {
-            this.updateMessage({
-              id: message.id,
-              modifications: {
-                read: true,
-              },
-            });
-          }
-        });
-      }
-    },
-  },
   computed: {
     ...mapGetters([
       'userId',
@@ -128,9 +112,6 @@ export default {
     ]),
     socket() {
       return io('http://localhost:3000', { query: `userId=${this.userId}` });
-    },
-    receiver() {
-      return this.currentConversation.userOneId === this.userId ? this.currentConversation.userTwo : this.currentConversation.userOne;
     },
   },
   methods: {
@@ -147,10 +128,7 @@ export default {
     ]),
     createConversation(e) {
       this.$bvModal.hide('onlineUsers');
-      this.addConversation({
-        userOneId: e,
-        userTwoId: this.userId,
-      })
+      this.addConversation([e, this.userId])
         .then((conversation) => {
           this.socket.emit('newConversation', { toUser: e, conversation });
         });

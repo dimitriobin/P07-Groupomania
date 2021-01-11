@@ -18,7 +18,7 @@ const actions = {
     commit('setOnlineUsers', users);
   },
   addMessage({ commit, state, dispatch }, message) {
-    return http.post(`/conversations/${state.currentConversation.id}/message`, message, { headers: authHeader() })
+    return http.post(`/conversations/${state.currentConversation}/message`, message, { headers: authHeader() })
       .then((res) => {
         commit('addNewMessage', res.data);
         commit('updateConversations', res.data);
@@ -30,10 +30,10 @@ const actions = {
       });
   },
   addConversation({ commit, dispatch }, conversation) {
-    return http.post('/conversations', conversation, { headers: authHeader() })
+    return http.post('/conversations', JSON.stringify(conversation), { headers: authHeader() })
       .then((res) => {
-        commit('addNewConversation', res.data);
-        commit('setCurrentConversation', res.data);
+        if (res.data[1] === true) commit('addNewConversation', { ...res.data[0], Messages: [] });
+        commit('setCurrentConversation', res.data[0].id);
         return Promise.resolve(res.data);
       })
       .catch((err) => {
@@ -84,7 +84,7 @@ const actions = {
     commit('resetCurrentConversation');
   },
   displayMessage({ commit, state, dispatch }, msg) {
-    if (state.currentConversation.id === msg.res.conversationId) {
+    if (state.currentConversation === msg.res.conversationId) {
       dispatch('updateMessage', {
         id: msg.res.id,
         modifications: {
@@ -106,27 +106,31 @@ const mutations = {
     state.onlineUsers = users;
   },
   setConversations(state, conversations) {
-    state.conversations = conversations;
+    conversations.forEach((conv) => {
+      const convObject = {
+        ...conv,
+        users: JSON.parse(conv.users),
+      };
+      state.conversations.push(convObject);
+    });
   },
   setCurrentConversation(state, conversation) {
     state.currentConversation = conversation;
   },
   addNewConversation(state, conversation) {
-    state.conversations.push(conversation);
+    const convObject = {
+      ...conversation,
+      users: JSON.parse(conversation.users),
+    };
+    state.conversations.push(convObject);
   },
   addNewMessage(state, message) {
-    if (message.conversationId === state.currentConversation.id) {
-      state.currentConversation.Messages.push(message);
-    }
+    console.log(state, message);
+    // a changer
   },
   replaceMessage(state, newMessage) {
-    if (newMessage.conversationId === state.currentConversation.id) {
-      state.currentConversation.Messages.forEach((message, index) => {
-        if (message.id === newMessage.id) {
-          state.currentConversation.Messages.splice(index, 1, newMessage);
-        }
-      });
-    }
+    console.log(state, newMessage);
+    // a changer
   },
   updateConversations(state, message) {
     state.conversations.forEach((conv) => {

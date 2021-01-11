@@ -4,18 +4,18 @@
     v-for="(conversation, index) in allConversationsSortByNew"
     :key="index"
     href="#"
-    :active="currentConversation.id === conversation.id"
+    :active="currentConversation === conversation.id"
     @click="fetchConversation(conversation.id)"
     class="border-0 rounded-pill text-dark d-flex justify-content-start align-items-center">
     <b-avatar
-      :badge="isOnline(receiver(conversation).id)"
+      :badge="isOnline(receiver(conversation.users).id)"
       badge-variant="success"
-      :src="receiver(conversation).image_url"
+      :src="receiver(conversation.users).image_url"
       size="3.5rem"
       class="mr-3">
     </b-avatar>
     <div>
-      <p class="m-0 h5">{{ receiver(conversation).user_name }}</p>
+      <p class="m-0 h5">{{ receiver(conversation.users).user_name }}</p>
       <p
         v-if="conversation.Messages.length"
         class="text-muted m-0">
@@ -46,6 +46,7 @@ export default {
     ...mapGetters([
       'allMessages',
       'allConversations',
+      'allUsers',
       'userId',
       'allOnlineUsers',
       'currentConversation',
@@ -63,8 +64,9 @@ export default {
       'fetchConversations',
       'fetchConversation',
     ]),
-    receiver(conversation) {
-      return conversation.userOneId === this.userId ? conversation.userTwo : conversation.userOne;
+    receiver(users) {
+      const receiver = users.filter((user) => user !== this.userId)[0];
+      return this.allUsers.filter((user) => user.id === receiver)[0];
     },
     isOnline(userId) {
       const compare = this.allOnlineUsers.find((user) => (user.userId === userId));

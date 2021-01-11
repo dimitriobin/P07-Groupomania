@@ -70,8 +70,6 @@ module.exports = (sequelize, DataTypes) => {
     User.belongsToMany(models.Post, {through: models.Like});
     User.hasMany(models.Like, {foreignKey: {name: 'UserId', allowNull: false}});
     User.hasMany(models.Message, {foreignKey: {name: 'userId', allowNull: false}});
-    User.hasMany(models.Conversation, { as: 'userOne', foreignKey: {name: 'userOneId', allowNull: false}});
-    User.hasMany(models.Conversation, { as: 'userTwo', foreignKey: {name: 'userTwoId', allowNull: false}});
   }
 
 

@@ -13,51 +13,20 @@ const getUserId = (bearerToken) => {
 } 
 
 exports.createConversation = (req, res) => {
-  Conversation.findOne({
+  const croissantUsersId = JSON.stringify(req.body.sort((a, b) => a - b));
+  Conversation.findOrCreate({
+    include: [
+      { model: Message}
+    ],
     where: {
-      [Op.or] : [
-        {
-          [Op.and] : [
-            {userOneId: req.body.userOneId},
-            {userTwoId: req.body.userTwoId},
-          ]
-        },
-        {
-          [Op.and] : [
-            {userTwoId: req.body.userOneId},
-            {userOneId: req.body.userTwoId},
-          ]
-        },
-      ]
+      users: { [Op.like]: croissantUsersId }
+    },
+    defaults: {
+      users: croissantUsersId
     }
   })
-  .then(alreadyExist => {
-    if (alreadyExist) {
-      return res.status(404).json({ message: 'This conversation already exist', conversationId: alreadyExist.id });
-    }
-    Conversation.create({...req.body})
-      .then((createdConversation) => {
-        Conversation.findOne({
-          include: [
-            {model: User, as: 'userOne', attributes: ['user_name', 'image_url']},
-            {model: User, as: 'userTwo', attributes: ['user_name', 'image_url']},
-            {model: Message}
-          ],
-          where: {
-            [Op.and]: [
-              {userOneId: createdConversation.userOneId},
-              {userTwoId: createdConversation.userTwoId}
-            ]
-          }
-        })
-        .then(conversation => {
-          res.status(200).json(conversation);
-        })
-        .catch(error => res.status(500).json({ error }));
-      })
-      .catch(error => res.status(500).json({ error }));
-  })
-  .catch(error => res.status(500).json({ error }));
+  .then((conversation) => res.status(200).json(conversation))
+  .catch((error) => res.status(500).json({ error }));
 };
 
 exports.createMessage = (req, res) => {
@@ -78,15 +47,10 @@ exports.createMessage = (req, res) => {
 exports.readAllConversations = (req, res) => {
   Conversation.findAll({
     include: [
-      {model: User, as: 'userOne', attributes: ['user_name', 'image_url', 'id']},
-      {model: User, as: 'userTwo', attributes: ['user_name', 'image_url', 'id']},
       {model: Message, limit: 1, order: [ ['createdAt', 'DESC'] ]}
     ],
     where: {
-      [Op.or]: [
-        {userOneId: getUserId(req.headers.authorization)},
-        {userTwoId: getUserId(req.headers.authorization)}
-      ]
+      users: { [Op.like]: `%${getUserId(req.headers.authorization)}%` }
     }
   })
   .then(conversations => {

@@ -1,7 +1,7 @@
 <template>
   <div id="chatMessages" class="px-4 pt-0">
     <p
-      v-for="(message, index) in currentConversation.Messages"
+      v-for="(message, index) in 0"
       :key="index"
       class="d-flex flex-column justify-content-center align-items-start">
         <!-- <span
