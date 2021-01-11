@@ -47,8 +47,6 @@
           </b-icon-arrow-left>
         </b-button>
         <b-avatar
-          badge
-          badge-variant="success"
           :src="receiver.image_url"
           size="2.5rem"
           class="mr-3">
@@ -106,6 +104,16 @@ export default {
   watch: {
     currentConversation() {
       [this.currentConvDatas] = this.allConversations.filter((conv) => conv.id === this.currentConversation);
+      this.currentConvDatas.Messages.forEach((message) => {
+        if (message.read === false) {
+          this.updateMessage({
+            id: message.id,
+            modifications: {
+              read: true,
+            },
+          });
+        }
+      });
     },
   },
   computed: {
@@ -129,6 +137,7 @@ export default {
     ...mapActions([
       'fetchUser',
       'fetchAllUsers',
+      'fetchConversations',
       'getOnlineUsers',
       'addMessage',
       'displayMessage',
@@ -158,7 +167,7 @@ export default {
   },
   mounted() {
     this.fetchUser(this.userId);
-    this.fetchAllUsers();
+    this.fetchAllUsers().then(() => this.fetchConversations());
     // Listen to online users
     this.socket.on('onelineUsers', (users) => {
       const onlineUsers = users.filter((user) => user.userId !== this.userId);

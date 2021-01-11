@@ -9,11 +9,15 @@
           <small>{{ formatDate(message.updatedAt) }}</small>
         </span> -->
         <span
+          v-if="index !== 0"
           v-b-tooltip.hover :title="formatDate(message.createdAt)"
           :class="{ 'message-sent': message.userId === userId }"
           class="bg-light px-4 py-2 rounded-pill w-auto text-break mw-70">
           {{ message.content }}
         </span>
+        <b-badge v-if="index === conversation.length - 1 && message.read === true">
+          vu le {{formatDate(message.updatedAt)}}
+        </b-badge>
     </p>
   </div>
 </template>

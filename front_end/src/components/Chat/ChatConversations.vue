@@ -5,7 +5,8 @@
     :key="index"
     href="#"
     :active="currentConversation === conversation.id"
-    @click="fetchConversation(conversation.id)"
+    @click.once="fetchConversation(conversation.id)"
+    @click="changeCurrentConversation(conversation.id)"
     class="border-0 rounded-pill text-dark d-flex justify-content-start align-items-center">
     <b-avatar
       :badge="isOnline(receiver(conversation.users).id)"
@@ -19,14 +20,19 @@
       <p
         v-if="conversation.Messages.length"
         class="text-muted m-0">
-        {{ conversation.Messages[0].content }} ...
+        {{ conversation.Messages[conversation.Messages.length - 1].content }}
+        <span>
+          <small>
+          {{ formatDate(conversation.Messages[conversation.Messages.length - 1].createdAt) }}
+          </small>
+        </span>
       </p>
     </div>
-    <!-- <b-icon-circle-fill
-      v-if="conversation.Messages.length && !conversation.Messages[0].read && conversation.Messages[0].userId !== userId"
+    <b-icon-circle-fill
+      v-if="lastMessageUnread(conversation.Messages)"
       font-scale="1"
       class="ml-auto text-info">
-    </b-icon-circle-fill> -->
+    </b-icon-circle-fill>
   </b-list-group-item>
 </b-list-group>
 </template>
@@ -34,14 +40,12 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+
+dayjs.extend(relativeTime);
 
 export default {
   name: 'ChatConversations',
-  data() {
-    return {
-
-    };
-  },
   computed: {
     ...mapGetters([
       'allMessages',
@@ -61,8 +65,8 @@ export default {
   },
   methods: {
     ...mapActions([
-      'fetchConversations',
       'fetchConversation',
+      'changeCurrentConversation',
     ]),
     receiver(users) {
       const receiver = users.filter((user) => user !== this.userId)[0];
@@ -72,9 +76,12 @@ export default {
       const compare = this.allOnlineUsers.find((user) => (user.userId === userId));
       return compare !== undefined;
     },
-  },
-  mounted() {
-    this.fetchConversations();
+    lastMessageUnread(messages) {
+      return (messages.length && !messages[messages.length - 1].read && messages[0].userId !== this.userId);
+    },
+    formatDate(date) {
+      return dayjs(date).fromNow();
+    },
   },
 };
 </script>

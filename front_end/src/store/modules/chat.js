@@ -21,10 +21,10 @@ const actions = {
     return http.post(`/conversations/${state.currentConversation}/message`, message, { headers: authHeader() })
       .then((res) => {
         commit('addNewMessage', res.data);
-        commit('updateConversations', res.data);
         return Promise.resolve(res.data);
       })
       .catch((err) => {
+        console.log(err);
         if (err.response.data === 'Please login') dispatch('logout');
         return Promise.reject(err.response.data.error.errors[0].message);
       });
@@ -40,9 +40,6 @@ const actions = {
         if (err.response.data === 'Please login') {
           dispatch('logout');
         }
-        if (err.response.data.message === 'This conversation already exist') {
-          dispatch('fetchConversation', err.response.data.conversationId);
-        }
         return Promise.reject(err.response.data);
       });
   },
@@ -57,23 +54,22 @@ const actions = {
         return Promise.reject(err.response.data.error.errors[0].message);
       });
   },
+  changeCurrentConversation({ commit }, conversationId) {
+    commit('setCurrentConversation', conversationId);
+  },
   fetchConversation({ commit, dispatch }, conversationId) {
-    return http.get(`/conversations/${conversationId}`, { headers: authHeader() })
+    http.get(`/conversations/${conversationId}`, { headers: authHeader() })
       .then((res) => {
-        commit('addMessages', res.data);
-        commit('setCurrentConversation', conversationId);
-        return Promise.resolve(res.data);
+        if (res.data.Messages.length) commit('addMessages', res.data.Messages);
       })
       .catch((err) => {
         if (err.response.data === 'Please login') dispatch('logout');
-        return Promise.reject(err.response.data.error.errors[0].message);
       });
   },
   updateMessage({ commit, dispatch }, message) {
     return http.put(`/conversations/message/${message.id}`, message.modifications, { headers: authHeader() })
       .then((res) => {
         commit('replaceMessage', res.data);
-        commit('updateConversations', res.data);
         return Promise.resolve(res.data);
       })
       .catch((err) => {
@@ -82,7 +78,7 @@ const actions = {
       });
   },
   resetCurrentConversation({ commit }) {
-    commit('resetCurrentConversation');
+    commit('setCurrentConversation', '');
   },
   displayMessage({ commit, state, dispatch }, msg) {
     if (state.currentConversation === msg.res.conversationId) {
@@ -92,8 +88,6 @@ const actions = {
           read: true,
         },
       });
-    } else {
-      commit('updateConversations', msg.res);
     }
     commit('addNewMessage', msg.res);
   },
@@ -125,23 +119,36 @@ const mutations = {
     };
     state.conversations.push(convObject);
   },
-  addMessages(state, message) {
-    console.log(state, message);
-    // a changer
-  },
-  replaceMessage(state, newMessage) {
-    console.log(state, newMessage);
-    // a changer
-  },
-  updateConversations(state, message) {
+  addMessages(state, messages) {
+    // For each conversation
     state.conversations.forEach((conv) => {
-      if (conv.id === message.conversationId) {
-        conv.Messages.splice(0, 1, message);
+      // Find the good one
+      if (conv.id === messages[0].conversationId) {
+        // then for each message
+        messages.forEach((message) => {
+          // unshift it in this conversation
+          conv.Messages.push(message);
+        });
       }
     });
   },
-  resetCurrentConversation(state) {
-    state.currentConversation = '';
+  addNewMessage(state, message) {
+    state.conversations.forEach((conv) => {
+      if (conv.id === message.conversationId) {
+        conv.Messages.push(message);
+      }
+    });
+  },
+  replaceMessage(state, newMessage) {
+    state.conversations.forEach((conversation) => {
+      if (conversation.id === newMessage.conversationId) {
+        conversation.Messages.forEach((message, index) => {
+          if (message.id === newMessage.id) {
+            conversation.Messages.splice(index, 1, newMessage);
+          }
+        });
+      }
+    });
   },
 };
 
