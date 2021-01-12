@@ -38,6 +38,18 @@ exports.socketConfig = (io) => {
       io.to(socketId).emit('newConversation', conversation.conversation)
     });
 
+    socket.on('messageRead', message => {
+      console.log(message);
+      let socketId = '';
+      const isConnected = users.filter(user => user.userId === message.userId).length;
+      if (isConnected) {
+        socketId = users.filter(user => user.userId === message.userId)[0].socketId;
+      } else {
+        console.log('This user is not connected');
+      }
+      io.to(socketId).emit('messageRead', message);
+    });
+
     //Leave the room if the user closes the socket
     socket.on('disconnect', () => {
         users.forEach((user, index) => {

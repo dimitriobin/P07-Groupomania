@@ -2353,3 +2353,8 @@
 ::1 - - [11/Jan/2021:17:08:11 +0000] "GET /api/conversations/5 HTTP/1.1" 500 47
 ::1 - - [11/Jan/2021:17:08:26 +0000] "GET /api/conversations/8 HTTP/1.1" 500 47
 ::1 - - [11/Jan/2021:17:20:12 +0000] "GET /api/conversations/5 HTTP/1.1" 500 47
+::1 - - [12/Jan/2021:10:23:42 +0000] "GET /api/subjects HTTP/1.1" 401 12
+::1 - - [12/Jan/2021:10:23:42 +0000] "GET /api/users/21 HTTP/1.1" 401 12
+::1 - - [12/Jan/2021:10:23:42 +0000] "GET /api/users HTTP/1.1" 401 12
+::1 - - [12/Jan/2021:10:23:42 +0000] "POST /api/subjects/follow HTTP/1.1" 401 12
+::1 - - [12/Jan/2021:10:23:42 +0000] "GET /api/posts/21?page=0&size=8&order=new HTTP/1.1" 401 12

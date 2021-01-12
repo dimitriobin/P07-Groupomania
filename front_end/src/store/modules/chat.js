@@ -82,17 +82,22 @@ const actions = {
   },
   displayMessage({ commit, state, dispatch }, msg) {
     if (state.currentConversation === msg.res.conversationId) {
-      dispatch('updateMessage', {
+      commit('addNewMessage', msg.res);
+      return dispatch('updateMessage', {
         id: msg.res.id,
         modifications: {
           read: true,
         },
-      });
+      }).then((res) => Promise.resolve(res));
     }
     commit('addNewMessage', msg.res);
+    return 'New unread message';
   },
   displayConversation({ commit }, conversation) {
     commit('addNewConversation', conversation);
+  },
+  changeStateOfMessage({ commit }, message) {
+    commit('replaceMessage', message);
   },
 };
 

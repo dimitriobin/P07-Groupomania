@@ -78,7 +78,6 @@ exports.readOneConversation = (req, res) => {
 exports.updateMessage = (req, res) => {
   Message.findByPk(Number.parseInt(req.params.id))
   .then(message => {
-    console.log(message);
     if(!message) return res.status(404).send('Message not found');
     Message.update({
       ...req.body

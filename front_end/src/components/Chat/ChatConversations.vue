@@ -21,12 +21,11 @@
         v-if="conversation.Messages.length"
         class="text-muted m-0">
         {{ conversation.Messages[conversation.Messages.length - 1].content }}
-        <span>
-          <small>
-          {{ formatDate(conversation.Messages[conversation.Messages.length - 1].createdAt) }}
-          </small>
-        </span>
       </p>
+      <small
+        v-if="conversation.Messages.length">
+        {{ formatDate(conversation.Messages[conversation.Messages.length - 1].createdAt) }}
+      </small>
     </div>
     <b-icon-circle-fill
       v-if="lastMessageUnread(conversation.Messages)"
@@ -77,7 +76,7 @@ export default {
       return compare !== undefined;
     },
     lastMessageUnread(messages) {
-      return (messages.length && !messages[messages.length - 1].read && messages[0].userId !== this.userId);
+      return (messages.length && !messages[messages.length - 1].read && messages[messages.length - 1].userId !== this.userId);
     },
     formatDate(date) {
       return dayjs(date).fromNow();

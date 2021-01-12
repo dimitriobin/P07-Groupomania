@@ -111,7 +111,7 @@ export default {
             modifications: {
               read: true,
             },
-          });
+          }).then((res) => this.socket.emit('messageRead', res));
         }
       });
     },
@@ -145,6 +145,7 @@ export default {
       'resetCurrentConversation',
       'updateMessage',
       'displayConversation',
+      'changeStateOfMessage',
     ]),
     createConversation(e) {
       this.$bvModal.hide('onlineUsers');
@@ -179,7 +180,14 @@ export default {
     });
     // Listen to private Messages
     this.socket.on('privateMessage', (msg) => {
-      this.displayMessage(msg);
+      this.displayMessage(msg).then((res) => {
+        if (typeof res === 'object') {
+          this.socket.emit('messageRead', res);
+        }
+      });
+    });
+    this.socket.on('messageRead', (msg) => {
+      this.changeStateOfMessage(msg);
     });
   },
 };

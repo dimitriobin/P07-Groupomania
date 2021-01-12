@@ -15,9 +15,24 @@
           class="bg-light px-4 py-2 rounded-pill w-auto text-break mw-70">
           {{ message.content }}
         </span>
-        <b-badge v-if="index === conversation.length - 1 && message.read === true">
-          vu le {{formatDate(message.updatedAt)}}
-        </b-badge>
+        <span
+          v-if="index === conversation.length - 1 && message.read === true"
+          class="align-self-end">
+          <b-icon-check-all>
+          </b-icon-check-all>
+          <small>
+            vu le {{formatDate(message.updatedAt)}}
+          </small>
+        </span>
+        <span
+          v-if="index === conversation.length - 1 && message.read === false"
+          class="align-self-end">
+          <b-icon-check>
+          </b-icon-check>
+          <small>
+            envoyé le {{formatDate(message.createdAt)}}
+          </small>
+        </span>
     </p>
   </div>
 </template>
