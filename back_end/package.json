@@ -19,7 +19,7 @@
     "mysql2": "^2.2.5",
     "sequelize": "^6.3.5",
     "socket.io": "^3.0.4",
-    "swagger-ui-express": "^4.1.5",
+    "swagger-ui-express": "^4.1.6",
     "toobusy-js": "^0.5.1"
   },
   "devDependencies": {
