@@ -7,7 +7,9 @@ const {
   createMessage,
   readAllConversations,
   readOneConversation,
-  updateMessage } = require ('../controllers/conversations');
+  updateMessage,
+  updateAllMessages,
+  countUnreadMessages } = require ('../controllers/conversations');
 
 
 /////////////////////////////////////////////
@@ -34,6 +36,16 @@ router.get('/:id', auth, readOneConversation);
 // UPDATE ONE message
 /////////////////////////////////////////////
 router.put('/message/:id', auth, updateMessage);
+
+/////////////////////////////////////////////
+// UPDATE ALL messages for one conversation
+/////////////////////////////////////////////
+router.put('/:id/message/', auth, updateAllMessages);
+
+/////////////////////////////////////////////
+// COUNT all unread messages
+/////////////////////////////////////////////
+router.get('/message/unread', auth, countUnreadMessages);
 
 
 module.exports = router;

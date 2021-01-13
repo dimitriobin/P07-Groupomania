@@ -16,7 +16,7 @@
           {{ message.content }}
         </span>
         <span
-          v-if="index === conversation.length - 1 && message.read === true"
+          v-if="index === conversation.length - 1 && message.read === true && message.userId === userId"
           class="align-self-end">
           <b-icon-check-all>
           </b-icon-check-all>
@@ -25,7 +25,7 @@
           </small>
         </span>
         <span
-          v-if="index === conversation.length - 1 && message.read === false"
+          v-if="index === conversation.length - 1 && message.read === false && message.userId === userId"
           class="align-self-end">
           <b-icon-check>
           </b-icon-check>

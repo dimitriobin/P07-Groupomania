@@ -4,13 +4,15 @@ import authHeader from '../../services/auth-header';
 const state = () => ({
   onlineUsers: [],
   conversations: [],
-  currentConversation: '',
+  currentConversation: 0,
+  unreadMessages: '',
 });
 
 const getters = {
   allOnlineUsers: (state) => state.onlineUsers,
   allConversations: (state) => state.conversations,
   currentConversation: (state) => state.currentConversation,
+  unreadMessagesCount: (state) => state.unreadMessages,
 };
 
 const actions = {
@@ -60,7 +62,9 @@ const actions = {
   fetchConversation({ commit, dispatch }, conversationId) {
     http.get(`/conversations/${conversationId}`, { headers: authHeader() })
       .then((res) => {
-        if (res.data.Messages.length) commit('addMessages', res.data.Messages);
+        if (res.data.Messages.length) {
+          commit('addMessages', res.data.Messages);
+        }
       })
       .catch((err) => {
         if (err.response.data === 'Please login') dispatch('logout');
@@ -70,6 +74,21 @@ const actions = {
     return http.put(`/conversations/message/${message.id}`, message.modifications, { headers: authHeader() })
       .then((res) => {
         commit('replaceMessage', res.data);
+        return Promise.resolve(res.data);
+      })
+      .catch((err) => {
+        if (err.response.data === 'Please login') dispatch('logout');
+        return Promise.reject(err.response.data.error.errors[0].message);
+      });
+  },
+  updateMessages({ commit, dispatch }, { convId, update }) {
+    return http.put(`/conversations/${convId}/message`, update, { headers: authHeader() })
+      .then((res) => {
+        console.log(res.data);
+        res.data.forEach((msg) => {
+          commit('replaceMessage', msg);
+        });
+        dispatch('getUnreadMessagesCount');
         return Promise.resolve(res.data);
       })
       .catch((err) => {
@@ -98,6 +117,19 @@ const actions = {
   },
   changeStateOfMessage({ commit }, message) {
     commit('replaceMessage', message);
+  },
+  getUnreadMessagesCount({ commit, dispatch }) {
+    return http.get('/conversations/message/unread', { headers: authHeader() })
+      .then((res) => {
+        console.log(res.data);
+        commit('setUnreadMessages', res.data);
+        return Promise.resolve(res.data);
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+        if (err.response.data === 'Please login') dispatch('logout');
+        return Promise.reject(err.response.data.error.errors[0].message);
+      });
   },
 };
 
@@ -154,6 +186,9 @@ const mutations = {
         });
       }
     });
+  },
+  setUnreadMessages(state, count) {
+    state.unreadMessages = count;
   },
 };
 

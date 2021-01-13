@@ -50,7 +50,11 @@ exports.readAllConversations = (req, res) => {
       {model: Message, limit: 1, order: [ ['createdAt', 'DESC'] ]}
     ],
     where: {
-      users: { [Op.like]: `%${getUserId(req.headers.authorization)}%` }
+      [Op.or]: [
+        {users: { [Op.like]: `%[${getUserId(req.headers.authorization)},%` }},
+        {users: { [Op.like]: `%,${getUserId(req.headers.authorization)},%` }},
+        {users: { [Op.like]: `%,${getUserId(req.headers.authorization)}%]` }},
+      ], 
     }
   })
   .then(conversations => {
@@ -94,4 +98,53 @@ exports.updateMessage = (req, res) => {
     .catch(error => res.status(500).json({ error }));
   })
   .catch(error => res.status(500).json({ error }));
+};
+
+exports.updateAllMessages = (req, res) => {
+  console.log(req.body);
+  Message.update(req.body.modifications, {
+    where: {
+      conversationId: Number.parseInt(req.params.id, 10),
+      id: req.body.conditions.id,
+    }
+  })
+  .then(() => {
+    Message.findAll({
+      where: {
+        conversationId: Number.parseInt(req.params.id, 10),
+        id: req.body.conditions.id,
+      }
+    })
+    .then((messages) => res.status(200).json(messages))
+    .catch(error => res.status(500).json({ error }));
+  })
+  .catch(error => res.status(500).json({ error }));
+};
+
+exports.countUnreadMessages = (req, res) => {
+  Conversation.findAll({
+    where: {
+      [Op.or]: [
+        {users: { [Op.like]: `%[${getUserId(req.headers.authorization)},%` }},
+        {users: { [Op.like]: `%,${getUserId(req.headers.authorization)},%` }},
+        {users: { [Op.like]: `%,${getUserId(req.headers.authorization)}%]` }},
+      ], 
+    }
+  })
+  .then((conversations) => {
+    const conversationsId = [];
+    conversations.forEach(conversation => {
+      conversationsId.push(conversation.id);
+    });
+    Message.count({
+      where: {
+        conversationId: conversationsId,
+        userId: {[Op.ne]: getUserId(req.headers.authorization)},
+        read: false
+      }
+    })
+    .then(count => res.status(200).json(count))
+    .catch((error) => res.status(500).json({ error }));
+  })
+  .catch((error) => res.status(500).json({ error }));
 };

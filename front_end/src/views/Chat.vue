@@ -104,16 +104,6 @@ export default {
   watch: {
     currentConversation() {
       [this.currentConvDatas] = this.allConversations.filter((conv) => conv.id === this.currentConversation);
-      this.currentConvDatas.Messages.forEach((message) => {
-        if (message.read === false) {
-          this.updateMessage({
-            id: message.id,
-            modifications: {
-              read: true,
-            },
-          }).then((res) => this.socket.emit('messageRead', res));
-        }
-      });
     },
   },
   computed: {

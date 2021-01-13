@@ -6,7 +6,7 @@
     href="#"
     :active="currentConversation === conversation.id"
     @click.once="fetchConversation(conversation.id)"
-    @click="changeCurrentConversation(conversation.id)"
+    @click="handleClick(conversation.id)"
     class="border-0 rounded-pill text-dark d-flex justify-content-start align-items-center">
     <b-avatar
       :badge="isOnline(receiver(conversation.users).id)"
@@ -66,6 +66,7 @@ export default {
     ...mapActions([
       'fetchConversation',
       'changeCurrentConversation',
+      'updateMessages',
     ]),
     receiver(users) {
       const receiver = users.filter((user) => user !== this.userId)[0];
@@ -80,6 +81,28 @@ export default {
     },
     formatDate(date) {
       return dayjs(date).fromNow();
+    },
+    handleClick(e) {
+      this.changeCurrentConversation(e);
+      const unreadMessages = [];
+      this.allConversations.forEach((conversation) => {
+        if (conversation.id === e) {
+          conversation.Messages.forEach((msg) => {
+            if (msg.read === false) {
+              unreadMessages.push(msg.id);
+            }
+          });
+        }
+      });
+      if (unreadMessages.length) {
+        this.updateMessages({
+          convId: e,
+          update: {
+            modifications: { read: true },
+            conditions: { id: unreadMessages },
+          },
+        });
+      }
     },
   },
 };
