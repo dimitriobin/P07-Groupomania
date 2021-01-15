@@ -1,51 +1,51 @@
 'use strict'
 const router = require('express').Router();
-const auth = require('../middlewares/auth')
-
+const auth = require('../middlewares/auth');
 const {
   createConversation,
   createMessage,
-  readAllConversations,
-  readOneConversation,
-  updateMessage,
-  updateAllMessages,
-  countUnreadMessages } = require ('../controllers/conversations');
+  readAllConversationsForOneUser,
+  readAllMessagesForOneConversation,
+  updateMessagesByConversation,
+  deleteParticipant,
+  deleteConversation
+} = require('../controllers/conversations');
+
 
 
 /////////////////////////////////////////////
 // CREATE ONE conversation
 /////////////////////////////////////////////
-router.post('/', auth, createConversation);
+router.post('/', createConversation);
 
 /////////////////////////////////////////////
 // CREATE ONE message
 /////////////////////////////////////////////
-router.post('/:id/message', auth, createMessage);
+router.post('/:id/message', createMessage);
 
 /////////////////////////////////////////////
 // READ ALL conversations for one user
 /////////////////////////////////////////////
-router.get('/', auth, readAllConversations);
+router.get('/', readAllConversationsForOneUser);
 
 /////////////////////////////////////////////
 // READ ONE conversation
 /////////////////////////////////////////////
-router.get('/:id', auth, readOneConversation);
+router.get('/:id', readAllMessagesForOneConversation);
 
 /////////////////////////////////////////////
-// UPDATE ONE message
+// UPDATE ALL unread messages for one conversation
 /////////////////////////////////////////////
-router.put('/message/:id', auth, updateMessage);
+router.put('/:id/read', updateMessagesByConversation);
 
 /////////////////////////////////////////////
-// UPDATE ALL messages for one conversation
+// DELETE one participant
 /////////////////////////////////////////////
-router.put('/:id/message/', auth, updateAllMessages);
+router.delete('/:id/participant', deleteParticipant);
 
 /////////////////////////////////////////////
-// COUNT all unread messages
+// DELETE ONE conversation
 /////////////////////////////////////////////
-router.get('/message/unread', auth, countUnreadMessages);
-
+router.delete('/:id', deleteConversation);
 
 module.exports = router;
