@@ -6,6 +6,7 @@ const {
   createMessage,
   readAllConversationsForOneUser,
   readAllMessagesForOneConversation,
+  countAllUnreadMessagesByUser,
   updateMessagesByConversation,
   deleteParticipant,
   deleteConversation
@@ -32,6 +33,11 @@ router.get('/', readAllConversationsForOneUser);
 // READ ONE conversation
 /////////////////////////////////////////////
 router.get('/:id', readAllMessagesForOneConversation);
+
+/////////////////////////////////////////////
+// READ the count of all unread messages for one user
+/////////////////////////////////////////////
+router.get('/messages/unread', countAllUnreadMessagesByUser);
 
 /////////////////////////////////////////////
 // UPDATE ALL unread messages for one conversation

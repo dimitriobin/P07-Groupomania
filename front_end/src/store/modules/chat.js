@@ -1,194 +1,190 @@
+import { io } from 'socket.io-client';
 import http from '../../http-common';
 import authHeader from '../../services/auth-header';
 
 const state = () => ({
+  socket: '',
   onlineUsers: [],
   conversations: [],
   currentConversation: 0,
-  unreadMessages: '',
+  unreadMessagesCount: '',
 });
 
 const getters = {
+  socket: (state) => state.socket,
   allOnlineUsers: (state) => state.onlineUsers,
   allConversations: (state) => state.conversations,
   currentConversation: (state) => state.currentConversation,
-  unreadMessagesCount: (state) => state.unreadMessages,
+  unreadCount: (state) => state.unreadMessagesCount,
 };
 
 const actions = {
-  getOnlineUsers({ commit }, users) {
-    commit('setOnlineUsers', users);
+  // create conversation
+  createConversation({ state, commit, dispatch }, userArray) {
+    return http.post('/conversations', { users: userArray }, { headers: authHeader() })
+      .then((res) => {
+        if (res.data.created) {
+          state.socket.emit('newConversation', res.data.conversation);
+          commit('addConversation', res.data.conversation);
+        }
+        commit('setCurrentConversation', res.data.conversation.id);
+        dispatch('readAllMessagesByConversation', {
+          conversationId: res.data.conversation.id,
+          page: 0,
+        });
+        return Promise.resolve(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+        if (error.response.data === 'Please login') dispatch('logout');
+        Promise.reject(error.response.data);
+      });
   },
-  addMessage({ commit, state, dispatch }, message) {
+  // create message
+  createMessage({ state, commit, dispatch }, message) {
     return http.post(`/conversations/${state.currentConversation}/message`, message, { headers: authHeader() })
       .then((res) => {
-        commit('addNewMessage', res.data);
+        state.socket.emit('message', res.data);
+        commit('addOneMessage', res.data);
         return Promise.resolve(res.data);
       })
-      .catch((err) => {
-        console.log(err);
-        if (err.response.data === 'Please login') dispatch('logout');
-        return Promise.reject(err.response.data.error.errors[0].message);
+      .catch((error) => {
+        console.log(error);
+        if (error.response.data === 'Please login') dispatch('logout');
+        Promise.reject(error.response.data);
       });
-  },
-  addConversation({ commit, dispatch }, conversation) {
-    return http.post('/conversations', JSON.stringify(conversation), { headers: authHeader() })
-      .then((res) => {
-        if (res.data[1] === true) commit('addNewConversation', { ...res.data[0], Messages: [] });
-        commit('setCurrentConversation', res.data[0].id);
-        return Promise.resolve(res.data);
-      })
-      .catch((err) => {
-        if (err.response.data === 'Please login') {
-          dispatch('logout');
-        }
-        return Promise.reject(err.response.data);
-      });
-  },
-  fetchConversations({ commit, dispatch }) {
-    return http.get('/conversations', { headers: authHeader() })
-      .then((res) => {
-        commit('setConversations', res.data);
-        return Promise.resolve(res.data);
-      })
-      .catch((err) => {
-        if (err.response.data === 'Please login') dispatch('logout');
-        return Promise.reject(err.response.data.error.errors[0].message);
-      });
-  },
-  changeCurrentConversation({ commit }, conversationId) {
-    commit('setCurrentConversation', conversationId);
-  },
-  fetchConversation({ commit, dispatch }, conversationId) {
-    http.get(`/conversations/${conversationId}`, { headers: authHeader() })
-      .then((res) => {
-        if (res.data.Messages.length) {
-          commit('addMessages', res.data.Messages);
-        }
-      })
-      .catch((err) => {
-        if (err.response.data === 'Please login') dispatch('logout');
-      });
-  },
-  updateMessage({ commit, dispatch }, message) {
-    return http.put(`/conversations/message/${message.id}`, message.modifications, { headers: authHeader() })
-      .then((res) => {
-        commit('replaceMessage', res.data);
-        return Promise.resolve(res.data);
-      })
-      .catch((err) => {
-        if (err.response.data === 'Please login') dispatch('logout');
-        return Promise.reject(err.response.data.error.errors[0].message);
-      });
-  },
-  updateMessages({ commit, dispatch }, { convId, update }) {
-    return http.put(`/conversations/${convId}/message`, update, { headers: authHeader() })
-      .then((res) => {
-        console.log(res.data);
-        res.data.forEach((msg) => {
-          commit('replaceMessage', msg);
-        });
-        dispatch('getUnreadMessagesCount');
-        return Promise.resolve(res.data);
-      })
-      .catch((err) => {
-        if (err.response.data === 'Please login') dispatch('logout');
-        return Promise.reject(err.response.data.error.errors[0].message);
-      });
-  },
-  resetCurrentConversation({ commit }) {
-    commit('setCurrentConversation', '');
-  },
-  displayMessage({ commit, state, dispatch }, msg) {
-    if (state.currentConversation === msg.res.conversationId) {
-      commit('addNewMessage', msg.res);
-      return dispatch('updateMessage', {
-        id: msg.res.id,
-        modifications: {
-          read: true,
-        },
-      }).then((res) => Promise.resolve(res));
-    }
-    commit('addNewMessage', msg.res);
-    return 'New unread message';
-  },
-  displayConversation({ commit }, conversation) {
-    commit('addNewConversation', conversation);
-  },
-  changeStateOfMessage({ commit }, message) {
-    commit('replaceMessage', message);
   },
   getUnreadMessagesCount({ commit, dispatch }) {
-    return http.get('/conversations/message/unread', { headers: authHeader() })
+    return http.get('/conversations/messages/unread', { headers: authHeader() })
       .then((res) => {
-        console.log(res.data);
-        commit('setUnreadMessages', res.data);
-        return Promise.resolve(res.data);
+        commit('setUnreadCount', res.data);
       })
-      .catch((err) => {
-        console.log(err.response.data);
-        if (err.response.data === 'Please login') dispatch('logout');
-        return Promise.reject(err.response.data.error.errors[0].message);
+      .catch((error) => {
+        if (error.response.data === 'Please login') dispatch('logout');
+        Promise.reject(error.response.data);
       });
   },
+  // read all conversations
+  readAllConversations({ state, commit, dispatch }) {
+    return http.get('/conversations', { headers: authHeader() })
+      .then((res) => {
+        res.data.forEach((conversation) => {
+          state.socket.emit('subscribe', conversation.id);
+        });
+        commit('setAllConversations', res.data);
+        return Promise.resolve(res.data);
+      })
+      .catch((error) => {
+        if (error.response.data === 'Please login') dispatch('logout');
+        Promise.reject(error.response.data);
+      });
+  },
+  // read all messages for one conversation
+  readAllMessagesByConversation({ commit, dispatch }, { conversationId, page }) {
+    return http.get(`/conversations/${conversationId}?page=${page}`, { headers: authHeader() })
+      .then((res) => {
+        if (res.data.Messages.length) {
+          commit('addMessageArray', res.data);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        if (error.response.data === 'Please login') dispatch('logout');
+        Promise.reject(error);
+      });
+  },
+  // update all unread messages to read
+  updateConversationAsRead({ state, commit, dispatch }, conversationId) {
+    return http.put(`/conversations/${conversationId}/read`, {}, { headers: authHeader() })
+      .then((res) => {
+        if (res.data) {
+          if (state.unreadMessagesCount > 0) {
+            const [updatedCount] = res.data.updated;
+            commit('setUnreadCount', state.unreadMessagesCount - updatedCount);
+          }
+          if (res.data.lastRead) {
+            state.socket.emit('lastMessageRead', res.data.lastRead);
+            commit('replaceMessage', res.data);
+            commit('markAsRead', conversationId);
+          }
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+        if (error.response.data === 'Please login') dispatch('logout');
+        Promise.reject(error);
+      });
+  },
+  // remove a participant
+  removeParticipant() {},
+  // delete a conversation
+  deleteConversation() {},
 };
 
 const mutations = {
+  setSocket(state, socket) {
+    state.socket = io(socket);
+  },
   setOnlineUsers(state, users) {
     state.onlineUsers = users;
   },
-  setConversations(state, conversations) {
-    conversations.forEach((conv) => {
-      const convObject = {
-        ...conv,
-        users: JSON.parse(conv.users),
-      };
-      state.conversations.push(convObject);
-    });
+  setUnreadCount(state, count) {
+    state.unreadMessagesCount = count;
   },
-  setCurrentConversation(state, conversation) {
-    state.currentConversation = conversation;
+  incrementUnreadCount(state) {
+    state.unreadMessagesCount += 1;
   },
-  addNewConversation(state, conversation) {
-    const convObject = {
-      ...conversation,
-      users: JSON.parse(conversation.users),
-    };
-    state.conversations.push(convObject);
+  addConversation(state, newConversation) {
+    state.conversations.push(newConversation);
   },
-  addMessages(state, messages) {
-    // For each conversation
-    state.conversations.forEach((conv) => {
-      // Find the good one
-      if (conv.id === messages[0].conversationId) {
-        // then for each message
-        messages.forEach((message) => {
-          // unshift it in this conversation
-          conv.Messages.push(message);
-        });
-      }
-    });
+  setCurrentConversation(state, conversationId) {
+    state.currentConversation = conversationId;
   },
-  addNewMessage(state, message) {
-    state.conversations.forEach((conv) => {
-      if (conv.id === message.conversationId) {
-        conv.Messages.push(message);
-      }
-    });
+  setAllConversations(state, conversations) {
+    state.conversations = conversations;
   },
-  replaceMessage(state, newMessage) {
+  addOneMessage(state, newMessage) {
     state.conversations.forEach((conversation) => {
-      if (conversation.id === newMessage.conversationId) {
-        conversation.Messages.forEach((message, index) => {
-          if (message.id === newMessage.id) {
-            conversation.Messages.splice(index, 1, newMessage);
+      if (conversation.id === newMessage.ConversationId) {
+        conversation.Messages.push(newMessage);
+      }
+    });
+  },
+  addMessageArray(state, data) {
+    state.conversations.forEach((conv) => {
+      if (conv.id === data.Messages[0].ConversationId) {
+        if (data.currentPage === 0) {
+          conv.Messages.splice(0, conv.Messages.length);
+        }
+        const pagination = {
+          totalMessages: data.totalMessages,
+          totalPages: data.totalPages,
+          currentPage: data.currentPage,
+        };
+        Object.assign(conv, pagination);
+        data.Messages.forEach((msg) => conv.Messages.unshift(msg));
+      }
+    });
+  },
+  replaceMessage(state, message) {
+    state.conversations.forEach((conv) => {
+      if (conv.id === message.ConversationId) {
+        conv.Messages.forEach((msg, index) => {
+          if (msg.id === message.id) {
+            conv.Messages.splice(index, 1, message);
           }
         });
       }
     });
   },
-  setUnreadMessages(state, count) {
-    state.unreadMessages = count;
+  markAsRead(state, conversationId) {
+    state.conversations.forEach((conv, convIndex) => {
+      if (conv.id === conversationId) {
+        conv.Messages.forEach((msg, msgIndex) => {
+          state.conversations[convIndex].Messages[msgIndex].read = true;
+        });
+      }
+    });
   },
 };
 

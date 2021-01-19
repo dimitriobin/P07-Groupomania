@@ -48,6 +48,9 @@ const errorHandler = error => {
 //
 // const sslServer = https.createServer(options, app);
 
+// ///////////////////////////////////////////
+// Create HTTP server
+// ///////////////////////////////////////////
 const server = http.createServer(app);
 
 server.on('error', errorHandler);
@@ -60,16 +63,17 @@ server.on('listening', () => {
 // ///////////////////////////////////////////
 // LIVE CHAT with socket.io
 // ///////////////////////////////////////////
-const io = socketio(server, {
+const WebSockets = require('./utils/socket');
+
+global.io = socketio(server, {
     cors: {
         origin: 'http://localhost:8080',
         methods: ['GET', 'POST']
     }
 });
 
-const {socketConfig} = require('./utils/socket');
+global.io.on('connection', socket => WebSockets.connection(socket));
 
-socketConfig(io);
 
 // Initialize an Anonyme user 
 // const createAnonyme = (req, res, next) => {

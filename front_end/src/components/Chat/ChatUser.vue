@@ -1,31 +1,48 @@
 <template>
-<b-list-group
-  id="onlineUsersList">
-  <b-list-group-item
-    v-for="(user, index) in allOtherUsers"
-    :key="index"
-    href="#"
-    class="border-0 rounded-pill text-dark d-flex justify-content-start align-items-center"
-    @click="$emit('selected', user.id)">
-    <b-avatar
-      :badge="isOnline(user.id)"
-      badge-variant="success"
-      :src="user.image_url"
-      size="3.5rem"
-      class="mr-3">
-    </b-avatar>
-    <div>
-      <p class="m-0 h5">{{ user.user_name }}</p>
-    </div>
-  </b-list-group-item>
-</b-list-group>
+<div class="h-100 d-flex flex-column justify-between align-items-stretch">
+  <b-list-group
+    id="onlineUsersList"
+    class="overflow-y-auto overflow-x-hidden">
+    <b-list-group-item
+      v-for="(user, index) in allOtherUsers"
+      :key="index"
+      href="#"
+      :class="{ 'active': selectedUsers.includes(user.id) }"
+      class="border-0 rounded-pill text-dark d-flex justify-content-start align-items-center"
+      @click="handleSelection(user.id)">
+      <b-avatar
+        :badge="isOnline(user.id)"
+        badge-variant="success"
+        :src="user.image_url"
+        size="3.5rem"
+        class="mr-3">
+      </b-avatar>
+      <div>
+        <p class="m-0 h5">{{ user.user_name }}</p>
+      </div>
+    </b-list-group-item>
+  </b-list-group>
+  <div class="mt-2 w-100">
+    <b-button
+      @click="handleSubmit()"
+      class="d-block mx-auto" variant="success" size="lg">
+      Démarrer une conversation
+    </b-button>
+  </div>
+
+</div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: 'ChatUser',
+  data() {
+    return {
+      selectedUsers: [],
+    };
+  },
   computed: {
     ...mapGetters([
       'userId',
@@ -37,9 +54,23 @@ export default {
     },
   },
   methods: {
+    ...mapActions([
+      'createConversation',
+    ]),
     isOnline(userId) {
       const compare = this.allOnlineUsers.filter((user) => (user.userId === userId));
       return compare.length > 0;
+    },
+    handleSelection(userId) {
+      if (this.selectedUsers.includes(userId)) {
+        this.selectedUsers.splice(this.selectedUsers.indexOf(userId), 1);
+      } else {
+        this.selectedUsers.push(userId);
+      }
+    },
+    handleSubmit() {
+      this.createConversation([...this.selectedUsers, this.userId])
+        .then(() => this.$emit('conversationCreated'));
     },
   },
 };

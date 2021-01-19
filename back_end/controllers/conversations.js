@@ -4,18 +4,18 @@ const { Conversation, User, Participant, Message } = require('../models');
 const jwt = require('jsonwebtoken');
 
 const getPagination = (page, size) => {
-    const limit = size ? +size : 10;
+    const limit = size ? +size : 20;
     const offset = page ? page * limit : 0;
 
     return { limit, offset };
 };
 
 const getPagingData = (data, page, limit) => {
-    const { count: totalItems, rows: conversation } = data;
+    const { count: totalMessages, rows: Messages } = data;
     const currentPage = page ? +page : 0;
-    const totalPages = Math.ceil(totalItems / limit);
+    const totalPages = Math.ceil(totalMessages / limit);
 
-    return { totalItems, conversation, totalPages, currentPage };
+    return { totalMessages, Messages, totalPages, currentPage };
 };
 
 const getUserId = (bearerToken) => {
@@ -51,7 +51,18 @@ exports.createConversation = (req, res) => {
     }, {
       include: [ Participant ]
     })
-    .then((createdConversation) => res.status(200).json({ created: true, createdConversation}))
+    .then((createdConversation) => {
+      Conversation.findOne({
+        include: [
+          { model: Participant, attributes: [] },
+          { model: User, attributes: ['id', 'user_name', 'image_url'], through: { attributes: [] } },
+          { model: Message, limit: 1, order: [ ['createdAt', 'DESC'] ] }
+        ],
+        where: { id: createdConversation.id }
+      })
+      .then((conversation) => res.status(201).json({ created: true, conversation}))
+      .catch((error) => res.status(500).json(error));
+    })
     .catch((error) => res.status(500).json(error));
   })
   .catch((error) => res.status(500).json(error));
@@ -76,11 +87,13 @@ exports.createMessage = (req, res) => {
       if (!participant) return res.status(401).send('You are not allowed to join this conversation');
       // Third, create the message, the default value for 'read' will be false
       Message.create({
-        ConversationId: req.params.id,
+        ConversationId: Number.parseInt(req.params.id, 10),
         UserId: getUserId(req.headers.authorization),
         ...req.body
       })
-      .then(messageCreated => res.status(201).json(messageCreated))
+      .then(messageCreated => {
+        res.status(201).json(messageCreated);
+      })
       .catch((error) => res.status(500).json(error));
     })
     .catch((error) => res.status(500).json(error));
@@ -113,26 +126,68 @@ exports.readAllMessagesForOneConversation = (req, res) => {
   const { page } = req.query;
   const { limit, offset } = getPagination(page);
 
-  Message.findAndCountAll({
-    include: [
-      { model: User, attributes: ['id', 'user_name', 'image_url'] },
-    ],
-    distinct: true,
-    limit,
-    offset,
-    where: {
-      ConversationId: req.params.id
-    },
-    order: [
-      ['createdAt', 'DESC']
-    ],
-  })
+  Conversation.findOne({ where: {id: req.params.id }})
   .then(conversation => {
-    if (!conversation.rows.length) return res.status(404).send('Conversation not found');
-    const response = getPagingData(conversation, page, limit);
-    res.status(200).json(response);
+    if (!conversation) return res.status(404).send('Conversation not found');
+    Message.findAndCountAll({
+      include: [
+        { model: User, attributes: ['id', 'user_name', 'image_url'] },
+      ],
+      distinct: true,
+      limit,
+      offset,
+      where: {
+        ConversationId: req.params.id
+      },
+      order: [
+        ['createdAt', 'DESC'],
+        ['id', 'DESC']
+      ],
+    })
+    .then(messages => {
+      const response = getPagingData(messages, page, limit);
+      res.status(200).json(response);
+    })
+    .catch(error => res.status(500).json(error));
   })
   .catch(error => res.status(500).json(error));
+
+};
+
+/////////////////////////////////////////////
+// READ the count of all unread messages for a user
+/////////////////////////////////////////////
+exports.countAllUnreadMessagesByUser = (req, res) => {
+  User.findOne({
+    include: [
+      { model: Conversation, attributes: ['id'], through: {attributes: []} }
+    ],
+    where: {
+      id: getUserId(req.headers.authorization)
+    },
+    attributes: []
+  })
+  .then(response => {
+    const conversationsId = response.Conversations.map(i => i.id)
+    Message.count({
+      where: {
+        ConversationId: conversationsId,
+        UserId: { [Op.ne]: getUserId(req.headers.authorization) },
+        read: false
+      }
+    })
+    .then(count => {
+      res.status(200).json(count);
+    })
+    .catch(error => {
+      console.log(error);
+      res.status(500).json({ error })
+    });
+  })
+  .catch(error => {
+    console.log(error);
+    res.status(500).json({ error })
+  });
 };
 
 /////////////////////////////////////////////
@@ -156,11 +211,25 @@ exports.updateMessagesByConversation = (req, res) => {
       Message.update({ read: true }, {
         where: {
           ConversationId: req.params.id,
-          read: false
+          read: false,
+          UserId: { [Op.ne]: getUserId(req.headers.authorization) },
         }
       })
-      .then(messageUpdated => {
-        res.status(200).json(messageUpdated)
+      .then((updated) => {
+        Message.findOne({
+          where: {
+            ConversationId: req.params.id,
+            read: true,
+            UserId: { [Op.ne]: getUserId(req.headers.authorization) },
+          },
+          order: [
+            ['createdAt', 'DESC']
+          ]
+        })
+        .then(lastRead => {
+          res.status(200).json({lastRead, updated});
+        })
+        .catch((error) => res.status(500).json(error));
       })
       .catch((error) => res.status(500).json(error));
     })

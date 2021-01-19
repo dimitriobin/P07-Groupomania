@@ -23,11 +23,10 @@
               font-scale="1.5">
             </b-icon>
             <b-badge
-              v-if="unreadMessagesCount > 0 "
               pill
               class="icon_counter"
               variant="danger">
-              {{ unreadMessagesCount }}
+              {{ unreadCount }}
           </b-badge>
           </b-nav-item>
           <b-nav-item-dropdown
@@ -56,10 +55,16 @@ export default {
     SearchBar,
   },
   computed: {
-    ...mapGetters(['userId', 'unreadMessagesCount']),
+    ...mapGetters([
+      'userId',
+      'unreadCount',
+    ]),
   },
   methods: {
-    ...mapActions(['logout', 'getUnreadMessagesCount']),
+    ...mapActions([
+      'logout',
+      'getUnreadMessagesCount',
+    ]),
     goPersonnalPage() {
       this.$router.push(`/user/${this.userId}`).then(() => window.location.reload());
     },
