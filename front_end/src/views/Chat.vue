@@ -17,14 +17,13 @@
         </b-button>
         <b-modal
           id="onlineUsers"
-          title="Choisissez un collègue"
+          title="Avec qui voulez-vous discutter ?"
           hide-footer
           centered
           scrollable
           content-class="h-100">
           <!-- online users -->
-          <ChatUser @selected="createConversation($event)"/>
-          <!-- <p v-else>Aucun collègue n'est en ligne actuellement</p> -->
+          <ChatUser @conversationCreated="$bvModal.hide('onlineUsers')"/>
         </b-modal>
       <!-- Conversations overview -->
       </div>
@@ -32,29 +31,9 @@
     </b-col>
     <!-- chat section -->
     <b-col
-      v-if="currentConversation"
+      v-if="currentConversation !== 0"
       class="h-100 d-flex flex-column justify-content-between align-items-stretch">
-      <!-- chat header -->
-      <div
-        class="p-3 d-flex align-items-center">
-        <b-button
-          variant="link"
-          class="text-dark">
-          <b-icon-arrow-left
-            font-scale="1.5"
-            class="mr-3 d-lg-none"
-            @click="resetCurrentConversation()">
-          </b-icon-arrow-left>
-        </b-button>
-        <b-avatar
-          badge
-          badge-variant="success"
-          :src="receiver.image_url"
-          size="2.5rem"
-          class="mr-3">
-        </b-avatar>
-        <h2 class="h5 m-0">{{ receiver.user_name }}</h2>
-      </div>
+      <ChatHeader />
       <ChatMessages />
       <!-- form message -->
       <form
@@ -69,15 +48,14 @@
     </b-col>
     <b-col
       v-else
-      class="h-100 d-flex flex-column justify-content-center align-items-center">
-      <!-- chat header -->
+      class="h-100 d-none d-lg-flex flex-column justify-content-center align-items-center">
       <h5>Vos messages</h5>
-      <p>Envoyez des messages privés à vos collègues </p>
+      <p>Créer une nouvelle conversation avec vos collègues </p>
       <b-button
         @click="$bvModal.show('onlineUsers')"
         variant="info"
         pill>
-        Envoyer un nouveau message
+        Créer une conversation
       </b-button>
     </b-col>
   </b-row>
@@ -87,8 +65,8 @@
 import ChatUser from '@/components/Chat/ChatUser.vue';
 import ChatMessages from '@/components/Chat/ChatMessages.vue';
 import ChatConversations from '@/components/Chat/ChatConversations.vue';
-import { io } from 'socket.io-client';
-import { mapActions, mapGetters } from 'vuex';
+import ChatHeader from '@/components/Chat/ChatHeader.vue';
+import { mapActions, mapGetters, mapMutations } from 'vuex';
 
 export default {
   name: 'Chat',
@@ -96,6 +74,7 @@ export default {
     ChatUser,
     ChatMessages,
     ChatConversations,
+    ChatHeader,
   },
   data() {
     return {
@@ -103,85 +82,63 @@ export default {
     };
   },
   watch: {
-    currentConversation() {
-      if (this.currentConversation !== '') {
-        this.currentConversation.Messages.forEach((message) => {
-          if (!message.read) {
-            this.updateMessage({
-              id: message.id,
-              modifications: {
-                read: true,
-              },
-            });
-          }
-        });
+    currentConversation(newValue) {
+      this.socket.emit('subscribe', this.currentConversation);
+      if (this.currentConversation !== 0) {
+        this.updateConversationAsRead(newValue)
+          .then((res) => {
+            if (this.unreadCount > 0) {
+              const [updatedCount] = res.updated;
+              this.setUnreadCount(this.unreadCount - updatedCount);
+            }
+          });
       }
     },
   },
   computed: {
     ...mapGetters([
       'userId',
-      'oneUser',
-      'allUsers',
-      'allOnlineUsers',
       'currentConversation',
+      'socket',
+      'unreadCount',
     ]),
-    socket() {
-      return io('http://localhost:3000', { query: `userId=${this.userId}` });
-    },
-    receiver() {
-      return this.currentConversation.userOneId === this.userId ? this.currentConversation.userTwo : this.currentConversation.userOne;
-    },
   },
   methods: {
     ...mapActions([
       'fetchUser',
       'fetchAllUsers',
-      'getOnlineUsers',
-      'addMessage',
-      'displayMessage',
-      'addConversation',
-      'resetCurrentConversation',
-      'updateMessage',
-      'displayConversation',
+      'createMessage',
+      'updateConversationAsRead',
     ]),
-    createConversation(e) {
-      this.$bvModal.hide('onlineUsers');
-      this.addConversation({
-        userOneId: e,
-        userTwoId: this.userId,
-      })
-        .then((conversation) => {
-          this.socket.emit('newConversation', { toUser: e, conversation });
-        });
-    },
+    ...mapMutations([
+      'addOneMessage',
+      'addConversation',
+      'setOnlineUsers',
+      'replaceMessage',
+      'setUnreadCount',
+    ]),
     sendMessage(e) {
       e.preventDefault();
-      const messageObject = {
-        content: this.message,
-      };
-      this.addMessage(messageObject)
-        .then((res) => {
-          this.socket.emit('privateMessage', { res, toUser: this.receiver.id });
-        });
+      this.createMessage({ content: this.message });
       this.message = '';
     },
   },
   mounted() {
     this.fetchUser(this.userId);
     this.fetchAllUsers();
-    // Listen to online users
-    this.socket.on('onelineUsers', (users) => {
-      const onlineUsers = users.filter((user) => user.userId !== this.userId);
-      this.getOnlineUsers(onlineUsers);
+    this.socket.on('onlineUsers', (users) => this.setOnlineUsers(users));
+    this.socket.on('newConversation', (conv) => {
+      this.addConversation(conv);
+      this.socket.emit('subscribe', conv.id);
     });
-    // Listen to new conversations
-    this.socket.on('newConversation', (conversation) => {
-      this.displayConversation(conversation);
+    this.socket.on('message', (msg) => {
+      this.addOneMessage(msg);
+      if (this.currentConversation === msg.ConversationId) {
+        this.updateConversationAsRead(msg.ConversationId);
+      }
     });
-    // Listen to private Messages
-    this.socket.on('privateMessage', (msg) => {
-      this.displayMessage(msg);
+    this.socket.on('lastMessageRead', (msg) => {
+      this.replaceMessage(msg);
     });
   },
 };

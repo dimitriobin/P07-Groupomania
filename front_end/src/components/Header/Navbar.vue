@@ -16,8 +16,18 @@
           <b-nav-item to="/">
             <b-icon icon="house-door-fill" variant="dark" font-scale="1.5"></b-icon>
           </b-nav-item>
-          <b-nav-item to="/chat">
-            <b-icon icon="chat-dots" variant="dark" font-scale="1.5"></b-icon>
+          <b-nav-item to="/chat" class="position-relative">
+            <b-icon
+              icon="chat-dots"
+              variant="dark"
+              font-scale="1.5">
+            </b-icon>
+            <b-badge
+              pill
+              class="icon_counter"
+              variant="danger">
+              {{ unreadCount }}
+          </b-badge>
           </b-nav-item>
           <b-nav-item-dropdown
             right
@@ -45,13 +55,22 @@ export default {
     SearchBar,
   },
   computed: {
-    ...mapGetters(['userId']),
+    ...mapGetters([
+      'userId',
+      'unreadCount',
+    ]),
   },
   methods: {
-    ...mapActions(['logout']),
+    ...mapActions([
+      'logout',
+      'getUnreadMessagesCount',
+    ]),
     goPersonnalPage() {
       this.$router.push(`/user/${this.userId}`).then(() => window.location.reload());
     },
+  },
+  mounted() {
+    this.getUnreadMessagesCount();
   },
 };
 </script>

@@ -1,51 +1,48 @@
-exports.socketConfig = (io) => {
-  const users = [];
-
-  io.on('connection', socket => {
-  
-    // When a user connect, take is ID and socketId and push it to the users array
-    const isOnline = users.find(user => user.userId === socket.handshake.query.userId);
-    if (!isOnline) {
-      users.push({
-          userId: Number.parseInt(socket.handshake.query.userId, 10),
-          socketId: socket.id
-      });
-    }
-
-    // Emit to all users the array of all users
-    io.emit('onelineUsers', users);
-
-    socket.on('privateMessage', msg => {
-      let socketId = '';
-      const isConnected = users.filter(user => user.userId === msg.toUser).length;
-      if (isConnected) {
-        socketId = users.filter(user => user.userId === msg.toUser)[0].socketId;
-      } else {
-        console.log('This user is not connected');
-      }
-      io.to(socketId).emit('privateMessage', msg)
+'use strict'
+class WebSockets {
+  users = [];
+  connection(client) {
+    // add identity of user mapped to the socket id
+    this.users.push({
+        socketId: client.id,
+        userId: Number.parseInt(client.handshake.query.userId, 10),
     });
-
-    // When a user create a conversation it inform the receiver directly
-    socket.on('newConversation', conversation => {
-      let socketId = '';
-      const isConnected = users.filter(user => user.userId === conversation.toUser).length;
-      if (isConnected) {
-        socketId = users.filter(user => user.userId === conversation.toUser)[0].socketId;
-      } else {
-        console.log('This user is not connected');
-      }
-      io.to(socketId).emit('newConversation', conversation.conversation)
+    // Emit the users array to all other connected users
+    global.io.sockets.emit('onlineUsers', this.users);
+    // subscribe person to chat
+    client.on("subscribe", (room) => {
+      client.join(room);
     });
-
-    //Leave the room if the user closes the socket
-    socket.on('disconnect', () => {
-        users.forEach((user, index) => {
-            if (user.socketId === socket.id) {
-                users.splice(index, 1);
-            }
+    // serve a message to a room 
+    client.on('message', (msg) => {
+      client.broadcast.to(msg.ConversationId).emit('message', msg);
+    });
+    // serve a message when it's read by other participant
+    client.on('lastMessageRead', (msg) => {
+      client.broadcast.to(msg.ConversationId).emit('lastMessageRead', msg);
+    });
+    // serve a conversation to participants
+    client.on('newConversation', (conv) => {
+      conv.Users.forEach((participant) => {
+        const userInfos = this.users.filter((user) => user.userId === participant.id && user.socketId !== client.id);
+        userInfos.map((userInfo) => {
+          const socketConn = userInfo.socketId;
+          if (socketConn) {
+            client.to(socketConn).emit('newConversation', conv);
+          }
         });
-        io.emit('onelineUsers', users);
+      });
     });
-  })
+    // mute a chat room
+    client.on("unsubscribe", (room) => {
+      client.leave(room);
+    });
+    // event fired when the chat room is disconnected
+    client.on("disconnect", () => {
+      this.users = this.users.filter((user) => user.socketId !== client.id);
+      global.io.sockets.emit('onlineUsers', this.users);
+    });
+  }
 }
+
+module.exports = new WebSockets();
