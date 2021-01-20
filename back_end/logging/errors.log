@@ -2638,3 +2638,5 @@
 ::1 - - [20/Jan/2021:10:15:28 +0000] "GET /images/star-wars-a-quel-age-mon-enfant-peut-il-regar%E2%80%A6 HTTP/1.1" 404 200
 ::1 - - [20/Jan/2021:10:15:28 +0000] "GET /images/star-wars-galays-edge-vr-sur-quest-660x330161%E2%80%A6 HTTP/1.1" 404 200
 ::1 - - [20/Jan/2021:10:15:28 +0000] "GET /images/star-wars-dans-quel-ordre-regarder-les-films-%E2%80%A6 HTTP/1.1" 404 200
+::1 - - [20/Jan/2021:16:39:49 +0000] "GET /images/ HTTP/1.1" 404 146
+::1 - - [20/Jan/2021:16:40:14 +0000] "GET /favicon.ico HTTP/1.1" 404 150
