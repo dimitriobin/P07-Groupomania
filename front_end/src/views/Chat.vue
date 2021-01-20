@@ -85,7 +85,13 @@ export default {
     currentConversation(newValue) {
       this.socket.emit('subscribe', this.currentConversation);
       if (this.currentConversation !== 0) {
-        this.updateConversationAsRead(newValue);
+        this.updateConversationAsRead(newValue)
+          .then((res) => {
+            if (this.unreadCount > 0) {
+              const [updatedCount] = res.updated;
+              this.setUnreadCount(this.unreadCount - updatedCount);
+            }
+          });
       }
     },
   },
@@ -94,6 +100,7 @@ export default {
       'userId',
       'currentConversation',
       'socket',
+      'unreadCount',
     ]),
   },
   methods: {
@@ -108,6 +115,7 @@ export default {
       'addConversation',
       'setOnlineUsers',
       'replaceMessage',
+      'setUnreadCount',
     ]),
     sendMessage(e) {
       e.preventDefault();

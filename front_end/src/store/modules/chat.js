@@ -98,16 +98,13 @@ const actions = {
     return http.put(`/conversations/${conversationId}/read`, {}, { headers: authHeader() })
       .then((res) => {
         if (res.data) {
-          if (state.unreadMessagesCount > 0) {
-            const [updatedCount] = res.data.updated;
-            commit('setUnreadCount', state.unreadMessagesCount - updatedCount);
-          }
           if (res.data.lastRead) {
             state.socket.emit('lastMessageRead', res.data.lastRead);
             commit('replaceMessage', res.data);
             commit('markAsRead', conversationId);
           }
         }
+        return Promise.resolve(res.data);
       })
       .catch((error) => {
         console.log(error);

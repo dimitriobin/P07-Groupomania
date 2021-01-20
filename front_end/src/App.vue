@@ -41,8 +41,8 @@ export default {
   mounted() {
     this.setSocket(`http://localhost:3000?userId=${this.userId}`);
     this.readAllConversations();
-    this.socket.on('message', () => {
-      if (this.currentConversation === 0) {
+    this.socket.on('message', (msg) => {
+      if (this.currentConversation !== msg.ConversationId) {
         this.incrementUnreadCount();
       }
     });
