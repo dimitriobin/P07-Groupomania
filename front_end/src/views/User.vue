@@ -71,6 +71,12 @@ export default {
     Subject,
     LazyLoadingScroll,
   },
+  watch: {
+    $route(to) {
+      this.fetchUser(to.params.id);
+      this.fetchAllPostsByOneUser({ page: 0, id: to.params.id });
+    },
+  },
   computed: {
     ...mapGetters(['oneUser', 'userId', 'allPosts', 'postPagination']),
   },
