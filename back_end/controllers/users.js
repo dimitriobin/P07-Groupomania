@@ -20,7 +20,8 @@ exports.signup = (req, res, next) => {
 
         } : {
             ...req.body,
-            password: hashPass
+            password: hashPass,
+            image_url: `${req.protocol}://${req.get('host')}/images/public/icon.png`,
         };
         User.create(userObject)
         .then(createdUser => {
