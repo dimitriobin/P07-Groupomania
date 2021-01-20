@@ -1,9 +1,9 @@
 <template>
   <div
-    class="p-5 d-flex align-items-center">
+    class="p-2 p-sm-3 p-lg-4 d-flex align-items-center">
     <b-button
       variant="link"
-      class="text-dark mr-3 mr-lg-0 d-lg-none">
+      class="text-dark mr-1 mr-lg-0 d-lg-none">
       <b-icon-arrow-left
         font-scale="1.5"
         @click="setCurrentConversation(0)">

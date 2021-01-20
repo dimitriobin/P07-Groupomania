@@ -2635,3 +2635,6 @@
 ::ffff:127.0.0.1 - - [20/Jan/2021:09:36:42 +0000] "GET /api/subjects HTTP/1.1" 401 12
 ::ffff:127.0.0.1 - - [20/Jan/2021:09:36:42 +0000] "GET /api/users HTTP/1.1" 401 12
 ::ffff:127.0.0.1 - - [20/Jan/2021:09:36:42 +0000] "GET /api/posts/24?page=0&size=8&order=new HTTP/1.1" 401 12
+::1 - - [20/Jan/2021:10:15:28 +0000] "GET /images/star-wars-a-quel-age-mon-enfant-peut-il-regar%E2%80%A6 HTTP/1.1" 404 200
+::1 - - [20/Jan/2021:10:15:28 +0000] "GET /images/star-wars-galays-edge-vr-sur-quest-660x330161%E2%80%A6 HTTP/1.1" 404 200
+::1 - - [20/Jan/2021:10:15:28 +0000] "GET /images/star-wars-dans-quel-ordre-regarder-les-films-%E2%80%A6 HTTP/1.1" 404 200

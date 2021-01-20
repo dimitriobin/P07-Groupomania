@@ -50,12 +50,12 @@
       v-else
       class="h-100 d-none d-lg-flex flex-column justify-content-center align-items-center">
       <h5>Vos messages</h5>
-      <p>Envoyez des messages privés à vos collègues </p>
+      <p>Créer une nouvelle conversation avec vos collègues </p>
       <b-button
         @click="$bvModal.show('onlineUsers')"
         variant="info"
         pill>
-        Envoyer un nouveau message
+        Créer une conversation
       </b-button>
     </b-col>
   </b-row>

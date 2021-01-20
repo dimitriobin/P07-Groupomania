@@ -1,7 +1,7 @@
 <template>
   <div
     id="chatMessages"
-    class="pt-0 d-flex flex-column justify-content-between align-items-stretch">
+    class="pt-0 px-sm-3 px-md-4 d-flex flex-column justify-content-between align-items-stretch">
     <LazyLoadingScroll
       v-if="conversation.Messages.length && conversation.Messages.length < conversation.totalMessages"
       @loadMore="handleLoading($event)" />
