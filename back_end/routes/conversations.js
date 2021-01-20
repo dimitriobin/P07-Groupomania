@@ -17,41 +17,41 @@ const {
 /////////////////////////////////////////////
 // CREATE ONE conversation
 /////////////////////////////////////////////
-router.post('/', createConversation);
+router.post('/', auth, createConversation);
 
 /////////////////////////////////////////////
 // CREATE ONE message
 /////////////////////////////////////////////
-router.post('/:id/message', createMessage);
+router.post('/:id/message', auth, createMessage);
 
 /////////////////////////////////////////////
 // READ ALL conversations for one user
 /////////////////////////////////////////////
-router.get('/', readAllConversationsForOneUser);
+router.get('/', auth, readAllConversationsForOneUser);
 
 /////////////////////////////////////////////
 // READ ONE conversation
 /////////////////////////////////////////////
-router.get('/:id', readAllMessagesForOneConversation);
+router.get('/:id', auth, readAllMessagesForOneConversation);
 
 /////////////////////////////////////////////
 // READ the count of all unread messages for one user
 /////////////////////////////////////////////
-router.get('/messages/unread', countAllUnreadMessagesByUser);
+router.get('/messages/unread', auth, countAllUnreadMessagesByUser);
 
 /////////////////////////////////////////////
 // UPDATE ALL unread messages for one conversation
 /////////////////////////////////////////////
-router.put('/:id/read', updateMessagesByConversation);
+router.put('/:id/read', auth, updateMessagesByConversation);
 
 /////////////////////////////////////////////
 // DELETE one participant
 /////////////////////////////////////////////
-router.delete('/:id/participant', deleteParticipant);
+router.delete('/:id/participant', auth, deleteParticipant);
 
 /////////////////////////////////////////////
 // DELETE ONE conversation
 /////////////////////////////////////////////
-router.delete('/:id', deleteConversation);
+router.delete('/:id', auth, deleteConversation);
 
 module.exports = router;
