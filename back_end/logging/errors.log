@@ -2758,3 +2758,12 @@
 ::1 - - [21/Jan/2021:14:35:36 +0000] "POST /api/conversations/ HTTP/1.1" 500 1035
 ::1 - - [21/Jan/2021:14:36:06 +0000] "POST /api/conversations/79/message HTTP/1.1" 401 45
 ::1 - - [21/Jan/2021:14:37:05 +0000] "POST /api/conversations/80/message HTTP/1.1" 500 470
+::1 - - [21/Jan/2021:14:53:28 +0000] "GET /images/public/icon.png HTTP/1.1" 404 161
+::1 - - [21/Jan/2021:14:55:54 +0000] "POST /api/users/login HTTP/1.1" 404 28
+::1 - - [21/Jan/2021:14:56:06 +0000] "POST /api/users/login HTTP/1.1" 404 28
+::1 - - [21/Jan/2021:14:56:15 +0000] "GET /images/public/icon.png HTTP/1.1" 404 161
+::1 - - [21/Jan/2021:14:57:27 +0000] "GET /images/public/icon.png HTTP/1.1" 404 161
+::1 - - [21/Jan/2021:14:57:27 +0000] "GET /images/public/icon.png HTTP/1.1" 404 161
+::1 - - [21/Jan/2021:14:57:44 +0000] "GET /images/public/icon.png HTTP/1.1" 404 161
+::1 - - [21/Jan/2021:14:57:57 +0000] "GET /images/public/icon.png HTTP/1.1" 404 161
+::1 - - [21/Jan/2021:14:58:55 +0000] "GET /images/public/icon.png HTTP/1.1" 404 161
