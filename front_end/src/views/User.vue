@@ -34,7 +34,7 @@
           class="mb-3">
         </b-avatar>
         <h2 class="mb-3 text-center">{{ oneUser.user_name }}</h2>
-        <b-button variant="info">Envoyer un message</b-button>
+        <b-button to='/chat' class="btn-dark text-white">Envoyer un message</b-button>
       </b-card>
       <b-card
         class="w-100 align-items-center border-0 shadow"

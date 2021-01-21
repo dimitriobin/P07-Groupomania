@@ -10,6 +10,7 @@
       <div class="d-flex justify-content-between align-items-center p-2">
         <h1 class="h3">Discussions</h1>
         <b-button class="bg-transparent border-0" v-b-modal.onlineUsers>
+          <span class="sr-only">Démarrer une conversation avec un collègue</span>
           <b-icon-pencil-square
             class="text-dark"
             font-scale="1.5">
@@ -49,11 +50,11 @@
     <b-col
       v-else
       class="h-100 d-none d-lg-flex flex-column justify-content-center align-items-center">
-      <h5>Vos messages</h5>
+      <h2>Vos messages</h2>
       <p>Créer une nouvelle conversation avec vos collègues </p>
       <b-button
         @click="$bvModal.show('onlineUsers')"
-        variant="info"
+        variant="dark"
         pill>
         Créer une conversation
       </b-button>

@@ -29,14 +29,14 @@
                 </b-row>
             </b-col>
             <b-col cols="12" class="my-3  text-left">
-                <h3 class="h4 font-weight-bold text-break">
+                <h2 class="h4 font-weight-bold text-break">
                     {{ post.title }}
-                </h3>
+                </h2>
                 <b-img
                     v-if="post.image_url"
                     fluid
                     class="w-100 my-3"
-                    alt="Description de l'image"
+                    :alt="post.image_url.replace('http://localhost:3000/images/', '').split('.')[0].replaceAll('-', ' ')"
                     :src="post.image_url"></b-img>
                 <a v-if="post.url" target="_blank" :href="post.url">{{ post.url }}</a>
                 <p class="mb-0 text-muted"><small>{{ dateToTimestamp(post.createdAt) }}</small></p>
@@ -44,51 +44,67 @@
             <b-col cols="12" tag="footer" class="h2">
                 <b-row align-h="around" class="px-5">
                     <b-button
-                      class="bg-white border-0 position-relative">
-                        <b-icon
-                          v-if="!isLiked"
-                          @click="likePost(post.id)"
-                          icon="heart"
+                      v-if="!isLiked"
+                      class="bg-white border-0 position-relative"
+                      @keypress.enter="likePost(post.id)"
+                      @click="likePost(post.id)">
+                      <span class="sr-only">Aimer ce post</span>
+                      <b-icon
+                        icon="heart"
+                        variant="dark"
+                        class="mx-1 mx-lg-2"
+                        font-scale="2">
+                      </b-icon>
+                      <b-badge
+                        v-if="post.Likes.length > 0"
+                        pill
+                        class="icon_counter"
+                        variant="dark">
+                        {{ post.Likes.length }}
+                      </b-badge>
+                    </b-button>
+                    <b-button
+                      v-else
+                      class="bg-white border-0 position-relative"
+                      @keypress.enter="unlikePost(post.id)"
+                      @click="unlikePost(post.id)">
+                      <span class="sr-only">Ne plus aimer ce post ce post</span>
+                      <b-icon
+                        icon="heart-fill"
+                        variant="dark"
+                        class="mx-1 mx-lg-2"
+                        font-scale="2">
+                      </b-icon>
+                      <b-badge
+                        v-if="post.Likes.length > 0"
+                        pill
+                        class="icon_counter"
+                        variant="dark">
+                        {{ post.Likes.length }}
+                      </b-badge>
+                    </b-button>
+                    <b-button @click="collapse" class="bg-white border-0 position-relative">
+                      <span class="sr-only">Afficher les commentaires de ce post</span>
+                      <b-icon
+                          icon="chat-left-text"
                           variant="dark"
                           class="mx-1 mx-lg-2"
                           font-scale="2">
-                        </b-icon>
-                        <b-icon
-                          v-else
-                          @click="unlikePost(post.id)"
-                          icon="heart-fill"
-                          variant="dark"
-                          class="mx-1 mx-lg-2"
-                          font-scale="2">
-                        </b-icon>
-                        <b-badge
-                          v-if="post.Likes.length > 0"
+                      </b-icon>
+                      <b-badge
+                          v-if="commentsCount > 0 "
                           pill
                           class="icon_counter"
                           variant="dark">
-                          {{ post.Likes.length }}
-                        </b-badge>
-                    </b-button>
-                    <b-button @click="collapse" class="bg-white border-0 position-relative">
-                        <b-icon
-                            icon="chat-left-text"
-                            variant="dark"
-                            class="mx-1 mx-lg-2"
-                            font-scale="2">
-                        </b-icon>
-                        <b-badge
-                            v-if="commentsCount > 0 "
-                            pill
-                            class="icon_counter"
-                            variant="dark">
-                            {{ commentsCount }}
-                        </b-badge>
+                          {{ commentsCount }}
+                      </b-badge>
                     </b-button>
                     <b-dropdown
                         variant="link"
                         toggle-class="text-decoration-none"
                         no-caret>
                         <template v-slot:button-content>
+                        <span class="sr-only">Afficher les options de ce post</span>
                             <b-icon
                                 icon="three-dots"
                                 variant="dark"

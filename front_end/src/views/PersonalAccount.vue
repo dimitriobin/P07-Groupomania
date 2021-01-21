@@ -19,7 +19,7 @@
           <b-button
             v-if="!showAllSubjects"
             @click="showMoreSubjects()"
-            variant="link">Voir tous les sujets</b-button>
+            variant="dark">Voir tous les sujets</b-button>
           <Subject
             v-else
             v-for="subject in subjectsNotFollowed"

@@ -232,13 +232,13 @@
       <b-button
         v-if="!editInfos && !editPass"
         type="button"
-        variant="info"
+        variant="dark"
         class="mt-4 mr-2"
         @click="editInfos = true">Modifier vos informations</b-button>
       <b-button
         v-if="!editInfos && !editPass"
         type="button"
-        variant="info"
+        variant="dark"
         class="mt-4"
         @click="editPass = true">Modifier votre mot de passe</b-button>
   </ValidationObserver>

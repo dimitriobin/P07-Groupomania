@@ -2,6 +2,7 @@
     <b-navbar class="flex-column flex-sm-row">
         <!-- Logo -->
         <b-navbar-brand
+          href="#"
           to="/">
           <b-img
             fluid
@@ -13,10 +14,10 @@
           <!-- SEARCHBAR -->
           <SearchBar />
           <!-- ICONS -->
-          <b-nav-item to="/">
+          <b-nav-item to="/" href="#">
             <b-icon icon="house-door-fill" variant="dark" font-scale="1.5"></b-icon>
           </b-nav-item>
-          <b-nav-item to="/chat" class="position-relative">
+          <b-nav-item to="/chat" href="#" class="position-relative">
             <b-icon
               icon="chat-dots"
               variant="dark"
@@ -35,8 +36,8 @@
             <template v-slot:button-content>
               <b-icon icon="person-fill" variant="dark" font-scale="1.5"></b-icon>
             </template>
-            <b-dropdown-item :to="`/user/${userId}`">Voir votre profil</b-dropdown-item>
-            <b-dropdown-item to="/personal">Modifier vos informations</b-dropdown-item>
+            <b-dropdown-item :to="`/user/${userId}`" href="#">Voir votre profil</b-dropdown-item>
+            <b-dropdown-item to="/personal" href="#">Modifier vos informations</b-dropdown-item>
           </b-nav-item-dropdown>
           <b-nav-item @click.prevent="logout">
             <b-icon icon="power" variant="dark" font-scale="1.5"></b-icon>
