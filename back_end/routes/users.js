@@ -1,6 +1,6 @@
 'use strict'
 const router = require('express').Router();
-const { signup, login, readAllUser, readOneUser, updateOneUser, deleteOneUser, exportUser, report } = require ('../controllers/users');
+const { signup, login, readAllUser, readOneUser, updateOneUser, updatePassword, deleteOneUser, exportUser, report } = require ('../controllers/users');
 const auth = require('../middlewares/auth');
 const multer = require('../middlewares/multer-config');
 
@@ -30,6 +30,12 @@ router.get('/:id', auth, readOneUser);
 // UPDATE ONE User
 /////////////////////////////////////////////
 router.put('/:id', auth,  multer, updateOneUser);
+
+
+/////////////////////////////////////////////
+// UPDATE password for one user
+/////////////////////////////////////////////
+router.put('/:id/password', auth, updatePassword);
 
 
 /////////////////////////////////////////////

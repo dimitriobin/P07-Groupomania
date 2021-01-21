@@ -249,7 +249,6 @@ import { ValidationProvider, ValidationObserver } from 'vee-validate';
 import dayjs from 'dayjs';
 import RelativeTime from 'dayjs/plugin/relativeTime';
 import { mapActions, mapGetters } from 'vuex';
-import bcrypt from 'bcryptjs';
 
 dayjs.extend(RelativeTime);
 
@@ -288,23 +287,13 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['updateUser']),
+    ...mapActions([
+      'updateUser',
+      'updatePassword',
+    ]),
     showPreview(e) {
       const file = e.target.files[0];
       this.previewUrl = URL.createObjectURL(file);
-    },
-    isValidPass() {
-      return new Promise((resolve) => {
-        bcrypt.compare(this.user.oldPassword, this.oneUser.password, (err, res) => {
-          if (res === false || err) {
-            this.$refs.registerObserver.setErrors({
-              oldMdp: ['Mot de passe invalide'],
-            });
-            resolve(false);
-          }
-          resolve(true);
-        });
-      });
     },
     handleUpdateInfos() {
       const data = new FormData();
@@ -324,28 +313,30 @@ export default {
         });
     },
     handleUpdatePassword() {
-      const data = new FormData();
-      this.isValidPass()
-        .then((res) => {
-          if (res === false) return;
-          if (this.user.oldPassword === this.user.newPassword) {
-            this.$refs.registerObserver.setErrors({
-              mdp: ['Le nouveau mot de passe ne peux pas être le même que l\'ancien'],
-            });
-            return;
+      const requestBody = {
+        oldPassword: this.user.oldPassword,
+        newPassword: this.user.confirmation,
+      };
+      this.updatePassword({ id: this.userId, requestBody })
+        .then(() => {
+          this.editPass = false;
+          this.user.oldPassword = '';
+          this.user.newPassword = '';
+          this.user.confirmation = '';
+        })
+        .catch((error) => {
+          // If some known errors are send by the back end, display them in the UI
+          switch (error) {
+            case 'Wrong password':
+              this.$refs.registerObserver.setErrors({
+                oldMdp: ['Mot de passe invalide'],
+              });
+              break;
+            default:
+              break;
           }
-          data.append('password', this.user.confirmation);
-          this.updateUser({
-            id: this.userId,
-            data,
-          })
-            .then(() => {
-              this.editPass = false;
-              this.user.oldPassword = '';
-              this.user.newPassword = '';
-              this.user.confirmation = '';
-            })
-            .catch((err) => console.log(err));
+          // for errors that aren't known, display in the console
+          return console.error(error);
         });
     },
   },

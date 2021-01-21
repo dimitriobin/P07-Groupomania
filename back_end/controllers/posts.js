@@ -30,7 +30,7 @@ const getUserId = (bearerToken) => {
 
 exports.createOnePost = (req, res, next) => {
     const postObject = req.file ? {
-        title: req.body.title,
+        ...req.body,
         image_url: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
         user_id: req.body.user_id,
         subject_id: req.body.subject_id

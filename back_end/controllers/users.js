@@ -6,9 +6,10 @@ const fs = require('fs');
 const { Op } = require('sequelize');
 const fsPromise = fs.promises;
 
+const passwordRegex = new RegExp(/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){8,16}$/);
+
 exports.signup = (req, res, next) => {
-    const passRegexp = new RegExp(/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){8,16}$/);
-    if(passRegexp.test(req.body.password) == false) {
+    if(passwordRegex.test(req.body.password) == false) {
         return res.status(401).send('Please enter a strong password');
     }
     bcrypt.hash(req.body.password, 10)
@@ -94,26 +95,28 @@ exports.updateOneUser = (req, res, next) => {
     } : {
         ...req.body
     };
-    if (req.body.password) {
-        userObject.password = bcrypt.hashSync(req.body.password, 10);
-    }
+    // First, check if the user exist
     User.findOne({where: {id: req.params.id}})
     .then(user => {
+        // if not, respond with a 404 code
         if(!user) {
             return res.status(404).send('User not found');
         }
+        // if the user gives an image, then remove the old one from the server
         if (req.file && user.image_url !== null) {
             const filename = user.image_url.split('/images/')[1];
             fs.unlink(`images/${filename}`, (err) => {
                 if (err) { console.log(err);}
             });
         }
+        // Then update the user in the db
         User.update( userObject , {
             where: {
               id: req.params.id
             }
         })
         .then(updatedUser => {
+            // Finally, look for the new line in the db then respond with that data
             User.findOne({
                 include: [
                     {
@@ -135,6 +138,41 @@ exports.updateOneUser = (req, res, next) => {
     .catch(error => res.status(500).json({one: error}))
 };
 
+exports.updatePassword = (req, res) => {
+    if(passwordRegex.test(req.body.newPassword) === false) {
+        return res.status(401).send('Please enter a strong password');
+    }
+    // First, check if the user exist in the db
+    User.findOne({where: {id: req.params.id}})
+    .then(user => {
+        // if not, respond with a 404 code
+        if(!user) {
+            return res.status(404).send('User not found');
+        }
+        // Then, check if the old password is valid
+        bcrypt.compare(req.body.oldPassword, user.password)
+        .then(validPass => {
+            if(!validPass){
+                return res.status(400).send('Wrong password');
+            }
+            // Then, hash the new Password
+            bcrypt.hash(req.body.newPassword, 10)
+            .then((newPasswordHashed) => {
+                // Finally update the password with the new one
+                User.update({password: newPasswordHashed}, {
+                    where: {
+                        id: req.params.id,
+                    }
+                })
+                .then((response) => res.status(200).json(response))
+                .catch(error => res.status(500).json({ error }));
+            })
+            .catch(error => res.status(500).json({ error }));
+        })
+        .catch(error => res.status(500).json({ error }));
+    })
+    .catch(error => res.status(500).json({ error }));
+};
 
 
 
