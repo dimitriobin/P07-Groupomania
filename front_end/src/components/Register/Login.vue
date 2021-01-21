@@ -3,12 +3,13 @@
 <!-- ///////////////////////////////////LOGIN FORM////////////////////////////////////// -->
 <!-- ////////////////////////////////////////////////////////////////////////////////////// -->
   <ValidationObserver
+    tag="div"
     ref="loginObserver"
-    name="loginForm"
     v-slot="{ handleSubmit }">
     <b-form @submit.prevent="handleSubmit(handleLogin)">
 <!-- ///////////////////////////////////EMAIL////////////////////////////////////// -->
       <ValidationProvider
+        tag="div"
         name="email"
         rules="required|email"
         v-slot="{ valid, errors }">
@@ -33,6 +34,7 @@
       </ValidationProvider>
 <!-- ///////////////////////////////////PASSWORD////////////////////////////////////// -->
       <ValidationProvider
+        tag="div"
         name="mot de passe"
         vid="mdp"
         rules="required"

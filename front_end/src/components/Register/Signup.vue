@@ -3,13 +3,14 @@
 <!-- ///////////////////////////////////REGISTER FORM////////////////////////////////////// -->
 <!-- ////////////////////////////////////////////////////////////////////////////////////// -->
   <ValidationObserver
+    tag="div"
     ref="registerObserver"
-    name="signupForm"
     v-slot="{ handleSubmit }">
     <h2 class="text-center mb-4">Rejoignez nous</h2>
     <b-form @submit.prevent="handleSubmit(handleRegister)">
 <!-- ///////////////////////////////////EMAIL////////////////////////////////////// -->
       <ValidationProvider
+        tag="div"
         name="email"
         rules="required|email"
         v-slot="{ valid, errors }">
@@ -34,6 +35,7 @@
       </ValidationProvider>
 <!-- ///////////////////////////////////USERNAME////////////////////////////////////// -->
       <ValidationProvider
+        tag="div"
         name="pseudo"
         rules="required|alpha_num"
         v-slot="{ valid, errors }">
@@ -57,6 +59,7 @@
       </ValidationProvider>
 <!-- ///////////////////////////////////PASSWORD////////////////////////////////////// -->
       <ValidationProvider
+        tag="div"
         name="mot de passe"
         vid="mdp"
         rules="required|min:8|max:16|strongPassword"
@@ -81,6 +84,7 @@
       </ValidationProvider>
 <!-- //////////////////////////PASSWORD CONFIRMATION//////////////////////////////// -->
       <ValidationProvider
+        tag="div"
         name="confirmation"
         rules="required|confirmed:mdp"
         v-slot="{ valid, errors }">
@@ -104,6 +108,7 @@
       </ValidationProvider>
 <!-- ///////////////////////////////////img////////////////////////////////////// -->
       <ValidationProvider
+        tag="div"
         name="photo de profil"
         rules="image"
         v-slot="{ valid, errors }">
@@ -129,6 +134,7 @@
       </ValidationProvider>
 <!-- ///////////////////////////////////BIRTHDATE////////////////////////////////////// -->
       <ValidationProvider
+        tag="div"
         name="date de naissance"
         rules="required|isDate|isPast"
         v-slot="{ valid, errors }">
@@ -141,10 +147,8 @@
             id="registerBirthdate"
             type="date"
             v-model="signup.birthdate"
-            placeholder="jj-mm-aaaa"
             class="form-control"
-            :class="{ 'is-invalid' : errors[0], 'is-valid' : valid}"
-            :state="errors[0] ? false : (valid ? true : null)">
+            :class="{ 'is-invalid' : errors[0], 'is-valid' : valid}">
           <b-form-invalid-feedback>
             {{ errors[0] }}
           </b-form-invalid-feedback>
@@ -152,6 +156,7 @@
       </ValidationProvider>
 <!-- ///////////////////////////////////PARENTS EMAIL////////////////////////////////////// -->
       <ValidationProvider
+        tag="div"
         name="email des parents"
         rules="email"
         v-slot="{ valid, errors }">
@@ -174,10 +179,10 @@
       </b-form-group>
       </ValidationProvider>
 <!-- ///////////////////////////////////RGPD////////////////////////////////////// -->
-        <b-form-group
-          id="registerRgpd-group"
-          label="RGPD:"
-          label-cols="3">
+      <div class="row">
+        <label class="col-3 col-form-label">RGPD</label>
+        <div class="col-9">
+          <p class="sr-only">Voici un ensemble de cases à cocher pour nous permettre de respecter au mieux vos données d'utilisation.</p>
           <b-form-checkbox
             v-model="signup.restricted">
             Restreindre l'usage de vos données
@@ -190,7 +195,8 @@
             v-model="signup.contactable">
             Recevoir des offres de nos partenaires
           </b-form-checkbox>
-        </b-form-group>
+        </div>
+      </div>
       <b-button
         type="submit"
         variant="info"

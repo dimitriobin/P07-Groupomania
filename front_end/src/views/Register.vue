@@ -3,6 +3,7 @@
       <h1 class="sr-only">Inscription et connexion</h1>
       <b-img
         :src="require('../assets/img/icon-above-font.png')"
+        alt="Logo de groupomania"
         fluid
         width="450"
         class="mx-auto mb-5">
@@ -15,6 +16,7 @@
         <b-modal
           id="signupForm"
           size="lg"
+          centered
           hide-header
           hide-footer
           body-class="p-5">
@@ -23,6 +25,7 @@
         <b-modal
           id="subjectSuggest"
           lazy
+          centered
           size="lg"
           hide-header
           hide-footer
