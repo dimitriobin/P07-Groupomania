@@ -27,7 +27,10 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     image_url: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: true,
+      }
     },
     birthdate: {
         type: DataTypes.DATEONLY,
@@ -39,12 +42,7 @@ module.exports = (sequelize, DataTypes) => {
     parentEmail: {
       type: DataTypes.STRING,
       validate: {
-        isUserMinor(value) {
-          const age = ( ( Date.now() - Date.parse(this.birthdate) ) / 31536000000 );
-          if ( age < 18 && !value ) {
-            throw new Error('Si vous êtes mineur, vous devez fournir l\'email de vos responsables.');
-          }
-        }
+        isEmail: true
       }
     },
     restricted: {
@@ -60,7 +58,15 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: false
     }
   }, {
-    freezeTableName: true
+    freezeTableName: true,
+    validate: {
+      isUserMinor() {
+        const age = ( ( Date.now() - Date.parse(this.birthdate) ) / 31536000000 );
+        if ( age < 18 && !this.parentEmail ) {
+          throw new Error('Si vous êtes mineur, vous devez fournir l\'email de vos responsables.');
+        }
+      }
+    }
   });
 
   User.associate = models => {

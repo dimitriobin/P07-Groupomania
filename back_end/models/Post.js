@@ -6,15 +6,20 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          notEmpty: true
+          notEmpty: true,
+          len: [20,499],
         }
       },
       image_url: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        validate: {
+          notEmpty: true,
+        }
       },
       url: {
         type: DataTypes.STRING,
         validate: {
+          notEmpty: true,
           isUrl: true
         }
       }

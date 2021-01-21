@@ -5,6 +5,10 @@ module.exports = (sequelize, DataTypes) => {
       users: {
         type: DataTypes.STRING,
         allowNull: false,
+        validate: {
+          notEmpty: true,
+          is: /^\[(((['"]\d+['"]|\d+), {0,1})*)(['"]\d+['"]|\d+)]$/i,
+        }
       },
     }, {
       freezeTableName: true

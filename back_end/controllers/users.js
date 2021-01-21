@@ -89,6 +89,10 @@ exports.readOneUser = (req, res, next) => {
 
 
 exports.updateOneUser = (req, res, next) => {
+    if (req.body.password) {
+        return res.status(400).send('The password cannot be updated in this route');
+    };
+    
     let userObject = req.file ? {
         ...req.body,
         image_url: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`

@@ -37,7 +37,8 @@ exports.createOnePost = (req, res, next) => {
     } : {
         ...req.body,
         user_id: req.body.user_id,
-        subject_id: req.body.subject_id
+        subject_id: req.body.subject_id,
+        image_url: null
     };
     Post.create(postObject)
     .then(createdPost => {
@@ -244,7 +245,8 @@ exports.updateOnePost = (req, res, next) => {
         ...req.body,
         image_url: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     } : {
-        ...req.body
+        ...req.body,
+        image_url: null
     };
     Post.findOne({where: {id: req.params.id}})
     .then(post => {
