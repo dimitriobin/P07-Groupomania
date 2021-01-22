@@ -1,5 +1,5 @@
 <template>
-  <section id="PersonalAccount">
+  <main id="PersonalAccount">
     <h1 class="h2 text-center mb-4 sr-only">Vos données personnelles</h1>
     <b-tabs
       content-class="p-5"
@@ -46,7 +46,6 @@
                 <input
                   v-model="rgpdCheckboxes.restricted"
                   @change="updateSuccess = false"
-                  cols="9"
                   id="restricted"
                   type="checkbox">
               </b-col>
@@ -60,7 +59,6 @@
                 <input
                   v-model="rgpdCheckboxes.contactable"
                   @change="updateSuccess = false"
-                  cols="9"
                   id="contactable"
                   type="checkbox">
               </b-col>
@@ -74,7 +72,6 @@
                 <input
                   v-model="rgpdCheckboxes.shareWithPartners"
                   @change="updateSuccess = false"
-                  cols="9"
                   id="shareWithPartners"
                   type="checkbox">
               </b-col>
@@ -127,7 +124,7 @@
         </b-button>
       </b-tab>
     </b-tabs>
-  </section>
+  </main>
 </template>
 
 <script>
