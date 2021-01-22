@@ -10,7 +10,7 @@ body {
 
 a,
 .btn-link {
-    color: #00B3D9 !important;
+    color: #006075 !important;
 }
   
 #home {
@@ -43,5 +43,5 @@ a,
     position: absolute;
     right: 10px;
     font-weight: initial;
-    color: #00B3D9;
+    color: #006075;
 }

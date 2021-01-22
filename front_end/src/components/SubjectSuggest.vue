@@ -9,7 +9,7 @@
     </b-col>
     <b-col cols="12">
       <b-row
-        tag="ul"
+        tag="div"
         cols="1"
         class="col-12 mx-auto my-5">
         <subject

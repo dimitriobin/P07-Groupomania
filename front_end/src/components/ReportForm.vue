@@ -26,7 +26,8 @@
             required
             :state="errors[0] ? false : (valid ? true : null)">
           </b-form-textarea>
-          <b-form-invalid-feedback>
+          <b-form-invalid-feedback
+            aria-live="polite">
             {{ errors[0] }}
           </b-form-invalid-feedback>
         </b-form-group>

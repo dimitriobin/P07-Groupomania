@@ -1,8 +1,9 @@
 <template>
-    <section class="full-height d-flex flex-column justify-content-center">
+    <main class="full-height d-flex flex-column justify-content-center">
       <h1 class="sr-only">Inscription et connexion</h1>
       <b-img
         :src="require('../assets/img/icon-above-font.png')"
+        alt="Logo de groupomania"
         fluid
         width="450"
         class="mx-auto mb-5">
@@ -13,8 +14,10 @@
           <Login @isLogged="$bvModal.show('subjectSuggest')" />
         </b-col>
         <b-modal
+          aria-label="Formulaire de création d'utilisateur"
           id="signupForm"
           size="lg"
+          centered
           hide-header
           hide-footer
           body-class="p-5">
@@ -23,6 +26,7 @@
         <b-modal
           id="subjectSuggest"
           lazy
+          centered
           size="lg"
           hide-header
           hide-footer
@@ -30,7 +34,7 @@
           <SubjectSuggest />
         </b-modal>
       </b-row>
-    </section>
+    </main>
 </template>
 
 <script>

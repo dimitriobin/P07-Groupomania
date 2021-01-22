@@ -1,15 +1,17 @@
 <template>
   <b-row
-    tag="section"
+    tag="main"
     id="User"
     class="m-0">
     <b-col
       tag="h1"
       cols="12"
       class="text-center sr-only">
+      <span class="sr-only">Profile de </span>
       {{ oneUser.user_name }}
       </b-col>
-    <b-col cols="12" lg="8" order="1" order-lg="0">
+    <b-col tag="section" cols="12" lg="8" order="1" order-lg="0">
+      <h2 class="sr-only">Les derniers posts de {{ oneUser.user_name }}</h2>
       <Post
         v-for="post in allPosts"
         :key="post.id"
@@ -34,7 +36,7 @@
           class="mb-3">
         </b-avatar>
         <h2 class="mb-3 text-center">{{ oneUser.user_name }}</h2>
-        <b-button variant="info">Envoyer un message</b-button>
+        <b-button to='/chat' class="btn-dark text-white">Envoyer un message</b-button>
       </b-card>
       <b-card
         class="w-100 align-items-center border-0 shadow"

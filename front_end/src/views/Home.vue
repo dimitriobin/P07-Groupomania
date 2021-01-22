@@ -1,7 +1,8 @@
 <template>
   <b-row id="home">
+    <h1 class="sr-only">Page d'accueil</h1>
     <b-col tag="main" cols="12" lg="8">
-      <h1 class="sr-only">Fil d'actualités</h1>
+      <h2 class="sr-only">Fil d'actualités</h2>
       <SortingNav />
       <div class="shadow rounded-lg p-4 mb-4 d-flex align-items-center">
       <b-avatar

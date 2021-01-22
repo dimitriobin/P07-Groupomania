@@ -17,6 +17,7 @@
         <h3 class="h4 mr-4">Photo de profil</h3>
           <b-img
             :src="previewUrl"
+            alt="Votre photo de profil"
             class="rounded-circle"
             width="100"
             height="100"></b-img>
@@ -49,7 +50,8 @@
             trim
             :state="errors[0] ? false : (valid ? true : null)">
           </b-form-input>
-          <b-form-invalid-feedback>
+          <b-form-invalid-feedback
+            aria-live="polite">
             {{ errors[0] }}
           </b-form-invalid-feedback>
         </b-form-group>
@@ -72,7 +74,8 @@
             trim
             :state="errors[0] ? false : (valid ? true : null)">
           </b-form-input>
-          <b-form-invalid-feedback>
+          <b-form-invalid-feedback
+            aria-live="polite">
             {{ errors[0] }}
           </b-form-invalid-feedback>
         </b-form-group>
@@ -90,7 +93,7 @@
           class="d-flex align-items-center">
           <b-img
             :src="previewUrl"
-            class="rounded-circle"
+            alt="Votre photo de profil"
             width="100"
             height="100"></b-img>
           <b-form-file
@@ -104,7 +107,8 @@
             class="w-50 ml-5"
             :state="errors[0] ? false : (valid ? true : null)">
           </b-form-file>
-          <b-form-invalid-feedback>
+          <b-form-invalid-feedback
+            aria-live="polite">
             {{ errors[0] }}
           </b-form-invalid-feedback>
         </b-form-group>
@@ -127,7 +131,8 @@
             :placeholder="userData.parentEmail"
             :state="errors[0] ? false : (valid ? true : null)">
           </b-form-input>
-          <b-form-invalid-feedback>
+          <b-form-invalid-feedback
+            aria-live="polite">
             {{ errors[0] }}
           </b-form-invalid-feedback>
       </b-form-group>
@@ -135,13 +140,13 @@
       <b-button
         v-if="editInfos"
         type="button"
-        variant="danger"
+        variant="outline-danger"
         class="w-100 mt-4"
         @click="editInfos = false">Annuler</b-button>
       <b-button
         v-if="editInfos"
         type="submit"
-        variant="success"
+        variant="dark"
         class="w-100 mt-4">Envoyer</b-button>
     </b-form>
     <!-- ////////////////////////////////////////////////////////////////////////////////// -->
@@ -167,7 +172,8 @@
             placeholder="*********************"
             :state="errors[0] ? false : (valid ? true : null)">
           </b-form-input>
-          <b-form-invalid-feedback>
+          <b-form-invalid-feedback
+            aria-live="polite">
             {{ errors[0] }}
           </b-form-invalid-feedback>
         </b-form-group>
@@ -191,7 +197,8 @@
             trim
             :state="errors[0] ? false : (valid ? true : null)">
           </b-form-input>
-          <b-form-invalid-feedback>
+          <b-form-invalid-feedback
+            aria-live="polite">
             {{ errors[0] }}
           </b-form-invalid-feedback>
         </b-form-group>
@@ -214,7 +221,8 @@
             trim
             :state="errors[0] ? false : (valid ? true : null)">
           </b-form-input>
-          <b-form-invalid-feedback>
+          <b-form-invalid-feedback
+            aria-live="polite">
             {{ errors[0] }}
           </b-form-invalid-feedback>
         </b-form-group>
@@ -226,19 +234,19 @@
         @click="editPass = false">Annuler</b-button>
       <b-button
         type="submit"
-        variant="success"
+        variant="dark"
         class="w-100 mt-4">Envoyer</b-button>
     </b-form>
       <b-button
         v-if="!editInfos && !editPass"
         type="button"
-        variant="info"
+        variant="dark"
         class="mt-4 mr-2"
         @click="editInfos = true">Modifier vos informations</b-button>
       <b-button
         v-if="!editInfos && !editPass"
         type="button"
-        variant="info"
+        variant="dark"
         class="mt-4"
         @click="editPass = true">Modifier votre mot de passe</b-button>
   </ValidationObserver>

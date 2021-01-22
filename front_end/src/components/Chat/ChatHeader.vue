@@ -5,6 +5,7 @@
       variant="link"
       class="text-dark mr-1 mr-lg-0 d-lg-none">
       <b-icon-arrow-left
+        aria-label="Revenir à la liste des conversations"
         font-scale="1.5"
         @click="setCurrentConversation(0)">
       </b-icon-arrow-left>
@@ -14,7 +15,7 @@
       size="2.5rem"
       class="mr-3">
     </b-avatar>
-    <h2 class="h5 m-0">{{ usersNames }}</h2>
+    <h2 class="h5 m-0"><span class="sr-only">Conversation avec </span>{{ usersNames }}</h2>
   </div>
 </template>
 

@@ -3,12 +3,13 @@
 <!-- ///////////////////////////////////LOGIN FORM////////////////////////////////////// -->
 <!-- ////////////////////////////////////////////////////////////////////////////////////// -->
   <ValidationObserver
+    tag="div"
     ref="loginObserver"
-    name="loginForm"
     v-slot="{ handleSubmit }">
     <b-form @submit.prevent="handleSubmit(handleLogin)">
 <!-- ///////////////////////////////////EMAIL////////////////////////////////////// -->
       <ValidationProvider
+        tag="div"
         name="email"
         rules="required|email"
         v-slot="{ valid, errors }">
@@ -26,13 +27,15 @@
             trim
             :state="errors[0] ? false : (valid ? true : null)">
           </b-form-input>
-          <b-form-invalid-feedback>
+          <b-form-invalid-feedback
+            aria-live="assertive">
             {{ errors[0] }}
           </b-form-invalid-feedback>
         </b-form-group>
       </ValidationProvider>
 <!-- ///////////////////////////////////PASSWORD////////////////////////////////////// -->
       <ValidationProvider
+        tag="div"
         name="mot de passe"
         vid="mdp"
         rules="required"
@@ -50,20 +53,21 @@
             placeholder="*********************"
             :state="errors[0] ? false : (valid ? true : null)">
           </b-form-input>
-          <b-form-invalid-feedback>
+          <b-form-invalid-feedback
+            aria-live="polite">
             {{ errors[0] }}
           </b-form-invalid-feedback>
         </b-form-group>
       </ValidationProvider>
       <b-button
         type="submit"
-        variant="info"
+        variant="outline-dark"
         class="w-100">
         Se connecter
       </b-button>
       <b-button
         v-b-modal.signupForm
-        variant="success"
+        variant="dark"
         class="w-100 my-3">
         Créer un compte
       </b-button>
