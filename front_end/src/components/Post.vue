@@ -29,9 +29,9 @@
                 </b-row>
             </b-col>
             <b-col cols="12" class="my-3  text-left">
-                <h2 class="h4 font-weight-bold text-break">
+                <h3 class="h4 font-weight-bold text-break">
                     {{ post.title }}
-                </h2>
+                </h3>
                 <b-img
                     v-if="post.image_url"
                     fluid
@@ -48,8 +48,8 @@
                       class="bg-white border-0 position-relative"
                       @keypress.enter="likePost(post.id)"
                       @click="likePost(post.id)">
-                      <span class="sr-only">Aimer ce post</span>
                       <b-icon
+                        aria-label="Aimer ce post"
                         icon="heart"
                         variant="dark"
                         class="mx-1 mx-lg-2"
@@ -61,6 +61,7 @@
                         class="icon_counter"
                         variant="dark">
                         {{ post.Likes.length }}
+                        <span class="sr-only"> personnes aiment ce post</span>
                       </b-badge>
                     </b-button>
                     <b-button
@@ -68,8 +69,8 @@
                       class="bg-white border-0 position-relative"
                       @keypress.enter="unlikePost(post.id)"
                       @click="unlikePost(post.id)">
-                      <span class="sr-only">Ne plus aimer ce post ce post</span>
                       <b-icon
+                        aria-label="Ne plus aimer ce post ce post"
                         icon="heart-fill"
                         variant="dark"
                         class="mx-1 mx-lg-2"
@@ -81,11 +82,12 @@
                         class="icon_counter"
                         variant="dark">
                         {{ post.Likes.length }}
+                        <span class="sr-only"> personnes aiment ce post</span>
                       </b-badge>
                     </b-button>
                     <b-button @click="collapse" class="bg-white border-0 position-relative">
-                      <span class="sr-only">Afficher les commentaires de ce post</span>
                       <b-icon
+                          aria-label="Afficher les commentaires de ce post"
                           icon="chat-left-text"
                           variant="dark"
                           class="mx-1 mx-lg-2"
@@ -97,6 +99,7 @@
                           class="icon_counter"
                           variant="dark">
                           {{ commentsCount }}
+                          <span class="sr-only"> personnes ont commentées ce post</span>
                       </b-badge>
                     </b-button>
                     <b-dropdown
@@ -104,8 +107,8 @@
                         toggle-class="text-decoration-none"
                         no-caret>
                         <template v-slot:button-content>
-                        <span class="sr-only">Afficher les options de ce post</span>
                             <b-icon
+                                aria-label="Afficher les options de ce post"
                                 icon="three-dots"
                                 variant="dark"
                                 class="mx-1 mx-lg-2"
