@@ -45,7 +45,8 @@
             :options="options"
             :state="errors[0] ? false : (valid ? true : null)">
           </b-form-select>
-          <b-form-invalid-feedback>
+          <b-form-invalid-feedback
+            aria-live="polite">
             {{ errors[0] }}
           </b-form-invalid-feedback>
         </b-form-group>
@@ -74,7 +75,8 @@
             v-if="previewUrl"
             :src="previewUrl">
           </b-img>
-          <b-form-invalid-feedback>
+          <b-form-invalid-feedback
+            aria-live="polite">
             {{ errors[0] }}
           </b-form-invalid-feedback>
         </b-form-group>
@@ -95,7 +97,8 @@
             trim
             :state="errors[0] ? false : (valid ? true : null)">
           </b-form-input>
-          <b-form-invalid-feedback>
+          <b-form-invalid-feedback
+            aria-live="polite">
             {{ errors[0] }}
           </b-form-invalid-feedback>
         </b-form-group>

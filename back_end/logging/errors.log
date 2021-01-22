@@ -2796,3 +2796,4 @@
 ::1 - - [22/Jan/2021:13:45:28 +0000] "POST /api/conversations/82/message HTTP/1.1" 500 470
 ::1 - - [22/Jan/2021:13:45:29 +0000] "POST /api/conversations/82/message HTTP/1.1" 500 470
 ::1 - - [22/Jan/2021:13:45:29 +0000] "POST /api/conversations/82/message HTTP/1.1" 500 470
+::1 - - [22/Jan/2021:14:58:15 +0000] "POST /api/users/login HTTP/1.1" 400 28

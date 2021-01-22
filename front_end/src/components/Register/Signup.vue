@@ -28,7 +28,8 @@
             trim
             :state="errors[0] ? false : (valid ? true : null)">
           </b-form-input>
-          <b-form-invalid-feedback>
+          <b-form-invalid-feedback
+            aria-live="polite">
             {{ errors[0] }}
           </b-form-invalid-feedback>
         </b-form-group>
@@ -52,7 +53,8 @@
             trim
             :state="errors[0] ? false : (valid ? true : null)">
           </b-form-input>
-          <b-form-invalid-feedback>
+          <b-form-invalid-feedback
+            aria-live="polite">
             {{ errors[0] }}
           </b-form-invalid-feedback>
         </b-form-group>
@@ -77,7 +79,8 @@
             placeholder="*********************"
             :state="errors[0] ? false : (valid ? true : null)">
           </b-form-input>
-          <b-form-invalid-feedback>
+          <b-form-invalid-feedback
+            aria-live="polite">
             {{ errors[0] }}
           </b-form-invalid-feedback>
         </b-form-group>
@@ -101,7 +104,8 @@
             trim
             :state="errors[0] ? false : (valid ? true : null)">
           </b-form-input>
-          <b-form-invalid-feedback>
+          <b-form-invalid-feedback
+            aria-live="polite">
             {{ errors[0] }}
           </b-form-invalid-feedback>
         </b-form-group>
@@ -127,7 +131,8 @@
             class=" flex-grow-1"
             :state="errors[0] ? false : (valid ? true : null)">
           </b-form-file>
-          <b-form-invalid-feedback>
+          <b-form-invalid-feedback
+            aria-live="polite">
             {{ errors[0] }}
           </b-form-invalid-feedback>
         </b-form-group>
@@ -149,7 +154,8 @@
             v-model="signup.birthdate"
             class="form-control"
             :class="{ 'is-invalid' : errors[0], 'is-valid' : valid}">
-          <b-form-invalid-feedback>
+          <b-form-invalid-feedback
+            aria-live="polite">
             {{ errors[0] }}
           </b-form-invalid-feedback>
         </b-form-group>
@@ -173,7 +179,8 @@
             placeholder="parents@mail.com"
             :state="errors[0] ? false : (valid ? true : null)">
           </b-form-input>
-          <b-form-invalid-feedback>
+          <b-form-invalid-feedback
+            aria-live="polite">
             {{ errors[0] }}
           </b-form-invalid-feedback>
       </b-form-group>
@@ -199,7 +206,7 @@
       </div>
       <b-button
         type="submit"
-        variant="info"
+        variant="dark"
         class="w-100 mt-4">Suivant</b-button>
     </b-form>
   </ValidationObserver>

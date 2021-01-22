@@ -50,7 +50,8 @@
             trim
             :state="errors[0] ? false : (valid ? true : null)">
           </b-form-input>
-          <b-form-invalid-feedback>
+          <b-form-invalid-feedback
+            aria-live="polite">
             {{ errors[0] }}
           </b-form-invalid-feedback>
         </b-form-group>
@@ -73,7 +74,8 @@
             trim
             :state="errors[0] ? false : (valid ? true : null)">
           </b-form-input>
-          <b-form-invalid-feedback>
+          <b-form-invalid-feedback
+            aria-live="polite">
             {{ errors[0] }}
           </b-form-invalid-feedback>
         </b-form-group>
@@ -105,7 +107,8 @@
             class="w-50 ml-5"
             :state="errors[0] ? false : (valid ? true : null)">
           </b-form-file>
-          <b-form-invalid-feedback>
+          <b-form-invalid-feedback
+            aria-live="polite">
             {{ errors[0] }}
           </b-form-invalid-feedback>
         </b-form-group>
@@ -128,7 +131,8 @@
             :placeholder="userData.parentEmail"
             :state="errors[0] ? false : (valid ? true : null)">
           </b-form-input>
-          <b-form-invalid-feedback>
+          <b-form-invalid-feedback
+            aria-live="polite">
             {{ errors[0] }}
           </b-form-invalid-feedback>
       </b-form-group>
@@ -168,7 +172,8 @@
             placeholder="*********************"
             :state="errors[0] ? false : (valid ? true : null)">
           </b-form-input>
-          <b-form-invalid-feedback>
+          <b-form-invalid-feedback
+            aria-live="polite">
             {{ errors[0] }}
           </b-form-invalid-feedback>
         </b-form-group>
@@ -192,7 +197,8 @@
             trim
             :state="errors[0] ? false : (valid ? true : null)">
           </b-form-input>
-          <b-form-invalid-feedback>
+          <b-form-invalid-feedback
+            aria-live="polite">
             {{ errors[0] }}
           </b-form-invalid-feedback>
         </b-form-group>
@@ -215,7 +221,8 @@
             trim
             :state="errors[0] ? false : (valid ? true : null)">
           </b-form-input>
-          <b-form-invalid-feedback>
+          <b-form-invalid-feedback
+            aria-live="polite">
             {{ errors[0] }}
           </b-form-invalid-feedback>
         </b-form-group>

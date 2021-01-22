@@ -1,5 +1,5 @@
 <template>
-    <section class="full-height d-flex flex-column justify-content-center">
+    <main class="full-height d-flex flex-column justify-content-center">
       <h1 class="sr-only">Inscription et connexion</h1>
       <b-img
         :src="require('../assets/img/icon-above-font.png')"
@@ -14,6 +14,7 @@
           <Login @isLogged="$bvModal.show('subjectSuggest')" />
         </b-col>
         <b-modal
+          aria-label="Formulaire de création d'utilisateur"
           id="signupForm"
           size="lg"
           centered
@@ -33,7 +34,7 @@
           <SubjectSuggest />
         </b-modal>
       </b-row>
-    </section>
+    </main>
 </template>
 
 <script>
