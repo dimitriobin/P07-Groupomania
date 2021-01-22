@@ -10,8 +10,8 @@
       <div class="d-flex justify-content-between align-items-center p-2">
         <h1 class="h3">Discussions</h1>
         <b-button class="bg-transparent border-0" v-b-modal.onlineUsers>
-          <span class="sr-only">Démarrer une conversation avec un collègue</span>
           <b-icon-pencil-square
+            aria-label="Démarrer une conversation avec un collègue"
             class="text-dark"
             font-scale="1.5">
           </b-icon-pencil-square>
@@ -41,6 +41,7 @@
         @submit="sendMessage"
         class="d-flex justify-content-between align-items-center position-relative">
         <b-form-input
+          aria-label="Envoyer un nouveau message"
           v-model="message"
           class="my-3 w-100">
         </b-form-input>

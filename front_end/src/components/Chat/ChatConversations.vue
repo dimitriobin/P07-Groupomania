@@ -1,5 +1,6 @@
 <template>
 <b-list-group id="conversationsList" class="flex-grow-1">
+  <h2 class="sr-only">Vos conversations en cours</h2>
   <b-list-group-item
     v-for="(conversation, index) in allConversationsSortByNew"
     :key="index"
@@ -16,11 +17,11 @@
       class="mr-3">
     </b-avatar>
     <div>
-      <p class="m-0 h5">
+      <h3 class="m-0 h5">
         {{ participants(conversation.Users)[0].user_name }}
         <span v-if="participants(conversation.Users)[1]">, {{ participants(conversation.Users)[1].user_name }}</span>
         <span v-if="participants(conversation.Users).length > 3">, ...</span>
-      </p>
+      </h3>
       <p
         v-if="conversation.Messages.length"
         class="text-muted m-0">
