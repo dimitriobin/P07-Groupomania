@@ -3,10 +3,11 @@
     @submit.prevent="handleSearch()"
     id="searchNav"
     class="mx-md-auto d-none d-md-block w-50">
-    <label class="sr-only" for="searchBar">Name</label>
+    <label class="sr-only" for="searchBar">Rechercher des posts par mots-clefs</label>
     <b-form-input
       v-model="keyword"
       id="searchBar"
+      type="text"
       size="sm"
       class="my-3 my-md-0 w-100">
     </b-form-input>

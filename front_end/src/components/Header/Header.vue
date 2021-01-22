@@ -1,6 +1,6 @@
 <template>
     <header id="mainHeader" class="bg-white shadow-sm w-100">
-      <b-container>
+      <b-container role="navigation">
         <Navbar />
       </b-container>
     </header>
