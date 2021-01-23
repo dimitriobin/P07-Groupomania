@@ -1,25 +1,36 @@
 <template>
   <b-row id="home">
     <h1 class="sr-only">Page d'accueil</h1>
-    <b-col tag="main" cols="12" lg="8">
+    <!-- ////////////////////////////////////////////////// -->
+    <!-- /////////////////// SIDEBAR ////////////////////// -->
+    <!-- ////////////////////////////////////////////////// -->
+    <b-col tag="aside" cols="12" lg="4" class="order-lg-1">
+      <Sidebar />
+    </b-col>
+    <!-- ////////////////////////////////////////////////// -->
+    <!-- //////////////// POSTS FEED ////////////////////// -->
+    <!-- ////////////////////////////////////////////////// -->
+    <b-col tag="main" cols="12" lg="8" class="order-lg-0">
       <h2 class="sr-only">Fil d'actualités</h2>
       <SortingNav />
-      <div class="shadow rounded-lg p-4 mb-4 d-flex align-items-center">
-      <b-avatar
-        v-if="oneUser.image_url"
-        :src="oneUser.image_url"
-        size="lg">
-      </b-avatar>
-      <b-button
-        v-b-modal.createPost
-        pill
-        variant="light"
-        size="lg"
-        class="border-0 w-100 h-100 ml-2 text-left p-3">
-        Que voulez-vous dire {{ oneUser.user_name }} ?</b-button>
+      <div class="shadow bg-white rounded-lg p-4 mb-4 d-flex flex-wrap flex-sm-nowrap align-items-center">
+        <b-avatar
+          v-if="oneUser.image_url"
+          :src="oneUser.image_url"
+          size="lg"
+          class="mx-auto mb-3 mb-sm-0">
+        </b-avatar>
+        <b-button
+          v-b-modal.createPost
+          pill
+          variant="light"
+          size="lg"
+          class="border-0 w-100 h-100 ml-2 text-left p-3">
+          Que voulez-vous dire {{ oneUser.user_name }} ?</b-button>
         <b-modal
           v-model="showCreatePostForm"
           lazy
+          centered
           id="createPost"
           title="Que voulez vous dire ?"
           hide-footer
@@ -37,9 +48,6 @@
         v-if="allPosts.length && allPosts.length < postPagination.totalPosts"
         @loadMore="handleFetching($event)" />
       <p v-else>Fin des posts</p>
-    </b-col>
-    <b-col tag="aside" cols="12" lg="4">
-      <Sidebar />
     </b-col>
   </b-row>
 </template>
@@ -122,5 +130,5 @@ export default {
 };
 </script>
 
-<style>
+<style >
 </style>

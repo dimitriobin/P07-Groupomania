@@ -2,18 +2,18 @@
     <b-row
         no-gutters
         tag="article"
-        class="bg-white rounded-lg shadow p-4 mb-4">
+        class="bg-white rounded-lg shadow p-3 p-sm-4 mb-4">
         <div
             v-if="!edit"
             class="w-100">
-            <b-col cols="12" tag="header" class="mb-2">
+            <b-col cols="12" tag="header" class="mb-2 p-0">
                 <b-row no-gutters align-v="center">
                     <b-avatar
                         v-if="post.User.image_url"
                         :alt="`Photo de profil de ${post.User.user_name}`"
                         :src="post.User.image_url"
                         size="lg"
-                        class="mr-4">
+                        class="mr-2 mr-sm-4">
                     </b-avatar>
                     <b-col class="text-left">
                         <router-link
@@ -28,7 +28,7 @@
                     </b-col>
                 </b-row>
             </b-col>
-            <b-col cols="12" class="my-3  text-left">
+            <b-col cols="12" class="my-3 p-0 text-left">
                 <h3 class="h4 font-weight-bold text-break">
                     {{ post.title }}
                 </h3>
@@ -41,8 +41,8 @@
                 <a v-if="post.url" target="_blank" :href="post.url">{{ post.url }}</a>
                 <p class="mb-0 text-muted"><small>{{ dateToTimestamp(post.createdAt) }}</small></p>
             </b-col>
-            <b-col cols="12" tag="footer" class="h2">
-                <b-row align-h="around" class="px-5">
+            <b-col cols="12" tag="footer" class="h2 p-0">
+                <b-row align-h="around" class="px-0 px-sm-5">
                     <b-button
                       v-if="!isLiked"
                       class="bg-white border-0 position-relative"
@@ -146,7 +146,7 @@
                 v-model="showComments"
                 :id="'commentsFor' + post.id"
                 @show.once="handleFetching(0)"
-                class="w-100 mt-2 border-top text-center">
+                class="w-100 mt-2 border-top text-center p-2 p-sm-3 p-md-4">
                 <CommentForm
                   :postId="post.id"
                   :subjectId="post.subject_id"

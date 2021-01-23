@@ -16,11 +16,6 @@ a,
 #home {
     display: flex;
 }
-
-#sidebar {
-    position: sticky;
-    top: 2%;
-}
   
 .nav-pills .nav-link.active,
 .nav-pills .show > .nav-link {

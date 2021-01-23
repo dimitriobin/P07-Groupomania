@@ -1,5 +1,8 @@
 <template>
-  <b-row no-gutters id="Sidebar">
+  <b-row no-gutters id="sidebar">
+    <!-- //////////////////////////////////////////////////////// -->
+    <!-- //////////////// SUBJECTS SUGGESTIONS ////////////////// -->
+    <!-- //////////////////////////////////////////////////////// -->
     <b-col cols="12" class="p-4 rounded-lg bg-white mb-3 shadow">
       <h2 class="h5 text-muted text-left font-weight-bold mb-3">Top des sujets</h2>
       <b-list-group
@@ -16,7 +19,10 @@
           </li>
       </b-list-group>
     </b-col>
-    <b-col cols="12" class=" p-4 rounded-lg bg-white  shadow">
+    <b-col cols="12" class=" p-4 rounded-lg bg-white shadow d-none d-lg-block">
+    <!-- //////////////////////////////////////////////////////// -->
+    <!-- /////////////// COLLEGUES SUGGESTIONS ////////////////// -->
+    <!-- //////////////////////////////////////////////////////// -->
       <h2 class="h5 text-muted text-wrap text-left font-weight-bolder mb-3">
         Des collègues qui peuvent vous intéresser
       </h2>
@@ -70,4 +76,10 @@ export default {
 </script>
 
 <style>
-</style>
+@media screen and (min-width: 992px) {
+  #sidebar {
+    position: sticky !important;
+    top: 80px;
+  }
+}
+</style>>
