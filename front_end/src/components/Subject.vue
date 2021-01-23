@@ -1,7 +1,7 @@
 <template>
   <b-list-group-item
     tag="div"
-    class="d-flex align-items-center justify-content-start border-0 py-1 px-0">
+    class="d-flex flex-wrap align-items-center justify-content-start border-0 py-1 px-0">
     <b-button
       @click="fetchAllPostsByOneSubject({ page: 0, id: subject.id })"
       variant="link"

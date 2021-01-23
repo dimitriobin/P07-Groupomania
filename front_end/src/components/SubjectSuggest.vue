@@ -1,10 +1,10 @@
 <template>
-  <b-row id="SubjectSuggest" class="shadow rounded-lg p-5">
+  <b-row id="SubjectSuggest" class="shadow rounded-lg p-4 p-lg-5">
     <b-col cols="12">
       <h2>Bonjour </h2>
-      <p>Vous ne suivez actuellement aucun sujet de conversation,
+      <p class="text-break">Vous ne suivez actuellement aucun sujet de conversation,
         nous vous proposons une selection de sujets qui pourraient vous correspondre.</p>
-      <p class="mb-0">Selectionnez en au moins 3 pour commencer à remplir votre fil de posts
+      <p class="mb-0 text-break">Selectionnez en au moins 3 pour commencer à remplir votre fil de posts
         et voir ce que vos collègues ont à dire !</p>
     </b-col>
     <b-col cols="12">
