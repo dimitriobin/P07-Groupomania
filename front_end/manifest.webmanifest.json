@@ -1,0 +1,52 @@
+  
+{
+  "name": "Groupomania",
+  "short_name": "Groupomania",
+  "theme_color": "#F9F9F9",
+  "background_color": "#F9F9F9",
+  "display": "fullscreen",
+  "start_url": "https://dimitriobin.github.io/Groupomania",
+  "icons": [
+    {
+      "src": "src/assets/img/icon.png",
+      "sizes": "72x72",
+      "type": "image/png"
+    },
+    {
+      "src": "src/assets/img/icons/icon96.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "src/assets/img/icons/icon128.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "src/assets/img/icons/icon144.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    },
+    {
+      "src": "src/assets/img/icons/icon152.png",
+      "sizes": "152x152",
+      "type": "image/png"
+    },
+    {
+      "src": "src/assets/img/icons/icon192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "src/assets/img/icons/icon384.png",
+      "sizes": "384x384",
+      "type": "image/png"
+    },
+    {
+      "src": "src/assets/img/icons/icon512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "splash_pages": null
+}
