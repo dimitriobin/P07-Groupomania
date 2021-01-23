@@ -6,15 +6,15 @@
     <h2 class="text-center my-5 h4">Vos informations personnelles</h2>
     <div v-if="!editInfos && !editPass">
       <div class="d-flex align-items-center mb-4">
-        <h3 class="h4 mr-4">Pseudo</h3>
+        <h3 class="h5 mr-4">Pseudo</h3>
         <p v-if="!editInfos" class="m-0">{{ userData.user_name }}</p>
       </div>
       <div class="d-flex align-items-center mb-4">
-        <h3 class="h4 mr-4">Email</h3>
+        <h3 class="h5 mr-4">Email</h3>
         <p v-if="!editInfos" class="m-0">{{ userData.email }}</p>
       </div>
       <div class="d-flex align-items-center mb-4">
-        <h3 class="h4 mr-4">Photo de profil</h3>
+        <h3 class="h5 mr-4">Photo de profil</h3>
           <b-img
             :src="previewUrl"
             alt="Votre photo de profil"
@@ -23,7 +23,7 @@
             height="100"></b-img>
       </div>
       <div class="d-flex align-items-center">
-        <h3 class="h4 mr-4">Date de naissance</h3>
+        <h3 class="h5 mr-4">Date de naissance</h3>
         <p v-if="!editInfos" class="m-0">{{ userData.birthdate }}</p>
       </div>
     </div>
@@ -39,7 +39,8 @@
         <b-form-group
           id="userMail-group"
           label="Email :"
-          label-cols="3"
+          label-cols="12"
+          label-cols-md="3"
           label-for="userMail">
           <b-form-input
             v-model="user.email"
@@ -64,7 +65,8 @@
         <b-form-group
           id="userName-group"
           label="Pseudo:"
-          label-cols="3"
+          label-cols="12"
+          label-cols-md="3"
           label-for="userName">
           <b-form-input
             v-model="user.user_name"
@@ -88,23 +90,16 @@
         <b-form-group
           id="userImage-group"
           label="Photo de profil:"
-          label-cols="3"
-          label-for="userImage"
-          class="d-flex align-items-center">
-          <b-img
-            :src="previewUrl"
-            alt="Votre photo de profil"
-            width="100"
-            height="100"></b-img>
+          label-cols="12"
+          label-cols-md="3"
+          label-for="userImage">
           <b-form-file
             v-if="editInfos"
             v-model="user.image_url"
             id="userImage"
             @change="showPreview($event)"
             placeholder="Faites glisser ou sélectionnez une photo"
-            drop-placeholder="Déposez ici..."
             accept="image/*"
-            class="w-50 ml-5"
             :state="errors[0] ? false : (valid ? true : null)">
           </b-form-file>
           <b-form-invalid-feedback
@@ -112,6 +107,14 @@
             {{ errors[0] }}
           </b-form-invalid-feedback>
         </b-form-group>
+        <b-img
+          :src="previewUrl"
+          alt="Votre photo de profil"
+          width="300"
+          height="300"
+          fluid
+          class="d-block mx-auto">
+        </b-img>
       </ValidationProvider>
 <!-- ///////////////////////////////////PARENTS EMAIL////////////////////////////////////// -->
       <ValidationProvider
@@ -122,7 +125,8 @@
         <b-form-group
           id="userParentMail-group"
           label="Email des responsables:"
-          label-cols="3"
+          label-cols="12"
+          label-cols-md="3"
           label-for="userParentMail">
           <b-form-input
             v-model="user.parentEmail"
@@ -161,7 +165,8 @@
         <b-form-group
           id="oldUserPass-group"
           label="Ancien mot de passe:"
-          label-cols="3"
+          label-cols="12"
+          label-cols-md="3"
           label-for="oldUserPass">
           <b-form-input
             id="oldUserPass"
@@ -187,7 +192,8 @@
         <b-form-group
           id="newUserPass-group"
           label="Nouveau mot de passe:"
-          label-cols="3"
+          label-cols="12"
+          label-cols-md="3"
           label-for="newUserPass">
           <b-form-input
             id="newUserPass"
@@ -211,7 +217,8 @@
         <b-form-group
           id="userConfirmPass-group"
           label="Confirmation du mot de passe:"
-          label-cols="3"
+          label-cols="12"
+          label-cols-md="3"
           label-for="userConfirmPass">
           <b-form-input
             id="userConfirmPass"
@@ -229,7 +236,7 @@
       </ValidationProvider>
       <b-button
         type="button"
-        variant="danger"
+        variant="outline-danger"
         class="w-100 mt-4"
         @click="editPass = false">Annuler</b-button>
       <b-button

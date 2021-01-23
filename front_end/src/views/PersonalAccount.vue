@@ -2,16 +2,15 @@
   <main id="PersonalAccount">
     <h1 class="h2 text-center mb-4 sr-only">Vos données personnelles</h1>
     <b-tabs
-      content-class="p-5"
+      content-class="p-md-5"
       pills
       fill>
       <!-- Subjects -->
       <b-tab
         title="Sujets">
-        <h2 class="h4 text-center my-5">Vous suivez ces sujets</h2>
+        <h2 class="h4 my-5">Vous suivez ces sujets</h2>
         <b-list-group
-          flush
-          class="w-50 mx-auto">
+          flush>
           <Subject
             v-for="subject in allFollows"
             :key="subject.id"
@@ -19,7 +18,8 @@
           <b-button
             v-if="!showAllSubjects"
             @click="showMoreSubjects()"
-            variant="dark">Voir tous les sujets</b-button>
+            class="mt-4"
+            variant="outline-dark">Voir tous les sujets</b-button>
           <Subject
             v-else
             v-for="subject in subjectsNotFollowed"
@@ -33,7 +33,7 @@
       </b-tab>
       <!-- Privacy -->
       <b-tab title="Privacy">
-        <b-form @submit.prevent="handleUpdateRgpd()">
+        <b-form @submit.prevent="handleUpdateRgpd()" class="mt-4">
           <!-- <b-form-group description="rgpd"> -->
             <b-row>
               <b-col
@@ -89,6 +89,7 @@
         <b-button
           v-b-modal.supressAccount
           type="button"
+          class="text-left"
           variant="link">
           Supprimer mon compte
         </b-button>
@@ -105,20 +106,21 @@
             </p>
             <b-button
               @click="handleDelete()"
-              variant="success"
-              class="w-50 mb-2">
+              variant="dark"
+              class="w-100 mb-2">
               Supprimer votre compte
             </b-button>
             <b-button
               @click="$bvModal.hide('supressAccount')"
-              variant="danger"
-              class="w-50">
+              variant="outline-danger"
+              class="w-100">
               Annuler
             </b-button>
           </b-modal>
         <b-button
           @click="handleExport()"
           type="button"
+          class="text-left"
           variant="link">
           Télécharger les données de votre compte
         </b-button>
