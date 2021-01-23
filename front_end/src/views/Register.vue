@@ -9,7 +9,7 @@
         class="mx-auto mb-5">
       </b-img>
       <b-row>
-        <b-col cols="6" class="mx-auto p-5 shadow rounded">
+        <b-col cols="12" sm="10" md="8" lg="6" class="mx-auto p-4 shadow rounded">
           <h2 class="sr-only">Connexion</h2>
           <Login @isLogged="$bvModal.show('subjectSuggest')" />
         </b-col>
@@ -20,7 +20,7 @@
           centered
           hide-header
           hide-footer
-          body-class="p-5">
+          body-class="p-4">
           <Signup @isLogged="$bvModal.show('subjectSuggest')" />
         </b-modal>
         <b-modal

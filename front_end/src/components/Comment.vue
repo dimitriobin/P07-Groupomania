@@ -1,10 +1,10 @@
 <template>
   <b-row
-    class="p-3 mt-3">
-    <b-col cols="auto" class="d-flex flex-column text-left">
+    class="mt-sm-3">
+    <b-col cols="9" sm="4" class="d-flex flex-wrap flex-column text-left mb-1 order-0">
         <a
           href="#"
-          class="card-text text-dark font-weight-bold">
+          class="card-text text-dark font-weight-bold mb-0">
           {{ data.User.user_name }}
         </a>
         <small>{{ dateToTimestamp(data.createdAt) }}</small>
@@ -12,11 +12,16 @@
     <b-col
       v-if="!edit"
       tag="p"
-      class="text-justify">
+      cols="12"
+      sm="5"
+      class="text-justify order-2 order-sm-1">
       {{ data.content }}
     </b-col>
     <b-col
-      v-else>
+      v-else
+      cols="12"
+      sm="5"
+      class="text-justify order-2 order-sm-1">
       <CommentForm
         :postId="data.post_id"
         :subjectId="data.subject_id"
@@ -27,10 +32,10 @@
     </b-col>
     <b-col
       cols="3"
-      class="text-right">
+      class="text-right p-0 order-1 order-sm-2">
       <b-dropdown
           variant="link"
-          toggle-class="text-decoration-none"
+          toggle-class="text-decoration-none p-0"
           no-caret
           dropright>
           <template v-slot:button-content>

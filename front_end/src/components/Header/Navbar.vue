@@ -10,7 +10,7 @@
             :src="require('../../assets/img/icon-left-font-removebg-cropped.png')"
             alt="Logo de Groupomania"></b-img>
         </b-navbar-brand>
-        <b-navbar-nav  align="end" class="w-100 align-items-center">
+        <b-navbar-nav class="w-100 justify-content-center justify-content-sm-end align-items-center">
           <!-- SEARCHBAR -->
           <SearchBar />
           <!-- ICONS -->

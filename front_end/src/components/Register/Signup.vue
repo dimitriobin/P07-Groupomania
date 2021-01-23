@@ -17,8 +17,10 @@
         <b-form-group
           id="registerMail-group"
           label="Email :"
-          label-cols="3"
-          label-for="registerMail">
+          label-cols="12"
+          label-cols-lg="3"
+          label-for="registerMail"
+          class="align-items-center">
           <b-form-input
             v-model="signup.email"
             id="registerMail"
@@ -43,8 +45,10 @@
         <b-form-group
           id="registerName-group"
           label="Pseudo:"
-          label-cols="3"
-          label-for="registerName">
+          label-cols="12"
+          label-cols-lg="3"
+          label-for="registerName"
+          class="align-items-center">
           <b-form-input
             v-model="signup.user_name"
             id="registerName"
@@ -69,8 +73,10 @@
         <b-form-group
           id="registerPass-group"
           label="Mot de passe:"
-          label-cols="3"
-          label-for="registerPass">
+          label-cols="12"
+          label-cols-lg="3"
+          label-for="registerPass"
+          class="align-items-center">
           <b-form-input
             id="registerPass"
             v-model="signup.password"
@@ -94,8 +100,10 @@
         <b-form-group
           id="registerConfirmPass-group"
           label="Confirmation du mot de passe:"
-          label-cols="3"
-          label-for="registerConfirmPass">
+          label-cols="12"
+          label-cols-lg="3"
+          label-for="registerConfirmPass"
+          class="align-items-center">
           <b-form-input
             id="registerConfirmPass"
             v-model="signup.confirmation"
@@ -119,9 +127,10 @@
         <b-form-group
           id="registerImage-group"
           label="Photo de profil:"
-          label-cols="3"
+          label-cols="12"
+          label-cols-lg="3"
           label-for="registerImage"
-          class="d-flex">
+          class="d-flex align-items-center">
           <b-form-file
             v-model="signup.image_url"
             id="registerImage"
@@ -146,8 +155,10 @@
         <b-form-group
           id="registerBirthdate-group"
           label="Date de naissance:"
-          label-cols="3"
-          label-for="registerBirthdate">
+          label-cols="12"
+          label-cols-lg="3"
+          label-for="registerBirthdate"
+          class="align-items-center">
           <input
             id="registerBirthdate"
             type="date"
@@ -169,9 +180,11 @@
         <b-form-group
           id="registerParentMail-group"
           label="Email des responsables:"
-          label-cols="3"
+          label-cols="12"
+          label-cols-lg="3"
           label-for="registerParentMail"
-          v-show="userIsMajor">
+          v-show="userIsMajor"
+          class="align-items-center">
           <b-form-input
             v-model="signup.parentEmail"
             id="registerParentMail"
@@ -187,19 +200,22 @@
       </ValidationProvider>
 <!-- ///////////////////////////////////RGPD////////////////////////////////////// -->
       <div class="row">
-        <label class="col-3 col-form-label">RGPD</label>
-        <div class="col-9">
+        <label class="col-12 col-lg-3 col-form-label">RGPD</label>
+        <div class="col-12 col-lg-9">
           <p class="sr-only">Voici un ensemble de cases à cocher pour nous permettre de respecter au mieux vos données d'utilisation.</p>
           <b-form-checkbox
-            v-model="signup.restricted">
+            v-model="signup.restricted"
+            class="mb-2">
             Restreindre l'usage de vos données
           </b-form-checkbox>
           <b-form-checkbox
-            v-model="signup.shareWithPartners">
+            v-model="signup.shareWithPartners"
+            class="mb-2">
             Partage de vos données avec nos partenaires
           </b-form-checkbox>
           <b-form-checkbox
-            v-model="signup.contactable">
+            v-model="signup.contactable"
+            class="mb-2">
             Recevoir des offres de nos partenaires
           </b-form-checkbox>
         </div>

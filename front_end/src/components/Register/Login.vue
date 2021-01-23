@@ -16,8 +16,10 @@
         <b-form-group
           id="loginMail-group"
           label="Email :"
-          label-cols="3"
-          label-for="loginMail">
+          label-cols="12"
+          label-cols-lg="3"
+          label-for="loginMail"
+          class="align-items-center">
           <b-form-input
             v-model="user.email"
             id="loginMail"
@@ -43,8 +45,10 @@
         <b-form-group
           id="loginPass-group"
           label="Mot de passe:"
-          label-cols="3"
-          label-for="loginPass">
+          label-cols="12"
+          label-cols-lg="3"
+          label-for="loginPass"
+          class="align-items-center">
           <b-form-input
             id="loginPass"
             v-model="user.password"
