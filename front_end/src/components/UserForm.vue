@@ -312,13 +312,16 @@ export default {
     },
     handleUpdateInfos() {
       const data = new FormData();
-      Object.entries(this.user).forEach(
-        ([key, value]) => {
-          if (value !== null && value !== '') {
-            data.append(`${key}`, value);
-          }
-        },
-      );
+      // Object.entries(this.user).forEach(
+      //   ([key, value]) => {
+      //     if (value !== null && value !== '') {
+      //       data.append(`${key}`, value);
+      //     }
+      //   },
+      // );
+      data.append('email', this.user.email);
+      data.append('user_name', this.user.user_name);
+      data.append('image_url', this.user.image_url);
       this.updateUser({
         id: this.userId,
         data,
