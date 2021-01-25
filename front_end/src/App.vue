@@ -9,12 +9,19 @@
 
 <script>
 import Header from '@/components/Header/Header.vue';
-import { mapGetters } from 'vuex';
+import { mapGetters, mapMutations } from 'vuex';
 
 export default {
   name: 'App',
   components: {
     Header,
+  },
+  watch: {
+    $route(to, from) {
+      if (from.path === '/chat' && to.path !== '/chat') {
+        this.setCurrentConversation(0);
+      }
+    },
   },
   computed: {
     ...mapGetters([
@@ -23,6 +30,9 @@ export default {
     isLogged() {
       return this.loggedUser.status.loggedIn;
     },
+  },
+  methods: {
+    ...mapMutations(['setCurrentConversation']),
   },
 };
 </script>

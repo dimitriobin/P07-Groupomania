@@ -7,6 +7,7 @@ class WebSockets {
         socketId: client.id,
         userId: Number.parseInt(client.handshake.query.userId, 10),
     });
+    console.log(this.users);
     // Emit the users array to all other connected users
     global.io.sockets.emit('onlineUsers', this.users);
     // subscribe person to chat
