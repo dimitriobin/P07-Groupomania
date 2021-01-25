@@ -9,7 +9,7 @@
 
 <script>
 import Header from '@/components/Header/Header.vue';
-import { mapGetters, mapMutations } from 'vuex';
+import { mapActions, mapGetters, mapMutations } from 'vuex';
 
 export default {
   name: 'App',
@@ -19,20 +19,60 @@ export default {
   watch: {
     $route(to, from) {
       if (from.path === '/chat' && to.path !== '/chat') {
-        this.setCurrentConversation(0);
+        if (this.currentConversation !== 0) {
+          this.setCurrentConversation(0);
+        }
+        // this.socket('unsubscribe')
       }
     },
   },
   computed: {
     ...mapGetters([
       'loggedUser',
+      'userId',
+      'socket',
+      'currentConversation',
     ]),
     isLogged() {
       return this.loggedUser.status.loggedIn;
     },
   },
   methods: {
-    ...mapMutations(['setCurrentConversation']),
+    ...mapActions([
+      'updateConversationAsRead',
+      'getUnreadMessagesCount',
+    ]),
+    ...mapMutations([
+      'setSocket',
+      'setCurrentConversation',
+      'setOnlineUsers',
+      'addConversation',
+      'addOneMessage',
+      'replaceMessage',
+      'incrementUnreadCount',
+    ]),
+  },
+  mounted() {
+    if (this.loggedUser.status.loggedIn === true) {
+      this.setSocket(`http://localhost:3000?userId=${this.userId}`);
+      this.socket.on('onlineUsers', (users) => this.setOnlineUsers(users));
+      this.socket.on('newConversation', (conv) => {
+        this.addConversation(conv);
+        this.socket.emit('subscribe', conv.id);
+      });
+      this.socket.on('message', (msg) => {
+        this.addOneMessage(msg);
+        if (this.currentConversation === msg.ConversationId) {
+          this.updateConversationAsRead(msg.ConversationId);
+        } else {
+          this.incrementUnreadCount();
+        }
+      });
+      this.socket.on('lastMessageRead', (msg) => {
+        this.getUnreadMessagesCount();
+        this.replaceMessage(msg);
+      });
+    }
   },
 };
 </script>

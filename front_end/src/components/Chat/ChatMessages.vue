@@ -103,11 +103,12 @@ export default {
     },
   },
   mounted() {
-    this.socket.on('message', (msg) => {
-      if (msg.ConversationId === this.currentConversation) {
-        this.scrollDown();
-      }
-    });
+    // this.socket.on('message', (msg) => {
+    //   console.log(msg.ConversationId);
+    //   if (msg.ConversationId === this.currentConversation) {
+    //     this.scrollDown();
+    //   }
+    // });
   },
   updated() {
     if (this.down) {

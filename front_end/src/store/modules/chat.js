@@ -24,7 +24,7 @@ const actions = {
     return http.post('/conversations', { users: userArray }, { headers: authHeader() })
       .then((res) => {
         if (res.data.created) {
-          state.socket.emit('newConversation', res.data.conversation);
+          state.socket.emit('addNewConversation', res.data.conversation);
           commit('addConversation', res.data.conversation);
         }
         commit('setCurrentConversation', res.data.conversation.id);
