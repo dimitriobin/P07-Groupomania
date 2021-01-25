@@ -1,11 +1,13 @@
 <template>
   <div
     id="chatMessages"
-    class="pt-0 px-sm-3 px-md-4 d-flex flex-column justify-content-between align-items-stretch">
+    class="pt-0 px-sm-3 px-md-4 d-flex flex-column justify-content-end align-items-stretch">
     <LazyLoadingScroll
       v-if="conversation.Messages.length && conversation.Messages.length < conversation.totalMessages"
       @loadMore="handleLoading($event)" />
-    <p v-else class="text-center my-4 text-muted">Fin des messages</p>
+    <p v-else class="text-center my-4 text-muted">
+      {{ conversation.Messages.length > 0 ? 'Fin des messages' : 'Cette conversation ne contient aucun message' }}
+    </p>
     <p
       v-for="(message, index) in conversation.Messages"
       :key="index"

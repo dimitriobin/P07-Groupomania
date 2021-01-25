@@ -24,7 +24,7 @@
   </b-list-group>
   <div class="mt-2 w-100">
     <b-button
-      @click="handleSubmit()"
+      @click.once="handleSubmit()"
       class="d-block mx-auto" variant="success" size="lg">
       Démarrer une conversation
     </b-button>

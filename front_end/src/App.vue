@@ -69,7 +69,6 @@ export default {
         }
       });
       this.socket.on('lastMessageRead', (msg) => {
-        this.getUnreadMessagesCount();
         this.replaceMessage(msg);
       });
     }
