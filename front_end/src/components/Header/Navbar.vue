@@ -86,24 +86,15 @@ export default {
     ...mapActions([
       'logout',
       'getUnreadMessagesCount',
-      'updateConversationAsRead',
       'readAllConversations',
     ]),
     ...mapMutations([
-      'setSocket',
-      'addOneMessage',
       'incrementUnreadCount',
     ]),
   },
   mounted() {
-    this.setSocket(`http://localhost:3000?userId=${this.userId}`);
     this.readAllConversations();
     this.getUnreadMessagesCount();
-    this.socket.on('message', (msg) => {
-      if (this.currentConversation !== msg.ConversationId) {
-        this.incrementUnreadCount();
-      }
-    });
   },
 };
 </script>

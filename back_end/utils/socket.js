@@ -22,7 +22,7 @@ class WebSockets {
       client.broadcast.to(msg.ConversationId).emit('lastMessageRead', msg);
     });
     // serve a conversation to participants
-    client.on('newConversation', (conv) => {
+    client.on('addNewConversation', (conv) => {
       conv.Users.forEach((participant) => {
         const userInfos = this.users.filter((user) => user.userId === participant.id && user.socketId !== client.id);
         userInfos.map((userInfo) => {

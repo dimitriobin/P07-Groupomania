@@ -85,8 +85,8 @@ export default {
   },
   watch: {
     currentConversation(newValue) {
-      this.socket.emit('subscribe', this.currentConversation);
       if (this.currentConversation !== 0) {
+        this.socket.emit('subscribe', this.currentConversation);
         this.updateConversationAsRead(newValue)
           .then((res) => {
             if (this.unreadCount > 0) {
@@ -113,10 +113,6 @@ export default {
       'updateConversationAsRead',
     ]),
     ...mapMutations([
-      'addOneMessage',
-      'addConversation',
-      'setOnlineUsers',
-      'replaceMessage',
       'setUnreadCount',
     ]),
     sendMessage(e) {
@@ -128,20 +124,6 @@ export default {
   mounted() {
     this.fetchUser(this.userId);
     this.fetchAllUsers();
-    this.socket.on('onlineUsers', (users) => this.setOnlineUsers(users));
-    this.socket.on('newConversation', (conv) => {
-      this.addConversation(conv);
-      this.socket.emit('subscribe', conv.id);
-    });
-    this.socket.on('message', (msg) => {
-      this.addOneMessage(msg);
-      if (this.currentConversation === msg.ConversationId) {
-        this.updateConversationAsRead(msg.ConversationId);
-      }
-    });
-    this.socket.on('lastMessageRead', (msg) => {
-      this.replaceMessage(msg);
-    });
   },
 };
 </script>

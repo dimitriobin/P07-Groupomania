@@ -7,9 +7,9 @@
       v-for="(user, index) in allOtherUsers"
       :key="index"
       href="#"
-      :class="{ 'active': selectedUsers.includes(user.id) }"
+      :class="{ 'active': selectedUser === user.id }"
       class="border-0 rounded-pill text-dark d-flex justify-content-start align-items-center"
-      @click="handleSelection(user.id)">
+      @click="selectedUser = user.id">
       <b-avatar
         :badge="isOnline(user.id)"
         badge-variant="success"
@@ -24,7 +24,7 @@
   </b-list-group>
   <div class="mt-2 w-100">
     <b-button
-      @click="handleSubmit()"
+      @click.once="handleSubmit()"
       class="d-block mx-auto" variant="success" size="lg">
       Démarrer une conversation
     </b-button>
@@ -40,7 +40,7 @@ export default {
   name: 'ChatUser',
   data() {
     return {
-      selectedUsers: [],
+      selectedUser: '',
     };
   },
   computed: {
@@ -61,15 +61,8 @@ export default {
       const compare = this.allOnlineUsers.filter((user) => (user.userId === userId));
       return compare.length > 0;
     },
-    handleSelection(userId) {
-      if (this.selectedUsers.includes(userId)) {
-        this.selectedUsers.splice(this.selectedUsers.indexOf(userId), 1);
-      } else {
-        this.selectedUsers.push(userId);
-      }
-    },
     handleSubmit() {
-      this.createConversation([...this.selectedUsers, this.userId])
+      this.createConversation([this.selectedUser, this.userId])
         .then(() => this.$emit('conversationCreated'));
     },
   },
