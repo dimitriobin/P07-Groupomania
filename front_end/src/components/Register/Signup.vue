@@ -134,6 +134,7 @@
           <b-form-file
             v-model="signup.image_url"
             id="registerImage"
+            browse-text="Parcourir"
             placeholder="Faites glisser ou sélectionnez une photo"
             drop-placeholder="Déposez ici..."
             accept="image/*"

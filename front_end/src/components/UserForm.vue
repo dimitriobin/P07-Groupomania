@@ -98,6 +98,7 @@
             v-model="user.image_url"
             id="userImage"
             @change="showPreview($event)"
+            browse-text="Parcourir"
             placeholder="Faites glisser ou sélectionnez une photo"
             accept="image/*"
             :state="errors[0] ? false : (valid ? true : null)">
