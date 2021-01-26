@@ -64,6 +64,7 @@
             id="postImage"
             v-model="newPost.image_url"
             @change="showPreview($event)"
+            browse-text="Parcourir"
             accept="image/*"
             placeholder="Faites glisser ou sélectionnez une photo"
             drop-placeholder="Déposez ici..."

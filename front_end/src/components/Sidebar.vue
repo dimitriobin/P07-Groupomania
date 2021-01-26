@@ -7,13 +7,14 @@
       <h2 class="h5 text-muted text-left font-weight-bold mb-3">Top des sujets</h2>
       <b-list-group
         tag="ol"
-        class="px-4 list-unstyled">
+        class="px-4 px-lg-2 list-unstyled">
           <li>
             <subject
               v-for="(subject, index) in topFive"
               :key="index"
               @pressed="$emit('subjectClick', subject.id)"
               :subject="subject"
+              :fill="true"
               class="text-dark p-0 text-left">
             </subject>
           </li>
@@ -36,7 +37,7 @@
           v-if="user.image_url"
           :alt="`Photo de profil de ${user.user_name}`"
           :src="user.image_url"
-          class="rounded-circle mr-3"></b-avatar>
+          class="rounded-circle mr-3 bg-transparent"></b-avatar>
         <b-col class="text-left">
           <p class="h5 mb-0">{{ user.user_name }}</p>
           <router-link :to="`/user/${user.id}`" class="h6 text-left">Visiter la page</router-link>

@@ -13,7 +13,7 @@
                         :alt="`Photo de profil de ${post.User.user_name}`"
                         :src="post.User.image_url"
                         size="lg"
-                        class="mr-2 mr-sm-4">
+                        class="mr-2 mr-sm-4 bg-transparent">
                     </b-avatar>
                     <b-col class="text-left">
                         <router-link

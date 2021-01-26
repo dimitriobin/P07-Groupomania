@@ -1,19 +1,27 @@
 <template>
   <b-list-group-item
     tag="div"
-    class="d-flex flex-wrap align-items-center justify-content-start border-0 py-1 px-0">
+    class="d-flex align-items-center border-0 py-1 px-0"
+    :class="{ 'justify-content-between': fill, 'justify-content-start': !fill }">
     <b-button
       @click="fetchAllPostsByOneSubject({ page: 0, id: subject.id })"
+      :title="subject.name"
       variant="link"
-      class="text-dark p-0 mr-3 text-left">
+      class="text-dark p-0 text-left text-overflow">
       {{ subject.name }}
     </b-button>
-    <b-link
+    <b-button
       v-if="isFollowed"
-      @click="unFollow(subject.id)">Ne plus suivre</b-link>
-    <b-link
+      title="Ne plus suivre"
+      variant="link"
+      class="text-right text-overflow"
+      @click="unFollow(subject.id)">Ne plus suivre</b-button>
+    <b-button
       v-else
-      @click="follow(subject.id)">Suivre</b-link>
+      title="Suivre"
+      variant="link"
+      class="text-right text-overflow"
+      @click="follow(subject.id)">Suivre</b-button>
   </b-list-group-item>
 </template>
 
@@ -22,7 +30,7 @@ import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'Subject',
-  props: ['subject'],
+  props: ['subject', 'fill'],
   computed: {
     ...mapGetters(['allFollows', 'userId']),
     isFollowed() {
@@ -61,5 +69,10 @@ export default {
   background: orange;
   color: white;
   transition: all 0.3s;
+}
+.text-overflow {
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  white-space: nowrap;
 }
 </style>

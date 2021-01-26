@@ -13,7 +13,7 @@
     <b-avatar
       :src="otherUsers[0].image_url"
       size="2.5rem"
-      class="mr-3">
+      class="mr-3 bg-transparent">
     </b-avatar>
     <h2 class="h5 m-0"><span class="sr-only">Conversation avec </span>{{ usersNames }}</h2>
   </div>

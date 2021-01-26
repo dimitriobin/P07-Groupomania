@@ -33,7 +33,7 @@
           v-if="oneUser.image_url"
           :src="oneUser.image_url"
           size="150px"
-          class="mb-3">
+          class="mb-3 bg-transparent">
         </b-avatar>
         <h2 class="mb-3 text-center">{{ oneUser.user_name }}</h2>
         <b-button to='/chat' class="btn-dark text-white">Envoyer un message</b-button>
@@ -50,6 +50,7 @@
                 v-for="(subject, index) in oneUser.Subjects"
                 :key="index"
                 :subject="subject"
+                :fill="true"
                 class="text-dark p-0 text-left">
               </subject>
             </li>
