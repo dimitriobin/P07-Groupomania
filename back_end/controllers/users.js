@@ -144,7 +144,7 @@ exports.updateOneUser = (req, res, next) => {
 
 exports.updatePassword = (req, res) => {
     if(passwordRegex.test(req.body.newPassword) === false) {
-        return res.status(401).send('Please enter a strong password');
+        return res.status(400).send('Please enter a strong password');
     }
     // First, check if the user exist in the db
     User.findOne({where: {id: req.params.id}})
