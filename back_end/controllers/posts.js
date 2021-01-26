@@ -275,7 +275,7 @@ exports.updateOnePost = (req, res, next) => {
                     }}
                 ], where: {id: req.params.id}})
             .then(post => {
-                res.status(201).json(post);
+                res.status(200).json(post);
             })
             .catch(error => res.status(500).json({error}))
             })
@@ -323,19 +323,27 @@ exports.likePost = (req, res, next) => {
 
 
 exports.readAllLikesByUser = (req, res, next) => {
-    User.findOne({where: {id: req.body.userId}, include: Subject})
+    User.findOne({
+        where: {
+            id: req.body.userId
+        },
+        include: Like,
+        attributes: [
+            
+        ]
+    })
     .then(user => {
         if(!user){
-            return res.status(404).send('Subject not found')
+            return res.status(404).send('User not found')
         }
-        res.status(200).json(user.Subjects)
+        res.status(200).json(user.Likes)
     })
     .catch(error => res.status(500).json({ error }))
 };
 
 
 exports.unlikePost = (req, res, next) => {
-    Like.destroy({
+    Like.findOne({
         where: {
             [Op.and]: [
                 {UserId : getUserId(req.headers.authorization)},
@@ -343,8 +351,20 @@ exports.unlikePost = (req, res, next) => {
             ]
         }
     })
-    .then(response => {
-        res.status(200).json(response);
+    .then(like => {
+        if (!like) return res.status(404).send('Like not found');
+        Like.destroy({
+            where: {
+                [Op.and]: [
+                    {UserId : getUserId(req.headers.authorization)},
+                    {PostId : req.params.id}
+                ]
+            }
+        })
+        .then(response => {
+            res.status(200).json(response);
+        })
+        .catch(error => res.status(500).json({error}))
     })
     .catch(error => res.status(500).json({error}))
 };

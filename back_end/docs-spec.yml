@@ -69,8 +69,21 @@ paths:
           content:
             application/json: 
               schema:
-                type: string
-                example:  User created
+                type: object
+                example:
+                  {
+                      "id": 59,
+                      "user_name": "JohnDoe123",
+                      "email": "johndoe@mail.com",
+                      "password": "$2b$10$/d9TGwmWgB/OD1RIB4adGu79d80G1laG5CALFM3Q6mUozPkfl746y",
+                      "birthdate": "1988-10-21",
+                      "restricted": false,
+                      "shareWithPartners": true,
+                      "contactable": true,
+                      "image_url": "http://localhost:3000/images/public/anonyme_avatar.png",
+                      "updatedAt": "2021-01-26T14:42:53.988Z",
+                      "createdAt": "2021-01-26T14:42:53.988Z"
+                  }
         '500':
           description: Internal error
           content:
@@ -78,10 +91,10 @@ paths:
               schema:
                 type: object
                 example:  {error: {}}
-  /api/users/login:
 # ///////////////////////////////////////////////////////////////////////////////////////////
 #                                           LOGIN USER
 # ///////////////////////////////////////////////////////////////////////////////////////////
+  /api/users/login:
     post:
       tags: [Users]
       summary: AUTHENTICATE A USER
@@ -111,8 +124,10 @@ paths:
               schema:
                 type: object
                 example:
-                  userId: 2
-                  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTYwNTI3NTE1OCwiZXhwIjoxNjA1MzE4MzU4fQ.9ek2VOjTdytJDin9TxlzhYhYanXtPFpsUWsKZMYYrHM
+                  {
+                      "userId": 59,
+                      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjU5LCJpYXQiOjE2MTE2NzIzMjAsImV4cCI6MTYxMTcxNTUyMH0.5Vl_yt-PpmdLsCEHwCNEnx-qYyKX3spDNuNQG07nqbY"
+                  }
         '400':
           description: Bad request
           content:
@@ -134,10 +149,10 @@ paths:
               schema:
                 type: object
                 example:  {error: {}}
-  /api/users/:
 # ///////////////////////////////////////////////////////////////////////////////////////////
 #                                           READ ALL USERS
 # ///////////////////////////////////////////////////////////////////////////////////////////
+  /api/users/:
     get:
       tags: [Users]
       summary: READ ALL USERS
@@ -149,8 +164,23 @@ paths:
             application/json: 
               schema:
                 type: array
-                items:
-                  $ref: '#/components/schemas/User'
+                example:
+                  [
+                    {
+                      "id": 1,
+                      "user_name": "Anonyme",
+                      "email": "anonyme@mail.com",
+                      "password": "$2b$10$/d9TGwmWgB/OD1RIB4adGu79d80G1laG5CALFM3Q6mUozPkfl746y",
+                      "image_url": "http://localhost:3000/images/public/icon.png",
+                      "birthdate": "1991-12-04",
+                      "parentEmail": null,
+                      "restricted": true,
+                      "shareWithPartners": false,
+                      "contactable": false,
+                      "createdAt": "2020-12-04T10:51:28.000Z",
+                      "updatedAt": "2020-12-04T10:51:28.000Z"
+                    }
+                  ]
         '401':
           description: Unauthorized request
           content:
@@ -172,10 +202,10 @@ paths:
               schema:
                 type: object
                 example:  {error: {}}
-  /api/users/:id:
 # ///////////////////////////////////////////////////////////////////////////////////////////
 #                                           READ ONE USER
 # ///////////////////////////////////////////////////////////////////////////////////////////
+  /api/users/:id:
     get:
       tags: [Users]
       summary: READ ONE USER
@@ -188,14 +218,30 @@ paths:
         schema:
           type: string
           style: simple
-          example: localhost:3000/api/users/4
+          example: localhost:3000/api/users/59
       responses:
         '200':
           description: Returns a user
           content:
             application/json: 
               schema:
-                $ref: '#/components/schemas/User'
+                type: object
+                example:
+                  {
+                    "id": 59,
+                    "user_name": "JohnDoe123",
+                    "email": "johndoe@mail.com",
+                    "password": "$2b$10$/d9TGwmWgB/OD1RIB4adGu79d80G1laG5CALFM3Q6mUozPkfl746y",
+                    "image_url": "http://localhost:3000/images/public/anonyme_avatar.png",
+                    "birthdate": "1988-10-21",
+                    "parentEmail": null,
+                    "restricted": false,
+                    "shareWithPartners": true,
+                    "contactable": true,
+                    "createdAt": "2021-01-26T14:42:53.000Z",
+                    "updatedAt": "2021-01-26T14:42:53.000Z",
+                    "Subjects": []
+                  }
         '401':
           description: Unauthorized request
           content:
@@ -232,7 +278,7 @@ paths:
         schema:
           type: string
           style: simple
-          example: localhost:3000/api/users/4
+          example: localhost:3000/api/users/59
       requestBody:
         required: true
         content:
@@ -258,22 +304,38 @@ paths:
                 contactable: 
                   type: boolean
               example:
-                user_name: JohnDoe123
-                email: johndoe@mail.com
-                password: Password123!
-                image_url: "http://localhost:3000/images/imagename1605263493723.jpg"
-                birthdate: 1988-10-21
+                user_name: "theDoe123456"
                 restricted: false
-                shareWithPartners: true
-                contactable: true
       responses:
         '200':
           description: User updated
           content:
             application/json: 
               schema:
+                type: object
+                example:
+                  {
+                    "id": 59,
+                    "user_name": "theDoe123456",
+                    "email": "johndoe@mail.com",
+                    "password": "$2b$10$/d9TGwmWgB/OD1RIB4adGu79d80G1laG5CALFM3Q6mUozPkfl746y",
+                    "image_url": "http://localhost:3000/images/public/anonyme_avatar.png",
+                    "birthdate": "1988-10-21",
+                    "parentEmail": null,
+                    "restricted": false,
+                    "shareWithPartners": true,
+                    "contactable": true,
+                    "createdAt": "2021-01-26T14:42:53.000Z",
+                    "updatedAt": "2021-01-26T14:52:22.000Z",
+                    "Subjects": []
+                  }
+        '400':
+          description: Bad request because you cannot update the password with this route, for that being done you have to use the route made for it
+          content:
+            application/json: 
+              schema:
                 type: string
-                example:  User updated
+                example:  The password cannot be updated in this route
         '401':
           description: Unauthorized request
           content:
@@ -326,6 +388,75 @@ paths:
               schema:
                 type: string
                 example:  Please login
+        '404':
+          description: User not found
+          content:
+            application/json: 
+              schema: 
+                type: string
+                example: User not found
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
+
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           UPDATE ONE USER'S PASSWORD
+# ///////////////////////////////////////////////////////////////////////////////////////////
+  /api/users/:id/password:
+    put:
+      tags: [Users]
+      summary: UPDATE A USER's PASSWORD
+      produces: application/json
+      parameters:
+      - name: id
+        in: path
+        description: the user's id
+        required: true
+        schema:
+          type: string
+          style: simple
+          example: localhost:3000/api/users/59/password
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                oldPassword:
+                  type: string
+                newPassword: 
+                  type: string
+              example:
+                oldPassword: "Password123!"
+                newPassword: "Newpassword123!"
+      responses:
+        '200':
+          description: User's password updated, responds with the number of line that has been updated in the database
+          content:
+            application/json: 
+              schema:
+                type: integer
+                example:
+                  1
+        '400':
+          description: If the new password is not passing the regex or if the old password is not the same as the original
+          content:
+            application/json: 
+              schema:
+                type: string
+                example: Please enter a strong password || Wrong password
+        '401':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example: Please login
         '404':
           description: User not found
           content:
@@ -726,9 +857,9 @@ paths:
               example:
                 title: A post title here
                 description: This is an example
-                image_url: "http://localhost:3000/images/imagename1605263493723.jpg"
-                url: "http://localhost:3000/api/docs/#/"
-                subject-id: 3
+                image_url: "data:image/jpeg;base64,/image_path"
+                url: "http://example.com"
+                subject_id: 3
                 user_id: 6
       responses:
         '201':
@@ -736,8 +867,40 @@ paths:
           content:
             application/json: 
               schema:
-                type: string
-                example:  Post created
+                type: object
+                example:
+                  {
+                    "id": 40,
+                    "title": "A post title here with a length between 20 and 499 characters",
+                    "image_url": null,
+                    "url": "http://example.com",
+                    "createdAt": "2021-01-26T15:24:13.000Z",
+                    "updatedAt": "2021-01-26T15:24:13.000Z",
+                    "user_id": 6,
+                    "subject_id": 3,
+                    "Subject": {
+                        "id": 3,
+                        "name": "A venir",
+                        "createdAt": "2020-12-04T10:51:28.000Z",
+                        "updatedAt": "2020-12-04T10:51:28.000Z"
+                    },
+                    "User": {
+                        "id": 6,
+                        "user_name": "Catherine",
+                        "email": "catherine@mail.com",
+                        "password": "Motdepasse123!",
+                        "image_url": "http://localhost:3000/images/public/icon.png",
+                        "birthdate": "1991-12-04",
+                        "parentEmail": null,
+                        "restricted": true,
+                        "shareWithPartners": false,
+                        "contactable": false,
+                        "createdAt": "2020-12-04T10:51:28.000Z",
+                        "updatedAt": "2020-12-04T10:51:28.000Z"
+                    },
+                    "Comments": [],
+                    "Likes": []
+                  }
         '401':
           description: Unauthorized request
           content:
@@ -753,21 +916,79 @@ paths:
                 type: object
                 example:  {error: {}}
 # ///////////////////////////////////////////////////////////////////////////////////////////
-#                                           READ ALL POSTS
+#                                           READ ALL POSTS BY KEYWORD
 # ///////////////////////////////////////////////////////////////////////////////////////////
     get:
       tags: [Posts]
-      summary: READ ALL POSTS
+      summary: READ ALL POSTS BY KEYWORD
       produces: application/json
+      parameters:
+      - in: query
+        name: keyword
+        description: the keyword
+        schema:
+          example: localhost:3000/api/posts?keyword=test
       responses:
         '200':
-          description: Returns an array of all Posts
+          description: Returns an object with pagination and an array of all Posts for this keyword
           content:
             application/json: 
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Post'
+                type: object
+                example:
+                  {
+                    "totalItems": 5,
+                    "posts": [
+                        {
+                            "id": 37,
+                            "title": "Bonjour voici un titre de post test test",
+                            "image_url": null,
+                            "url": null,
+                            "createdAt": "2021-01-22T13:24:28.000Z",
+                            "updatedAt": "2021-01-22T13:29:45.000Z",
+                            "user_id": 24,
+                            "subject_id": 1,
+                            "Subject": {
+                                "id": 1,
+                                "name": "News",
+                                "createdAt": "2020-12-04T10:51:28.000Z",
+                                "updatedAt": "2020-12-04T10:51:28.000Z"
+                            },
+                            "User": {
+                                "id": 24,
+                                "user_name": "Rita",
+                                "email": "rita@mail.com",
+                                "password": "$2b$10$LTlGCe8JG2cBp0Le/ntss.oA9zoBtmYGaq8nw6Xy7WbP34wWSoU1a",
+                                "image_url": "http://localhost:3000/images/star-wars-a-quel-age-mon-enfant-peut-il-regarder-la-saga1610894238101.jpg",
+                                "birthdate": "1991-01-02",
+                                "parentEmail": null,
+                                "restricted": true,
+                                "shareWithPartners": false,
+                                "contactable": false,
+                                "createdAt": "2021-01-17T14:37:18.000Z",
+                                "updatedAt": "2021-01-17T14:37:18.000Z"
+                            },
+                            "Comments": [
+                                {
+                                    "id": 26
+                                },
+                                {
+                                    "id": 27
+                                },
+                                {
+                                    "id": 28
+                                },
+                                {
+                                    "id": 29
+                                }
+                            ],
+                            "Likes": []
+                        }
+                    ],
+                    "totalPages": 5,
+                    "currentPage": 0
+                  }
+
         '401':
           description: Unauthorized request
           content:
@@ -789,32 +1010,174 @@ paths:
               schema:
                 type: object
                 example:  {error: {}}
-  /api/posts/user/:user_id:
+  /api/posts/:user_id:
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           READ ALL POSTS BY SUBJECTS FOLLOWS
+# ///////////////////////////////////////////////////////////////////////////////////////////
+    get:
+      tags: [Posts]
+      summary: READ ALL POSTS in a subject followed by the user
+      produces: application/json
+      parameters:
+      - in: path
+        name: user_id
+        description: the user's ID
+        schema:
+          example: localhost:3000/api/posts/58
+      - in: query
+        name: order
+        description: the sorting keyword (HOT, TOP or NEW by default)
+        schema:
+          example: localhost:3000/api/posts/58?order=top
+      - in: query
+        name: page
+        description: the page to read by default set to 0
+        schema:
+          example: localhost:3000/api/posts/58?page=0
+      - in: query
+        name: size
+        description: the size of the page, by default set to 1
+        schema:
+          example: localhost:3000/api/posts/58?page=0&size=8
+      responses:
+        '200':
+          description: Returns an object with pagination and all Posts
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:
+                  {
+                    "totalItems": 1,
+                    "posts": [
+                        {
+                            "id": 39,
+                            "title": "Example title",
+                            "image_url": null,
+                            "url": null,
+                            "createdAt": "2021-01-26T13:31:15.000Z",
+                            "updatedAt": "2021-01-26T13:31:15.000Z",
+                            "user_id": 58,
+                            "subject_id": 1,
+                            "Subject": {
+                                "id": 1,
+                                "name": "News",
+                                "createdAt": "2020-12-04T10:51:28.000Z",
+                                "updatedAt": "2020-12-04T10:51:28.000Z"
+                            },
+                            "User": {
+                                "id": 59,
+                                "user_name": "theDoe123485",
+                                "email": "johndoe@mail.com",
+                                "password": "$2b$10$TSSudDD4o9XtK3QiIXc2pOjYLyR4sAl8YTgUVCVxyOgM1kCrGTlgq",
+                                "image_url": "http://localhost:3000/images/public/anonyme_avatar.png",
+                                "birthdate": "1990-01-01",
+                                "parentEmail": null,
+                                "restricted": true,
+                                "shareWithPartners": false,
+                                "contactable": false,
+                                "createdAt": "2021-01-26T13:29:48.000Z",
+                                "updatedAt": "2021-01-26T13:29:48.000Z"
+                            },
+                            "Comments": [],
+                            "Likes": []
+                        }
+                    ],
+                    "totalPages": 1,
+                    "currentPage": 0
+                  }
+        '401':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Please login
+        '404':
+          description: Posts not found
+          content:
+            application/json: 
+              schema: 
+                type: string
+                example: Posts not found
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
 # ///////////////////////////////////////////////////////////////////////////////////////////
 #                                           READ ALL POSTS FOR ONE USER
 # ///////////////////////////////////////////////////////////////////////////////////////////
+  /api/posts/user/:user_id:
     get:
       tags: [Posts]
       summary: READ ALL POSTS FOR ONE USER
       produces: application/json
       parameters:
-      - name: id
-        in: path
-        description: the user's id
-        required: true
+      - in: path
+        name: user_id
+        description: the user's ID
         schema:
-          type: string
-          style: simple
-          example: localhost:3000/api/posts/user/4
+          example: localhost:3000/api/posts/user/21
+      - in: query
+        name: page
+        description: the page to read by default set to 0
+        schema:
+          example: localhost:3000/api/posts/user/58?page=0
+      - in: query
+        name: size
+        description: the size of the page, by default set to 1
+        schema:
+          example: localhost:3000/api/posts/user/58?page=0&size=8
       responses:
         '200':
-          description: Returns an array of all Posts for this user
+          description: Returns an object 
           content:
             application/json: 
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Post'
+                type: object
+                example:
+                  {
+                    "totalItems": 3,
+                    "posts": [
+                        {
+                            "id": 35,
+                            "title": "fdsfdsqfdsffdsfdsqfdsffdsfdsqfdsffdsfdsqfdsf",
+                            "image_url": "http://localhost:3000/images/Mort-de-David-Prowse-le-legendaire-Dark-Vador-dans-la-premiere-trilogie-Star-Wars-avait-85-ans1611238152330.jpg",
+                            "url": null,
+                            "createdAt": "2021-01-21T14:08:51.000Z",
+                            "updatedAt": "2021-01-21T14:09:12.000Z",
+                            "user_id": 21,
+                            "subject_id": 4,
+                            "Subject": {
+                                "id": 4,
+                                "name": "Anniversaires",
+                                "createdAt": "2020-12-04T10:51:28.000Z",
+                                "updatedAt": "2020-12-04T10:51:28.000Z"
+                            },
+                            "User": {
+                                "id": 21,
+                                "user_name": "dimitrius",
+                                "email": "dimitri59@mail.com",
+                                "password": "$2b$10$Qzxr7gp7z4PtwnCq5R/qGOscomdYkDyb.Nf4/4orPHIkm/rdiS9AG",
+                                "image_url": "http://localhost:3000/images/15735937363841611225521501.jpg",
+                                "birthdate": "1993-02-17",
+                                "parentEmail": null,
+                                "restricted": true,
+                                "shareWithPartners": true,
+                                "contactable": true,
+                                "createdAt": "2021-01-15T10:25:35.000Z",
+                                "updatedAt": "2021-01-21T10:38:59.000Z"
+                            },
+                            "Comments": [],
+                            "Likes": []
+                        }
+                    ],
+                    "totalPages": 3,
+                    "currentPage": 0
+                  }
         '401':
           description: Unauthorized request
           content:
@@ -836,32 +1199,170 @@ paths:
               schema:
                 type: object
                 example:  {error: {}}
-  /api/posts/subject/:subject_id:
 # ///////////////////////////////////////////////////////////////////////////////////////////
 #                                           READ ALL POSTS FOR ONE SUBJECT
 # ///////////////////////////////////////////////////////////////////////////////////////////
+  /api/posts/subject/:subject_id:
     get:
       tags: [Posts]
       summary: READ ALL POSTS FOR ONE SUBJECT
       produces: application/json
       parameters:
-      - name: id
-        in: path
-        description: the subject's id
-        required: true
+      - in: path
+        name: user_id
+        description: the user's ID
         schema:
-          type: string
-          style: simple
-          example: localhost:3000/api/posts/subject/4
+          example: localhost:3000/api/posts/subject/2
+      - in: query
+        name: page
+        description: the page to read by default set to 0
+        schema:
+          example: localhost:3000/api/posts/subject/2?page=0
+      - in: query
+        name: size
+        description: the size of the page, by default set to 1
+        schema:
+          example: localhost:3000/api/posts/subject/2?page=0&size=8
       responses:
         '200':
-          description: Returns an array of all Posts for this subject
+          description: Returns an objectwith pagination and all Posts for this subject
           content:
             application/json: 
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Post'
+                type: object
+                example:
+                  {
+                    "totalItems": 2,
+                    "posts": [
+                      {
+                          "id": 2,
+                          "title": "Un post de test",
+                          "image_url": null,
+                          "url": null,
+                          "createdAt": "2020-12-04T10:51:28.000Z",
+                          "updatedAt": "2020-12-04T10:51:28.000Z",
+                          "user_id": 2,
+                          "subject_id": 2,
+                          "Subject": {
+                              "id": 2,
+                              "name": "Afterworks",
+                              "createdAt": "2020-12-04T10:51:28.000Z",
+                              "updatedAt": "2020-12-04T10:51:28.000Z"
+                          },
+                          "User": {
+                              "id": 2,
+                              "user_name": "Marc",
+                              "email": "marc@mail.com",
+                              "password": "Motdepasse123!",
+                              "image_url": "http://localhost:3000/images/public/icon.png",
+                              "birthdate": "1991-12-04",
+                              "parentEmail": null,
+                              "restricted": true,
+                              "shareWithPartners": false,
+                              "contactable": false,
+                              "createdAt": "2020-12-04T10:51:28.000Z",
+                              "updatedAt": "2020-12-04T10:51:28.000Z"
+                          },
+                          "Comments": [
+                              {
+                                  "id": 15,
+                                  "content": "fds",
+                                  "createdAt": "2021-01-21T14:12:34.000Z",
+                                  "updatedAt": "2021-01-21T14:12:34.000Z",
+                                  "user_id": 1,
+                                  "subject_id": 2,
+                                  "post_id": 2,
+                                  "User": {
+                                      "id": 1,
+                                      "user_name": "Anonyme",
+                                      "email": "anonyme@mail.com",
+                                      "password": "Motdepasse123!",
+                                      "image_url": "http://localhost:3000/images/public/icon.png",
+                                      "birthdate": "1991-12-04",
+                                      "parentEmail": null,
+                                      "restricted": true,
+                                      "shareWithPartners": false,
+                                      "contactable": false,
+                                      "createdAt": "2020-12-04T10:51:28.000Z",
+                                      "updatedAt": "2020-12-04T10:51:28.000Z"
+                                  }
+                              },
+                              {
+                                  "id": 16,
+                                  "content": "f",
+                                  "createdAt": "2021-01-21T14:12:52.000Z",
+                                  "updatedAt": "2021-01-21T14:12:52.000Z",
+                                  "user_id": 1,
+                                  "subject_id": 2,
+                                  "post_id": 2,
+                                  "User": {
+                                      "id": 1,
+                                      "user_name": "Anonyme",
+                                      "email": "anonyme@mail.com",
+                                      "password": "Motdepasse123!",
+                                      "image_url": "http://localhost:3000/images/public/icon.png",
+                                      "birthdate": "1991-12-04",
+                                      "parentEmail": null,
+                                      "restricted": true,
+                                      "shareWithPartners": false,
+                                      "contactable": false,
+                                      "createdAt": "2020-12-04T10:51:28.000Z",
+                                      "updatedAt": "2020-12-04T10:51:28.000Z"
+                                  }
+                              },
+                              {
+                                  "id": 17,
+                                  "content": "TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST TEST ",
+                                  "createdAt": "2021-01-21T14:13:44.000Z",
+                                  "updatedAt": "2021-01-21T14:13:44.000Z",
+                                  "user_id": 1,
+                                  "subject_id": 2,
+                                  "post_id": 2,
+                                  "User": {
+                                      "id": 1,
+                                      "user_name": "Anonyme",
+                                      "email": "anonyme@mail.com",
+                                      "password": "Motdepasse123!",
+                                      "image_url": "http://localhost:3000/images/public/icon.png",
+                                      "birthdate": "1991-12-04",
+                                      "parentEmail": null,
+                                      "restricted": true,
+                                      "shareWithPartners": false,
+                                      "contactable": false,
+                                      "createdAt": "2020-12-04T10:51:28.000Z",
+                                      "updatedAt": "2020-12-04T10:51:28.000Z"
+                                  }
+                              },
+                              {
+                                  "id": 22,
+                                  "content": "fds",
+                                  "createdAt": "2021-01-21T14:14:45.000Z",
+                                  "updatedAt": "2021-01-21T14:14:45.000Z",
+                                  "user_id": 1,
+                                  "subject_id": 2,
+                                  "post_id": 2,
+                                  "User": {
+                                      "id": 1,
+                                      "user_name": "Anonyme",
+                                      "email": "anonyme@mail.com",
+                                      "password": "Motdepasse123!",
+                                      "image_url": "http://localhost:3000/images/public/icon.png",
+                                      "birthdate": "1991-12-04",
+                                      "parentEmail": null,
+                                      "restricted": true,
+                                      "shareWithPartners": false,
+                                      "contactable": false,
+                                      "createdAt": "2020-12-04T10:51:28.000Z",
+                                      "updatedAt": "2020-12-04T10:51:28.000Z"
+                                  }
+                              }
+                          ],
+                          "Likes": []
+                      }
+                    ],
+                    "totalPages": 2,
+                    "currentPage": 0
+                  }
         '401':
           description: Unauthorized request
           content:
@@ -883,10 +1384,10 @@ paths:
               schema:
                 type: object
                 example:  {error: {}}
-  /api/posts/:id:
 # ///////////////////////////////////////////////////////////////////////////////////////////
 #                                           READ ONE POST
 # ///////////////////////////////////////////////////////////////////////////////////////////
+  /api/posts/:id:
     get:
       tags: [Posts]
       summary: READ ONE POST
@@ -968,7 +1469,7 @@ paths:
                 description: This is an example
                 image_url: "http://localhost:3000/images/imagename1605263493723.jpg"
                 url: "http://localhost:3000/api/docs/#/"
-                subject-id: 3
+                subject_id: 3
                 user_id: 6
       responses:
         '200':
@@ -976,8 +1477,40 @@ paths:
           content:
             application/json: 
               schema:
-                type: string
-                example:  Post updated
+                type: object
+                example:
+                  {
+                    "id": 4,
+                    "title": "Un post de test",
+                    "image_url": null,
+                    "url": null,
+                    "createdAt": "2020-12-04T10:51:28.000Z",
+                    "updatedAt": "2021-01-26T16:17:37.000Z",
+                    "user_id": 4,
+                    "subject_id": 4,
+                    "Subject": {
+                        "id": 4,
+                        "name": "Anniversaires",
+                        "createdAt": "2020-12-04T10:51:28.000Z",
+                        "updatedAt": "2020-12-04T10:51:28.000Z"
+                    },
+                    "User": {
+                        "id": 4,
+                        "user_name": "Walid",
+                        "email": "walid@mail.com",
+                        "password": "Motdepasse123!",
+                        "image_url": "http://localhost:3000/images/public/icon.png",
+                        "birthdate": "1991-12-04",
+                        "parentEmail": null,
+                        "restricted": true,
+                        "shareWithPartners": false,
+                        "contactable": false,
+                        "createdAt": "2020-12-04T10:51:28.000Z",
+                        "updatedAt": "2020-12-04T10:51:28.000Z"
+                    },
+                    "Comments": [],
+                    "Likes": []
+                  }
         '401':
           description: Unauthorized request
           content:
@@ -1037,6 +1570,155 @@ paths:
               schema: 
                 type: string
                 example: Post not found
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           LIKE ONE POST
+# ///////////////////////////////////////////////////////////////////////////////////////////
+  /api/posts/:id/like:
+    post:
+      tags: [Posts]
+      summary: LIKE A POST
+      produces: application/json
+      parameters:
+      - name: id
+        in: path
+        description: the Post's id
+        required: true
+        schema:
+          type: string
+          style: simple
+          example: localhost:3000/api/posts/1/like
+      responses:
+        '201':
+          description: Post liked
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:
+                  {
+                    "UserId": 59,
+                    "PostId": "1",
+                    "updatedAt": "2021-01-26T16:31:15.679Z",
+                    "createdAt": "2021-01-26T16:31:15.679Z"
+                  }
+        '401':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Please login
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           READ ALL LIKES FOR ONE USER
+# ///////////////////////////////////////////////////////////////////////////////////////////
+  /api/posts/like:
+    post:
+      tags: [Posts]
+      summary: Read all posts liked by a particular user
+      produces: application/json
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: integer
+              required:
+                - userId
+              example:
+                userId: 59
+      responses:
+        '201':
+          description: An array of all posts liked by one user
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:
+                  [
+                    {
+                      "createdAt": "2021-01-26T16:31:15.000Z",
+                      "updatedAt": "2021-01-26T16:31:15.000Z",
+                      "UserId": 59,
+                      "PostId": 1
+                    }
+                  ]
+        '401':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Please login
+        '404':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  User not found
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                                           UNLIKE ONE POST
+# ///////////////////////////////////////////////////////////////////////////////////////////
+  /api/posts/:id/unlike:
+    delete:
+      tags: [Posts]
+      summary: UNLIKE A POST
+      produces: application/json
+      parameters:
+      - name: id
+        in: path
+        description: the Post's id
+        required: true
+        schema:
+          type: string
+          style: simple
+          example: localhost:3000/api/posts/4/unlike
+      responses:
+        '200':
+          description: Post unliked, return the number of post unliked
+          content:
+            application/json: 
+              schema:
+                type: integer
+                example:  1
+        '401':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Please login
+        '404':
+          description: Like not found
+          content:
+            application/json: 
+              schema: 
+                type: string
+                example: Like not found
         '500':
           description: Internal error
           content:
@@ -1621,7 +2303,436 @@ paths:
               schema:
                 type: object
                 example:  {error: {}}
-#
+#############################################################################################
+#############################################################################################
+#                                           CONVERSATIONS
+#############################################################################################
+#############################################################################################
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                             CREATE ONE conversation
+# ///////////////////////////////////////////////////////////////////////////////////////////
+  /api/conversations/:
+    post:
+      tags: [Conversations]
+      summary: CREATE A CONVERSATION
+      produces: application/json
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                users:
+                  type: array
+              required:
+                - users
+              example:
+                users: [1, 5]
+      responses:
+        '200':
+          description: If a conversation between these users already exists, return an object with created=false and the conversation
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:
+                  {
+                    "created": false,
+                    "conversation": {
+                      "id": 141,
+                      "users": "[1,5]",
+                      "createdAt": "2021-01-26T18:02:13.000Z",
+                      "updatedAt": "2021-01-26T18:02:13.000Z"
+                    }
+                  }
+        '201':
+          description: If a conversation between these users does not already exists, return an object with created=true and the conversation
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:
+                  {
+                    "created": true,
+                    "conversation": {
+                      "id": 141,
+                      "users": "[1,5]",
+                      "createdAt": "2021-01-26T18:02:13.000Z",
+                      "updatedAt": "2021-01-26T18:02:13.000Z",
+                      "Users": [
+                        {
+                          "id": 1,
+                          "user_name": "Anonyme",
+                          "image_url": "http://localhost:3000/images/public/icon.png"
+                        },
+                        {
+                          "id": 5,
+                          "user_name": "Aurélien",
+                          "image_url": "http://localhost:3000/images/public/icon.png"
+                        }
+                      ],
+                      "Messages": []
+                    }
+                  }
+        '401':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Please login
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                             READ ALL conversations for one user
+# ///////////////////////////////////////////////////////////////////////////////////////////
+    get:
+      tags: [Conversations]
+      summary: READ ALL CONVERSATIONS
+      produces: application/json
+      responses:
+        '200':
+          description: Returns an array of all conversations objects
+          content:
+            application/json: 
+              schema:
+                type: array
+                example:
+                  [
+                      {
+                          "id": 142,
+                          "users": "[1,59]",
+                          "createdAt": "2021-01-26T18:10:59.000Z",
+                          "updatedAt": "2021-01-26T18:10:59.000Z",
+                          "Users": [
+                              {
+                                  "id": 1,
+                                  "user_name": "Anonyme",
+                                  "image_url": "http://localhost:3000/images/public/icon.png"
+                              },
+                              {
+                                  "id": 59,
+                                  "user_name": "theDoe123456",
+                                  "image_url": "http://localhost:3000/images/public/anonyme_avatar.png"
+                              }
+                          ],
+                          "Messages": []
+                      },
+                      {
+                          "id": 145,
+                          "users": "[25,59]",
+                          "createdAt": "2021-01-26T18:11:23.000Z",
+                          "updatedAt": "2021-01-26T18:11:23.000Z",
+                          "Users": [
+                              {
+                                  "id": 25,
+                                  "user_name": "Jack",
+                                  "image_url": "http://localhost:3000/images/star-wars-dans-quel-ordre-regarder-les-films-et-series-disponibles-sur-disney1611048376356.jpg"
+                              },
+                              {
+                                  "id": 59,
+                                  "user_name": "theDoe123456",
+                                  "image_url": "http://localhost:3000/images/public/anonyme_avatar.png"
+                              }
+                          ],
+                          "Messages": []
+                      }
+                  ]
+        '401':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Please login
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                             CREATE ONE message
+# ///////////////////////////////////////////////////////////////////////////////////////////
+  /api/conversations/:id/message:
+    post:
+      tags: [Conversations]
+      summary: CREATE A MESSAGE
+      produces: application/json
+      parameters:
+      - name: id
+        in: path
+        description: the conversation's id
+        required: true
+        schema:
+          type: string
+          example: localhost:3000/api/conversations/142/message
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+              required:
+                - content
+              example:
+                content: 'Salut ! Comment vas tu ?'
+      responses:
+        '201':
+          description: Return the message that has been created with default value to read set to false
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:
+                  {
+                      "read": false,
+                      "id": 847,
+                      "ConversationId": 142,
+                      "UserId": 59,
+                      "content": "Salut ! Comment vas tu ?",
+                      "updatedAt": "2021-01-26T18:15:49.562Z",
+                      "createdAt": "2021-01-26T18:15:49.562Z"
+                  }
+        '401':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Please login || You are not allowed to join this conversation
+        '404':
+          description: Conversation not found
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Conversation not found
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                             READ ALL MESSAGES FOR ONE conversation
+# ///////////////////////////////////////////////////////////////////////////////////////////
+  /api/conversations/:id:
+    get:
+      tags: [Conversations]
+      summary: READ ALL MESSAGES FOR ONE CONVERSATION
+      produces: application/json
+      parameters:
+      - name: id
+        in: path
+        description: the conversation's id
+        required: true
+        schema:
+          type: string
+          example: localhost:3000/api/conversations/142
+      - in: query
+        name: page
+        description: the page to read by default set to 0
+        schema:
+          example: localhost:3000/api/conversations/142?page=0
+      - in: query
+        name: size
+        description: the size of the page, by default set to 20
+        schema:
+          example: localhost:3000/api/conversations/142?page=0&size=8
+      responses:
+        '200':
+          description: return and object with pagination and an array of messages
+          content:
+            application/json: 
+              example:
+                {
+                    "totalMessages": 1,
+                    "Messages": [
+                        {
+                            "id": 847,
+                            "content": "Salut ! Comment vas tu ?",
+                            "read": false,
+                            "createdAt": "2021-01-26T18:15:49.000Z",
+                            "updatedAt": "2021-01-26T18:15:49.000Z",
+                            "ConversationId": 142,
+                            "UserId": 59,
+                            "User": {
+                                "id": 59,
+                                "user_name": "theDoe123456",
+                                "image_url": "http://localhost:3000/images/public/anonyme_avatar.png"
+                            }
+                        }
+                    ],
+                    "totalPages": 1,
+                    "currentPage": 0
+                }
+        '401':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Please login
+        '404':
+          description: Conversation not found
+          content:
+            application/json: 
+              schema: 
+                type: string
+                example: Conversation not found
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                             READ the count of all unread messages for one user
+# ///////////////////////////////////////////////////////////////////////////////////////////
+  /api/conversations/messages/unread:
+    get:
+      tags: [Conversations]
+      summary: COUNT ALL MESSAGES UNREAD FOR ONE USER
+      produces: application/json
+      responses:
+        '200':
+          description: return the count of all unread messages in conversations that the user is participant of
+          content:
+            application/json: 
+              example: 0
+        '401':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Please login
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                             UPDATE ALL unread messages for one conversation
+# ///////////////////////////////////////////////////////////////////////////////////////////
+  /api/conversations/:id/read:
+    put:
+      tags: [Conversations]
+      summary: UPDATE ALL MESSAGES FOR ONE CONVERSATION
+      produces: application/json
+      parameters:
+      - name: id
+        in: path
+        description: the conversation's id
+        required: true
+        schema:
+          type: string
+          style: simple
+          example: localhost:3000/api/conversations/142
+      responses:
+        '200':
+          description: Return an object with the last message read and the number of messages that's been updated
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:
+                  {
+                      "lastRead": {
+                          "id": 851,
+                          "content": "C'est la grande forme :)",
+                          "read": true,
+                          "createdAt": "2021-01-26T18:37:31.000Z",
+                          "updatedAt": "2021-01-26T18:39:57.000Z",
+                          "ConversationId": 146,
+                          "UserId": 60
+                      },
+                      "updated": [
+                          2
+                      ]
+                  }
+        '401':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Please login || You are not allowed to join this conversation
+        '404':
+          description: Conversation not found
+          content:
+            application/json: 
+              schema: 
+                type: string
+                example: Conversation not found
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
+# ///////////////////////////////////////////////////////////////////////////////////////////
+#                             DELETE one participant
+# ///////////////////////////////////////////////////////////////////////////////////////////
+  /api/conversations/:id/participant:
+    delete:
+      tags: [Conversations]
+      summary: DELETE A PARTICIPANT
+      produces: application/json
+      parameters:
+      - name: id
+        in: path
+        description: the conversation's id
+        required: true
+        schema:
+          type: string
+          style: simple
+          example: localhost:3000/api/conversations/60/participant
+      responses:
+        '200':
+          description: Participant remove from the conversation, respond with a count, 1 is for user deleted, 0 for user not deleted
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  1
+        '401':
+          description: Unauthorized request
+          content:
+            application/json: 
+              schema:
+                type: string
+                example:  Please login
+        '404':
+          description: Participant not found in this conversation or just Conversation not found
+          content:
+            application/json: 
+              schema: 
+                type: string
+                example: This user is not a participant of this conversation || Conversation not found
+        '500':
+          description: Internal error
+          content:
+            application/json: 
+              schema:
+                type: object
+                example:  {error: {}}
 #############################################################################################
 #############################################################################################
 #                                           COMPONENTS
