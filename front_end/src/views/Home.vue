@@ -18,7 +18,7 @@
           v-if="oneUser.image_url"
           :src="oneUser.image_url"
           size="lg"
-          class="mx-auto mb-3 mb-sm-0">
+          class="mx-auto mb-3 mb-sm-0 bg-transparent">
         </b-avatar>
         <b-button
           v-b-modal.createPost

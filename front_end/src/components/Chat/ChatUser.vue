@@ -15,7 +15,7 @@
         badge-variant="success"
         :src="user.image_url"
         size="3.5rem"
-        class="mr-3">
+        class="mr-3 bg-transparent">
       </b-avatar>
       <div>
         <p class="m-0 h5">{{ user.user_name }}</p>

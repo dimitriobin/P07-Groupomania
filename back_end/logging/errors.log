@@ -2863,3 +2863,4 @@
 ::1 - - [26/Jan/2021:09:57:42 +0000] "GET /api/subjects HTTP/1.1" 401 12
 ::1 - - [26/Jan/2021:09:57:42 +0000] "GET /api/users HTTP/1.1" 401 12
 ::1 - - [26/Jan/2021:09:57:42 +0000] "GET /api/posts/54?page=0&size=8&order=new HTTP/1.1" 401 12
+::1 - - [26/Jan/2021:13:29:44 +0000] "POST /api/users/signup HTTP/1.1" 500 1996

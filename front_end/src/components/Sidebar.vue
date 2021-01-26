@@ -37,7 +37,7 @@
           v-if="user.image_url"
           :alt="`Photo de profil de ${user.user_name}`"
           :src="user.image_url"
-          class="rounded-circle mr-3"></b-avatar>
+          class="rounded-circle mr-3 bg-transparent"></b-avatar>
         <b-col class="text-left">
           <p class="h5 mb-0">{{ user.user_name }}</p>
           <router-link :to="`/user/${user.id}`" class="h6 text-left">Visiter la page</router-link>
