@@ -33,6 +33,9 @@ export default {
   methods: {
     ...mapActions(['displayBy', 'fetchAllPostsByKeyword']),
     handleSearch() {
+      if (this.$route.path !== '/') {
+        this.$router.push({ path: '/' });
+      }
       this.fetchAllPostsByKeyword({ page: 0, keyword: this.keyword });
       this.keyword = '';
     },
