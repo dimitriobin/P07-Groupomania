@@ -50,6 +50,7 @@
                 v-for="(subject, index) in oneUser.Subjects"
                 :key="index"
                 :subject="subject"
+                :fill="true"
                 class="text-dark p-0 text-left">
               </subject>
             </li>

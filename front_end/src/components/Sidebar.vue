@@ -7,13 +7,14 @@
       <h2 class="h5 text-muted text-left font-weight-bold mb-3">Top des sujets</h2>
       <b-list-group
         tag="ol"
-        class="px-4 list-unstyled">
+        class="px-4 px-lg-2 list-unstyled">
           <li>
             <subject
               v-for="(subject, index) in topFive"
               :key="index"
               @pressed="$emit('subjectClick', subject.id)"
               :subject="subject"
+              :fill="true"
               class="text-dark p-0 text-left">
             </subject>
           </li>
