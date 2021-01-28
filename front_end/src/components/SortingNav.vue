@@ -2,24 +2,24 @@
   <b-nav pills align="center"
       class="mb-4 bg-white rounded-lg p-2 shadow h5 font-weight-bold py-2">
       <b-nav-item
-        aria-label="Trier les posts par ordre du plus aimé"
         class="mx-3"
         @click="handleSorting('top')"
         :active="selected === 'top'">
+        <span class="sr-only">Trier les posts par ordre du plus aimé</span>
         Top
       </b-nav-item>
       <b-nav-item
-        aria-label="Trier les posts par ordre du plus récent"
         class="mx-3"
         @click="handleSorting('new')"
         :active="selected === 'new'">
+        <span class="sr-only">Trier les posts par ordre du plus récent</span>
         New
       </b-nav-item>
       <b-nav-item
-        aria-label="Trier les posts par ordre du plus commenté"
         class="mx-3"
         @click="handleSorting('hot')"
         :active="selected === 'hot'">
+        <span class="sr-only">Trier les posts par ordre du plus commenté</span>
         Hot
       </b-nav-item>
   </b-nav>
