@@ -31,6 +31,7 @@
               font-scale="1.5">
             </b-icon>
             <b-badge
+              v-if="unreadCount > 0"
               pill
               class="icon_counter"
               variant="danger">
