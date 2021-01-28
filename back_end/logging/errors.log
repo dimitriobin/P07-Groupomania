@@ -2910,3 +2910,12 @@
 ::1 - - [26/Jan/2021:18:36:41 +0000] "GET /api/conversations/146/message HTTP/1.1" 404 168
 ::1 - - [26/Jan/2021:18:38:00 +0000] "PUT /api/conversations/messages/unread HTTP/1.1" 404 172
 ::1 - - [26/Jan/2021:18:38:06 +0000] "POST /api/conversations/messages/unread HTTP/1.1" 404 173
+::ffff:127.0.0.1 - - [28/Jan/2021:10:32:37 +0000] "GET /api/conversations HTTP/1.1" 401 12
+::ffff:127.0.0.1 - - [28/Jan/2021:10:32:37 +0000] "GET /api/conversations/messages/unread HTTP/1.1" 401 12
+::ffff:127.0.0.1 - - [28/Jan/2021:10:32:37 +0000] "POST /api/subjects/follow HTTP/1.1" 401 12
+::ffff:127.0.0.1 - - [28/Jan/2021:10:32:37 +0000] "GET /api/subjects HTTP/1.1" 401 12
+::ffff:127.0.0.1 - - [28/Jan/2021:10:32:37 +0000] "GET /api/users HTTP/1.1" 401 12
+::ffff:127.0.0.1 - - [28/Jan/2021:10:32:37 +0000] "GET /api/posts/56?page=0&size=8&order=new HTTP/1.1" 401 12
+::ffff:127.0.0.1 - - [28/Jan/2021:10:32:37 +0000] "GET /api/users/56 HTTP/1.1" 401 12
+::ffff:127.0.0.1 - - [28/Jan/2021:10:32:44 +0000] "POST /api/users/login HTTP/1.1" 400 28
+::ffff:127.0.0.1 - - [28/Jan/2021:10:43:45 +0000] "POST /api/conversations/147/message HTTP/1.1" 500 471
