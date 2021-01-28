@@ -1,4 +1,6 @@
 'use strict'
+const bcrypt = require('bcrypt');
+
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
     // Model attributes are defined here
@@ -80,7 +82,14 @@ module.exports = (sequelize, DataTypes) => {
     User.hasMany(models.Participant);
   }
 
-
+  
+  // User.create({
+  //     user_name: process.env.ANONYME_NAME,
+  //     email: process.env.ANONYME_EMAIL,
+  //     birthdate: '1970-01-01',
+  //     password: bcrypt.hashSync(process.env.ANONYME_PASSWORD, 10)
+  //   })
+  //   .then(() => console.log('created'))
   
   return User;
 };

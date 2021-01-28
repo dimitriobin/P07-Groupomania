@@ -15,11 +15,6 @@ router.post('/', auth, createOneComment);
 router.get('/', auth, readAllComments);
 
 /////////////////////////////////////////////
-// READ ALL Comments by subject
-/////////////////////////////////////////////
-router.get('/subject/:subject_id', auth, readAllCommentsBySubject);
-
-/////////////////////////////////////////////
 // READ ALL Comments by user
 /////////////////////////////////////////////
 router.get('/user/:user_id', auth, readAllCommentsByUser);
