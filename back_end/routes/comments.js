@@ -2,7 +2,7 @@
 const router = require('express').Router();
 const auth = require('../middlewares/auth')
 
-const { createOneComment, readAllComments, readAllCommentsBySubject, readAllCommentsByUser, readAllCommentsByPost, readOneComment, updateOneComment, deleteOneComment } = require ('../controllers/comments');
+const { createOneComment, readAllComments, readAllCommentsByUser, readAllCommentsByPost, readOneComment, updateOneComment, deleteOneComment } = require ('../controllers/comments');
 
 /////////////////////////////////////////////
 // CREATE ONE Comment
@@ -13,11 +13,6 @@ router.post('/', auth, createOneComment);
 // READ ALL Comments
 /////////////////////////////////////////////
 router.get('/', auth, readAllComments);
-
-/////////////////////////////////////////////
-// READ ALL Comments by subject
-/////////////////////////////////////////////
-router.get('/subject/:subject_id', auth, readAllCommentsBySubject);
 
 /////////////////////////////////////////////
 // READ ALL Comments by user

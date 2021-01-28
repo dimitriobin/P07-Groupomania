@@ -80,7 +80,7 @@ exports.fetchAllPostsByKeyword = (req, res, next) => {
         distinct: true,
         limit,
         offset,
-        where: { title: { [Op.like]: `% ${keyword} %`} },
+        where: { title: { [Op.like]: `%${keyword}%`} },
         order: [ ['createdAt', 'DESC'] ]
     })
     .then((posts) => {

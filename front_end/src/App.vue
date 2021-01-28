@@ -25,6 +25,13 @@ export default {
         // this.socket('unsubscribe')
       }
     },
+    unreadCount(newVal) {
+      if (newVal > 0) {
+        document.title = `(${newVal}) Groupomania`;
+      } else {
+        document.title = 'Groupomania';
+      }
+    },
   },
   computed: {
     ...mapGetters([
@@ -32,6 +39,7 @@ export default {
       'userId',
       'socket',
       'currentConversation',
+      'unreadCount',
     ]),
     isLogged() {
       return this.loggedUser.status.loggedIn;
