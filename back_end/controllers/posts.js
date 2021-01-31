@@ -245,8 +245,7 @@ exports.updateOnePost = (req, res, next) => {
         ...req.body,
         image_url: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     } : {
-        ...req.body,
-        image_url: null
+        ...req.body
     };
     Post.findOne({where: {id: req.params.id}})
     .then(post => {
@@ -295,17 +294,25 @@ exports.deleteOnePost = (req, res, next) => {
             const filename = post.image_url.split('/images/')[1];
             fs.unlink(`images/${filename}`, err => {if(err) console.log(err)});
         }
-        Post.destroy({
+        Comment.destroy({
             where: {
-                id: req.params.id
+                post_id: post.id
             }
         })
-        .then(deletedPost => {
-            res.status(200).send('Post deleted');
+        .then(() => {
+            Post.destroy({
+                where: {
+                    id: req.params.id
+                }
+            })
+            .then(() => {
+                res.status(200).send('Post deleted');
+            })
+            .catch(error => res.status(500).json({error}));
         })
-        .catch(error => res.status(500).json({error}))
+        .catch(error => res.status(500).json({error}));
     })
-    .catch(error => res.status(500).json({error}))
+    .catch(error => res.status(500).json({error}));
 };
 
 
