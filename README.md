@@ -66,8 +66,10 @@ You can find the API's documentation at the following :
 
 ## DEMONSTRATION ##
 You can connect two demo account with the following : 
-`email: Demo1@mail.com || password: Motdepasse123!` 
-`email: Demo2@mail.com || password: Motdepasse123!`
+    
+    `email: Demo1@mail.com || password: Motdepasse123!` 
+    
+    `email: Demo2@mail.com || password: Motdepasse123!`
 
 ## Vulnerabilities are checked with snyk.io and deepscan.io ##
 [![Known Vulnerabilities](https://snyk.io/test/github/dimitriobin/P07-Groupomania/badge.svg?targetFile=back_end/package.json)](https://snyk.io/test/github/dimitriobin/P07-Groupomania?targetFile=back_end/package.json)
