@@ -3,11 +3,11 @@ import authHeader from '../../services/auth-header';
 
 const state = () => ({
   comments: [],
-  commentsPagination: [],
 });
 
 const getters = {
   allComments: (state) => state.comments,
+  CommentsForOnePost: (state) => (postId) => state.comments.find((item) => item.postId === postId),
 };
 
 const actions = {
@@ -25,10 +25,15 @@ const actions = {
   fetchAllCommentsByPost({ commit, dispatch }, { id, page }) {
     return http.get(`/comments/post/${id}?page=${page}`, { headers: authHeader() })
       .then((res) => {
-        commit('setComments', res.data);
-        return Promise.resolve(res.data);
+        const data = {
+          ...res.data,
+          postId: id,
+        };
+        commit('setComments', data);
+        return Promise.resolve(data);
       })
       .catch((err) => {
+        console.log(err);
         if (err.response.data === 'Please login') dispatch('logout');
         return Promise.reject(err.response.data);
       });
@@ -58,33 +63,44 @@ const actions = {
 };
 
 const mutations = {
-  setComments(state, comments) {
-    comments.comments.forEach((item) => {
-      if (!state.comments.find((comment) => comment.id === item.id)) {
-        state.comments.push(item);
+  setComments(state, data) {
+    if (state.comments.find((item) => item.postId === data.postId)) {
+      state.comments.forEach((item, index) => {
+        if (item.postId === data.postId) {
+          state.comments[index].comments = [...state.comments[index].comments, ...data.comments];
+          state.comments[index].currentPage = data.currentPage;
+        }
+      });
+    } else {
+      state.comments.push(data);
+    }
+  },
+  addComment(state, data) {
+    state.comments.forEach((comment, index) => {
+      if (comment.postId === data.post_id) {
+        comment.comments.unshift(data);
+        state.comments[index].totalItems += 1;
       }
     });
   },
-  addComment(state, comment) {
-    state.comments.unshift(comment);
-  },
-  replaceComment(state, comment) {
-    let oldIndex = '';
-    state.comments.forEach((item, index) => {
-      if (item.id === comment.id) {
-        oldIndex = index;
-      }
+  replaceComment(state, data) {
+    state.comments.forEach((item, itemIndex) => {
+      item.comments.forEach((comment, index) => {
+        if (comment.id === data.id) {
+          state.comments[itemIndex].comments.splice(index, 1, data);
+        }
+      });
     });
-    state.comments.splice(oldIndex, 1, comment);
   },
   removeComment(state, id) {
-    let commentIndex = '';
-    state.comments.forEach((item, index) => {
-      if (item.id === id) {
-        commentIndex = index;
-      }
+    state.comments.forEach((item, itemIndex) => {
+      item.comments.forEach((comment, index) => {
+        if (comment.id === id) {
+          state.comments[itemIndex].comments.splice(index, 1);
+          state.comments[itemIndex].totalItems -= 1;
+        }
+      });
     });
-    state.comments.splice(commentIndex, 1);
   },
 };
 
