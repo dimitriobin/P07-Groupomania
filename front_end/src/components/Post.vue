@@ -94,11 +94,19 @@
                           font-scale="2">
                       </b-icon>
                       <b-badge
-                          v-if="commentsCount > 0 "
+                          v-if="CommentsForOnePost(post.id)"
                           pill
                           class="icon_counter"
                           variant="dark">
-                          {{ commentsCount }}
+                          {{ CommentsForOnePost(post.id).totalItems }}
+                          <span class="sr-only"> personnes ont commentées ce post</span>
+                      </b-badge>
+                      <b-badge
+                          v-else-if="post.Comments.length"
+                          pill
+                          class="icon_counter"
+                          variant="dark">
+                          {{ post.Comments.length }}
                           <span class="sr-only"> personnes ont commentées ce post</span>
                       </b-badge>
                     </b-button>
@@ -145,26 +153,9 @@
             <b-collapse
                 v-model="showComments"
                 :id="'commentsFor' + post.id"
-                @show.once="handleFetching(0)"
-                class="w-100 mt-2 border-top text-center p-2 p-sm-3 p-md-4">
-                <CommentForm
-                  :postId="post.id"
-                  :subjectId="post.subject_id"
-                  method="create"
-                  @createdComment="commentsCount += 1" />
-                <Comment
-                  v-for="(comment, index) in comments"
-                  :key="index"
-                  :data="comment"
-                  @deletedComment="commentsCount -= 1" />
-                <b-spinner v-if="loading"></b-spinner>
-                <b-button
-                  v-if="comments.length < post.Comments.length"
-                  variant="link"
-                  class="w-100"
-                  @click="handleFetching(currentPage += 1)">
-                  Voir plus de commentaires
-                </b-button>
+                class="w-100 mt-2 border-top text-center p-2 p-sm-3 p-md-4"
+                @show.once="fetchAllCommentsByPost({ id: post.id, page: 0 })">
+                <Comment :postId="post.id" />
             </b-collapse>
         </div>
         <PostForm
@@ -182,7 +173,6 @@ import fr from 'dayjs/locale/fr';
 import RelativeTime from 'dayjs/plugin/relativeTime';
 import Subject from '@/components/Subject.vue';
 import PostForm from '@/components/PostForm.vue';
-import CommentForm from '@/components/CommentForm.vue';
 import Comment from '@/components/Comment.vue';
 import ReportForm from '@/components/ReportForm.vue';
 import { mapActions, mapGetters } from 'vuex';
@@ -198,7 +188,6 @@ export default {
   components: {
     Subject,
     PostForm,
-    CommentForm,
     Comment,
     ReportForm,
   },
@@ -206,23 +195,19 @@ export default {
     return {
       showComments: false,
       edit: false,
-      commentsCount: 0,
-      loading: false,
-      currentPage: 0,
-      totalPages: '',
     };
   },
   computed: {
-    ...mapGetters(['userId', 'allComments']),
-    comments() {
-      return this.allComments.filter((item) => item.post_id === this.post.id);
-    },
+    ...mapGetters([
+      'userId',
+      'CommentsForOnePost',
+    ]),
     isLiked() {
       return this.post.Likes.some((like) => like.UserId === this.userId);
     },
   },
   methods: {
-    ...mapActions(['removePost', 'fetchAllCommentsByPost', 'likePost', 'unlikePost']),
+    ...mapActions(['removePost', 'likePost', 'unlikePost', 'fetchAllCommentsByPost']),
     isAuthor() {
       return this.userId === this.post.user_id;
     },
@@ -235,19 +220,6 @@ export default {
     remove() {
       this.removePost(this.post.id);
     },
-    handleFetching(page) {
-      this.loading = true;
-      this.fetchAllCommentsByPost({ id: this.post.id, page })
-        .then((response) => {
-          this.loading = false;
-          this.currentPage = response.currentPage;
-          this.totalPages = response.totalPages;
-        })
-        .catch((error) => console.log(error));
-    },
-  },
-  mounted() {
-    this.commentsCount = this.post.Comments.length;
   },
 };
 </script>

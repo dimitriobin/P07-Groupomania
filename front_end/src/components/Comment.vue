@@ -1,34 +1,39 @@
 <template>
-  <b-row
+  <div>
+    <CommentForm
+      :postId="postId"
+      method="create"/>
+    <b-row
+    v-for="(comment, index) in comments"
+    :key="index"
     class="mt-sm-3">
     <b-col cols="9" sm="4" class="d-flex flex-wrap flex-column text-left mb-1 order-0">
         <a
           href="#"
           class="card-text text-dark font-weight-bold mb-0">
-          {{ data.User.user_name }}
+          {{ comment.User.user_name }}
         </a>
-        <small>{{ dateToTimestamp(data.createdAt) }}</small>
+        <small>{{ dateToTimestamp(comment.createdAt) }}</small>
     </b-col>
     <b-col
-      v-if="!edit"
-      tag="p"
-      cols="12"
-      sm="5"
-      class="text-justify order-2 order-sm-1">
-      {{ data.content }}
-    </b-col>
-    <b-col
-      v-else
+      v-if="edit === comment.id"
       cols="12"
       sm="5"
       class="text-justify order-2 order-sm-1">
       <CommentForm
-        :postId="data.post_id"
-        :subjectId="data.subject_id"
+        :postId="comment.post_id"
         method="update"
-        :value="data.content"
-        :comment_id="data.id"
-        @submited="switchEdit()" />
+        :value="comment.content"
+        :comment_id="comment.id"
+        @submited="switchEdit(false)" />
+    </b-col>
+    <b-col
+      v-else
+      tag="p"
+      cols="12"
+      sm="5"
+      class="text-justify order-2 order-sm-1">
+      {{ comment.content }}
     </b-col>
     <b-col
       cols="3"
@@ -46,33 +51,40 @@
                   font-scale="2">
               </b-icon>
           </template>
-          <b-dropdown-item @click="$bvModal.show(`reportComment_${data.id}`)">
+          <b-dropdown-item @click="$bvModal.show(`reportComment_${comment.id}`)">
             Signaler
           </b-dropdown-item>
           <b-modal
-            :id="`reportComment_${data.id}`"
+            :id="`reportComment_${comment.id}`"
             title="Rapport de signalement"
             hide-footer
             centered
             lazy>
             <ReportForm
               itemType="comment"
-              :itemId="data.id" />
+              :itemId="comment.id" />
           </b-modal>
           <b-dropdown-item
-              v-if="isAuthor()"
+              v-if="isAuthor(comment.user_id)"
               href="#"
-              @click="switchEdit()"
+              @click="switchEdit(comment.id)"
               class="text-dark">
               Editer
           </b-dropdown-item>
           <b-dropdown-item
-              v-if="isAuthor()"
+              v-if="isAuthor(comment.user_id)"
               href="#"
-              @click="handleDelete()">Supprimer</b-dropdown-item>
+              @click="handleDelete(comment.id)">Supprimer</b-dropdown-item>
       </b-dropdown>
     </b-col>
   </b-row>
+  <b-button
+    v-if="comments.length < pagination.totalItems"
+    variant="link"
+    @click="loadMoreComments()">
+    Voir plus de commentaires
+  </b-button>
+  </div>
 </template>
 
 <script>
@@ -88,13 +100,13 @@ dayjs.locale(fr);
 
 export default {
   name: 'Comment',
-  props: [
-    'data',
-  ],
   components: {
     CommentForm,
     ReportForm,
   },
+  props: [
+    'postId',
+  ],
   data() {
     return {
       edit: false,
@@ -102,25 +114,62 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['userId']),
+    ...mapGetters([
+      'userId',
+      'allComments',
+      'CommentsForOnePost',
+    ]),
+    comments() {
+      const postComments = this.allComments.find((i) => i.postId === this.postId);
+      let comments;
+      if (!postComments) {
+        comments = [];
+      } else {
+        comments = postComments.comments;
+      }
+      return comments;
+    },
+    pagination() {
+      let pagination;
+      if (this.CommentsForOnePost(this.postId)) {
+        const { currentPage, totalItems, totalPages } = this.CommentsForOnePost(this.postId);
+        pagination = {
+          currentPage,
+          totalItems,
+          totalPages,
+        };
+      } else {
+        pagination = {
+          currentPage: 0,
+          totalItems: 0,
+          totalPages: 0,
+        };
+      }
+      return pagination;
+    },
   },
   methods: {
-    ...mapActions(['deleteComment']),
+    ...mapActions([
+      'fetchAllCommentsByPost',
+      'deleteComment',
+    ]),
     dateToTimestamp(date) {
       return dayjs(date).fromNow();
     },
-    isAuthor() {
-      return this.userId === this.data.user_id;
+    isAuthor(userId) {
+      return this.userId === userId;
     },
-    switchEdit() {
-      this.edit = !this.edit;
+    switchEdit(value) {
+      this.edit = value;
     },
-    handleDelete() {
-      this.deleteComment(this.data.id)
-        .then(() => {
-          this.showRemove = false;
-          this.$emit('deletedComment');
-        });
+    handleDelete(id) {
+      this.deleteComment(id);
+    },
+    loadMoreComments() {
+      this.fetchAllCommentsByPost({
+        id: this.postId,
+        page: this.pagination.currentPage + 1,
+      });
     },
   },
 };

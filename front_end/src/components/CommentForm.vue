@@ -49,7 +49,6 @@ export default {
   name: 'CommentForm',
   props: [
     'postId',
-    'subjectId',
     'method',
     'value',
     'comment_id',
@@ -71,7 +70,6 @@ export default {
     onSubmit() {
       const dataObject = {
         content: this.comment,
-        subject_id: this.subjectId,
         user_id: this.userId,
         post_id: this.postId,
       };
