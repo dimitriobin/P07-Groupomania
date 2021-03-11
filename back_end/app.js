@@ -149,4 +149,15 @@ app.use('/api/posts', rateLimiter, speedLimiter, postsRoute);
 app.use('/api/subjects', rateLimiter, speedLimiter, subjectsRoute);
 app.use('/api/conversations', conversationsRateLimiter, conversationsSpeedLimiter, conversationsRoute);
 
+//////////////////////////////////////////////
+// Handle production
+//////////////////////////////////////////////
+if(process.env.NODE_ENV === 'production') {
+    // Static folder
+    app.use(express.static(path.join(__dirname, '/public/')));
+
+    // Handle SPA
+    app.get(/.*/, (req, res) => res.sendFile(path.join(__dirname, '/public/index.html')));
+}
+
 module.exports = app;
