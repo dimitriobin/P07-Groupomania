@@ -7,10 +7,16 @@ const config = require(__dirname + '/../config/config.js');
 const db = {};
 
 
-let sequelize = new Sequelize(config.database, config.username, config.password, {
-  host: config.host,
-  dialect: config.dialect
-});
+let sequelize 
+
+if(process.env.NODE_ENV === 'production') {
+  sequelize = new Sequelize(process.env.DB_URL);
+} else {
+  sequelize = new Sequelize(config.database, config.username, config.password, {
+    host: config.host,
+    dialect: config.dialect
+  });
+}
 
 fs
   .readdirSync(__dirname)
