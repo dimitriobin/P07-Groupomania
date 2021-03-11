@@ -6,7 +6,7 @@ module.exports = {
     "database": process.env.DB_NAME,
     "host": process.env.DB_HOST,
     "dialect": process.env.DB_DIALECT,
-    "use_env_variable": false,
+    use_env_variable: false,
     logging: false
   }
 }
