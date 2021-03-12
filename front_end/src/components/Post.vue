@@ -17,7 +17,7 @@
                     </b-avatar>
                     <b-col class="text-left">
                         <router-link
-                            :to="`/user/${post.User.id}`"
+                            :to="`/user?id=${post.User.id}`"
                             class="h5 font-weight-bold text-dark">
                             {{ post.User.user_name }}
                         </router-link>

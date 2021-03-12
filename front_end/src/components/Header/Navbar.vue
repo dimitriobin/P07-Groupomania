@@ -51,7 +51,7 @@
                 font-scale="1.5">
               </b-icon>
             </template>
-            <b-dropdown-item :to="`/user/${userId}`" href="#">Voir votre profil</b-dropdown-item>
+            <b-dropdown-item :to="`/user?id=${userId}`" href="#">Voir votre profil</b-dropdown-item>
             <b-dropdown-item to="/personal" href="#">Modifier vos informations</b-dropdown-item>
           </b-nav-item-dropdown>
           <b-nav-item @click.prevent="logout">
