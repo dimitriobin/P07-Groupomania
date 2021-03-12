@@ -74,9 +74,6 @@ export default {
     Subject,
     LazyLoadingScroll,
   },
-  props: [
-    'id',
-  ],
   watch: {
     $route(to) {
       this.fetchUser(to.query.id);
