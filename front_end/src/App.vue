@@ -63,7 +63,7 @@ export default {
   mounted() {
     if (this.loggedUser.status.loggedIn === true) {
       // this.setSocket(`http://localhost:3000?userId=${this.userId}`);
-      this.setSocket({ query: { userId: this.userId} });
+      this.setSocket({ query: { userId: this.userId } });
       this.socket.on('onlineUsers', (users) => this.setOnlineUsers(users));
       this.socket.on('newConversation', (conv) => {
         this.addConversation(conv);
