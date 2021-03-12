@@ -1,5 +1,6 @@
 'use strict'
 const { Subject, User, SubjectFollows, sequelize } = require('../models');
+const { Op } = require('sequelize');
 
 exports.createOneSubject = (req, res, next) => {
     const subjectObject = {
