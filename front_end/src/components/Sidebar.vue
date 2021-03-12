@@ -40,7 +40,7 @@
           class="rounded-circle mr-3 bg-transparent"></b-avatar>
         <b-col class="text-left">
           <p class="h5 mb-0">{{ user.user_name }}</p>
-          <router-link :to="`/user/${user.id}`" class="h6 text-left">Visiter la page</router-link>
+          <router-link :to="`/user?id=${user.id}`" class="h6 text-left">Visiter la page</router-link>
         </b-col>
       </b-row>
     </b-col>
