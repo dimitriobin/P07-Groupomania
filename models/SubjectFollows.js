@@ -3,7 +3,8 @@ module.exports = (sequelize, DataTypes) => {
   const SubjectFollows = sequelize.define('SubjectFollows', {
       // Model attributes are defined here
     }, {
-      freezeTableName: true
+      freezeTableName: true,
+      timestamps: false
     });
 
     SubjectFollows.associate = models => {
