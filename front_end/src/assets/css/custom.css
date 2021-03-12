@@ -1,42 +1,40 @@
 html {
-    height: 100%;
+  height: 100%;
 }
 
 body {
-    text-align: center;
-    background: #F9F9F9;
-    height: 100%;
+  height: 100%;
 }
 
 a,
 .btn-link {
-    color: #006075 !important;
+  color: #006075 !important;
 }
-  
+
 #home {
-    display: flex;
+  display: flex;
 }
-  
+
 .nav-pills .nav-link.active,
 .nav-pills .show > .nav-link {
-    color: white !important;
-    background-color: #dc3545 !important;
+  color: white !important;
+  background-color: #dc3545 !important;
 }
 
 .icon_counter {
-    font-size: 0.8rem !important;
-    position: absolute !important;
-    right: 0;
-    top: 0;
+  font-size: 0.8rem !important;
+  position: absolute !important;
+  right: 0;
+  top: 0;
 }
 
 #searchNav {
-    position: relative !important;
+  position: relative !important;
 }
 
 #searchNav button {
-    position: absolute;
-    right: 10px;
-    font-weight: initial;
-    color: #006075;
+  position: absolute;
+  right: 10px;
+  font-weight: initial;
+  color: #006075;
 }
