@@ -73,7 +73,14 @@ app.use(express.json({
 //////////////////////////////////////////////
 // Set some secure headers with helmet.js
 //////////////////////////////////////////////
-app.use(helmet());
+app.use(helmet({
+    contentSecurityPolicy: {
+        directives: {
+            ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+            "img-src": ["'self'", "blob:", "data:"],
+          },
+    }
+}));
 
 
 //////////////////////////////////////////////
