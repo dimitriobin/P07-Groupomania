@@ -65,10 +65,10 @@ server.on('listening', () => {
 const WebSockets = require('./utils/socket');
 
 global.io = socketio(server, {
-    cors: {
-        origin: 'http://localhost:8080',
-        methods: ['GET', 'POST']
-    }
+    // cors: {
+    //     origin: 'http://localhost:8080',
+    //     methods: ['GET', 'POST']
+    // }
 });
 
 global.io.on('connection', socket => WebSockets.connection(socket));
