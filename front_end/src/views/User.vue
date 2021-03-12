@@ -18,7 +18,7 @@
         :post="post" />
       <LazyLoadingScroll
         v-if="allPosts.length && allPosts.length < postPagination.totalPosts"
-        @loadMore="fetchAllPostsByOneUser({ page: $event, id: $route.params.id })" />
+        @loadMore="fetchAllPostsByOneUser({ page: $event, id: $route.query.id })" />
       <p v-else>Fin des posts</p>
     </b-col>
     <!-- ASIDE INFOS -->
@@ -76,8 +76,8 @@ export default {
   },
   watch: {
     $route(to) {
-      this.fetchUser(to.params.id);
-      this.fetchAllPostsByOneUser({ page: 0, id: to.params.id });
+      this.fetchUser(to.query.id);
+      this.fetchAllPostsByOneUser({ page: 0, id: to.query.id });
     },
   },
   computed: {
@@ -87,9 +87,9 @@ export default {
     ...mapActions(['fetchUser', 'getFollows', 'fetchAllPostsByOneUser']),
   },
   mounted() {
-    this.fetchUser(this.$route.params.id);
+    this.fetchUser(this.$route.query.id);
     this.getFollows(this.userId);
-    this.fetchAllPostsByOneUser({ page: 0, id: this.$route.params.id });
+    this.fetchAllPostsByOneUser({ page: 0, id: this.$route.query.id });
   },
 };
 </script>
