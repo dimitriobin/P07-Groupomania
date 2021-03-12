@@ -1,5 +1,5 @@
 'use strict'
-const { Subject, User, sequelize } = require('../models');
+const { Subject, User, SubjectFollows, sequelize } = require('../models');
 
 exports.createOneSubject = (req, res, next) => {
     const subjectObject = {
@@ -98,7 +98,11 @@ exports.followSubject = (req, res, next) => {
             if(!subject){
                 return res.status(404).send('Subject not found')
             }
-            user.addSubject(subject, {through: 'subjectFollows'})
+            // user.addSubject(subject, {through: 'subjectFollows'})
+            SubjectFollows.create({
+                UserId: user.id,
+                SubjectId: subject.id
+            })
             .then(() => {
                 User.findOne({
                     where: {
@@ -116,7 +120,7 @@ exports.followSubject = (req, res, next) => {
                     res.status(200).json(user.Subjects)
                 })
                 .catch(error => res.status(500).json({ error }))
-            })
+            })            
             .catch(error => res.status(500).json({ error }))
         })
         .catch(error => res.status(500).json({ error }))
@@ -149,7 +153,15 @@ exports.unFollowSubject = (req, res, next) => {
             if(!subject){
                 return res.status(404).send('Subject not found')
             }
-            user.removeSubject(subject, {through: 'subjectFollows'})
+            // user.removeSubject(subject, {through: 'subjectFollows'})
+            SubjectFollows.destroy({
+                where: {
+                    [Op.and]: [
+                        {UserId : user.id},
+                        {SubjectId : subject.id}
+                    ]
+                }
+            })
             .then(unFollow => {
                 res.status(200).json(unFollow);
             })
