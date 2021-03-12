@@ -73,7 +73,7 @@ global.io = socketio(server, {
 
 global.io.on('connection', socket => WebSockets.connection(socket));
 
-db.sequelize.sync({force: true})
+db.sequelize.sync({/*force: true*/})
 .then(() => {
     server.listen(port);
 });
