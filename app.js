@@ -77,7 +77,7 @@ app.use(helmet({
     contentSecurityPolicy: {
         directives: {
             ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-            "img-src": ["'self'", "blob:", "data:", "https:"],
+            "img-src": ["'self'", "blob:", "data:", "https:", "http:"],
           },
     }
 }));
