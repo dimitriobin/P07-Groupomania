@@ -77,7 +77,7 @@ app.use(helmet({
     contentSecurityPolicy: {
         directives: {
             ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-            "img-src": ["'self'", "blob:", "data:"],
+            "img-src": ["'self'", "blob:", "data:", "https://groupomania.s3.eu-west-3.amazonaws.com/*"],
           },
     }
 }));
