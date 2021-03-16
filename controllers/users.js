@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const fs = require('fs');
 const { Op } = require('sequelize');
 const fsPromise = fs.promises;
+const s3 = new AWS.S3();
 
 const passwordRegex = new RegExp(/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){8,16}$/);
 
@@ -14,15 +15,11 @@ exports.signup = (req, res, next) => {
     }
     bcrypt.hash(req.body.password, 10)
     .then(hashPass => {
-        const userObject = req.file ? {
+        const userObject = {
             ...req.body,
             password: hashPass,
-            image_url: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+            image_url: req.file ? req.file.location : `${req.protocol}://${req.get('host')}/images/public/anonyme_avatar.png`,
 
-        } : {
-            ...req.body,
-            password: hashPass,
-            image_url: `${req.protocol}://${req.get('host')}/images/public/anonyme_avatar.png`,
         };
         User.create(userObject)
         .then(createdUser => {
@@ -95,7 +92,7 @@ exports.updateOneUser = (req, res, next) => {
     
     let userObject = req.file ? {
         ...req.body,
-        image_url: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+        image_url: req.file.location
     } : {
         ...req.body
     };
@@ -108,9 +105,15 @@ exports.updateOneUser = (req, res, next) => {
         }
         // if the user gives an image, then remove the old one from the server
         if (req.file && user.image_url !== null) {
-            const filename = user.image_url.split('/images/')[1];
-            fs.unlink(`images/${filename}`, (err) => {
-                if (err) { console.log(err);}
+            s3.deleteObject({
+                Bucket: 'groupomania',
+                Key: user.image_url.split('https://groupomania.s3.eu-west-3.amazonaws.com/')[1]
+            }, (err, data) => {
+                if (err) {
+                    console.log(err, err.stack);
+                } else {
+                    console.log(data);
+                }
             });
         }
         // Then update the user in the db
@@ -186,14 +189,22 @@ exports.deleteOneUser = (req, res, next) => {
         if(!user) {
             return res.status(404).send('User not found');
         }
-        const filename = user.image_url.split('/images/')[1];
         Post.update({user_id: 1}, {where: {user_id: req.params.id}})
         .then(() => {
             Comment.update({user_id: 1}, {where: {user_id: req.params.id}})
             .then(() => {
                 Like.destroy({where: {UserId: req.params.id}})
                 .then(() => {
-                    fs.unlink(`images/${filename}`, err => {if(err) console.log(err)});
+                    s3.deleteObject({
+                        Bucket: 'groupomania',
+                        Key: user.image_url.split('https://groupomania.s3.eu-west-3.amazonaws.com/')[1]
+                    }, (err, data) => {
+                        if (err) {
+                            console.log(err, err.stack);
+                        } else {
+                            console.log(data);
+                        }
+                    });
                     User.destroy({where: {id: req.params.id}})
                     .then(() => res.status(200).send('User deleted'))
                     .catch(error => res.status(500).json({error}))
