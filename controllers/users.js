@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const fs = require('fs');
 const { Op } = require('sequelize');
 const fsPromise = fs.promises;
+const AWS = require('aws-sdk');
 const s3 = new AWS.S3();
 
 const passwordRegex = new RegExp(/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){8,16}$/);
