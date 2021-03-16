@@ -3,8 +3,7 @@ const { Post, Subject, User, Comment, Like, sequelize } = require('../models');
 const { Op } = require('sequelize');
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
-const AWS = require('aws-sdk');
-const s3 = new AWS.S3();
+const s3 = require('../config/aws-config');
 
 const getPagination = (page, size) => {
     const limit = size ? +size : 1;

@@ -5,8 +5,7 @@ const jwt = require('jsonwebtoken');
 const fs = require('fs');
 const { Op } = require('sequelize');
 const fsPromise = fs.promises;
-const AWS = require('aws-sdk');
-const s3 = new AWS.S3();
+const s3 = require('../config/aws-config');
 
 const passwordRegex = new RegExp(/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\w\d\s:])([^\s]){8,16}$/);
 
@@ -109,11 +108,9 @@ exports.updateOneUser = (req, res, next) => {
             s3.deleteObject({
                 Bucket: 'groupomania',
                 Key: user.image_url.split('https://groupomania.s3.eu-west-3.amazonaws.com/')[1]
-            }, (err, data) => {
+            }, (err) => {
                 if (err) {
                     console.log(err, err.stack);
-                } else {
-                    console.log(data);
                 }
             });
         }
