@@ -1,7 +1,6 @@
 'use strict'
 const { Post, Subject, User, Comment, Like, sequelize } = require('../models');
 const { Op } = require('sequelize');
-const fs = require('fs');
 const jwt = require('jsonwebtoken');
 const s3 = require('../config/aws-config');
 
