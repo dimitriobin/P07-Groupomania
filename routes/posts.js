@@ -1,7 +1,7 @@
 'use strict'
 const router = require('express').Router();
 const auth = require('../middlewares/auth');
-const multer = require('../middlewares/multer-config');
+const upload = require('../middlewares/multer-config');
 
 const { 
   createOnePost,
@@ -20,7 +20,7 @@ const {
 /////////////////////////////////////////////
 // CREATE ONE Post
 /////////////////////////////////////////////
-router.post('/', auth, multer, createOnePost);
+router.post('/', auth, upload, createOnePost);
 
 /////////////////////////////////////////////
 // READ ALL Posts By Keyword
@@ -50,7 +50,7 @@ router.get('/:id', auth, readOnePost);
 /////////////////////////////////////////////
 // UPDATE ONE Post
 /////////////////////////////////////////////
-router.put('/:id', auth, multer, updateOnePost);
+router.put('/:id', auth, upload, updateOnePost);
 
 /////////////////////////////////////////////
 // DELETE ONE Post

@@ -3,6 +3,8 @@ const { Post, Subject, User, Comment, Like, sequelize } = require('../models');
 const { Op } = require('sequelize');
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
+const AWS = require('aws-sdk');
+const s3 = new AWS.S3();
 
 const getPagination = (page, size) => {
     const limit = size ? +size : 1;
@@ -29,16 +31,10 @@ const getUserId = (bearerToken) => {
 } 
 
 exports.createOnePost = (req, res, next) => {
-    const postObject = req.file ? {
+    // image_url: req.file ? req.file.location : null
+    const postObject = {
         ...req.body,
-        image_url: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
-        user_id: req.body.user_id,
-        subject_id: req.body.subject_id
-    } : {
-        ...req.body,
-        user_id: req.body.user_id,
-        subject_id: req.body.subject_id,
-        image_url: null
+        image_url: req.file ? req.file.location : null
     };
     Post.create(postObject)
     .then(createdPost => {
@@ -241,11 +237,9 @@ exports.readOnePost = (req, res, next) => {
 
 
 exports.updateOnePost = (req, res, next) => {
-    const postObject = req.file ? {
+    const postObject = {
         ...req.body,
-        image_url: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-    } : {
-        ...req.body
+        image_url: req.file ? req.file.location : null
     };
     Post.findOne({where: {id: req.params.id}})
     .then(post => {
@@ -253,9 +247,15 @@ exports.updateOnePost = (req, res, next) => {
             return res.status(404).send('Post not found');
         }
         if (req.file && post.image_url !== null) {
-            const filename = post.image_url.split('/images/')[1];
-            fs.unlink(`images/${filename}`, (err) => {
-                if (err) { console.log(err);}
+            s3.deleteObject({
+                Bucket: 'groupomania',
+                Key: post.image_url.split('https://groupomania.s3.eu-west-3.amazonaws.com/')[1]
+            }, (err, data) => {
+                if (err) {
+                    console.log(err, err.stack);
+                } else {
+                    console.log(data);
+                }
             });
         }
         Post.update(postObject, {
@@ -291,8 +291,16 @@ exports.deleteOnePost = (req, res, next) => {
             return res.status(404).send('Post not found');
         }
         if (post.image_url) {
-            const filename = post.image_url.split('/images/')[1];
-            fs.unlink(`images/${filename}`, err => {if(err) console.log(err)});
+            s3.deleteObject({
+                Bucket: 'groupomania',
+                Key: post.image_url.split('https://groupomania.s3.eu-west-3.amazonaws.com/')[1]
+            }, (err, data) => {
+                if (err) {
+                    console.log(err, err.stack);
+                } else {
+                    console.log(data);
+                }
+            });
         }
         Comment.destroy({
             where: {
