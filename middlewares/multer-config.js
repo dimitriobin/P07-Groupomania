@@ -1,5 +1,8 @@
 'use strict'
 const multer = require('multer');
+const multerS3 = require('multer-s3');
+
+const s3 = require('../config/aws-config');
 
 const MIME_TYPES = {
     'image/jpg': 'jpg',
@@ -7,17 +10,31 @@ const MIME_TYPES = {
     'image/png': 'png'
 };
 
-const storage = multer.diskStorage({
-    destination: (req, file, callback) => {
-        callback(null, 'images');
-    },
-    filename: (req, file, callback) => {
-        const extension = MIME_TYPES[file.mimetype];
-        const name = file.originalname.split(' ').join('_').slice(0, file.originalname.indexOf('.'));
-        callback(null, name + Date.now() + '.' + extension);
-    }
-});
+const key = (req, file, callback) => {
+    const extension = MIME_TYPES[file.mimetype];
+    const name = file.originalname.split(' ').join('_').slice(0, file.originalname.indexOf('.'));
+    callback(null, name + Date.now() + '.' + extension);
+}
 
-module.exports = multer({
-    storage: storage
+const fileFilter = (req, file, cb) => {
+    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+        cb(null, true)
+    } else {
+        cb(new Error('Invalud Mime Type, only JPEG or PNG'), false)
+    }
+}
+ 
+const upload = multer({
+    fileFilter,
+    storage: multerS3({
+        s3,
+        bucket: 'groupomania',
+        acl: 'public-read',
+        metadata: function (req, file, cb) {
+        cb(null, {fieldName: file.fieldname});
+        },
+        key
+    })
 }).single('image_url');
+
+module.exports = upload;

@@ -2,12 +2,12 @@
 const router = require('express').Router();
 const { signup, login, readAllUser, readOneUser, updateOneUser, updatePassword, deleteOneUser, exportUser, report } = require ('../controllers/users');
 const auth = require('../middlewares/auth');
-const multer = require('../middlewares/multer-config');
+const upload = require('../middlewares/multer-config');
 
 /////////////////////////////////////////////
 // CREATE ONE User
 /////////////////////////////////////////////
-router.post('/signup', multer, signup);
+router.post('/signup', upload, signup);
 
 /////////////////////////////////////////////
 // LOGIN ONE User
@@ -29,7 +29,7 @@ router.get('/:id', auth, readOneUser);
 /////////////////////////////////////////////
 // UPDATE ONE User
 /////////////////////////////////////////////
-router.put('/:id', auth,  multer, updateOneUser);
+router.put('/:id', auth,  upload, updateOneUser);
 
 
 /////////////////////////////////////////////
